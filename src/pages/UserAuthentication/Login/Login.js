@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "../../components/UserAuthentication/Login/Login";
 
-function Home() {
+function LoginPage() {
   return (
     <div>
       <Login />
