@@ -23,10 +23,10 @@ function HeroSection() {
     
     return (
         <div className='py-5'>
-            <div className='container mx-auto text-left lg:text-center space-y-10 px-2'>
+            <div className='container mx-auto text-left lg:text-center space-y-10 px-2 text-white'>
                 <article className='space-y-2'>
-                <div className="text-3xl lg:text-5xl text-white font-bold">Welcome To Ninja Lawyer</div>
-                    <div className="text-lg">Welcome to our technology aiming to eliminate your legal worries. Consult anything and everything legal with <br /> experienced Legal professionals available 24X7 to talk to you.</div>
+                <div className="text-3xl lg:text-5xl font-bold ">Welcome To <span className='text-accent'>Ninja Lawyer</span></div>
+                    <div className="">Welcome to our technology aiming to eliminate your legal worries. Consult anything and everything legal with <br /> experienced Legal professionals available 24X7 to talk to you.</div>
                 </article>
                 <Slider {...settings}>
                     <div>
@@ -47,7 +47,7 @@ function HeroSection() {
                                 <div className='space-y-5 text-left'>
                                     <p className='text-2xl md:text-5xl font-bold'>Buy Property With Confidence</p>
                                     <p className='text-sm'>Get your property verified by our legal experts and get a legal opinion on the property.</p>
-                                    <button className='btn btn-primary '>Know More</button>
+                                    <button className='btn btn-accent '>Know More</button>
                                 </div>
                                 <Player className='w-full lg:w-[600px]' autoplay loop src="https://assets9.lottiefiles.com/packages/lf20_BQZm5xsnkc.json"></Player>
                             </div>
