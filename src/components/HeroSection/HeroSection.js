@@ -23,9 +23,9 @@ function HeroSection() {
     
     return (
         <div className='py-5'>
-            <div className='container mx-auto text-center space-y-10'>
+            <div className='container mx-auto text-left lg:text-center space-y-10 px-2'>
                 <article className='space-y-2'>
-                    <div className="text-5xl text-white font-bold">Welcome To Ninja Lawyer</div>
+                    <div className="text-3xl lg:text-5xl text-white font-bold">Welcome To Ninja Lawyer</div>
                     <div className="text-lg">Welcome to our technology aiming to eliminate your legal worries. Consult anything and everything legal with <br /> experienced Legal professionals available 24X7 to talk to you.</div>
                 </article>
                 <Slider {...settings}>
