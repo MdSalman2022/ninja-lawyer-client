@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,600;1,300&display=swap");
+
+.middle-container {
+  font-family: "Montserrat", sans-serif;
+  background-image: url("../../media/banner.jpg");
+  height: auto;
+  width: 70%;
+  margin-left: 15%;
+}
+
+.text-ii {
+  width: 80%;
+  font-weight: 300;
+  color: white;
+  font-style: italic;
+  font-size: 110%;
+  /* font-size: 1.7vw; */
+  /* font-size: 3vh; */
+}
+
+.text-3xlC {
+  /* font-size: 2.2vw; */
+  font-size: 150%;
+}
