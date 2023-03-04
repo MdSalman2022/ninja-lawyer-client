@@ -6,6 +6,8 @@
   height: auto;
   width: 70%;
   margin-left: 15%;
+  color: white;
+  border-radius: 4px;
 }
 
 .text-ii {
@@ -21,4 +23,21 @@
 .text-3xlC {
   /* font-size: 2.2vw; */
   font-size: 150%;
+}
+
+@media only screen and (max-width: 1000px) {
+  .middle-container {
+    height: auto;
+    width: 80%;
+    margin-left: 10%;
+  }
+  .middle-left {
+    width: 100%;
+  }
+  .middle-right {
+    display: none;
+  }
+  .text-ii {
+    width: 100%;
+  }
 }

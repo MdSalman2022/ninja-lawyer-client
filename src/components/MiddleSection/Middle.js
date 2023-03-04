@@ -1,5 +1,6 @@
 import React from "react";
 import "./middle.css";
+import carSVG from "../../media/carSVG.svg";
 
 export default function Middle() {
   return (
@@ -7,11 +8,11 @@ export default function Middle() {
       <p>Middle section</p>
       <div className="middle-container flex flex-row p-6">
         {/* <img src={require("../../media/banner.jpg")} alt="" /> */}
-        <div className="flex flex-col middle-left w-6/12">
+        <div className="flex flex-col justify-center middle-left lg:w-6/12">
           <p className="text-3xlC font-bold">
             Find and Consult with best lawyers in the country!
           </p>
-          <p className="text-ii mt-2">
+          <p className="text-ii mt-2 mb-3">
             Lorem ipsum dolor sit amet consectetur elit. Eius maiores ratione
             omnis quia quas eveniet voluptas qui quod beatae.
           </p>
@@ -19,8 +20,9 @@ export default function Middle() {
             Button
           </button>
         </div>
-        <div className="middle-right w-6/12">
-          <p>SSS</p>
+        <div className="middle-right lg:w-6/12">
+          {/* <img src={require("../../media/car.png")} className="transparentC" /> */}
+          <img src={carSVG} className="pl-7 pt-7 pb-7" />
         </div>
       </div>
     </div>
