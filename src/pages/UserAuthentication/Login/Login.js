@@ -9,4 +9,4 @@ function LoginPage() {
   );
 }
 
-export default Home;
+export default LoginPage;
