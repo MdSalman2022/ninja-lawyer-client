@@ -3,23 +3,24 @@ import React from "react";
 function Footer() {
   return (
     <div className="mt-7">
-      <footer className="p-4 bg-white sm:p-6 dark:bg-gray-900">
+      <footer className="p-4 bg-gray-900 sm:p-6">
+        {/* dark:bg-gray-900 */}
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
             <a href="#" className="flex items-center">
               <img
                 className="w-32"
-                src="https://i.ibb.co/smWpwrC/png.png"
+                src="https://i.ibb.co/nPDh7PX/ninja-lawyer-red.png"
                 alt=""
               />
             </a>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
             <div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+              <h2 className="mb-6 text-sm font-semibold text-white uppercase dark:text-white">
                 Resources
               </h2>
-              <ul className="text-gray-600 dark:text-gray-400">
+              <ul className="text-white-600 dark:text-gray-400">
                 <li className="mb-4">
                   <a href="#" className="hover:underline">
                     Ninja Lawyers
@@ -33,10 +34,10 @@ function Footer() {
               </ul>
             </div>
             <div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+              <h2 className="mb-6 text-sm font-semibold text-white uppercase dark:text-white">
                 Follow us
               </h2>
-              <ul className="text-gray-600 dark:text-gray-400">
+              <ul className="text-white-600 dark:text-gray-400">
                 <li className="mb-4">
                   <a href="#" className="hover:underline ">
                     Facebook
@@ -51,10 +52,10 @@ function Footer() {
               </ul>
             </div>
             <div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+              <h2 className="mb-6 text-sm font-semibold text-white uppercase dark:text-white">
                 Legal
               </h2>
-              <ul className="text-gray-600 dark:text-gray-400">
+              <ul className="text-white-600 dark:text-gray-400">
                 <li className="mb-4">
                   <a href="#" className="hover:underline">
                     Privacy Policy
@@ -69,9 +70,9 @@ function Footer() {
             </div>
           </div>
         </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <hr className="my-6 border-white-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <div className="sm:flex sm:items-center sm:justify-between">
-          <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+          <span className="text-sm text-white sm:text-center dark:text-gray-400">
             © 2023{" "}
             <a href="#" className="hover:underline">
               NinjaLawyers (ltd)
@@ -81,7 +82,7 @@ function Footer() {
           <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
             <a
               href="#"
-              className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+              className="text-white-500 hover:text-gray-900 dark:hover:text-white"
             >
               <svg
                 className="w-5 h-5"
@@ -99,7 +100,7 @@ function Footer() {
             </a>
             <a
               href="#"
-              className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+              className="text-white-500 hover:text-gray-900 dark:hover:text-white"
             >
               <svg
                 className="w-5 h-5"
@@ -117,7 +118,7 @@ function Footer() {
             </a>
             <a
               href="#"
-              className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+              className="text-white-500 hover:text-gray-900 dark:hover:text-white"
             >
               <svg
                 className="w-5 h-5"
