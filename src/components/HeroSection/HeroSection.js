@@ -9,13 +9,13 @@ function HeroSection() {
     const settings = {
         dots: true, 
         fade: true,
-        arrows: false,
+        arrows: true,
         infinite: true, 
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
         speed: 1000,
-        autoplaySpeed: 3000,
+        autoplaySpeed: 4000,
         pauseOnHover: true,
         cssEase: "linear"
       };
@@ -26,7 +26,7 @@ function HeroSection() {
             <div className='container mx-auto text-center space-y-10'>
                 <article className='space-y-2'>
                     <div className="text-5xl text-white font-bold">Welcome To Ninja Lawyer</div>
-                    <div className="text-lg">Welcome to our technology aiming to eliminate your legal worries. Consult anything and everything legal with <br /> experienced Legal professionals available 24X7 to talk to you.</div>
+                    <div className="text-sm">Welcome to our technology aiming to eliminate your legal worries. Consult anything and everything legal with <br /> experienced Legal professionals available 24X7 to talk to you.</div>
                 </article>
                 <Slider {...settings}>
                     <div>
