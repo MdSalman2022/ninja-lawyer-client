@@ -8,21 +8,21 @@ module.exports = {
       {
         mytheme: {
         
-          "primary": "#E54F34",
+          "primary": "#ffd60a",
                   
           "secondary": "#333333",
                   
-          "accent": "#d4e587",
+          "accent": "#001d3d",
                   
           "neutral": "#25222A",
                   
-          "base-100": "#000000",
+          "base-100": "#000814",
                   
           "info": "#7AC1F0",
                   
           "success": "#179271",
                   
-          "warning": "#F7D426",
+          "warning": "#ffc300",
                   
           "error": "#F24A6E",
         },
