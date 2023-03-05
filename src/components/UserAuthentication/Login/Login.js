@@ -43,7 +43,6 @@ export default function Login() {
         window.confirmationResult = confirmationResult;
         console.log("yes, sent");
         setOTPDisplay(true);
-        // ...
       })
       .catch((error) => {
         console.log(error);
@@ -54,17 +53,17 @@ export default function Login() {
     let otpLet = otp;
     if (otp.length === 6) {
       console.log(otpLet);
-      // let confirmationResult = window.confirmationResult;
-      // confirmationResult
-      //   .confirm(otp)
-      //   .then((result) => {
-      //     // User signed in successfully.
-      //     const user = result.user;
-      //     console.log(user);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+      let confirmationResult = window.confirmationResult;
+      confirmationResult
+        .confirm(otp)
+        .then((result) => {
+          // User signed in successfully.
+          const user = result.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
 
@@ -117,33 +116,36 @@ export default function Login() {
                 </div>
               </form>
               {/* Expandable OTP confirmation field */}
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Your OTP
-                </label>
-                <input
-                  type="number"
-                  name="OTP"
-                  id="OTP"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="+990123456789"
-                  required=""
-                  value={otp}
-                  onChange={(e) => {
-                    setOtp(e.target.value);
-                  }}
-                />
-                <button
-                  id="OTPSubmit"
-                  onClick={verifyOTP}
-                  className="mt-3 transition-all duration-300 w-full text-white bg-base-100 hover:bg-accent focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-base-100 dark:bg-primary dark:hover:bg-accent dark:focus:ring-primary dark:hover:text-primary"
-                >
-                  Confirm
-                </button>
-              </div>
+              {otpDisplay && (
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Your OTP
+                  </label>
+                  <input
+                    type="number"
+                    name="OTP"
+                    id="OTP"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="+990123456789"
+                    required=""
+                    value={otp}
+                    onChange={(e) => {
+                      setOtp(e.target.value);
+                    }}
+                  />
+                  <button
+                    id="OTPSubmit"
+                    onClick={verifyOTP}
+                    className="mt-3 transition-all duration-300 w-full text-white bg-base-100 hover:bg-accent focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-base-100 dark:bg-primary dark:hover:bg-accent dark:focus:ring-primary dark:hover:text-primary"
+                  >
+                    Confirm
+                  </button>
+                </div>
+              )}
+
               {/* Devider between forms */}
               <div className="inline-flex items-center justify-center w-full">
                 <hr className="w-64 h-px my-2 bg-gray-200 border-0 dark:bg-gray-700" />
