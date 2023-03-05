@@ -1,0 +1,30 @@
+.slick-slider {
+    width: 100%;
+  }
+  .slick-dots li.slick-active button:before {
+    color: #9999a1;
+  
+  }
+  .slick-dots li button:before {
+    color: #9999a1;
+  }
+  
+  .slick-dots{
+    bottom: 20px;
+  }
+  
+  /* Change the color of both arrows */
+  .slick-prev:before,
+  .slick-next:before {
+  color: #9999a1;
+  }
+  
+
+  
+@media only screen and (max-width: 1000px) {
+    .slick-prev:before,
+    .slick-next:before {
+        display: none;
+    }
+  }
+  
