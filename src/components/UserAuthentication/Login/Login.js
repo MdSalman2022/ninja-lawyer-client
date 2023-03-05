@@ -2,8 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 
-export default function Login() {
-  const { darkmode } = useContext(AuthContext);
+export default function Login() { 
 
   return (
     <div>

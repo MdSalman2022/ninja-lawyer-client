@@ -8,7 +8,7 @@ function Navbar() {
 
     const{darkmode, setDarkMode,toggleDarkMode} = useContext(AuthContext)
     
-    const [nav, setNav] = useState('talk')
+    const [nav, setNav] = useState('')
     
 
 console.log(darkmode)
@@ -47,9 +47,9 @@ console.log(darkmode)
 
                         {/* menu for desktop */}
                         <ul className="menu menu-horizontal px-1 space-x-2 hidden lg:flex">
-                            <li onClick={()=>setNav('talk')} ><a><span className={`cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${nav === 'talk' ? 'text-accent' : 'text-secondary'}`}>Talk to Lawyer</span></a></li> 
-                            <li onClick={()=>setNav('ask')} ><a><span className={`cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${nav === 'ask' ? 'text-accent' : 'text-secondary'}`}>Ask Lawyer</span></a></li>
-                            <li onClick={()=>setNav('property')} ><a><span className={`cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${nav === 'property' ? 'text-accent' : 'text-secondary'}`}>Property</span></a></li>
+                            <li onClick={()=>setNav('talk')} ><Link to="/talk-to-lawyer"><span className={`cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${nav === 'talk' ? 'text-accent' : 'text-secondary'}`}>Talk to Lawyer</span></Link></li> 
+                            <li onClick={()=>setNav('ask')} ><Link to="/ask-a-lawyer"><span className={`cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${nav === 'ask' ? 'text-accent' : 'text-secondary'}`}>Ask Lawyer</span></Link></li>
+                            <li onClick={()=>setNav('property')} ><Link to="/property-sale-and-purchase"><span className={`cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${nav === 'property' ? 'text-accent' : 'text-secondary'}`}>Property</span></Link></li>
                         </ul>
                         <Link to="/login" ><span className={`cursor-pointer btn btn-accent btn-outline hover:text-base-100 `}>Login</span></Link>
                     </div>

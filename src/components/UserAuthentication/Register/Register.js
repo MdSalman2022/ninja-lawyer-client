@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 
-export default function Register() {
-  const { darkmode } = useContext(AuthContext);
+export default function Register() { 
   return (
     <div>
       <section className="bg-primary dark:bg-base-100 pb-7">
