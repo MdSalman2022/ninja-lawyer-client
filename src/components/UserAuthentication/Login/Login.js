@@ -2,11 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import { auth } from "../../../assets/firebase.config";
-import {
-  getAuth,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-} from "firebase/auth";
+import { signInWithPhoneNumber } from "firebase/auth";
 import { reVerify, confirmOTP } from "./Login-Phone";
 
 export default function Login() {
@@ -20,7 +16,6 @@ export default function Login() {
     const number = form.phoneNumber.value;
     reVerify();
     const appVerifier = window.recaptchaVerifier;
-    //
     signInWithPhoneNumber(auth, number, appVerifier)
       .then((confirmationResult) => {
         // SMS sent. Prompt user to type the code from the message, then sign the
