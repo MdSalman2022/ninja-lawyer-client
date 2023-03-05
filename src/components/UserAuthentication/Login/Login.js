@@ -7,7 +7,7 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "firebase/auth";
-import { reVerify } from "./Login-Phone";
+import { reVerify, confirmOTP } from "./Login-Phone";
 
 export default function Login() {
   const { darkmode } = useContext(AuthContext);
@@ -18,7 +18,6 @@ export default function Login() {
     e.preventDefault();
     const form = e.target;
     const number = form.phoneNumber.value;
-    console.log(number);
     reVerify();
     const appVerifier = window.recaptchaVerifier;
     //
@@ -37,19 +36,9 @@ export default function Login() {
 
   function verifyOTP() {
     let otpLet = otp;
-    if (otp.length === 6) {
+    if (otpLet.length === 6) {
       console.log(otpLet);
-      let confirmationResult = window.confirmationResult;
-      confirmationResult
-        .confirm(otp)
-        .then((result) => {
-          // User signed in successfully.
-          const user = result.user;
-          console.log(user);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      confirmOTP(otpLet);
     }
   }
 

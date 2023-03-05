@@ -5,6 +5,27 @@ import {
 } from "firebase/auth";
 import { auth } from "../../../assets/firebase.config";
 
+// Function to confirm otp entered by user
+function confirmOTP(otp) {
+  let message;
+  let confirmationResult = window.confirmationResult;
+  confirmationResult
+    .confirm(otp)
+    .then((result) => {
+      // User signed in successfully.
+      const user = result.user;
+      console.log(user);
+      message = user;
+    })
+    .catch((error) => {
+      console.log(error);
+      message = error;
+    })
+    .finally(() => {
+      return message;
+    });
+}
+
 // Function to verify re-captcha. It's nexessary for google phone auth
 function reVerify() {
   if (!window.recaptchaVerifier) {
@@ -21,4 +42,4 @@ function reVerify() {
   }
 }
 
-export { reVerify };
+export { reVerify, confirmOTP };
