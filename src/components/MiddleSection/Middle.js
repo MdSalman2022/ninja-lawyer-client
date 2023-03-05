@@ -4,9 +4,8 @@ import carSVG from "../../media/carSVG.svg";
 
 export default function Middle() {
   return (
-    <div>
-      <p>Middle section</p>
-      <div className="middle-container flex flex-row p-6">
+    <div className="py-5"> 
+      <div className="middle-container flex flex-row p-6 ">
         {/* <img src={require("../../media/banner.jpg")} alt="" /> */}
         <div className="flex flex-col justify-center middle-left lg:w-6/12">
           <p className="text-3xlC font-bold">
