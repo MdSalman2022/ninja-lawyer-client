@@ -2,7 +2,7 @@ import React from 'react'
 import { Player } from '@lottiefiles/react-lottie-player'; 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
+import Slider from "react-slick"; 
 
 function HeroSection() {
 
@@ -28,7 +28,7 @@ function HeroSection() {
                 <div className="text-3xl lg:text-5xl font-bold ">Welcome To <span className='text-accent'>Ninja Lawyer</span></div>
                     <div className="">Welcome to our technology aiming to eliminate your legal worries. Consult anything and everything legal with <br /> experienced Legal professionals available 24X7 to talk to you.</div>
                 </article>
-                <Slider {...settings}>
+                <Slider className="slick-slider slider-dots" {...settings}>
                     <div>
                         <div className="flex flex-col md:grid grid-cols-5 justify-items-center content-center place-content-center place-items-center">
                             <div className='col-span-1'>
