@@ -102,12 +102,6 @@ export default function Login() {
                   >
                     Sign up
                   </Link>
-                  {/* <a
-                    href="#"
-                    className="font-medium text-accent hover:underline dark:text-primary-500"
-                  >
-                    
-                  </a> */}
                 </p>
               </form>
             </div>
