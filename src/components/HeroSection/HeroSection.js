@@ -29,7 +29,10 @@ function HeroSection() {
                 <div className="text-3xl lg:text-5xl font-bold ">Welcome To <span className='text-accent'>Ninja Lawyer</span></div>
                     <div className="">Welcome to our technology aiming to eliminate your legal worries. Consult anything and everything legal with <br /> experienced Legal professionals available 24X7 to talk to you.</div>
                 </article>
+
+                {/* slider using react-slick package */}
                 <Slider {...settings}>
+                    {/* first slide */}
                     <div>
                         <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 justify-items-center content-center place-content-center place-items-center">
                             <div className='col-span-2 md:col-span-1 lg:col-span-1'>
@@ -43,6 +46,7 @@ function HeroSection() {
                             </div>
                         </div>
                     </div>
+                    {/* second slide */}
                     <div>
                          <div className='flex flex-col-reverse md:flex-row items-center justify-center'>                      
                                 <div className='space-y-5 text-left'>
