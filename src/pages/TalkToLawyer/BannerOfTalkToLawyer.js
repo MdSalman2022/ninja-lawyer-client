@@ -20,8 +20,8 @@ function BannerOfTalkToLawyer() {
     
     
     return (
-        <div className="grid grid-cols-4 gap-5">
-                    <Slider className='col-span-3' {...settings}>
+        <div className="">
+                    <Slider {...settings}>
                         <div> 
                             <div className="hero h-96 border rounded-lg border-accent">
                                 <div className="hero-content flex-col lg:flex-row-reverse">
@@ -71,12 +71,7 @@ function BannerOfTalkToLawyer() {
                             </div>
                             </div>
                         </div>
-                    </Slider>
-                    <div className='p-10 bg-accent rounded-xl text-primary flex flex-col justify-center'>
-                        <p className="text-5xl font-bold">25% Instant discount</p>
-                        <p className='text-2xl mb-10'>On Legal consultation</p>
-                        <p className='text-2xl font-semibold'>Use Code <span className='font-mono font-bold border border-dashed px-5 py-1 '>NL23</span> </p>
-                    </div>  
+                    </Slider> 
                 </div>  
     )
 }

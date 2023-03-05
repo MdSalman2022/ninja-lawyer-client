@@ -22,7 +22,7 @@ function TalkToLawyer() {
                             </div>
                         </div>
                         <div className='text-base-100 space-y-2'>
-                            <p className='text-5xl font-bold'>Talk to Lawyers</p>
+                            <p className='text-5xl font-bold'>Talk to Lawyer</p>
                             <p className='text-xl'>Quick & Instant Consultation</p>
                         </div>
                     </div>
