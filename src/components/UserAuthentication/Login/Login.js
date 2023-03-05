@@ -2,13 +2,35 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import { auth } from "../../../assets/firebase.config";
-import { signInWithPhoneNumber } from "firebase/auth";
+import {
+  signInWithPhoneNumber,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { reVerify, confirmOTP } from "./Login-Phone";
 
 export default function Login() {
   const { darkmode } = useContext(AuthContext);
   const [otp, setOtp] = useState("");
   const [otpDisplay, setOTPDisplay] = useState(false);
+
+  function emailLogin(e) {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage, "Code: ", errorCode);
+      });
+  }
 
   function mobileLogin(e) {
     e.preventDefault();
@@ -125,7 +147,7 @@ export default function Login() {
               </span>
             </div>
             {/* Email login */}
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form className="space-y-4 md:space-y-6" onSubmit={emailLogin}>
               <div>
                 <label
                   htmlFor="email"
