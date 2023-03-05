@@ -7,26 +7,12 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "firebase/auth";
+import { reVerify } from "./Login-Phone";
 
 export default function Login() {
   const { darkmode } = useContext(AuthContext);
   const [otp, setOtp] = useState("");
   const [otpDisplay, setOTPDisplay] = useState(false);
-
-  function reVerify() {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: (response) => {
-            // reCAPTCHA solved, allow signInWithPhoneNumber.
-          },
-        },
-        auth
-      );
-    }
-  }
 
   function mobileLogin(e) {
     e.preventDefault();
