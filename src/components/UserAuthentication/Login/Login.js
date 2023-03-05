@@ -96,12 +96,18 @@ export default function Login() {
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don't have an account yet?{" "}
-                  <a
-                    href="#"
+                  <Link
+                    to="/register"
                     className="font-medium text-accent hover:underline dark:text-primary-500"
                   >
                     Sign up
-                  </a>
+                  </Link>
+                  {/* <a
+                    href="#"
+                    className="font-medium text-accent hover:underline dark:text-primary-500"
+                  >
+                    
+                  </a> */}
                 </p>
               </form>
             </div>
