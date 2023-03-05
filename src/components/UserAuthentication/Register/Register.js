@@ -7,7 +7,7 @@ export default function Register() {
   const { darkmode } = useContext(AuthContext);
   return (
     <div>
-      <section className="bg-primary dark:bg-base-100">
+      <section className="bg-primary dark:bg-base-100 pb-7">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         
           <div className="w-full bg-white rounded-lg shadow dark:shadow-none dark:border  md:mt-0 sm:max-w-md xl:p-0 dark:bg-base-100 dark:border-primary">
