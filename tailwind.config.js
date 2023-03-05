@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
@@ -10,7 +11,7 @@ module.exports = {
         
           "primary": "#FFFFFF",
                   
-          "secondary": "#333333",
+          "secondary": "#9999a1",
                   
           "accent": "#ef233c",
                   
@@ -27,6 +28,7 @@ module.exports = {
           "error": "#F24A6E",
         },
       },
+      "light"
     ],
   },
   plugins: [require("daisyui")],

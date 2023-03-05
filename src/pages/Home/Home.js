@@ -4,7 +4,7 @@ import Middle from "../../components/MiddleSection/Middle";
 
 function Home() {
   return (
-    <div>
+    <div className="bg-primary dark:bg-base-100">
       <HeroSection />
       <Middle />
     </div>
