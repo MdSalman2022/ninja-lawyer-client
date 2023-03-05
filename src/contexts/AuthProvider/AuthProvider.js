@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 
 
@@ -9,10 +9,28 @@ const AuthProvider = ({ children }) => {
 
     const [darkmode, setDarkMode] = useState(false)
 
+    useEffect(() => {
+        const savedDarkMode = localStorage.getItem('darkmode');
+    
+        if (savedDarkMode) {
+          setDarkMode(JSON.parse(savedDarkMode));
+        }
+      }, []);
+    
+      useEffect(() => {
+        localStorage.setItem('darkmode', JSON.stringify(darkmode));
+      }, [darkmode]);
+    
+    
+      const toggleDarkMode = () => {
+        setDarkMode(!darkmode);
+      };
+
 
     const authInfo = {
         setDarkMode,
-        darkmode
+        darkmode,
+        toggleDarkMode
     }
 
     return (
