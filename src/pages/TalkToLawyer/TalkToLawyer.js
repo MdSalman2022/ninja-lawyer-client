@@ -21,12 +21,12 @@ function TalkToLawyer() {
                                 <span className=''>100 Ratings</span> 
                             </div>
                         </div>
-                        <div className='text-base-100 space-y-2'>
+                        <div className='text-base-100 dark:text-primary space-y-2'>
                             <p className='text-5xl font-bold'>Talk to Lawyer</p>
                             <p className='text-xl'>Quick & Instant Consultation</p>
                         </div>
                     </div>
-                    <p className='text-xl font-bold text-base-100 w-96 mb-2'>Connect with India's best legal minds and hand-pick your advisor for instant ADVICE ONLINE!</p>
+                    <p className='text-xl font-bold text-base-100 dark:text-primary w-96 mb-2'>Connect with India's best legal minds and hand-pick your advisor for instant ADVICE ONLINE!</p>
                     <span className='px-3 py-2 bg-accent text-primary w-fit rounded'>Legal consultation starts at just ₹19.99 /min</span>
 
                 </div>
