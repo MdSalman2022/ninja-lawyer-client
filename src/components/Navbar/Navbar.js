@@ -1,14 +1,13 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { FaAngleDown, FaAngleRight } from "react-icons/fa";
+import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
 function Navbar() {
-  const { darkmode, setDarkMode, toggleDarkMode, user } =
-    useContext(AuthContext);
+    const{darkmode,toggleDarkMode,user} = useContext(AuthContext)
+     
 
-  const [nav, setNav] = useState("talk");
-
-  console.log(darkmode);
+    let activeClassName = 'text-accent';
   // const handleTheme = () => {
   //     <li ><span className='flex items-center justify-between'>Dark Mode <input onClick={()=>setDarkMode(!darkmode)} type="checkbox" className="toggle toggle-primary"   /></span></li>
   // }
@@ -40,39 +39,39 @@ function Navbar() {
                 tabIndex={0}
                 className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-primary dark:bg-base-100 rounded-box w-52"
               >
-                <li onClick={() => setNav("talk")}>
-                  <a>
-                    <span
-                      className={`cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${
-                        nav === "talk" ? "text-accent" : "text-secondary"
-                      }`}
-                    >
-                      Talk to Lawyer
-                    </span>
-                  </a>
-                </li>
-                <li onClick={() => setNav("ask")}>
-                  <a>
-                    <span
-                      className={`cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${
-                        nav === "ask" ? "text-accent" : "text-secondary"
-                      }`}
-                    >
-                      Ask Lawyer
-                    </span>
-                  </a>
-                </li>
-                <li onClick={() => setNav("property")}>
-                  <a>
-                    <span
-                      className={`cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${
-                        nav === "property" ? "text-accent" : "text-secondary"
-                      }`}
-                    >
-                      Property
-                    </span>
-                  </a>
-                </li>
+                    <li> <NavLink to="talk-to-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary'}>Talk to Lawyer</NavLink></li>
+                    <li className="dropdown">
+                        <label tabIndex={0} className=" flex items-center m-1">
+                            <NavLink to="property-sale-and-purchase" className={({ isActive }) => isActive ? activeClassName : 'text-base-100 dark:text-primary'}>
+                                Property</NavLink> 
+                            <FaAngleDown />
+                        </label>
+                            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary dark:bg-base-100 text-base-100 dark:text-primary rounded-box w-52"> 
+                                <li className="dropdown dropdown-right">
+                                    <label tabIndex={0} className=" flex items-center m-1">
+                                        <NavLink to="property-products" className={({ isActive }) => isActive ? activeClassName : 'text-base-100 dark:text-primary'}>
+                                        Property Products </NavLink> 
+                                        <FaAngleRight/>
+                                    </label>
+                                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary dark:bg-base-100 text-base-100 dark:text-primary rounded-box w-fit">
+                                            <li><Link>Property Registration </Link></li>
+                                            <li><Link>Property Report </Link></li>
+                                            <li><Link>Property Sale Deed Drafting </Link></li>
+                                        </ul>
+                                </li>
+                                <li className="dropdown dropdown-right">
+                                    <label tabIndex={0} className=" flex items-center m-1">
+                                        <NavLink to="property-products" className={({ isActive }) => isActive ? activeClassName : 'text-base-100 dark:text-primary'}>
+                                        Document Review </NavLink> 
+                                        <FaAngleRight/>
+                                    </label>
+                                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary dark:bg-base-100 text-base-100 dark:text-primary  rounded-box w-fit">
+                                            <li><Link>Property Document Review </Link></li> 
+                                        </ul>
+                                </li>
+                            </ul>
+                    </li>
+                    <li> <NavLink to="ask-a-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary'}>Ask Lawyer</NavLink></li>
               </ul>
             </div>
             {/* logo for navbar  */}
@@ -114,39 +113,39 @@ function Navbar() {
 
             {/* menu for desktop */}
             <ul className="menu menu-horizontal px-1 space-x-2 hidden lg:flex">
-              <li onClick={() => setNav("talk")}>
-                <a>
-                  <span
-                    className={`cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${
-                      nav === "talk" ? "text-accent" : "text-secondary"
-                    }`}
-                  >
-                    Talk to Lawyer
-                  </span>
-                </a>
-              </li>
-              <li onClick={() => setNav("ask")}>
-                <a>
-                  <span
-                    className={`cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${
-                      nav === "ask" ? "text-accent" : "text-secondary"
-                    }`}
-                  >
-                    Ask Lawyer
-                  </span>
-                </a>
-              </li>
-              <li onClick={() => setNav("property")}>
-                <a>
-                  <span
-                    className={`cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${
-                      nav === "property" ? "text-accent" : "text-secondary"
-                    }`}
-                  >
-                    Property
-                  </span>
-                </a>
-              </li>
+                            <li> <NavLink to="talk-to-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary'}>Talk to Lawyer</NavLink></li>
+                <li className="dropdown">
+                    <label tabIndex={0} className=" flex items-center m-1">
+                        <NavLink to="property-sale-and-purchase" className={({ isActive }) => isActive ? activeClassName : 'text-base-100 dark:text-primary'}>
+                            Property</NavLink> 
+                        <FaAngleDown />
+                    </label>
+                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary dark:bg-base-100 text-base-100 dark:text-primary rounded-box w-52"> 
+                            <li className="dropdown dropdown-right">
+                                <label tabIndex={0} className=" flex items-center m-1">
+                                    <NavLink to="property-products" className={({ isActive }) => isActive ? activeClassName : 'text-base-100 dark:text-primary'}>
+                                    Property Products </NavLink> 
+                                    <FaAngleRight/>
+                                </label>
+                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary dark:bg-base-100 text-base-100 dark:text-primary rounded-box w-fit">
+                                        <li><Link>Property Registration </Link></li>
+                                        <li><Link>Property Report </Link></li>
+                                        <li><Link>Property Sale Deed Drafting </Link></li>
+                                    </ul>
+                            </li>
+                            <li className="dropdown dropdown-right">
+                                <label tabIndex={0} className=" flex items-center m-1">
+                                    <NavLink to="property-products" className={({ isActive }) => isActive ? activeClassName : 'text-base-100 dark:text-primary'}>
+                                    Document Review </NavLink> 
+                                    <FaAngleRight/>
+                                </label>
+                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary dark:bg-base-100 text-base-100 dark:text-primary  rounded-box w-fit">
+                                        <li><Link>Property Document Review </Link></li> 
+                                    </ul>
+                            </li>
+                        </ul>
+                </li>
+                <li> <NavLink to="ask-a-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary'}>Ask Lawyer</NavLink></li>
             </ul>
             {user?.email ? (
               <Link to="/user/dashboard">
