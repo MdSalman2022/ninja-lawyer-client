@@ -38,20 +38,8 @@ function HeroSection() {
                                     <button className='btn btn-accent '>Know More</button>
                                 </div>
                                 <Player className='w-80 md:w-52 lg:w-[600px] object-cover' autoplay loop src="https://assets7.lottiefiles.com/packages/lf20_rdkrsaca.json"></Player>
-                         </div>
-                        {/* <div className=" grid grid-cols-2 justify-items-center content-center place-content-center place-items-center">
-
-
-                            <div className='col-span-2 md:col-span-1 lg:col-span-1'>
-                                <Player className='w-80 md:w-52 lg:w-[300px]' autoplay loop src="https://assets7.lottiefiles.com/packages/lf20_rdkrsaca.json"></Player>
-                            </div> 
-                            <div className='col-span-1 md:col-span-1 lg:col-span-3'>
-                                <Player className='w-40 md:w-80 lg:w-[700px]  ' autoplay loop src="https://assets9.lottiefiles.com/packages/lf20_qwATcU.json"> </Player>
-                            </div>
-                            <div className='col-span-1 md:col-span-1 lg:col-span-1'>
-                                <Player className='w-40 md:w-52 lg:w-[300px]' autoplay loop src="https://assets7.lottiefiles.com/packages/lf20_3adn32pc.json"> </Player>
-                            </div>
-                        </div> */}
+                                
+                         </div> 
                     </div>
                     {/* second slide */}
                     <div>
