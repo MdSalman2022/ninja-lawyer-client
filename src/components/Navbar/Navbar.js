@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { FaAngleDown, FaAngleRight } from "react-icons/fa";
+import { FaAngleDown, FaAngleRight, FaBars } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
@@ -16,24 +16,11 @@ function Navbar() {
     <div className="bg-primary dark:bg-base-100">
       <div className="container mx-auto ">
         <div className="navbar ">
-          <div className="navbar-start">
+          <div className="navbar-start gap-1 md:gap-0">
             {/* drop down menu in mobile device */}
             <div className="dropdown">
               <label tabIndex={0} className="btn btn-ghost  lg:hidden">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h8m-8 6h16"
-                  />
-                </svg>
+                <FaBars className="text-accent text-xl"/>
               </label>
               <ul
                 tabIndex={0}
@@ -91,9 +78,9 @@ function Navbar() {
             </Link>
           </div>
 
-          <div className="navbar-end gap-5 md:gap-5">
+          <div className="navbar-end ">
             {/* dark mode toggle */}
-            <label className="swap swap-rotate ">
+            <label className="swap swap-rotate m-2">
               <input onClick={toggleDarkMode} type="checkbox" />
               <svg
                 className="swap-on fill-accent w-6 h-6"
