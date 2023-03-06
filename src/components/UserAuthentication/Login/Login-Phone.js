@@ -13,7 +13,8 @@ function confirmOTP(otp) {
     .confirm(otp)
     .then((result) => {
       // User signed in successfully.
-      const user = result.user;
+      let user = result.user;
+      user.email = user.phoneNumber;
       console.log(user);
       message = true;
     })

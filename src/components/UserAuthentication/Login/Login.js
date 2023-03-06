@@ -115,6 +115,7 @@ export default function Login() {
       console.log(otpLet);
       const getOTPConfirmation = confirmOTP(otpLet);
       if (getOTPConfirmation === true) {
+        console.log("Sent true");
         navigateDashboard();
       }
     }
