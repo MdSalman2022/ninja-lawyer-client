@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
+import { AiOutlineWhatsApp } from "react-icons/ai";
 
 function Footer() {
-
-  const {darkmode} = useContext(AuthContext);
+  const { darkmode } = useContext(AuthContext);
 
   return (
     <div className="py-5 border-t dark:border-gray-600 bg-primary dark:bg-base-100 ">
@@ -13,15 +13,20 @@ function Footer() {
           {/* dark:bg-gray-900 */}
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
-            <Link to="/"><img className={`w-32 ${!darkmode && 'hidden'}`} src="https://i.ibb.co/nPDh7PX/ninja-lawyer-red.png" alt="" /></Link>
-            <Link to="/"><img className={`w-32 ${darkmode && 'hidden'}`} src="https://i.ibb.co/smWpwrC/png.png" alt="" /></Link>
-              {/* <a href="#" className="flex items-center">
+              <Link to="/">
                 <img
-                  className="w-32"
+                  className={`w-32 ${!darkmode && "hidden"}`}
                   src="https://i.ibb.co/nPDh7PX/ninja-lawyer-red.png"
                   alt=""
                 />
-              </a> */}
+              </Link>
+              <Link to="/">
+                <img
+                  className={`w-32 ${darkmode && "hidden"}`}
+                  src="https://i.ibb.co/smWpwrC/png.png"
+                  alt=""
+                />
+              </Link>
             </div>
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
               <div>
@@ -87,7 +92,15 @@ function Footer() {
               </a>
               . All Rights Reserved.
             </span>
-            <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
+            <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0 items-center">
+              {/* Whatsapp contact */}
+              <a
+                href="https://wa.me/+8801312300741"
+                target="_blank"
+                className="text-green-500 text-3xl text-base-100-500 hover:text-gray-900 dark:hover:text-base-100"
+              >
+                <AiOutlineWhatsApp />
+              </a>
               <a
                 href="#"
                 className="text-base-100-500 hover:text-gray-900 dark:hover:text-base-100"
