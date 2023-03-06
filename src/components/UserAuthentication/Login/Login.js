@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { reVerify, confirmOTP } from "./Login-Phone";
+import { AiFillGoogleCircle } from "react-icons/ai";
 
 export default function Login() {
   const { darkmode } = useContext(AuthContext);
@@ -214,16 +215,27 @@ export default function Login() {
                 >
                   Sign in
                 </button>
-                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Don't have an account yet?{" "}
-                  <Link
-                    to="/register"
-                    className="font-medium text-accent hover:underline dark:text-primary-500"
-                  >
-                    Sign up
-                  </Link>
-                </p>
               </form>
+              {/* Social logins */}
+              <button
+                type="button"
+                class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
+              >
+                <span className="text-2xl mr-2 mt-1">
+                  <AiFillGoogleCircle />
+                </span>{" "}
+                Sign in with Google
+              </button>
+              {/* End of social logins */}
+              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                Don't have an account yet?{" "}
+                <Link
+                  to="/register"
+                  className="font-medium text-accent hover:underline dark:text-primary-500"
+                >
+                  Sign up
+                </Link>
+              </p>
             </div>
           </div>
         </div>
