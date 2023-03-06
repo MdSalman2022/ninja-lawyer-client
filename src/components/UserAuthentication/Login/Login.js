@@ -5,6 +5,8 @@ import { auth } from "../../../assets/firebase.config";
 import {
   signInWithPhoneNumber,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { reVerify, confirmOTP } from "./Login-Phone";
 import { AiFillGoogleCircle, AiFillFacebook } from "react-icons/ai";
@@ -17,7 +19,7 @@ export default function Login() {
   // For navigation
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/user/dashboard";
 
   // Useeffect to check if users' logged in already
   useEffect(() => {
@@ -40,6 +42,34 @@ export default function Login() {
     );
   }
 
+  // Navigate function once user logs in
+  function navigateDashboard() {
+    navigate(from, { replace: true });
+  }
+
+  // Google login setup
+  function googleLogin() {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        console.log(user);
+        navigateDashboard();
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(errorMessage, errorCode);
+      });
+  }
+
   function emailLogin(e) {
     e.preventDefault();
     const form = e.target;
@@ -51,6 +81,7 @@ export default function Login() {
         // Signed in
         const user = userCredential.user;
         console.log(user);
+        navigateDashboard();
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -82,7 +113,10 @@ export default function Login() {
     let otpLet = otp;
     if (otpLet.length === 6) {
       console.log(otpLet);
-      confirmOTP(otpLet);
+      const getOTPConfirmation = confirmOTP(otpLet);
+      if (getOTPConfirmation === true) {
+        navigateDashboard();
+      }
     }
   }
 
@@ -247,6 +281,7 @@ export default function Login() {
                 <button
                   type="button"
                   className="lg:w-2/4 sm:w-full text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 md:mr-2 mb-2"
+                  onClick={googleLogin}
                 >
                   <span className="text-2xl mr-2 mt-1">
                     <AiFillGoogleCircle />
