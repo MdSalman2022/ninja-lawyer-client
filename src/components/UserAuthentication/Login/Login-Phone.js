@@ -15,11 +15,11 @@ function confirmOTP(otp) {
       // User signed in successfully.
       const user = result.user;
       console.log(user);
-      message = user;
+      message = true;
     })
     .catch((error) => {
       console.log(error);
-      message = error;
+      message = false;
     })
     .finally(() => {
       return message;
