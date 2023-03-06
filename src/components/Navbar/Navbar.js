@@ -45,22 +45,22 @@ function Navbar() {
                             {/* <li onClick={()=>isActive('/talk-to-lawyer')} ><Link to="/talk-to-lawyer"><span className={`btn btn-primary cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${isActive === '/talk-to-lawyer' ? 'text-accent' : 'text-secondary'}`}>Talk to Lawyer</span></Link></li>  */}
                             {/* <li onClick={()=>isActive()} ><Link to="/ask-a-lawyer"><span className={`btn btn-primary cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${isActive === 'ask' ? 'text-accent' : 'text-secondary'}`}>Ask Lawyer</span></Link></li> */}
                             {/* <li onClick={()=>isActive()} ><Link to="/property-sale-and-purchase"><span className={`btn btn-primary cursor-pointer transition-all duration-300 hover:text-accent font-semibold ${isActive === 'property' ? 'text-accent' : 'text-secondary'}`}>Property</span></Link></li> */}
-                            <li> <NavLink to="talk-to-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100'}>Talk to Lawyer</NavLink></li>
+                            <li> <NavLink to="talk-to-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary'}>Talk to Lawyer</NavLink></li>
                             {/* <li> </li> */}
                             <li className="dropdown">
                                 <label tabIndex={0} className=" flex items-center m-1">
-                                    <NavLink to="property-sale-and-purchase" className={({ isActive }) => isActive ? activeClassName : 'text-base-100'}>
+                                    <NavLink to="property-sale-and-purchase" className={({ isActive }) => isActive ? activeClassName : 'text-base-100 dark:text-primary'}>
                                         Property</NavLink> 
                                     <FaAngleDown />
                                 </label>
-                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary text-base-100 rounded-box w-52"> 
+                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary dark:bg-base-100 text-base-100 dark:text-primary rounded-box w-52"> 
                                         <li className="dropdown dropdown-right">
                                             <label tabIndex={0} className=" flex items-center m-1">
-                                                <NavLink to="property-products" className={({ isActive }) => isActive ? activeClassName : 'text-base-100'}>
+                                                <NavLink to="property-products" className={({ isActive }) => isActive ? activeClassName : 'text-base-100 dark:text-primary'}>
                                                 Property Products </NavLink> 
                                                 <FaAngleRight/>
                                             </label>
-                                                <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary text-base-100 rounded-box w-fit">
+                                                <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary dark:bg-base-100 text-base-100 dark:text-primary rounded-box w-fit">
                                                     <li><Link>Property Registration </Link></li>
                                                     <li><Link>Property Report </Link></li>
                                                     <li><Link>Property Sale Deed Drafting </Link></li>
@@ -68,11 +68,11 @@ function Navbar() {
                                         </li>
                                         <li className="dropdown dropdown-right">
                                             <label tabIndex={0} className=" flex items-center m-1">
-                                                <NavLink to="property-products" className={({ isActive }) => isActive ? activeClassName : 'text-base-100'}>
+                                                <NavLink to="property-products" className={({ isActive }) => isActive ? activeClassName : 'text-base-100 dark:text-primary'}>
                                                 Document Review </NavLink> 
                                                 <FaAngleRight/>
                                             </label>
-                                                <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary text-base-100 rounded-box w-fit">
+                                                <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary dark:bg-base-100 text-base-100 dark:text-primary  rounded-box w-fit">
                                                     <li><Link>Property Document Review </Link></li> 
                                                 </ul>
                                         </li>
@@ -81,7 +81,7 @@ function Navbar() {
                                     </ul>
                             </li>
 
-                            <li> <NavLink to="ask-a-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100'}>Ask Lawyer</NavLink></li>
+                            <li> <NavLink to="ask-a-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary'}>Ask Lawyer</NavLink></li>
                         </ul>
                         <Link to="/login" ><span className={`cursor-pointer btn btn-accent btn-outline hover:text-base-100 `}>Login</span></Link>
                     </div>
