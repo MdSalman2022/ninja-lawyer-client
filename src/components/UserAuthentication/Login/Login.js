@@ -29,6 +29,16 @@ export default function Login() {
       console.log(user);
     }
   }, [user?.email]);
+  // Spinner
+  if (loading) {
+    return (
+      <div className="h-screen bg-primary dark:bg-base-100">
+        <h1 className="dark:text-white text-black text-center pt-5 text-2xl">
+          Loading...
+        </h1>
+      </div>
+    );
+  }
 
   function emailLogin(e) {
     e.preventDefault();
