@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import { auth } from "../../../assets/firebase.config";
 import {
@@ -7,12 +7,38 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { reVerify, confirmOTP } from "./Login-Phone";
-import { AiFillGoogleCircle } from "react-icons/ai";
+import { AiFillGoogleCircle, AiFillFacebook } from "react-icons/ai";
 
 export default function Login() {
-  const { darkmode } = useContext(AuthContext);
+  const { darkmode, user, loading } = useContext(AuthContext);
   const [otp, setOtp] = useState("");
   const [otpDisplay, setOTPDisplay] = useState(false);
+
+  // For navigation
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  // Useeffect to check if users' logged in already
+  useEffect(() => {
+    if (user?.email) {
+      console.log("already logged");
+      navigate(from, { replace: true });
+    } else {
+      console.log("not logged");
+      console.log(user);
+    }
+  }, [user?.email]);
+  // Spinner
+  if (loading) {
+    return (
+      <div className="h-screen bg-primary dark:bg-base-100">
+        <h1 className="dark:text-white text-black text-center pt-5 text-2xl">
+          Loading...
+        </h1>
+      </div>
+    );
+  }
 
   function emailLogin(e) {
     e.preventDefault();
@@ -217,15 +243,28 @@ export default function Login() {
                 </button>
               </form>
               {/* Social logins */}
-              <button
-                type="button"
-                class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
-              >
-                <span className="text-2xl mr-2 mt-1">
-                  <AiFillGoogleCircle />
-                </span>{" "}
-                Sign in with Google
-              </button>
+              <div className="flex md:flex-row flex-col">
+                <button
+                  type="button"
+                  className="lg:w-2/4 sm:w-full text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 md:mr-2 mb-2"
+                >
+                  <span className="text-2xl mr-2 mt-1">
+                    <AiFillGoogleCircle />
+                  </span>{" "}
+                  Google Login
+                </button>
+
+                {/* facebook */}
+                <button
+                  type="button"
+                  className="lg:w-2/4 sm:w-full text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mb-2"
+                >
+                  <span className="text-2xl mr-2 mt-1">
+                    <AiFillFacebook />
+                  </span>{" "}
+                  Facebook Login
+                </button>
+              </div>
               {/* End of social logins */}
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don't have an account yet?{" "}
