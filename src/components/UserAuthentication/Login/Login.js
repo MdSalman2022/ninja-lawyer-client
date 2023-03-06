@@ -7,7 +7,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { reVerify, confirmOTP } from "./Login-Phone";
-import { AiFillGoogleCircle } from "react-icons/ai";
+import { AiFillGoogleCircle, AiFillFacebook } from "react-icons/ai";
 
 export default function Login() {
   const { darkmode } = useContext(AuthContext);
@@ -217,15 +217,28 @@ export default function Login() {
                 </button>
               </form>
               {/* Social logins */}
-              <button
-                type="button"
-                class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
-              >
-                <span className="text-2xl mr-2 mt-1">
-                  <AiFillGoogleCircle />
-                </span>{" "}
-                Sign in with Google
-              </button>
+              <div className="flex md:flex-row flex-col">
+                <button
+                  type="button"
+                  class="lg:w-2/4 sm:w-full text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 md:mr-2 mb-2"
+                >
+                  <span className="text-2xl mr-2 mt-1">
+                    <AiFillGoogleCircle />
+                  </span>{" "}
+                  Google Login
+                </button>
+
+                {/* facebook */}
+                <button
+                  type="button"
+                  class="lg:w-2/4 sm:w-full text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mb-2"
+                >
+                  <span className="text-2xl mr-2 mt-1">
+                    <AiFillFacebook />
+                  </span>{" "}
+                  Facebook Login
+                </button>
+              </div>
               {/* End of social logins */}
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don't have an account yet?{" "}
