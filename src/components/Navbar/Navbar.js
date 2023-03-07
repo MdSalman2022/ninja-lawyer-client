@@ -3,6 +3,7 @@ import { FaAngleDown, FaAngleRight, FaBars } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import { allProperties, findLawyer } from "./NavbarItems";
+import NavbarUserMenu from "./NavbarUserMenu";
 
 function Navbar() {
   const { darkmode, toggleDarkMode, user } = useContext(AuthContext);
@@ -336,13 +337,7 @@ function Navbar() {
                 <li> <NavLink to="ask-a-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary'}>Ask Lawyer</NavLink></li> */}
             </ul>
             {user?.email ? (
-              <Link to="/user/dashboard">
-                <span
-                  className={`cursor-pointer btn btn-accent btn-outline hover:text-base-100 `}
-                >
-                  Dashboard
-                </span>
-              </Link>
+              <NavbarUserMenu />
             ) : (
               <Link to="/login">
                 <span
