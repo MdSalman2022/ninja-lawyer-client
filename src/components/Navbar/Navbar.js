@@ -197,6 +197,7 @@ function Navbar() {
   const [menu, setMenu] = useState('');
 
   const [dropdown, setDropdown] = useState(false);
+  const [propertyDropdown, setPropertyDropdown] = useState(false);
 
 
   return (
@@ -218,7 +219,7 @@ function Navbar() {
                 className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-primary dark:bg-base-100 rounded-box w-64"
               >
                     <li> <NavLink to="" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent '}>Home</NavLink></li> 
-                    <li><span className="justify-between text-base-100 dark:text-primary flex items-center gap-2 p-2 hover:text-accent "><Link to='/'>Find Lawyer</Link> <FaAngleDown onClick={()=>(setDropdown(!dropdown))}/></span></li> 
+                    <li><span onClick={()=>(setDropdown(!dropdown))} className="justify-between text-base-100 dark:text-primary flex items-center gap-2 p-2 hover:text-accent "><Link to='/'>Find Lawyer</Link> <FaAngleDown /></span></li> 
                     <ul className={`${dropdown ? '': 'hidden'} bg-secondary bg-opacity-10 text-left w-60 h-96 overflow-y-scroll rounded-md `}>
                           {
                                   findLawyer.map((item, index) => (
@@ -234,32 +235,26 @@ function Navbar() {
                             } 
                       </ul>
                     <li> <NavLink to="talk-to-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent '}>Talk to Lawyer</NavLink></li>
-                    <li>
-                      <span className="justify-between text-base-100 dark:text-primary"><NavLink to='/property-sale-and-purchase' className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent '}>Property</NavLink> <FaAngleRight/></span>
-                        <ul className="p-2 bg-primary">
-                        {
-                                      allProperties.map((item, index) => (
-                                        <li>
-                                          <div className={`w-max absolute -right-44 top-0 rounded-lg bg-primary dark:bg-base-100 `}>
-                                              <ul className='space-y-5 rounded-lg '>
-                                                  {
-                                                      item.submenu?.map((sub,index) => (
-                                                        <NavLink 
-                                                          className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent '}
-                                                          key={index} to={`${sub.link}`}>
-                                                              <li className='transition-all duration-300 text-base-100 dark:text-primary w-max flex items-center gap-2 p-2 hover:text-accent hover:dark:text-accent '>
-                                                              { sub.name}
-                                                              </li>
-                                                          </NavLink>
-                                                      ) )
-                                                  }
-                                                  </ul> 
-                                              </div>
-                                        </li>
-                                      ))
-                                  }
-                        </ul>
-                    </li> 
+                    <li><span className="justify-between text-base-100 dark:text-primary flex items-center gap-2 p-2 hover:text-accent "><Link to='/property-sale-and-purchase'>Property</Link> <FaAngleDown onClick={()=>(setPropertyDropdown(!propertyDropdown))}/></span></li>
+                    <ul className={`${propertyDropdown ? '': 'hidden'} bg-secondary bg-opacity-10 text-left w-60 h-full rounded-md `}>
+                          {
+                                  allProperties.map((item, index) => (
+                                    <li key={index} className={` flex flex-col items-start`}>                 
+                                      {
+                                        item.submenu?.map((sub,index) => (
+                                          <NavLink 
+                                            className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent '}
+                                            key={index} to={`${sub.link}`}>
+                                                <li className='transition-all duration-300 text-base-100 dark:text-primary w-max flex items-center  hover:text-accent hover:dark:text-accent '>
+                                                { sub.name}
+                                                </li>
+                                            </NavLink>
+                                        ) )
+                                      }
+                                    </li>
+                                  ))
+                            } 
+                      </ul>
                   <li> <NavLink to="ask-a-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent '}>Ask Lawyer</NavLink></li>
               </ul>
             </div>
