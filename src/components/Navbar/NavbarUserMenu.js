@@ -27,7 +27,7 @@ export default function NavbarUserMenu() {
   }
   return (
     <div class="dropdown">
-      <button class="dropbtn">User Profile</button>
+      <button class="dropbtn">User Menu</button>
       <div class="dropdown-content">
         <Link to="/user/dashboard">Dashboard</Link>
         <Link to="#">Settings</Link>
