@@ -26,7 +26,7 @@ export default function NavbarUserMenu() {
     navigate(from, { replace: true });
   }
   return (
-    <div class="dropdown">
+    <div class="dropdown lg:ml-3">
       <button class="dropbtn">User Menu</button>
       <div class="dropdown-content">
         <Link to="/user/dashboard">Dashboard</Link>
