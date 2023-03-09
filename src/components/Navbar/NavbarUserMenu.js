@@ -1,31 +1,43 @@
 import React, { useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import "./styles/style.css";
+import { signOut } from "firebase/auth";
+import { auth } from "../../assets/firebase.config";
 
 export default function NavbarUserMenu() {
   const [selected, setSelected] = useState("");
   const navigate = useNavigate();
-  const location = useLocation();
-  function redirectTo(path) {
-    const from = `${path}`;
+  // Firebase Logout
+  function logoutUser() {
+    const from = "/";
+    signOut(auth)
+      .then(() => {
+        // navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        window.alert(`Could not logout. ${error}`);
+      });
+  }
+  // const location = useLocation();
+  function redirectTo(event) {
+    setSelected(event.target.value);
+    console.log(selected);
+    const from = selected;
     navigate(from, { replace: true });
   }
   return (
-    <div className="p-0">
-      <select
-        className="text-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-1.5 mx-2 dark:text-black dark:bg-white dark:hover:bg-white-700 dark:focus:ring-white-700 dark:border-white-700"
-        onChange={() => {
-          redirectTo(selected);
-        }}
-        value={selected}
-      >
-        <option value="/user/dashboard">My Account</option>
-        <option>
-          {/* <NavLink to="/user/dashboard">Dashboard</NavLink> */}
-          Dashboard
-        </option>
-        <option value="/">Settings</option>
-        <option value="/user/dashboard">Logout</option>
-      </select>
+    <div class="dropdown">
+      <button class="dropbtn">User Profile</button>
+      <div class="dropdown-content">
+        <Link to="/user/dashboard">Dashboard</Link>
+        <Link to="#">Settings</Link>
+        <button
+          className="logout-style text-left btn w- border-none btn-outline text-black"
+          onClick={logoutUser}
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 }
