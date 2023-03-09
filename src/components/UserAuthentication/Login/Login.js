@@ -94,6 +94,7 @@ export default function Login() {
     e.preventDefault();
     const form = e.target;
     const number = form.phoneNumber.value;
+    setOTPDisplay(true);
     reVerify();
     const appVerifier = window.recaptchaVerifier;
     signInWithPhoneNumber(auth, number, appVerifier)
@@ -102,7 +103,6 @@ export default function Login() {
         // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
         console.log("yes, sent");
-        setOTPDisplay(true);
       })
       .catch((error) => {
         console.log(error);
