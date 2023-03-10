@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import { AiOutlineWhatsApp } from "react-icons/ai";
+import { StateContext } from "../../contexts/StateProvider/StateProvider";
 
 function Footer() {
-  const { darkmode } = useContext(AuthContext);
+  const { darkmode } = useContext(StateContext);
 
   return (
     <div className="py-5 border-t dark:border-gray-600 bg-primary dark:bg-base-100 ">

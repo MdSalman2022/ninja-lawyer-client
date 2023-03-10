@@ -29,7 +29,7 @@ export default function NavbarUserMenu() {
     <div class="dropdown lg:ml-3">
       <button class="dropbtn">User Menu</button>
       <div class="dropdown-content">
-        <Link to="/user/dashboard">Dashboard</Link>
+        <Link to="/dashboard">Dashboard</Link>
         <Link to="#">Settings</Link>
         <button
           className="logout-style text-left btn w- border-none btn-outline text-black"

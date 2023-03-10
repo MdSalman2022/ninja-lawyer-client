@@ -1,14 +1,20 @@
 import { createContext, useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../assets/firebase.config";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [darkmode, setDarkMode] = useState(false);
   // states for auth
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+ 
+
+
+  const logOut = () => {
+    setLoading(true)
+    return signOut(auth)
+}
 
   // Check if users logged in and set it in a state
   useEffect(() => {
@@ -22,29 +28,12 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  useEffect(() => {
-    const savedDarkMode = localStorage.getItem("darkmode");
-
-    if (savedDarkMode) {
-      setDarkMode(JSON.parse(savedDarkMode));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("darkmode", JSON.stringify(darkmode));
-  }, [darkmode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkmode);
-  };
 
   const authInfo = {
-    setDarkMode,
-    darkmode,
-    toggleDarkMode,
     // user and loading for auth
     user,
     loading,
+    logOut
   };
 
   return (
