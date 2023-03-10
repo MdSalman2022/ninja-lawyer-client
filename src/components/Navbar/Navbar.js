@@ -2,197 +2,24 @@ import React, { useContext, useState } from "react";
 import { FaAngleDown, FaAngleRight, FaBars } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
+import { StateContext } from "../../contexts/StateProvider/StateProvider";
 import { allProperties, findLawyer } from "./NavbarItems";
 import NavbarUserMenu from "./NavbarUserMenu";
 
 function Navbar() {
-  const { darkmode, toggleDarkMode, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { darkmode, toggleDarkMode } = useContext(StateContext);
 
-  let activeClassName = "text-accent w-fit flex items-center gap-2 p-2";
-  // const handleTheme = () => {
-  //     <li ><span className='flex items-center justify-between'>Dark Mode <input onClick={()=>setDarkMode(!darkmode)} type="checkbox" className="toggle toggle-primary"   /></span></li>
-  // }
-
-  const allProperties = [
-    {
-      name: "Property Products",
-      link: "/demo",
-      submenu: [
-        {
-          name: "Property Registration",
-          link: "/demo",
-        },
-        {
-          name: "Property Report",
-          link: "/demo",
-        },
-        {
-          name: "Property Sale Deed Drafting",
-          link: "/demo",
-        },
-      ],
-    },
-  ];
-
-  const findLawyer = [
-    {
-      title: "Personal / Family",
-      link: "/demo",
-      submenu: [
-        {
-          title: "Divorce",
-          link: "/demo",
-        },
-        {
-          title: "Family Dispute",
-          link: "/demo",
-        },
-        {
-          title: "Child Custody",
-          link: "/demo",
-        },
-        {
-          title: "Muslim Law",
-          link: "/demo",
-        },
-        {
-          title: "Medical Negligence",
-          link: "/demo",
-        },
-        {
-          title: "Motor Accident",
-          link: "/demo",
-        },
-        {
-          title: "Wills / Trusts",
-          link: "/demo",
-        },
-        {
-          title: "Labour & Service",
-          link: "/demo",
-        },
-      ],
-    },
-    {
-      title: "Corporate Law",
-      link: "/demo",
-      submenu: [
-        {
-          title: "Arbitration",
-          link: "/demo",
-        },
-        {
-          title: "Trademark & Copyright",
-          link: "/demo",
-        },
-        {
-          title: "Customs & Central Excise",
-          link: "/demo",
-        },
-        {
-          title: "Startup",
-          link: "/demo",
-        },
-        {
-          title: "Banking / Finance",
-          link: "/demo",
-        },
-        {
-          title: "GST",
-          link: "/demo",
-        },
-        {
-          title: "Corporate",
-          link: "/demo",
-        },
-        {
-          title: "Tax",
-          link: "/demo",
-        },
-      ],
-    },
-    {
-      title: "Civil / Debt Matters",
-      link: "/demo",
-      submenu: [
-        {
-          title: "Documentation",
-          link: "/demo",
-        },
-        {
-          title: "Consumer Court",
-          link: "/demo",
-        },
-        {
-          title: "Civil",
-          link: "/demo",
-        },
-        {
-          title: "Cheque Bounce",
-          link: "/demo",
-        },
-        {
-          title: "Recovery",
-          link: "/demo",
-        },
-      ],
-    },
-    {
-      title: "Criminal / Property",
-      link: "/demo",
-      submenu: [
-        {
-          title: "Criminal",
-          link: "/demo",
-        },
-        {
-          title: "Property",
-          link: "/demo",
-        },
-        {
-          title: "Landlord / Tenant",
-          link: "/demo",
-        },
-        {
-          title: "Cyber Crime",
-          link: "/demo",
-        },
-      ],
-    },
-
-    {
-      title: "Others",
-      link: "/demo",
-      submenu: [
-        {
-          title: "Armed Forces Tribunal",
-          link: "/demo",
-        },
-        {
-          title: "Supreme Court",
-          link: "/demo",
-        },
-        {
-          title: "Insurance",
-          link: "/demo",
-        },
-        {
-          title: "Immigration",
-          link: "/demo",
-        },
-        {
-          title: "International Law",
-          link: "/demo",
-        },
-      ],
-    },
-  ];
-
+  
   const [menu, setMenu] = useState("");
-
+  
   const [dropdown, setDropdown] = useState(false);
   const [propertyDropdown, setPropertyDropdown] = useState(false);
+  
+  let activeClassName = "text-accent w-fit flex items-center gap-4";
 
+
+  
   return (
     <div className="bg-primary dark:bg-base-100">
       <div className="container mx-auto ">
@@ -206,7 +33,7 @@ function Navbar() {
               </label>
               <ul
                 tabIndex={0}
-                className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-primary dark:bg-base-100 rounded-box w-64"
+                className="menu menu-compact dropdown-content mt-3 shadow bg-primary dark:bg-base-100 rounded-box w-64"
               >
                 <li>
                   {" "}
@@ -215,7 +42,7 @@ function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? activeClassName
-                        : "text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent "
+                        : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
                     }
                   >
                     Home
@@ -224,7 +51,7 @@ function Navbar() {
                 <li>
                   <span
                     onClick={() => setDropdown(!dropdown)}
-                    className="justify-between text-base-100 dark:text-primary flex items-center gap-2 p-2 hover:text-accent "
+                    className="justify-between text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent "
                   >
                     <Link to="/">Find Lawyer</Link> <FaAngleDown />
                   </span>
@@ -256,14 +83,14 @@ function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? activeClassName
-                        : "text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent "
+                        : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
                     }
                   >
                     Talk to Lawyer
                   </NavLink>
                 </li>
                 <li>
-                  <span className="justify-between text-base-100 dark:text-primary flex items-center gap-2 p-2 hover:text-accent ">
+                  <span className="justify-between text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent ">
                     <Link to="/property-sale-and-purchase">Property</Link>{" "}
                     <FaAngleDown
                       onClick={() => setPropertyDropdown(!propertyDropdown)}
@@ -282,7 +109,7 @@ function Navbar() {
                           className={({ isActive }) =>
                             isActive
                               ? activeClassName
-                              : "text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent "
+                              : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
                           }
                           key={index}
                           to={`${sub.link}`}
@@ -302,7 +129,7 @@ function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? activeClassName
-                        : "text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent "
+                        : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
                     }
                   >
                     Ask Lawyer
@@ -329,7 +156,7 @@ function Navbar() {
             </Link>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-4">
             {/* dark mode toggle */}
 
             <label className="swap swap-rotate m-2">
@@ -359,7 +186,7 @@ function Navbar() {
                   className={({ isActive }) =>
                     isActive
                       ? activeClassName
-                      : "text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent "
+                      : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
                   }
                 >
                   Home
@@ -373,16 +200,16 @@ function Navbar() {
                   className={({ isActive }) =>
                     isActive
                       ? activeClassName
-                      : "text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent group-hover:text-accent"
+                      : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent group-hover:text-accent"
                   }
                 >
                   Find Lawyer{" "}
                   <FaAngleDown className="transition-all duration-300 group-hover:rotate-180 group-hover:text-accent" />{" "}
                 </NavLink>
                 <div className="absolute top-8  hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
-                  <div className="grid grid-cols-3 lg:grid-cols-5 lg:gap-2 2xl:gap-10 bg-primary dark:bg-base-100 p-1 lg:p-5 shadow rounded-lg">
+                  <div className="grid grid-cols-3 lg:grid-cols-5 lg:gap-4 2xl:gap-10 bg-primary dark:bg-base-100 p-1 lg:p-5 shadow rounded-lg">
                     {findLawyer.map((item, index) => (
-                      <div key={index} className="flex flex-col gap-2">
+                      <div key={index} className="flex flex-col gap-4">
                         <p className="lg:text-xl border-b pb-3 text-accent">
                           {item.title}
                         </p>
@@ -390,7 +217,7 @@ function Navbar() {
                           <NavLink
                             key={subIndex}
                             to={subItem.link}
-                            className="transition-all duration-300 text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent hover:dark:text-accent"
+                            className="transition-all duration-300 text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent hover:dark:text-accent"
                           >
                             {subItem.title}
                           </NavLink>
@@ -407,7 +234,7 @@ function Navbar() {
                   className={({ isActive }) =>
                     isActive
                       ? activeClassName
-                      : "text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent "
+                      : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
                   }
                 >
                   Talk to Lawyer
@@ -421,7 +248,7 @@ function Navbar() {
                   className={({ isActive }) =>
                     isActive
                       ? activeClassName
-                      : "text-base-100 dark:text-primary w-fit flex items-center gap-2 p-2 hover:text-accent group-hover:text-accent"
+                      : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent group-hover:text-accent"
                   }
                 >
                   Property{" "}
@@ -451,7 +278,7 @@ function Navbar() {
                           <ul className="space-y-5 rounded-lg">
                             {item.submenu?.map((sub, index) => (
                               <Link key={index} className="" to={`${sub.link}`}>
-                                <li className="transition-all duration-300 text-base-100 dark:text-primary w-max flex items-center gap-2 p-2 hover:text-accent hover:dark:text-accent ">
+                                <li className="transition-all duration-300 text-base-100 dark:text-primary w-max flex items-center gap-4 hover:text-accent hover:dark:text-accent ">
                                   {sub.name}
                                 </li>
                               </Link>
@@ -476,40 +303,6 @@ function Navbar() {
                   Ask Lawyer
                 </NavLink>
               </li>
-
-              {/* <li> <NavLink to="talk-to-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary w-fit'}>Talk to Lawyer</NavLink></li>
-                <li className="dropdown">
-                    <label tabIndex={0} className=" flex items-center m-1 w-fit">
-                        <NavLink to="property-sale-and-purchase" className={({ isActive }) => isActive ? activeClassName : 'text-base-100 dark:text-primary w-fit'}>
-                            Property</NavLink> 
-                        <FaAngleDown />
-                    </label>
-                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary dark:bg-base-100 text-base-100 dark:text-primary rounded-box w-fit"> 
-                            <li className="dropdown dropdown-right">
-                                <label tabIndex={0} className=" flex items-center m-1">
-                                    <NavLink to="property-products" className={({ isActive }) => isActive ? activeClassName : 'text-base-100 dark:text-primary w-fit'}>
-                                    Property Products </NavLink> 
-                                    <FaAngleRight/>
-                                </label>
-                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary dark:bg-base-100 text-base-100 dark:text-primary rounded-box w-fit">
-                                        <li><Link>Property Registration </Link></li>
-                                        <li><Link>Property Report </Link></li>
-                                        <li><Link>Property Sale Deed Drafting </Link></li>
-                                    </ul>
-                            </li>
-                            <li className="dropdown dropdown-right">
-                                <label tabIndex={0} className=" flex items-center m-1">
-                                    <NavLink to="property-products" className={({ isActive }) => isActive ? activeClassName : 'text-base-100 dark:text-primary'}>
-                                    Document Review </NavLink> 
-                                    <FaAngleRight/>
-                                </label>
-                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-primary dark:bg-base-100 text-base-100 dark:text-primary  rounded-box w-fit">
-                                        <li><Link>Property Document Review </Link></li> 
-                                    </ul>
-                            </li>
-                        </ul>
-                </li>
-                <li> <NavLink to="ask-a-lawyer" className={({ isActive }) =>isActive ? activeClassName : 'text-base-100 dark:text-primary'}>Ask Lawyer</NavLink></li> */}
             </ul>
             {user?.email ? (
               <NavbarUserMenu/>

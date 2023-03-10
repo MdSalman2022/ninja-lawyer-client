@@ -9,6 +9,10 @@ import LoginPage from "../pages/UserAuthentication/Login/Login";
 import RegisterPage from "../pages/UserAuthentication/Register/RegisterPage";
 import UserDashboardPage from "../pages/User/Dashboard/Dashboard";
 import DemoPage from "../pages/DemoPage";
+import DashboardLayout from "../layout/DashboardLayout";
+import DashboardPage from "../pages/Dashboard/DashboardPage/DashboardPage";
+import ProfilePage from "../pages/Dashboard/ProfilePage/ProfilePage";
+import OrdersPage from "../pages/Dashboard/OrdersPage/OrdersPage";
 
 export const router = createBrowserRouter([
   {
@@ -49,4 +53,22 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout></DashboardLayout>,
+    children: [
+      {
+        path: "/dashboard", 
+        element: <DashboardPage/>
+      },
+      {
+        path: "/dashboard/profile", 
+        element: <ProfilePage/>
+      },
+      {
+        path: "/dashboard/orders", 
+        element: <OrdersPage/>
+      }
+    ]
+  }
 ]);

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaStar } from 'react-icons/fa'
 import BannerOfTalkToLawyer from './BannerOfTalkToLawyer'
 import { Player } from '@lottiefiles/react-lottie-player';
@@ -7,6 +7,7 @@ import { Player } from '@lottiefiles/react-lottie-player';
 function TalkToLawyer() {
 
 
+    const [active, setActive] = useState(3)
     
     return (
         <div className='bg-primary dark:bg-base-100 py-5'>
@@ -87,8 +88,8 @@ function TalkToLawyer() {
                     <div className='col-span-2 py-10'>
                         <div className='h-full'>
                             <div className="flex flex-col bg-gray-100 rounded-lg p-5 gap-5">
-                                <div className="flex flex-col md:flex-row gap-5 md:gap-0 justify-between ">
-                                    <select className="select bg-primary text-base-100 select-bordered w-64">
+                                <div className="flex flex-col flex-wrap md:flex-row gap-5 md:gap-0 justify-between ">
+                                    <select className="select bg-primary text-base-100 select-bordered w-fit">
                                         <option disabled selected>Select problem type?</option>
                                         <option>Divorce & Child Custudy</option>
                                         <option>Property & Real Estate</option>
@@ -102,7 +103,7 @@ function TalkToLawyer() {
                                         <option>Criminal Matter</option>
                                         
                                     </select>
-                                    <select className="select bg-primary text-base-100 select-bordered w-64">
+                                    <select className="select bg-primary text-base-100 select-bordered w-fit">
                                         <option disabled selected>Select language?</option>
                                         <option>English</option> 
                                         <option>Hindi</option> 
@@ -124,20 +125,20 @@ function TalkToLawyer() {
                                 </div>
 
                                 <div className="grid grid-cols-2 justify-items-center gap-5">
-                                    <div className='flex flex-col w-full gap-2 bg-primary p-4 rounded-xl text-base-100 border'>
+                                    <div onClick={()=>setActive(1)} className={`flex flex-col w-full gap-2 p-4 rounded-xl border ${active === 1 ? 'bg-accent text-primary': 'bg-primary text-base-100'}`}>
                                         <span className='text-xl font-bold'> <input type="checkbox" name="" id="" /> ₹799</span>
                                         <span><input type="checkbox" name="" id=""  checked/> Valid For 1 Month</span>
                                     </div>
-                                    <div className='flex flex-col w-full gap-2 bg-primary p-4 rounded-xl text-base-100 border'>
+                                    <div onClick={()=>setActive(2)} className={`flex flex-col w-full gap-2 p-4 rounded-xl border ${active === 2 ? 'bg-accent text-primary': 'bg-primary text-base-100'}`}>
                                         <span className='text-xl font-bold'> <input type="checkbox" name="" id="" /> ₹1199</span>
                                         <span><input type="checkbox" name="" id=""  checked/> Valid For 1 Month</span>
                                     </div>
-                                    <div className='flex flex-col w-full gap-2 bg-accent p-4 rounded-xl text-primary'>
+                                    <div onClick={()=>setActive(3)} className={`flex flex-col w-full gap-2 p-4 rounded-xl border ${active === 3 ? 'bg-accent text-primary': 'bg-primary text-base-100'}`}>
                                         <span className='text-xl font-bold'> <input type="checkbox" name="" id="" checked/> ₹1999</span>
                                         <span><input type="checkbox" name="" id=""  checked/> Valid For 1 Month</span>
                                     </div>
-                                    <div className='flex flex-col w-full gap-2 bg-primary p-4 rounded-xl text-base-100 border'>
-                                        <span className='text-xl font-bold'> <input type="checkbox" name="" id="" /> ₹799</span>
+                                    <div onClick={()=>setActive(4)} className={`flex flex-col w-full gap-2 p-4 rounded-xl border ${active === 4 ? 'bg-accent text-primary': 'bg-primary text-base-100'}`}>
+                                        <span className='text-xl font-bold'> <input type="checkbox" name="" id="" /> ₹2799</span>
                                         <span><input type="checkbox" name="" id=""  checked/> Valid For 1 Month</span>
                                     </div>
                                     <button className='col-span-2 btn btn-accent w-fit'>Buy now</button>
