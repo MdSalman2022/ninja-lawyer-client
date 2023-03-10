@@ -206,7 +206,7 @@ function Navbar() {
                   Find Lawyer{" "}
                   <FaAngleDown className="transition-all duration-300 group-hover:rotate-180 group-hover:text-accent" />{" "}
                 </NavLink>
-                <div className="absolute top-8  hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
+                <div className="absolute top-5  hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
                   <div className="grid grid-cols-3 lg:grid-cols-5 lg:gap-4 2xl:gap-10 bg-primary dark:bg-base-100 p-1 lg:p-5 shadow rounded-lg">
                     {findLawyer.map((item, index) => (
                       <div key={index} className="flex flex-col gap-4">
@@ -254,7 +254,7 @@ function Navbar() {
                   Property{" "}
                   <FaAngleDown className="transition-all duration-300 group-hover:rotate-180 group-hover:text-accent" />
                 </NavLink>
-                <div className="absolute top-8 2xl:left-0 hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
+                <div className="absolute top-5 2xl:left-0 hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
                   <ul className="space-y-2 rounded-lg shadow z-50 bg-primary">
                     {allProperties.map((item, index) => (
                       <li
@@ -271,17 +271,17 @@ function Navbar() {
                           </li>
                         </Link>
                         <div
-                          className={`w-max absolute -right-44 top-0 rounded-lg bg-primary dark:bg-base-100  ${
+                          className={`w-max absolute -right-44 top-0 rounded-lg bg-primary dark:bg-base-100 shadow-md  ${
                             item.submenu && menu === "property" ? "" : "hidden"
                           }`}
                         >
-                          <ul className="space-y-5 rounded-lg">
+                          <ul className="space-y-2 rounded-lg p-2">
                             {item.submenu?.map((sub, index) => (
+                                <li className="transition-all duration-300 text-base-100 dark:text-primary w-max flex items-center gap-1 hover:text-accent hover:dark:text-accent ">
                               <Link key={index} className="" to={`${sub.link}`}>
-                                <li className="transition-all duration-300 text-base-100 dark:text-primary w-max flex items-center gap-4 hover:text-accent hover:dark:text-accent ">
                                   {sub.name}
-                                </li>
                               </Link>
+                                </li>
                             ))}
                           </ul>
                         </div>
