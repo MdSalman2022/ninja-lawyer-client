@@ -57,13 +57,14 @@ function DashboardLayout() {
             </div>
             
             <div className={`relative bg-primary dark:bg-base-100 h-full select-none md:grid ${isOpen ? 'grid-cols-4 lg:grid-cols-5 xl:grid-cols-8' : 'grid-cols-4 lg:grid-cols-8 xl:grid-cols-12'}`}>
-                    <aside className={` md:relative col-span-1 transition-colors duration-300 h-full bg-primary dark:bg-base-100 hidden md:flex flex-col items-stretch py-10 gap-y-10  pl-6 ${isOpen ? 'w-52 ' : 'w-24'}  border-r`}>
+                    <aside className={` md:relative col-span-1 transition-colors duration-300 h-full bg-primary dark:bg-base-100 hidden md:flex flex-col items-stretch py-10 gap-y-10   ${isOpen ? 'w-52 ' : 'w-24'}  border-r`}>
                         <div>
-                            <Link to="/dashboard" className={`flex justify-center`}><img className='w-32 flex dark:hidden' src="https://i.ibb.co/smWpwrC/png.png" alt="logo" /></Link>
-                            <Link to="/dashboard" className={`flex justify-center`}><img className='w-32 hidden dark:flex' src="https://i.ibb.co/nPDh7PX/ninja-lawyer-red.png" alt="logo" /></Link>
+                            <Link to="/dashboard" className={`flex justify-center ${isOpen ? 'flex' : 'hidden'}`}><img className='w-32 flex dark:hidden' src="https://i.ibb.co/smWpwrC/png.png" alt="logo" /></Link>
+                            <Link to="/dashboard" className={`flex justify-center ${isOpen ? 'flex' : 'hidden'}`}><img className='w-32 hidden dark:flex' src="https://i.ibb.co/nPDh7PX/ninja-lawyer-red.png" alt="logo" /></Link>
+                            <Link to="/dashboard" className={`flex justify-center ${isOpen ? 'hidden' : 'flex'} `}><img className='w-10' src="https://i.ibb.co/qBW666W/NINJA-ICON-ONLY-1.png" alt="logo" /></Link>
                         </div>
                         
-                        <div className='flex flex-col gap-5 text-base-100 dark:text-primary'>
+                        <div className='flex flex-col gap-5 text-base-100 dark:text-primary pl-6'>
                             <Link onClick={()=>setActiveTab('dashboard')} to="/dashboard" className={`transaction-colors duration-300 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'dashboard' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><BsGrid1X2/></p> <span className={`transition-colors duration-300 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Dashboard</span></Link>
                             <Link onClick={()=>setActiveTab('profile')} to="/dashboard/profile" className={`transaction-colors duration-300 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'profile' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><ImProfile/></p> <span className={`transition-colors duration-300 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Profile</span> </Link>
                             <Link onClick={()=>setActiveTab('orders')} to="/dashboard/orders" className={`transaction-colors duration-300 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'orders' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><BsListCheck/></p> <span className={`transition-colors duration-300 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>My Orders</span> </Link>
@@ -74,10 +75,10 @@ function DashboardLayout() {
                             <Link onClick={()=>setActiveTab('message')} to="/dashboard/message" className={`transaction-colors duration-300 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'message' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><TbMessages/></p> <span className={`transition-colors duration-300 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Message</span> </Link>
                             <div onClick={()=>handleLogOut()} className={`flex items-center gap-5 group cursor-pointer ${isOpen ? 'pr-8' : 'pr-6'}`}><p className='shadow-lg p-3 rounded-xl text-2xl text-base-100 dark:text-primary'><MdOutlineLogout/></p> <span className={`transition-colors duration-300 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Logout</span> </div>
                         </div>
-                        <p onClick={handleSidebar}  className={`cursor-pointer text-base-100 dark:text-primary shadow-lg p-3 rounded-xl text-2xl w-fit ${isOpen ? 'hidden' : ''}`}><MdOpenInFull/></p>
-                        <div onClick={handleSidebar}  className={`cursor-pointer  flex items-center gap-5 group ${isOpen ? 'pr-8' : 'pr-6'}`}><p className={`text-base-100 dark:text-primary shadow-lg p-3 rounded-xl text-2xl ${isOpen ? '' : 'hidden'}`}><MdCloseFullscreen/></p> <span className={`transition-colors duration-300 font-semibold group-hover:text-accent text-base-100 dark:text-primary ${isOpen ? '' : 'hidden'}`}>Minimize</span></div>
+                        <p onClick={handleSidebar}  className={`ml-6 cursor-pointer text-base-100 dark:text-primary shadow-lg p-3 rounded-xl text-2xl w-fit ${isOpen ? 'hidden' : ''}`}><MdOpenInFull/></p>
+                        <div onClick={handleSidebar}  className={`ml-6 cursor-pointer  flex items-center gap-5 group ${isOpen ? 'pr-8' : 'pr-6'}`}><p className={`text-base-100 dark:text-primary shadow-lg p-3 rounded-xl text-2xl ${isOpen ? '' : 'hidden'}`}><MdCloseFullscreen/></p> <span className={`transition-colors duration-300 font-semibold group-hover:text-accent text-base-100 dark:text-primary ${isOpen ? '' : 'hidden'}`}>Minimize</span></div>
                     </aside>
-                <div className={`p-2 md:pr-8 ${isOpen ? 'col-span-3 lg:col-span-4 xl:col-span-7' : 'col-span-3 lg:col-span-7 xl:col-span-11'}`}>                    
+                <div className={`p-2 md:pr-8 h-full ${isOpen ? 'col-span-3 lg:col-span-4 xl:col-span-7' : 'col-span-3 lg:col-span-7 xl:col-span-11'}`}>                    
                     <DashboardMobileHeader/>
                     <DashboardHeader/>
                     <Outlet/>

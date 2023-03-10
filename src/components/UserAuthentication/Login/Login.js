@@ -23,7 +23,7 @@ export default function Login() {
   // For navigation
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/dashboard";
+  const from = location.state?.from?.pathname || "/";
 
   // Useeffect to check if users' logged in already
   useEffect(() => {

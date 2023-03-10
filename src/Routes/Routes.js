@@ -13,6 +13,7 @@ import DashboardLayout from "../layout/DashboardLayout";
 import DashboardPage from "../pages/Dashboard/DashboardPage/DashboardPage";
 import ProfilePage from "../pages/Dashboard/ProfilePage/ProfilePage";
 import OrdersPage from "../pages/Dashboard/OrdersPage/OrdersPage";
+import AdminLogin from "../pages/AdminLogin/AdminLogin"; 
 
 export const router = createBrowserRouter([
   {

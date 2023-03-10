@@ -4,7 +4,7 @@ import { Player } from '@lottiefiles/react-lottie-player';
 
 function OrdersPage() {
     return (
-        <div>
+        <div className='h-screen'>
             <h1 className="text-3xl text-base-100 dark:text-primary">My Orders</h1>
             <div className="grid lg:grid-cols-3 xl:grid-cols-4 gap-10 py-10">
                 <div className="col-span-1 p-5 text-base-100 dark:text-primary border rounded-lg">

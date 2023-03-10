@@ -26,8 +26,8 @@ export default function NavbarUserMenu() {
     navigate(from, { replace: true });
   }
   return (
-    <div class="dropdown lg:ml-3">
-      <button class="dropbtn">User Menu</button>
+    <div class="dropdown dropdown-end lg:ml-3">
+      <button class=""><img className='w-10 rounded-full cursor-pointer' src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png" alt="" /></button>
       <div class="dropdown-content">
         <Link to="/dashboard">Dashboard</Link>
         <Link to="#">Settings</Link>

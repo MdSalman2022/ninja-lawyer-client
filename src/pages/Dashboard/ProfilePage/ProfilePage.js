@@ -9,7 +9,7 @@ function ProfilePage() {
     const [edit, setEdit] = useState(false)
     
     return (
-        <div className='flex flex-col gap-5 text-base-100 dark:text-primary'>
+        <div className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10 ${edit ? "h-full" : "h-screen"}`}>
             <div className='shadow-lg rounded-xl bg-primary dark:bg-base-100 dark:border flex flex-col'>
                 <div className='relative bg-gradient-to-r from-base-100 to-primary h-52 w-full rounded-t-xl'>
                     <div className='w-full h-full group'>
