@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AiOutlineCamera, AiOutlineDatabase, AiOutlineEdit } from 'react-icons/ai';
 import { FiPhoneCall } from 'react-icons/fi';
 import { HiOutlineMail } from 'react-icons/hi';
 import { BsGenderMale } from 'react-icons/bs';
+import { StateContext } from '../../../contexts/StateProvider/StateProvider';
 
 function ProfilePage() {
+
+    const {heightFull, setHeightFull} = useContext(StateContext)
 
     const [edit, setEdit] = useState(false)
     
     return (
-        <div className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10 ${edit ? "h-full" : "h-screen"}`}>
+        <div className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10`}>
             <div className='shadow-lg rounded-xl bg-primary dark:bg-base-100 dark:border flex flex-col'>
                 <div className='relative bg-gradient-to-r from-base-100 to-primary h-52 w-full rounded-t-xl'>
                     <div className='w-full h-full group'>
@@ -23,7 +26,7 @@ function ProfilePage() {
                 </div>
                 <div className="mt-[3%] p-10 flex justify-between">
                     <div className='flex flex-col gap-2'>
-                        <h2 className='font-bold text-2xl pb-2 flex items-center gap-2'>Bhupen Manral <AiOutlineEdit onClick={()=>setEdit(!edit)} className='hover:bg-gray-200 p-1 rounded-full text-3xl cursor-pointer'/></h2>
+                        <h2 className='font-bold text-2xl pb-2 flex items-center gap-2'>Bhupen Manral <AiOutlineEdit onClick={()=>setHeightFull(!heightFull)} className='hover:bg-gray-200 p-1 rounded-full text-3xl cursor-pointer'/></h2>
                         <span className='flex items-center gap-2'> <img className='w-5' src="https://i.ibb.co/R2B63FR/Flag-India.webp" alt="" /> Delhi, India</span>
                         <div className='flex items-center gap-2'><span className='text-sm font-semibold'>@bhupen</span><span className='font-semibold flex items-center'><AiOutlineDatabase className='' />Data Analyst at Dell Technologies</span></div>
                     </div>
@@ -35,12 +38,12 @@ function ProfilePage() {
                 </div>
             </div>
 
-            <div className={`${!edit && "hidden"}`}>
+            <div className={`${!heightFull && "hidden"}`}>
                 <div className='flex justify-between mb-10'>
                     <h1 className="text-3xl font-bold">Edit Profile</h1>
                     <div className='flex items-center gap-2'>
-                        <button onClick={() => setEdit(!edit)} className='primary-outline-btn'>Cancel</button>
-                        <button onClick={() => setEdit(!edit)} className='primary-btn'>Save</button>
+                        <button onClick={() => setHeightFull(!heightFull)} className='primary-outline-btn'>Cancel</button>
+                        <button onClick={() => setHeightFull(!heightFull)} className='primary-btn'>Save</button>
                    </div>
                 </div>
 

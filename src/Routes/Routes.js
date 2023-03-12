@@ -13,7 +13,8 @@ import DashboardLayout from "../layout/DashboardLayout";
 import DashboardPage from "../pages/Dashboard/DashboardPage/DashboardPage";
 import ProfilePage from "../pages/Dashboard/ProfilePage/ProfilePage";
 import OrdersPage from "../pages/Dashboard/OrdersPage/OrdersPage";
-import AdminLogin from "../pages/AdminLogin/AdminLogin"; 
+import AdminLogin from "../pages/AdminLogin/AdminLogin";  
+import PrivateRoute from "./PrivateRoute";  
 
 export const router = createBrowserRouter([
   {
@@ -22,35 +23,39 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home></Home>,
+        element: <PrivateRoute><Home></Home></PrivateRoute>,
       },
       {
         path: "/login",
-        element: <LoginPage></LoginPage>,
+        element: <PrivateRoute><LoginPage></LoginPage></PrivateRoute>,
       },
       {
         path: "/register",
-        element: <RegisterPage></RegisterPage>,
+        element: <PrivateRoute><RegisterPage></RegisterPage></PrivateRoute>,
       },
       {
         path: "/talk-to-lawyer",
-        element: <TalkToLawyer></TalkToLawyer>,
+        element: <PrivateRoute><TalkToLawyer></TalkToLawyer></PrivateRoute>,
       },
       {
         path: "/ask-a-lawyer",
-        element: <AskLawyerPage></AskLawyerPage>,
+        element: <PrivateRoute><AskLawyerPage></AskLawyerPage></PrivateRoute>,
       },
       {
         path: "/property-sale-and-purchase",
-        element: <PropertyPage></PropertyPage>
+        element: <PrivateRoute><PropertyPage></PropertyPage></PrivateRoute>
       },
       {
         path: "/user/dashboard",
-        element: <UserDashboardPage></UserDashboardPage>,
+        element: <PrivateRoute><UserDashboardPage></UserDashboardPage></PrivateRoute>,
       },
       {
         path: "/demo",
-        element: <DemoPage></DemoPage>,
+        element: <PrivateRoute><DemoPage></DemoPage></PrivateRoute>,
+      },
+      {
+        path: "/login-admin",
+        element: <AdminLogin></AdminLogin>,
       },
     ],
   },
@@ -60,15 +65,15 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard", 
-        element: <DashboardPage/>
+        element: <PrivateRoute><DashboardPage/></PrivateRoute>
       },
       {
         path: "/dashboard/profile", 
-        element: <ProfilePage/>
+        element: <PrivateRoute><ProfilePage/></PrivateRoute>
       },
       {
         path: "/dashboard/orders", 
-        element: <OrdersPage/>
+        element: <PrivateRoute><OrdersPage/></PrivateRoute>
       }
     ]
   }

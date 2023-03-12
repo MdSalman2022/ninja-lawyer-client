@@ -48,6 +48,8 @@ function Navbar() {
                     Home
                   </NavLink>
                 </li>
+                {/* 
+                Find Lawyer Dropdown commented for now
                 <li>
                   <span
                     onClick={() => setDropdown(!dropdown)}
@@ -75,7 +77,7 @@ function Navbar() {
                       ))}
                     </li>
                   ))}
-                </ul>
+                </ul> */}
                 <li>
                   {" "}
                   <NavLink
@@ -89,6 +91,8 @@ function Navbar() {
                     Talk to Lawyer
                   </NavLink>
                 </li>
+                {/*
+                Property Dropdown commented for now
                 <li>
                   <span className="justify-between text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent ">
                     <Link to="/property-sale-and-purchase">Property</Link>{" "}
@@ -121,7 +125,7 @@ function Navbar() {
                       ))}
                     </li>
                   ))}
-                </ul>
+                </ul> */}
                 <li>
                   {" "}
                   <NavLink
@@ -192,7 +196,7 @@ function Navbar() {
                   Home
                 </NavLink>
               </li>
-              <li
+              {/* <li
                 className={`relative group flex gap-1 justify-center items-center transition-all duration-300 text-base-100 dark:text-primary bg-primary dark:bg-base-100  w-max cursor-pointer text-sm `}
               >
                 <NavLink
@@ -226,7 +230,7 @@ function Navbar() {
                     ))}
                   </div>
                 </div>
-              </li>
+              </li> */}
               <li>
                 {" "}
                 <NavLink
@@ -234,13 +238,13 @@ function Navbar() {
                   className={({ isActive }) =>
                     isActive
                       ? activeClassName
-                      : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
+                      : "transition-all duration-200 text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent dark:hover:text-accent group-hover:text-accent"
                   }
                 >
                   Talk to Lawyer
                 </NavLink>
               </li>
-              <li
+              {/* <li
                 className={`relative group flex gap-1 justify-center items-center transition-all duration-300 text-base-100 dark:text-primary bg-primary dark:bg-base-100  w-max cursor-pointer text-sm `}
               >
                 <NavLink
@@ -289,7 +293,7 @@ function Navbar() {
                     ))}
                   </ul>
                 </div>
-              </li>
+              </li> */}
               <li>
                 {" "}
                 <NavLink
@@ -297,7 +301,7 @@ function Navbar() {
                   className={({ isActive }) =>
                     isActive
                       ? activeClassName
-                      : "text-base-100 dark:text-primary"
+                      : "transition-all duration-200 text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent dark:hover:text-accent group-hover:text-accent"
                   }
                 >
                   Ask Lawyer
