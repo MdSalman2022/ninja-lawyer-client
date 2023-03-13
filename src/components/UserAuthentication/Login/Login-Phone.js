@@ -4,9 +4,10 @@ import {
   signInWithPhoneNumber,
 } from "firebase/auth";
 import { auth } from "../../../assets/firebase.config";
+import { sendToServer } from "./LoginPostDB";
 
 // Function to confirm otp entered by user
-function confirmOTP(otp) {
+function confirmOTP(otp, phoneNumber) {
   let message;
   let confirmationResult = window.confirmationResult;
   confirmationResult
@@ -14,13 +15,18 @@ function confirmOTP(otp) {
     .then((result) => {
       // User signed in successfully.
       let user = result.user;
-      user.email = user.phoneNumber;
-      console.log(user);
-      message = true;
+      console.log(user, "111111");
+      message = { message: true, UID: user.id };
+      // Post to sever
+      const postData = {
+        UID: user.uid,
+        phone: phoneNumber,
+      };
+      sendToServer(user.id, postData);
     })
     .catch((error) => {
       console.log(error);
-      message = false;
+      message = { message: false };
     })
     .finally(() => {
       return message;

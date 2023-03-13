@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Main from "../layout/Main";
 import AskLawyerPage from "../pages/AskLawyerPage/AskLawyerPage";
 import Home from "../pages/Home/Home";
-import PropertyPage from "../pages/PropertyPage/PropertyPage"; 
+import PropertyPage from "../pages/PropertyPage/PropertyPage";
 import TalkToLawyer from "../pages/TalkToLawyer/TalkToLawyer";
 import LoginPage from "../pages/UserAuthentication/Login/Login";
 import RegisterPage from "../pages/UserAuthentication/Register/RegisterPage";
@@ -13,7 +13,8 @@ import DashboardLayout from "../layout/DashboardLayout";
 import DashboardPage from "../pages/Dashboard/DashboardPage/DashboardPage";
 import ProfilePage from "../pages/Dashboard/ProfilePage/ProfilePage";
 import OrdersPage from "../pages/Dashboard/OrdersPage/OrdersPage";
-import AdminLogin from "../pages/AdminLogin/AdminLogin"; 
+import AdminLogin from "../pages/AdminLogin/AdminLogin";
+import TestApiPage from "../pages/Test/TestApiPage";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
+      },
+      {
+        path: "/test",
+        element: <TestApiPage></TestApiPage>,
       },
       {
         path: "/login",
@@ -42,7 +47,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/property-sale-and-purchase",
-        element: <PropertyPage></PropertyPage>
+        element: <PropertyPage></PropertyPage>,
       },
       {
         path: "/user/dashboard",
@@ -59,17 +64,17 @@ export const router = createBrowserRouter([
     element: <DashboardLayout></DashboardLayout>,
     children: [
       {
-        path: "/dashboard", 
-        element: <DashboardPage/>
+        path: "/dashboard",
+        element: <DashboardPage />,
       },
       {
-        path: "/dashboard/profile", 
-        element: <ProfilePage/>
+        path: "/dashboard/profile",
+        element: <ProfilePage />,
       },
       {
-        path: "/dashboard/orders", 
-        element: <OrdersPage/>
-      }
-    ]
-  }
+        path: "/dashboard/orders",
+        element: <OrdersPage />,
+      },
+    ],
+  },
 ]);

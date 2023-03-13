@@ -10,16 +10,15 @@ function Navbar() {
   const { user } = useContext(AuthContext);
   const { darkmode, toggleDarkMode } = useContext(StateContext);
 
-  
   const [menu, setMenu] = useState("");
-  
+
   const [dropdown, setDropdown] = useState(false);
   const [propertyDropdown, setPropertyDropdown] = useState(false);
-  
+
   let activeClassName = "text-accent w-fit flex items-center gap-4";
 
+  console.log(user?.uid);
 
-  
   return (
     <div className="bg-primary dark:bg-base-100">
       <div className="container mx-auto ">
@@ -277,11 +276,15 @@ function Navbar() {
                         >
                           <ul className="space-y-2 rounded-lg p-2">
                             {item.submenu?.map((sub, index) => (
-                                <li className="transition-all duration-300 text-base-100 dark:text-primary w-max flex items-center gap-1 hover:text-accent hover:dark:text-accent ">
-                              <Link key={index} className="" to={`${sub.link}`}>
+                              <li className="transition-all duration-300 text-base-100 dark:text-primary w-max flex items-center gap-1 hover:text-accent hover:dark:text-accent ">
+                                <Link
+                                  key={index}
+                                  className=""
+                                  to={`${sub.link}`}
+                                >
                                   {sub.name}
-                              </Link>
-                                </li>
+                                </Link>
+                              </li>
                             ))}
                           </ul>
                         </div>
@@ -305,7 +308,7 @@ function Navbar() {
               </li>
             </ul>
             {user?.email ? (
-              <NavbarUserMenu/>
+              <NavbarUserMenu />
             ) : (
               <Link to="/login">
                 <span

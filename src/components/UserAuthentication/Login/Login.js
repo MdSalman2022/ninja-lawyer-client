@@ -11,14 +11,15 @@ import {
 import { reVerify, confirmOTP } from "./Login-Phone";
 import { AiFillGoogleCircle, AiFillFacebook } from "react-icons/ai";
 import { StateContext } from "../../../contexts/StateProvider/StateProvider";
+import { sendToServer } from "./LoginPostDB";
 
 export default function Login() {
-  const {user, loading } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const { darkmode } = useContext(StateContext);
-  
-  
+
   const [otp, setOtp] = useState("");
   const [otpDisplay, setOTPDisplay] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   // For navigation
   const navigate = useNavigate();
@@ -85,6 +86,13 @@ export default function Login() {
         // Signed in
         const user = userCredential.user;
         console.log(user);
+        // Post to sever
+        const postData = {
+          UID: user.uid,
+          email: email,
+        };
+        sendToServer(user.id, postData);
+        //
         navigateDashboard();
       })
       .catch((error) => {
@@ -98,6 +106,7 @@ export default function Login() {
     e.preventDefault();
     const form = e.target;
     const number = form.phoneNumber.value;
+    setPhoneNumber(number);
     setOTPDisplay(true);
     reVerify();
     const appVerifier = window.recaptchaVerifier;
@@ -117,8 +126,9 @@ export default function Login() {
     let otpLet = otp;
     if (otpLet.length === 6) {
       console.log(otpLet);
-      const getOTPConfirmation = confirmOTP(otpLet);
-      if (getOTPConfirmation === true) {
+      const getOTPConfirmation = confirmOTP(otpLet, phoneNumber);
+      console.log(getOTPConfirmation);
+      if (getOTPConfirmation.message === true) {
         console.log("Sent true");
         navigateDashboard();
       }
@@ -129,7 +139,6 @@ export default function Login() {
     <div>
       <section className="bg-primary dark:bg-base-100 pb-7 pt-3">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-
           <div className="w-full bg-white rounded-lg shadow-lg dark:shadow-none dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-base-100 dark:border-primary">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
