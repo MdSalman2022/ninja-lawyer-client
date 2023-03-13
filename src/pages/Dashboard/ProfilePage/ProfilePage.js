@@ -55,7 +55,7 @@ function ProfilePage() {
         <div className="mt-[3%] p-10 flex justify-between">
           <div className="flex flex-col gap-2">
             <h2 className="font-bold text-2xl pb-2 flex items-center gap-2">
-              Bhupen Manrala{" "}
+              {userData.name}
               <AiOutlineEdit
                 onClick={() => setEdit(!edit)}
                 className="hover:bg-gray-200 p-1 rounded-full text-3xl cursor-pointer"
@@ -80,7 +80,7 @@ function ProfilePage() {
           </div>
           <div className="flex flex-col items-end gap-5 font-semibold">
             <span className="flex items-center gap-3">
-              +91892898589
+              {userData.phone}
               <FiPhoneCall />{" "}
             </span>
             <span className="flex items-center gap-3">
