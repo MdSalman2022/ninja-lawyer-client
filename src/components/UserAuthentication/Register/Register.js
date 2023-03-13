@@ -2,8 +2,47 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../assets/firebase.config";
+import { useLocation, useNavigate } from "react-router-dom";
+import { sendToServer } from "../Login/LoginPostDB";
 
 export default function Register() {
+  // For navigation
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  function handleSignUp(e) {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    const confirmPassword = form.confirm_password.value;
+    if (password === confirmPassword) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // Post to sever
+          const postData = {
+            UID: user.uid,
+            email: email,
+          };
+          sendToServer(user.id, postData);
+          console.log("sent to server");
+          // Navigate function once user logs in
+          navigate(from, { replace: true });
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+    }
+  }
   return (
     <div>
       <section className="bg-primary dark:bg-base-100 pb-7">
@@ -13,7 +52,7 @@ export default function Register() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Create an account
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form className="space-y-4 md:space-y-6" onSubmit={handleSignUp}>
                 <div>
                   <label
                     htmlFor="email"
@@ -55,8 +94,8 @@ export default function Register() {
                   </label>
                   <input
                     type="confirm-password"
-                    name="confirm-password"
-                    id="confirm-password"
+                    name="confirm_password"
+                    id="confirm_password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required=""
