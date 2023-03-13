@@ -8,7 +8,7 @@ import { FiPhoneCall } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { BsGenderMale } from "react-icons/bs";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
-import { updateData } from "./ProfilePageUpdateData";
+import { updateData, putDataToServer } from "./ProfilePageUpdateData";
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
@@ -36,6 +36,8 @@ function ProfilePage() {
     e.preventDefault();
     const data = updateData(e);
     console.log(data);
+    const updateResult = putDataToServer(user.id, data);
+    console.log(updateResult, "----");
   }
 
   return (
@@ -121,8 +123,8 @@ function ProfilePage() {
 
         <div className={`pb-5`}>
           <form
-            onSubmit={handleUpdate}
             className="col-span-1 grid grid-cols-3 gap-5"
+            onSubmit={handleUpdate}
           >
             <label class="col-span-2 grid grid-cols-2">
               <span class=" font-medium text-base-100 dark:text-primary w-32">
@@ -131,7 +133,8 @@ function ProfilePage() {
               <input
                 type="text"
                 class="input-box w-full"
-                value={userData.name}
+                name="name"
+                defaultValue={userData.name}
               />
             </label>
             {/* <label class="col-span-2 grid grid-cols-2">
@@ -147,7 +150,8 @@ function ProfilePage() {
               <input
                 type="text"
                 class="input-box w-full"
-                value={userData.email}
+                name="email"
+                defaultValue={userData.email}
               />
             </label>
             <label class="col-span-2 grid grid-cols-2">
@@ -157,7 +161,8 @@ function ProfilePage() {
               <input
                 type="text"
                 class="input-box w-full"
-                value={userData.phone}
+                name="phone"
+                defaultValue={userData.phone}
               />
             </label>
             <label class="col-span-2 grid grid-cols-2">
@@ -167,7 +172,8 @@ function ProfilePage() {
               <input
                 type="text"
                 class="input-box w-full"
-                value={userData.location}
+                name="location"
+                defaultValue={userData.location}
               />
             </label>
             <label class="col-span-2 grid grid-cols-2">
@@ -177,7 +183,8 @@ function ProfilePage() {
               <input
                 type="text"
                 class="input-box w-full"
-                value={userData.state}
+                name="state"
+                defaultValue={userData.state}
               />
             </label>
             <label class="col-span-2 grid grid-cols-2">
@@ -187,7 +194,8 @@ function ProfilePage() {
               <input
                 type="text"
                 class="input-box w-full"
-                value={userData.city}
+                name="city"
+                defaultValue={userData.city}
               />
             </label>
             <label class="col-span-2 grid grid-cols-2">
@@ -197,7 +205,8 @@ function ProfilePage() {
               <input
                 type="text"
                 class="input-box w-full"
-                value={userData.postalcode}
+                name="postalcode"
+                defaultValue={userData.postalcode}
               />
             </label>
             <label class="col-span-2 grid grid-cols-2">
@@ -207,7 +216,8 @@ function ProfilePage() {
               <input
                 type="text"
                 class="input-box w-full"
-                value={userData.address}
+                name="address"
+                defaultValue={userData.address}
               />
             </label>
             <label class="col-span-2 grid grid-cols-2">
@@ -217,7 +227,8 @@ function ProfilePage() {
               <input
                 type="text"
                 class="input-box w-full"
-                value={userData.address2}
+                name="address2"
+                defaultValue={userData.address2}
               />
             </label>
             <button type="submit" className="btn btn-dark">
