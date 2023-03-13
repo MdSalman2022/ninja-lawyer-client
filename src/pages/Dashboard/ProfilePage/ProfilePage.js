@@ -63,12 +63,12 @@ function ProfilePage() {
             </h2>
             <span className="flex items-center gap-2">
               {" "}
-              <img
+              {/* <img
                 className="w-5"
                 src="https://i.ibb.co/R2B63FR/Flag-India.webp"
                 alt=""
-              />{" "}
-              Delhi, India
+              />{" "} */}
+              {userData.location}
             </span>
             {/* <div className="flex items-center gap-2">
               <span className="text-sm font-semibold">@bhupen</span>
