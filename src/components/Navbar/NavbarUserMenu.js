@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import "./styles/style.css";
 import { signOut } from "firebase/auth";
 import { auth } from "../../assets/firebase.config";
+import { toast } from 'react-hot-toast';
 
 export default function NavbarUserMenu() {
   const [selected, setSelected] = useState("");
@@ -12,6 +13,7 @@ export default function NavbarUserMenu() {
     const from = "/";
     signOut(auth)
       .then(() => {
+        toast.success('Logged out successfully')
         // navigate(from, { replace: true });
       })
       .catch((error) => {
@@ -26,17 +28,16 @@ export default function NavbarUserMenu() {
     navigate(from, { replace: true });
   }
   return (
-    <div class="dropdown dropdown-end lg:ml-3">
-      <button class=""><img className='w-10 rounded-full cursor-pointer' src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png" alt="" /></button>
-      <div class="dropdown-content">
-        <Link to="/dashboard">Dashboard</Link>
-        <Link to="#">Settings</Link>
-        <button
-          className="logout-style text-left btn w- border-none btn-outline text-black"
-          onClick={logoutUser}
-        >
-          Logout
-        </button>
+    <div class="relative lg:ml-3 group">
+      <button class=""><img className='w-8 rounded-full cursor-pointer' src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png" alt="" /></button>
+      <div className="absolute top-10 right-0  hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
+          <div className="bg-primary dark:bg-base-100 dark:border p-1 lg:p-5 shadow rounded-lg">
+                <div className="flex flex-col gap-4">
+                      <Link to="/dashboard" className="text-base-100 dark:text-primary hover:text-accent dark:hover:text-accent">Dashboard</Link>
+                      <Link to="#" className="text-base-100 dark:text-primary hover:text-accent dark:hover:text-accent">Settings</Link>
+                      <button className="primary-outline-btn" onClick={logoutUser}>Logout</button>
+                </div> 
+          </div>
       </div>
     </div>
   );

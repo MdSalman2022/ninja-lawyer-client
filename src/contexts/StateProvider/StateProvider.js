@@ -5,6 +5,7 @@ export const StateContext = createContext();
 const StateProvider = ({ children }) => {
   const [darkmode, setDarkMode] = useState(false);
 
+  const [heightFull, setHeightFull] = useState(false)
   useEffect(() => {
     const savedDarkMode = localStorage.getItem("darkmode");
 
@@ -25,6 +26,8 @@ const StateProvider = ({ children }) => {
     setDarkMode,
     darkmode,
     toggleDarkMode,
+    heightFull,
+    setHeightFull
   };
 
   return (

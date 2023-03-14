@@ -10,12 +10,14 @@ function Navbar() {
   const { user } = useContext(AuthContext);
   const { darkmode, toggleDarkMode } = useContext(StateContext);
 
+
   const [menu, setMenu] = useState("");
 
   const [dropdown, setDropdown] = useState(false);
   const [propertyDropdown, setPropertyDropdown] = useState(false);
 
-  let activeClassName = "text-accent w-fit flex items-center gap-4";
+  let activeClassName = "text-accent dark:text-accent flex items-center gap-4";
+
 
   console.log(user?.uid);
 
@@ -27,12 +29,12 @@ function Navbar() {
             {/* drop down menu in mobile device */}
 
             <div className="dropdown">
-              <label tabIndex={0} className="btn btn-ghost  lg:hidden">
+              <label tabIndex={0} className="btn btn-ghost lg:hidden">
                 <FaBars className="text-accent text-xl" />
               </label>
               <ul
                 tabIndex={0}
-                className="menu menu-compact dropdown-content mt-3 shadow bg-primary dark:bg-base-100 rounded-box w-64"
+                className="menu menu-compact dropdown-content mt-3 shadow bg-primary dark:bg-base-100 rounded-box w-fit"
               >
                 <li>
                   {" "}
@@ -41,12 +43,14 @@ function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? activeClassName
-                        : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
+                        : "text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent "
                     }
                   >
                     Home
                   </NavLink>
                 </li>
+                {/* 
+                Find Lawyer Dropdown commented for now
                 <li>
                   <span
                     onClick={() => setDropdown(!dropdown)}
@@ -74,7 +78,7 @@ function Navbar() {
                       ))}
                     </li>
                   ))}
-                </ul>
+                </ul> */}
                 <li>
                   {" "}
                   <NavLink
@@ -88,6 +92,8 @@ function Navbar() {
                     Talk to Lawyer
                   </NavLink>
                 </li>
+                {/*
+                Property Dropdown commented for now
                 <li>
                   <span className="justify-between text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent ">
                     <Link to="/property-sale-and-purchase">Property</Link>{" "}
@@ -120,7 +126,7 @@ function Navbar() {
                       ))}
                     </li>
                   ))}
-                </ul>
+                </ul> */}
                 <li>
                   {" "}
                   <NavLink
@@ -191,7 +197,7 @@ function Navbar() {
                   Home
                 </NavLink>
               </li>
-              <li
+              {/* <li
                 className={`relative group flex gap-1 justify-center items-center transition-all duration-300 text-base-100 dark:text-primary bg-primary dark:bg-base-100  w-max cursor-pointer text-sm `}
               >
                 <NavLink
@@ -225,7 +231,7 @@ function Navbar() {
                     ))}
                   </div>
                 </div>
-              </li>
+              </li> */}
               <li>
                 {" "}
                 <NavLink
@@ -233,13 +239,13 @@ function Navbar() {
                   className={({ isActive }) =>
                     isActive
                       ? activeClassName
-                      : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
+                      : "transition-all duration-200 text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent dark:hover:text-accent group-hover:text-accent"
                   }
                 >
                   Talk to Lawyer
                 </NavLink>
               </li>
-              <li
+              {/* <li
                 className={`relative group flex gap-1 justify-center items-center transition-all duration-300 text-base-100 dark:text-primary bg-primary dark:bg-base-100  w-max cursor-pointer text-sm `}
               >
                 <NavLink
@@ -292,7 +298,7 @@ function Navbar() {
                     ))}
                   </ul>
                 </div>
-              </li>
+              </li> */}
               <li>
                 {" "}
                 <NavLink
@@ -300,7 +306,7 @@ function Navbar() {
                   className={({ isActive }) =>
                     isActive
                       ? activeClassName
-                      : "text-base-100 dark:text-primary"
+                      : "transition-all duration-200 text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent dark:hover:text-accent group-hover:text-accent"
                   }
                 >
                   Ask Lawyer
