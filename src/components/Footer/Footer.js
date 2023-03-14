@@ -1,10 +1,18 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineWhatsApp } from "react-icons/ai";
 import { StateContext } from "../../contexts/StateProvider/StateProvider";
 
 function Footer() {
-  const { darkmode } = useContext(StateContext);
+  const { darkmode, isAdmin, setIsAdmin } = useContext(StateContext);
+
+ 
+
+  const handleLogout = e => {
+    e.preventDefault()
+    localStorage.removeItem('isAdmin') 
+    window.location.reload()
+}
 
   return (
     <div className="py-5 border-t dark:border-gray-600 bg-primary dark:bg-base-100 ">
@@ -151,6 +159,7 @@ function Footer() {
                 </svg>
                 <span className="sr-only">Twitter page</span>
               </a>
+                  <button onClick={handleLogout} className="primary-btn">Logout</button>
             </div>
           </div>
         </footer>

@@ -15,6 +15,7 @@ import ProfilePage from "../pages/Dashboard/ProfilePage/ProfilePage";
 import OrdersPage from "../pages/Dashboard/OrdersPage/OrdersPage";
 import AdminLogin from "../pages/AdminLogin/AdminLogin";
 import TestApiPage from "../pages/Test/TestApiPage";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home></Home>,
+        element: <PrivateRoute><Home></Home></PrivateRoute>,
       },
       {
         path: "/test",
@@ -31,19 +32,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <LoginPage></LoginPage>,
+        element: <PrivateRoute><LoginPage></LoginPage></PrivateRoute>,
       },
       {
         path: "/register",
-        element: <RegisterPage></RegisterPage>,
+        element: <PrivateRoute><RegisterPage></RegisterPage></PrivateRoute>,
       },
       {
         path: "/talk-to-lawyer",
-        element: <TalkToLawyer></TalkToLawyer>,
+        element: <PrivateRoute><TalkToLawyer></TalkToLawyer></PrivateRoute>,
       },
       {
         path: "/ask-a-lawyer",
-        element: <AskLawyerPage></AskLawyerPage>,
+        element: <PrivateRoute><AskLawyerPage></AskLawyerPage></PrivateRoute>,
       },
       {
         path: "/property-sale-and-purchase",
@@ -51,11 +52,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/user/dashboard",
-        element: <UserDashboardPage></UserDashboardPage>,
+        element: <PrivateRoute><UserDashboardPage></UserDashboardPage></PrivateRoute>,
       },
       {
         path: "/demo",
-        element: <DemoPage></DemoPage>,
+        element: <PrivateRoute><DemoPage></DemoPage></PrivateRoute>,
+      },
+      {
+        path: "/login-admin",
+        element: <AdminLogin></AdminLogin>,
       },
     ],
   },

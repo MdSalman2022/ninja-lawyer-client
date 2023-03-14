@@ -9,10 +9,12 @@ import { HiOutlineMail } from "react-icons/hi";
 import { BsGenderMale } from "react-icons/bs";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import { updateData, putDataToServer } from "./ProfilePageUpdateData";
+import { StateContext } from "../../../contexts/StateProvider/StateProvider";
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
   const [userData, setUserData] = useState({});
+  const { heightFull, setHeightFull } = useContext(StateContext)
 
   useEffect(() => {
     const getProfile = (id) => {
@@ -41,11 +43,7 @@ function ProfilePage() {
   }
 
   return (
-    <div
-      className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10 ${
-        edit ? "h-full" : "h-screen"
-      }`}
-    >
+    <div className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10`}>
       <div className="shadow-lg rounded-xl bg-primary dark:bg-base-100 dark:border flex flex-col">
         <div className="relative bg-gradient-to-r from-base-100 to-primary h-52 w-full rounded-t-xl">
           <div className="w-full h-full group">
@@ -65,8 +63,7 @@ function ProfilePage() {
           <div className="flex flex-col gap-2">
             <h2 className="font-bold text-2xl pb-2 flex items-center gap-2">
               {userData.name}
-              <AiOutlineEdit
-                onClick={() => setEdit(!edit)}
+              <AiOutlineEdit onClick={() => setHeightFull(!heightFull)}
                 className="hover:bg-gray-200 p-1 rounded-full text-3xl cursor-pointer"
               />
             </h2>
@@ -105,19 +102,12 @@ function ProfilePage() {
         </div>
       </div>
 
-      <div className={`${!edit && "hidden"}`}>
-        <div className="flex justify-between mb-10">
+      <div className={`${!heightFull && "hidden"}`}>
+        <div className='flex justify-between mb-10'>
           <h1 className="text-3xl font-bold">Edit Profile</h1>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setEdit(!edit)}
-              className="primary-outline-btn"
-            >
-              Cancel
-            </button>
-            <button onClick={() => setEdit(!edit)} className="primary-btn">
-              Save
-            </button>
+          <div className='flex items-center gap-2'>
+            <button onClick={() => setHeightFull(!heightFull)} className='primary-outline-btn'>Cancel</button>
+            <button onClick={() => setHeightFull(!heightFull)} className='primary-btn'>Save</button>
           </div>
         </div>
 

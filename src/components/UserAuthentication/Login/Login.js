@@ -12,6 +12,7 @@ import { reVerify, confirmOTP } from "./Login-Phone";
 import { AiFillGoogleCircle, AiFillFacebook } from "react-icons/ai";
 import { StateContext } from "../../../contexts/StateProvider/StateProvider";
 import { sendToServer } from "./LoginPostDB";
+import { toast } from 'react-hot-toast';
 
 export default function Login() {
   const { user, loading } = useContext(AuthContext);
@@ -30,6 +31,7 @@ export default function Login() {
   useEffect(() => {
     if (user?.email) {
       console.log("already logged");
+      toast.success("Logged in successfully");
       navigate(from, { replace: true });
     } else {
       console.log("not logged");
@@ -49,6 +51,7 @@ export default function Login() {
 
   // Navigate function once user logs in
   function navigateDashboard() {
+    toast.success("Logged in successfully");
     navigate(from, { replace: true });
   }
 
@@ -112,6 +115,7 @@ export default function Login() {
     const appVerifier = window.recaptchaVerifier;
     signInWithPhoneNumber(auth, number, appVerifier)
       .then((confirmationResult) => {
+        toast.success("Login code sent");
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
@@ -131,6 +135,8 @@ export default function Login() {
       if (getOTPConfirmation.message === true) {
         console.log("Sent true");
         navigateDashboard();
+      } else {
+        toast.error("Invalid OTP")
       }
     }
   }
@@ -181,7 +187,8 @@ export default function Login() {
                     Your OTP
                   </label>
                   <input
-                    type="number"
+                    pattern="[0-9]*" maxlength="6"
+                    type="text"
                     name="OTP"
                     id="OTP"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
