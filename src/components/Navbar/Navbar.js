@@ -10,16 +10,16 @@ function Navbar() {
   const { user } = useContext(AuthContext);
   const { darkmode, toggleDarkMode } = useContext(StateContext);
 
-  
+
   const [menu, setMenu] = useState("");
-  
+
   const [dropdown, setDropdown] = useState(false);
   const [propertyDropdown, setPropertyDropdown] = useState(false);
-  
-  let activeClassName = "text-accent w-fit flex items-center gap-4";
+
+  let activeClassName = "text-accent dark:text-accent flex items-center gap-4";
 
 
-  
+
   return (
     <div className="bg-primary dark:bg-base-100">
       <div className="container mx-auto ">
@@ -28,12 +28,12 @@ function Navbar() {
             {/* drop down menu in mobile device */}
 
             <div className="dropdown">
-              <label tabIndex={0} className="btn btn-ghost  lg:hidden">
+              <label tabIndex={0} className="btn btn-ghost lg:hidden">
                 <FaBars className="text-accent text-xl" />
               </label>
               <ul
                 tabIndex={0}
-                className="menu menu-compact dropdown-content mt-3 shadow bg-primary dark:bg-base-100 rounded-box w-64"
+                className="menu menu-compact dropdown-content mt-3 shadow bg-primary dark:bg-base-100 rounded-box w-fit"
               >
                 <li>
                   {" "}
@@ -42,7 +42,7 @@ function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? activeClassName
-                        : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
+                        : "text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent "
                     }
                   >
                     Home
@@ -309,7 +309,7 @@ function Navbar() {
               </li>
             </ul>
             {user?.email ? (
-              <NavbarUserMenu/>
+              <NavbarUserMenu />
             ) : (
               <Link to="/login">
                 <span
