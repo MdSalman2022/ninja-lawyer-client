@@ -48,21 +48,21 @@ function ProfilePage() {
       }`}
     >
       <div className="shadow-lg rounded-xl bg-primary dark:bg-base-100 dark:border flex flex-col">
-        <div className="relative bg-gradient-to-r from-base-100 to-primary h-52 w-full rounded-t-xl">
+        {/* <div className="relative bg-gradient-to-r from-base-100 to-primary h-52 w-full rounded-t-xl">
           <div className="w-full h-full group">
             <AiOutlineCamera className="absolute left-[50%] top-[45%] text-5xl text-white  hidden group-hover:flex hover:text-primary hover:bg-gray-400 hover:border hover:border-gray-400 hover:shadow-xl cursor-pointer rounded-full p-2" />
           </div>
           <div className="absolute -bottom-16 left-10 border-4 rounded-full border-primary group cursor-pointer">
             <div className="absolute rounded-full h-32 w-32 bg-black bg-opacity-70 hidden group-hover:flex"></div>
-            <AiOutlineCamera className="absolute left-[38%] top-[40%] text-3xl text-white hidden group-hover:flex" />
-            {/* <img
+            <AiOutlineCamera className="absolute left-[38%] top-[40%] text-3xl text-white hidden group-hover:flex" /> */}
+        {/* <img
               className="rounded-full h-32 w-32 object-cover"
               src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png"
               alt=""
             /> */}
-            <ProfileImage props={user?.uid} />
-          </div>
-        </div>
+        <ProfileImage props={user?.uid} />
+        {/* </div>
+        </div> */}
         <div className="mt-[3%] p-10 flex justify-between">
           <div className="flex flex-col gap-2">
             <h2 className="font-bold text-2xl pb-2 flex items-center gap-2">
