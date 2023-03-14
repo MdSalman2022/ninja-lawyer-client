@@ -1,4 +1,4 @@
-const updateData = (event) => {
+const updateData = (event, UID) => {
   const form = event.target;
   const name = form.name.value;
   console.log(name, "1224");
@@ -12,15 +12,18 @@ const updateData = (event) => {
   const address2 = form.address2.value;
   console.log(location);
   return {
-    name,
-    email,
-    phone,
-    location,
-    state,
-    city,
-    postalcode,
-    address,
-    address2,
+    update_data: {
+      UID: UID,
+      name,
+      email,
+      phone,
+      location,
+      state,
+      city,
+      postalcode,
+      address,
+      address2,
+    },
   };
 };
 

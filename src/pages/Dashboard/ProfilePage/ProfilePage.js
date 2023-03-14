@@ -34,9 +34,9 @@ function ProfilePage() {
 
   function handleUpdate(e) {
     e.preventDefault();
-    const data = updateData(e);
+    const data = updateData(e, user.uid);
     console.log(data);
-    const updateResult = putDataToServer(user.id, data);
+    const updateResult = putDataToServer(user.uid, data);
     console.log(updateResult, "----");
   }
 
