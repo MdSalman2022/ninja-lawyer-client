@@ -9,6 +9,7 @@ import { HiOutlineMail } from "react-icons/hi";
 import { BsGenderMale } from "react-icons/bs";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import { updateData, putDataToServer } from "./ProfilePageUpdateData";
+import ProfileImage from "../../../components/Dashboard/Profile/ProfileImage";
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
@@ -54,11 +55,12 @@ function ProfilePage() {
           <div className="absolute -bottom-16 left-10 border-4 rounded-full border-primary group cursor-pointer">
             <div className="absolute rounded-full h-32 w-32 bg-black bg-opacity-70 hidden group-hover:flex"></div>
             <AiOutlineCamera className="absolute left-[38%] top-[40%] text-3xl text-white hidden group-hover:flex" />
-            <img
+            {/* <img
               className="rounded-full h-32 w-32 object-cover"
               src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png"
               alt=""
-            />
+            /> */}
+            <ProfileImage props={user?.uid} />
           </div>
         </div>
         <div className="mt-[3%] p-10 flex justify-between">
