@@ -28,7 +28,8 @@ function AdminLogin() {
 
     return (
         <div className='py-20 text-base-100 dark:text-primary bg-primary dark:bg-base-100 h-screen'>
-            <div className="container mx-auto  h-full flex justify-center items-center">
+            <div className="container mx-auto  h-full flex flex-col gap-10 justify-center items-center">
+                <img className='w-80' src="https://i.ibb.co/smWpwrC/png.png" alt="" />
                 <div className="w-full max-w-sm p-8 space-y-3 rounded-xl bg-primary dark:bg-base-100 border border-base-100 dark:border-primary ">
                     <h1 className="text-2xl font-bold text-center">Login</h1>
                     <form onSubmit={handleLogin} novalidate="" action="" className="space-y-6 ng-untouched ng-pristine ng-valid">

@@ -2,7 +2,7 @@ const lawyersList = [
     {
         name: 'Rajesh Kumar',
         experience: '5 years',
-        location: 'Delhi',
+        location: 'Delhi, India',
         language: 'English, Hindi',
         skills: ['Divorce & Child Custody', 'Property & Real Estate', 'Cheque Bounce & Money Recovery'],
         img: "https://i.ibb.co/sbnk2tP/img2.webp",
@@ -14,7 +14,7 @@ const lawyersList = [
     {
         name: 'Amit Kumar',
         experience: '3 years',
-        location: 'Delhi',
+        location: 'Delhi, India',
         language: 'English, Hindi',
         skills: ['Consumer Protection', 'Civil Matters', 'Cyber Crime', 'Company & Start-Ups', 'Other Legal Problem'],
         img: "https://t4.ftcdn.net/jpg/02/41/80/03/360_F_241800366_vOVZNPPuPvDVmtG1yZgNW7D5er0KFaJ0.jpg",
@@ -26,7 +26,7 @@ const lawyersList = [
     {
         name: 'Abhishek Dutta',
         experience: '7 years',
-        location: 'Kolkata',
+        location: 'Kolkata, India',
         language: 'English, Hindi, Bengali',
         skills: ['Criminal Matter', 'Divorce & Child Custody', 'Property & Real Estate'],
         img: "https://img.freepik.com/free-photo/young-male-entrepreneur-making-eye-contact-against-blue-background_662251-739.jpg",
@@ -38,7 +38,7 @@ const lawyersList = [
     {
         name: 'Akashay Kumar',
         experience: '4 years',
-        location: 'Mumbai',
+        location: 'Mumbai, India',
         language: 'English, Hindi, Marathi',
         skills: ['Cheque Bounce & Money Recovery', 'Employment Issues', 'Consumer Protection', 'Civil Matters'],
         img: "https://st.depositphotos.com/1011643/2790/i/600/depositphotos_27902269-stock-photo-young-indian-businessman-working-on.jpg",
@@ -50,7 +50,7 @@ const lawyersList = [
     {
         name: 'Aamir Khan',
         experience: '2 years',
-        location: 'Kerala',
+        location: 'Kerala, India',
         language: 'English, Hindi, Telegu',
         skills: ['Other Legal Problem', 'Criminal Matter', 'Divorce & Child Custody'],
         img: "https://t4.ftcdn.net/jpg/02/69/98/99/360_F_269989961_HoBNjq5oji0yelySb3Isb2lodbVeBrCI.jpg",
@@ -62,7 +62,7 @@ const lawyersList = [
     {
         name: 'Shidharth Malhotra',
         experience: '6 years',
-        location: 'Noida',
+        location: 'Noida, India',
         language: 'English, Hindi',
         skills: ['Property & Real Estate', 'Cheque Bounce & Money Recovery', 'Employment Issues'],
         img: "https://thumbs.dreamstime.com/b/smiling-indian-man-looking-camera-mature-wearing-spectacles-portrait-middle-eastern-confident-businessman-office-195195079.jpg",
@@ -74,7 +74,7 @@ const lawyersList = [
     {
         name: 'Aamir Khan',
         experience: '2 years',
-        location: 'Punjab',
+        location: 'Punjab, India',
         language: 'English, Hindi, Telegu',
         skills: ['Cyber Crime, Company & Start-Ups', 'Other Legal Problem', 'Criminal Matter'],
         img: "https://us.123rf.com/450wm/instaphotos/instaphotos2209/instaphotos220900114/191045540-smiling-young-indian-business-man-wearing-suit-holding-tablet-vertical.jpg?ver=6",

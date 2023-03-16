@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-import { FaChevronDown, FaStar } from 'react-icons/fa'
-import { BiCurrentLocation, BiPhoneCall, BiShow, BiTime } from 'react-icons/bi'
-import { CgProfile } from 'react-icons/cg'
-import { TiTickOutline } from 'react-icons/ti'
-import { TbLanguage } from 'react-icons/tb'
+import { FaChevronDown, FaChevronUp, FaStar } from 'react-icons/fa'
+import { BiTime } from 'react-icons/bi'
 import { lawyersList } from './LawyerList'
-import { MdWifiCalling3 } from 'react-icons/md'
+import {IoLocationSharp} from 'react-icons/io5'
 
 
 function TalkToLawyerList() {
@@ -17,54 +14,61 @@ function TalkToLawyerList() {
     const [isExperience, isExperienceActive] = useState(false);
 
     const [problemSeeMore, setProblemSeeMore] = useState(false);
+    const [languageSeeMore, setLanguageSeeMore] = useState(false); 
 
     return (
         <div className='bg-primary dark:bg-base-100'>
+            {/* <div className='absolute top-0 w-full opacity-100 z-0'>
+            <svg width="100%" height="100%" id="svg" viewBox="0 0 1440 690" xmlns="http://www.w3.org/2000/svg" class="transition duration-300 ease-in-out delay-150"><path d="M 0,700 C 0,700 0,350 0,350 C 90.47846889952157,365.56937799043067 180.95693779904315,381.1387559808613 267,351 C 353.04306220095685,320.8612440191387 434.6507177033492,245.01435406698567 532,252 C 629.3492822966508,258.9856459330143 742.4401913875599,348.80382775119614 839,385 C 935.5598086124401,421.19617224880386 1015.5885167464114,403.7703349282297 1113,389 C 1210.4114832535886,374.2296650717703 1325.2057416267944,362.11483253588517 1440,350 C 1440,350 1440,700 1440,700 Z" stroke="none" stroke-width="0" fill="#eb144c" fill-opacity="1" class="transition-all duration-300 ease-in-out delay-150 path-0" transform="rotate(-180 720 350)"></path></svg>
+            </div> */}
             <div className="container mx-auto py-10">
-                <div className="flex flex-col lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-center">
-                    <div className="w-full col-span-1 lg:col-span-1 ">
-                        <div className='border rounded-xl p-5 flex flex-col gap-5 select-none'>
+                <div className="flex flex-col lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-center z-50">
+                    <div className="w-full col-span-1 lg:col-span-1 bg-primary dark:bg-base-100 z-50  rounded-xl">
+                        <div className='border rounded-xl p-5 flex flex-col gap-5 select-none '>
                             <span onClick={() => isProblemActive(!isProblem)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Problem Type <FaChevronDown className={`transition-all duration-300 ${isProblem && 'text-accent rotate-180'}`} /> </span>
-                            <ul className={`transition-all duration-300 p-2 flex flex-col items-start  ${isProblem ? 'flex' : 'hidden '}`}>
-                                <label className={`flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='checked:text-accent ' /> Divorce & Child Custody</label>
-                                <label className={`flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='checked:text-accent ' /> Property & Real Estate</label>
-                                <label className={`flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='checked:text-accent ' /> Cheque Bounce & Money Recovery</label>
-                                <label className={`flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='checked:text-accent ' /> Employment Issues</label>
-                                <label onClick={() => setProblemSeeMore(!problemSeeMore)} className={`flex gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}><BiShow />See more</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='checked:text-accent ' /> Consumer Protection</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='checked:text-accent ' /> Civil Matters</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='checked:text-accent ' /> Cyber Crime</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='checked:text-accent ' /> Company & Start-Ups</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='checked:text-accent ' /> Other Legal Problem</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='checked:text-accent ' /> Criminal Matter</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='checked:text-accent ' /> MSME Recovery, MSME related matters</label>
+                            <ul className={`transition-all duration-300 p-1 flex flex-col items-start  ${isProblem ? 'flex' : 'hidden '}`}>
+                                <label className={`flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Divorce & Child Custody</label>
+                                <label className={`flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Property & Real Estate</label>
+                                <label className={`flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Cheque Bounce & Money Recovery</label>
+                                <label className={`flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Employment Issues</label>
+                                <label onClick={() => setProblemSeeMore(!problemSeeMore)} className={`${problemSeeMore ? 'hidden' : 'flex'} gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}><FaChevronDown />Show more</label>
+                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Consumer Protection</label>
+                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Civil Matters</label>
+                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Cyber Crime</label>
+                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Company & Start-Ups</label>
+                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Other Legal Problem</label>
+                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Criminal Matter</label>
+                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> MSME Recovery, MSME related matters</label>
+                                <label onClick={() => setProblemSeeMore(!problemSeeMore)} className={`${problemSeeMore ? 'flex' : 'hidden'} gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}><FaChevronUp />Show less</label>
 
                             </ul>
                             <span onClick={() => isLanguageActive(!isLanguage)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Language <FaChevronDown className={`transition-all duration-300 ${isLanguage && 'text-accent rotate-180'}`} /> </span>
-                            <ul className={`transition-all duration-300 p-3 flex flex-col items-start ${isLanguage ? 'flex' : 'hidden'}`}>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> English</label>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> Hindi</label>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> Telegu</label>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> Assamese</label>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> Kannada</label>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> Marathi</label>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> Odia</label>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> Bengali</label>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> Tamil</label>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> Malayalam</label>
+                            <ul className={`transition-all duration-300 p-1 flex flex-col items-start ${isLanguage ? 'flex' : 'hidden'}`}>
+                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> English</label>
+                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Hindi</label>
+                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Telegu</label>
+                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Assamese</label>
+                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Kannada</label>
+                                <label onClick={() => setLanguageSeeMore(!languageSeeMore)} className={`${languageSeeMore ? 'hidden' : 'flex'} gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}><FaChevronDown />Show more</label>
+                                <label className={`${languageSeeMore ? 'flex' : 'hidden'} gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Marathi</label>
+                                <label className={`${languageSeeMore ? 'flex' : 'hidden'} gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Odia</label>
+                                <label className={`${languageSeeMore ? 'flex' : 'hidden'} gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Bengali</label>
+                                <label className={`${languageSeeMore ? 'flex' : 'hidden'} gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Tamil</label>
+                                <label className={`${languageSeeMore ? 'flex' : 'hidden'} gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Malayalam</label>
+                                <label onClick={() => setLanguageSeeMore(!languageSeeMore)} className={`${languageSeeMore ? 'flex' : 'hidden'} gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}><FaChevronUp />Show more</label>
 
                             </ul>
 
                             <span onClick={() => isGenderActive(!isGender)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Gender <FaChevronDown className={`transition-all duration-300 ${isGender && 'text-accent rotate-180'}`} /> </span>
-                            <ul className={`transition-all duration-300 p-3 flex flex-col items-start ${isGender ? 'flex' : 'hidden'}`}>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> Male</label>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> Female</label>
+                            <ul className={`transition-all duration-300 p-1 flex flex-col items-start ${isGender ? 'flex' : 'hidden'}`}>
+                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Male</label>
+                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Female</label>
                             </ul>
                             <span onClick={() => isExperienceActive(!isExperience)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Experience <FaChevronDown className={`transition-all duration-300 ${isExperience && 'text-accent rotate-180'}`} /> </span>
-                            <ul className={`transition-all duration-300 p-3 flex flex-col items-start ${isExperience ? 'flex' : 'hidden'}`}>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> {">"} 2 yrs</label>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> {">"} 3 yrs</label>
-                                <label className={`flex gap-5 items-center justify-between p-3 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='checked:text-accent ' /> {">"} 5 yrs</label>
+                            <ul className={`transition-all duration-300 p-1 flex flex-col items-start ${isExperience ? 'flex' : 'hidden'}`}>
+                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> {">"} 2 yrs</label>
+                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> {">"} 3 yrs</label>
+                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> {">"} 5 yrs</label>
                             </ul>
 
                         </div>
@@ -76,36 +80,70 @@ function TalkToLawyerList() {
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 justify-items-center place-content-center'>
                             {
                                 lawyersList.map((lawyer, index) => (
-                                    <div className=' bg-primary dark:bg-base-100 p-5 shadow flex flex-col items-center justify-center rounded-xl gap-5 text-base-100 dark:text-primary dark:border relative z-50 ' >
-                                        <img className='absolute z-0 h-full object-cover rounded-xl' src="https://i.ibb.co/wJCkTdM/mesh-962.png" alt="" />
-                                        <div className='absolute h-full bg-primary dark:bg-base-100 w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-[99%] dark:bg-opacity-[99%]'></div>
-                                        <div className='absolute top-2 right-5 flex items-center gap-1 text-warning'><span className='flex items-center'><FaStar /> {lawyer.rating}</span> <span className='text-xs text-base-100 dark:text-primary'>({lawyer.reviews})</span></div>
-                                        <figure className='relative drop-shadow-lg z-50'>
-                                            <span className={`absolute top-1 right-4 w-3 h-3 border border-primary rounded-full z-50 ${lawyer.available ? 'bg-success' : 'bg-accent'}`}></span>
-                                            <img className={`rounded-full w-28 h-28 object-cover outline outline-offset-2 outline-1  ${lawyer.available ? 'outline-success' : 'outline-accent'}`} src={lawyer.img} alt="" />
-                                            <span className='bg-black w-28 h-28 absolute top-0 rounded-full backdrop-blur-sm bg-white/30'></span>
+                                    <div className='bg-primary dark:bg-base-100 p-3 shadow flex flex-col h-full items-start justify-start rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-700 relative  '>
+                                        <figure className='relative rounded-xl  w-full'>
+                                            
+                                            <img className='rounded-xl  h-60 w-full object-cover' src={lawyer.img} alt="" />
+                                            <div className='absolute top-0 bg-primary w-full h-60 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-[50%] dark:bg-opacity-[50%]'></div>
+                                            <span className='absolute top-0 right-0 bg-primary dark:bg-base-100 p-2 rounded-bl-xl shadow-xl'>
+                                                <p className='text-2xl text-end font-bold'>₹{lawyer.price}</p>
+                                                <p className='text-base-100 dark:text-secondary opacity-60 text-sm'>Per Minute</p>
+                                            </span>
                                         </figure>
-                                        <div className="content-body z-50">
-                                            <div className='flex justify-center items-center gap-5'>
-                                                <span className='p-2 primary-outline-btn cursor-pointer text-2xl rounded-lg flex items-center justify-between gap-2 group'><BiPhoneCall /><span className='text-sm hidden group-hover:flex'>Call</span></span>
-                                                <span className='p-2 primary-outline-btn cursor-pointer text-2xl rounded-lg flex items-center justify-between gap-2 group'><MdWifiCalling3 /><span className='text-sm hidden group-hover:flex'>Internet Call</span></span>
+                                        <div className="content p-1 flex justify-between w-full h-full">
+                                            <div className='flex flex-col items-start justify-between '>
+                                                {/* <p className='flex items-center gap-3 text-xl font-bold'><div>{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span> </div><span className={`${lawyer.available ? 'bg-success' : 'bg-accent'} w-2 h-2 rounded-full`}></span> </p> */}
+                                                <div>
+                                                    <p className='font-bold text-xl'>{lawyer.name}</p>
+                                                    <p className='flex items-center '><IoLocationSharp className='text-xl'/>{lawyer.location}</p>
+                                                </div>
+                                                <p className='flex flex-col items-start'>
+                                                    {lawyer.skills.map((skill, index) => (
+                                                        <span className='text-xs border m-1 p-1 rounded-full'>
+                                                            {skill}
+                                                        </span>
+                                                    ))}
+                                                </p>
                                             </div>
-                                            <span className="select-none flex items-center justify-start">{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span></span>
-                                            <p className='flex items-center gap-2'><BiCurrentLocation /> {lawyer.location}</p>
-                                            <p className='flex items-center gap-2'><BiTime /> {lawyer.experience}</p>
-                                            <p className='flex items-center gap-2'><TbLanguage />{lawyer.language}</p>
-                                            <p className='flex items-center flex-wrap'> <TiTickOutline />
-                                                {lawyer.skills.map((skill, index) => (
-                                                    <span className='text-xs border m-1 p-1 rounded-full'>
-                                                        {skill}
-                                                    </span>
-                                                ))}
-                                            </p>
-                                            <p className='text-2xl font-bold'>₹{lawyer.price}</p>
-                                            <p className='text-base-100 opacity-60 text-sm'>Per Minute</p>
+                                            <div className='flex flex-col items-end justify-between'>
+                                                <div>
+                                                <p className='flex items-center justify-end gap-2'>{lawyer.experience}<BiTime className='text-xl'/> </p>
+                                                <div className='flex items-center justify-end gap-1  text-warning'><span className='flex items-center'><FaStar /> {lawyer.rating}</span> <span className='text-xs text-base-100 dark:text-primary'>({lawyer.reviews})</span></div>
+                                                <p className='flex flex-col items-center gap-1 text-end'>{lawyer.language}</p>
+                                                </div> 
+                                            </div>
                                         </div>
-
                                     </div>
+                                    // <div className=' bg-primary dark:bg-base-100 p-5 shadow flex flex-col items-center justify-center rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-800 relative  ' >
+                                    //     {/* <img className='absolute z-0 h-full object-cover rounded-xl' src="https://i.ibb.co/wJCkTdM/mesh-962.png" alt="" /> */}
+                                    //     {/* <div className='absolute h-full bg-primary dark:bg-base-100 w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-[99%] dark:bg-opacity-[99%]'></div> */}
+                                    //     <div className='absolute top-2 right-5 flex items-center gap-1 text-warning'><span className='flex items-center'><FaStar /> {lawyer.rating}</span> <span className='text-xs text-base-100 dark:text-primary'>({lawyer.reviews})</span></div>
+                                    //     <figure className='relative drop-shadow-lg z-40'>
+                                    //         <span className={`absolute top-1 right-4 w-3 h-3 border border-primary rounded-full z-50 ${lawyer.available ? 'bg-success' : 'bg-accent'}`}></span>
+                                    //         <img className={`rounded-full w-28 h-28 object-cover outline outline-offset-2 outline-1  ${lawyer.available ? 'outline-success' : 'outline-accent'}`} src={lawyer.img} alt="" />
+                                    //         <span className='bg-black w-28 h-28 absolute top-0 rounded-full backdrop-blur-sm bg-white/30'></span>
+                                    //     </figure>
+                                    //     <div className="content-body z-50">
+                                    //         <div className='flex justify-center items-center gap-5'>
+                                    //             <span className='p-2 primary-outline-btn cursor-pointer text-2xl rounded-lg flex items-center justify-between gap-2 group'><BiPhoneCall /><span className='text-sm hidden group-hover:flex'>Call</span></span>
+                                    //             <span className='p-2 primary-outline-btn cursor-pointer text-2xl rounded-lg flex items-center justify-between gap-2 group'><MdWifiCalling3 /><span className='text-sm hidden group-hover:flex'>Internet Call</span></span>
+                                    //         </div>
+                                    //         <span className="select-none flex items-center justify-start">{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span></span>
+                                    //         <p className='flex items-center gap-2'><BiCurrentLocation /> {lawyer.location}</p>
+                                    //         <p className='flex items-center gap-2'><BiTime /> {lawyer.experience}</p>
+                                    //         <p className='flex items-center gap-2'><TbLanguage />{lawyer.language}</p>
+                                    //         <p className='flex items-center flex-wrap'> <TiTickOutline />
+                                    //             {lawyer.skills.map((skill, index) => (
+                                    //                 <span className='text-xs border m-1 p-1 rounded-full'>
+                                    //                     {skill}
+                                    //                 </span>
+                                    //             ))}
+                                    //         </p>
+                                    //         <p className='text-2xl font-bold'>₹{lawyer.price}</p>
+                                    //         <p className='text-base-100 opacity-60 text-sm'>Per Minute</p>
+                                    //     </div>
+
+                                    // </div>
                                 ))
                             }
                         </div>

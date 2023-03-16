@@ -18,6 +18,7 @@ import TestApiPage from "../pages/Test/TestApiPage";
 import PrivateRoute from "./PrivateRoute";
 import CallLogsPage from "../pages/Dashboard/CallLogsPage/CallLogsPage";
 import TransactionPage from "../pages/Dashboard/TransactionPage/TransactionPage";
+import LawyerProfile from "../pages/TalkToLawyer/LawyerProfile";
 
 export const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
       {
         path: "/login-admin",
         element: <AdminLogin></AdminLogin>,
+      },
+      {
+        path: "/lawyer-profile",
+        element: <LawyerProfile/>
       },
     ],
   },

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { /* FaAngleDown, FaAngleRight, */ FaBars } from "react-icons/fa";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import { StateContext } from "../../contexts/StateProvider/StateProvider";
 /* import { allProperties, findLawyer } from "./NavbarItems"; */
@@ -10,19 +10,23 @@ function Navbar() {
   const { user } = useContext(AuthContext);
   const { darkmode, toggleDarkMode } = useContext(StateContext);
 
+  const location = useLocation();
+  const pathname  = '/'; 
+
 
   /* const [menu, setMenu] = useState("");
 
   const [dropdown, setDropdown] = useState(false);
   const [propertyDropdown, setPropertyDropdown] = useState(false); */
 
-  let activeClassName = "text-accent dark:text-accent flex items-center gap-4";
+  let activeClassName = `text-accent dark:text-accent flex items-center gap-4 ${pathname === "/talk-to-lawyer" ? "text-secondary" : "text-accent"}`;
 
 
   console.log(user?.uid);
 
+
   return (
-    <div className="bg-primary dark:bg-base-100">
+    <div className={`${pathname === '/talk-to-lawyer' ? 'bg-transparent' : 'bg-primary'} dark:bg-base-100 `}>
       <div className="container mx-auto ">
         <div className="navbar w-full flex items-center justify-between ">
           <div className="gap-1 md:gap-0">
@@ -318,7 +322,7 @@ function Navbar() {
             ) : (
               <Link to="/login">
                 <span
-                  className={`cursor-pointer btn btn-accent btn-outline hover:text-base-100 `}
+                  className={`cursor-pointer primary-outline-btn`}
                 >
                   Login
                 </span>

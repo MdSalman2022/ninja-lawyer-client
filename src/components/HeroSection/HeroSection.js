@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick"; 
 import './HeroSection.css'
+import ModalBox from './ModalBox';
 
 function HeroSection() {
 
@@ -51,7 +52,7 @@ function HeroSection() {
                          </div>
                     </div> 
                 </Slider>
-          
+          <ModalBox/>
         </div>
         </div>
     )
