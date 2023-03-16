@@ -34,7 +34,7 @@ function HeroSection() {
                                 <div className='space-y-5 text-left'>
                                     <div className="text-3xl lg:text-5xl font-bold ">Welcome To <span className='text-accent'>Ninja Lawyer</span></div>
                                     <div className="">Welcome to our technology aiming to eliminate your legal worries. Consult anything and everything legal with <br /> experienced Legal professionals available 24X7 to talk to you.</div>
-                                    <button className='btn btn-accent '>Know More</button>
+                                    <button className='primary-btn'>Know More</button>
                                 </div>
                                 <Player className='w-full lg:h-[600px] ' autoplay loop src="https://assets7.lottiefiles.com/packages/lf20_rdkrsaca.json"></Player>
                          </div>
@@ -45,7 +45,7 @@ function HeroSection() {
                                 <div className='space-y-5 text-left'>
                                     <p className='text-2xl md:text-5xl font-bold'>Buy Property With Confidence</p>
                                     <p className='text-sm'>Get your property verified by our legal experts and get a legal opinion on the property.</p>
-                                    <button className='btn btn-accent '>Know More</button>
+                                    <button className='primary-btn'>Know More</button>
                                 </div>
                                 <Player className='w-full lg:h-[600px]' autoplay loop src="https://assets5.lottiefiles.com/packages/lf20_wccbwj3o.json"></Player>
                          </div>

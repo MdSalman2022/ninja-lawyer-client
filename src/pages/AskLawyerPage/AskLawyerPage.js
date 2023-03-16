@@ -15,7 +15,7 @@ function AskLawyerPage() {
                                 <div className="lg:mb-5 text-2xl lg:text-5xl">Ask a <span className='text-accent'>Lawyer</span></div>
                                 <div className=" text-2xl">Ask now and get answer within 2 hours from</div>
                                 <div className=" text-2xl">expert Lawyers.</div>
-                                <div className="btn lg:btn-lg btn-accent text-primary font-bold w-fit my-5">Ask A Lawyer</div>
+                                <div className="btn lg:btn-lg primary-btn border-none text-primary font-bold w-fit my-5">Ask A Lawyer</div>
                                 <span>Property Verification | Documentation | Registration</span>
                             </div>
                         </div>

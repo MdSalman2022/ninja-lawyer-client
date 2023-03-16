@@ -16,6 +16,8 @@ import OrdersPage from "../pages/Dashboard/OrdersPage/OrdersPage";
 import AdminLogin from "../pages/AdminLogin/AdminLogin";
 import TestApiPage from "../pages/Test/TestApiPage";
 import PrivateRoute from "./PrivateRoute";
+import CallLogsPage from "../pages/Dashboard/CallLogsPage/CallLogsPage";
+import TransactionPage from "../pages/Dashboard/TransactionPage/TransactionPage";
 
 export const router = createBrowserRouter([
   {
@@ -80,6 +82,14 @@ export const router = createBrowserRouter([
         path: "/dashboard/orders",
         element: <OrdersPage />,
       },
+      {
+        path: "/dashboard/call-logs",
+        element: <CallLogsPage />,
+      },
+      {
+        path: "/dashboard/transactions",
+        element: <TransactionPage />
+      }
     ],
   },
 ]);

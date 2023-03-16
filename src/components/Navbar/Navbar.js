@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
-import { FaAngleDown, FaAngleRight, FaBars } from "react-icons/fa";
+import { /* FaAngleDown, FaAngleRight, */ FaBars } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import { StateContext } from "../../contexts/StateProvider/StateProvider";
-import { allProperties, findLawyer } from "./NavbarItems";
+/* import { allProperties, findLawyer } from "./NavbarItems"; */
 import NavbarUserMenu from "./NavbarUserMenu";
 
 function Navbar() {
@@ -11,10 +11,10 @@ function Navbar() {
   const { darkmode, toggleDarkMode } = useContext(StateContext);
 
 
-  const [menu, setMenu] = useState("");
+  /* const [menu, setMenu] = useState("");
 
   const [dropdown, setDropdown] = useState(false);
-  const [propertyDropdown, setPropertyDropdown] = useState(false);
+  const [propertyDropdown, setPropertyDropdown] = useState(false); */
 
   let activeClassName = "text-accent dark:text-accent flex items-center gap-4";
 
@@ -86,7 +86,7 @@ function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? activeClassName
-                        : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
+                        : "text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent "
                     }
                   >
                     Talk to Lawyer
@@ -134,7 +134,7 @@ function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? activeClassName
-                        : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
+                        : "text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent "
                     }
                   >
                     Ask Lawyer
@@ -239,7 +239,7 @@ function Navbar() {
                   className={({ isActive }) =>
                     isActive
                       ? activeClassName
-                      : "transition-all duration-200 text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent dark:hover:text-accent group-hover:text-accent"
+                      : "text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent "
                   }
                 >
                   Talk to Lawyer
@@ -306,7 +306,7 @@ function Navbar() {
                   className={({ isActive }) =>
                     isActive
                       ? activeClassName
-                      : "transition-all duration-200 text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent dark:hover:text-accent group-hover:text-accent"
+                      : "text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent "
                   }
                 >
                   Ask Lawyer
