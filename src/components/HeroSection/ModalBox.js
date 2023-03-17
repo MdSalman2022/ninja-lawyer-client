@@ -102,7 +102,33 @@ function ModalBox() {
 
     // }
 
+    const [zipCode, setZipCode] = useState('');
+    const [stateInfo, setStateInfo] = useState(null);
+    const [cityInfo, setCityInfo] = useState([]);
 
+    const handlePlace = (state, city) => {
+        setStateInfo(state);
+        setCityInfo(city);
+        console.log(city.map(city => city['place name']))
+    }
+
+
+    useEffect(() => {
+        if (zipCode.length > 5) {
+            fetch(`http://api.zippopotam.us/in/${zipCode}`)
+                .then(response => response.json())
+                .then(data => handlePlace((data.places[0].state), (data.places)))
+                .catch(error => console.error(error));
+        }
+    }, [zipCode]);
+
+    const handleZipCodeChange = event => {
+        setZipCode(event.target.value);
+    };
+
+    console.log(stateInfo)
+    console.log(zipCode)
+    console.log(cityInfo)
 
     return (
         <>
@@ -113,7 +139,7 @@ function ModalBox() {
                     <div className="flex items-center justify-center min-h-screen">
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
 
-                        <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-4xl sm:w-full">
+                        <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
                             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <p className="text-3xl pb-5 font-thin text-start">Add Lawyer</p>
                                 <div className="">
@@ -121,7 +147,7 @@ function ModalBox() {
                                         className="grid grid-cols-2 gap-5"
                                         onSubmit={handleSubmit(onSubmit)}
                                     >
-                                        <label class="col-span-2 flex flex-col items-start">
+                                        <label class="col-span-2 flex flex-col items-start justify-start ">
                                             <span class="text-start font-medium text-base-100 dark:text-primary w-32">
                                                 Full Name:
                                             </span>
@@ -178,32 +204,26 @@ function ModalBox() {
                                                     type="text"
                                                     class="input-box w-full"
                                                     name="state"
-                                                    placeholder='Uttar Pradesh, Maharashtra, etc.'
-                                                    {...register("state", { required: true, maxLength: 80 })}
+                                                    placeholder='West Bengal, Maharashtra, etc.'
+                                                    defaultValue={stateInfo}
+                                                    disabled
                                                 />
                                             </label>
                                             <label class="col-span-1 flex flex-col items-start">
                                                 <span class="text-start font-medium text-base-100 dark:text-primary w-32">
                                                     City
                                                 </span>
-                                                <input
-                                                    type="text"
-                                                    class="input-box w-full"
-                                                    name="city"
-                                                    placeholder='Delhi, Mumbai, etc.'
-                                                    {...register("city", { required: true, maxLength: 80 })}
-                                                />
+                                                <select className="input-box w-full max-w-xs">
+                                                    {cityInfo?.map(city => <option value={city['place name']}>{city['place name']}</option>)}
+                                                </select>
                                             </label>
                                             <label class="col-span-1 flex flex-col items-start">
                                                 <span class="text-start font-medium text-base-100 dark:text-primary w-32">
                                                     Pincode
                                                 </span>
                                                 <input
-                                                    type="text"
-                                                    class="input-box w-full"
-                                                    name="city"
-                                                    placeholder='110001, 400001, etc.'
-                                                    {...register("pincode", { required: true, maxLength: 80 })}
+                                                    className='input-box w-full'
+                                                    type="text" id="zipCodeInput" value={zipCode} onChange={handleZipCodeChange}
                                                 />
                                             </label>
                                         </div>
