@@ -56,7 +56,7 @@ function DashboardHeader() {
 
                     <div class="relative lg:ml-3 group">
                         <button class=""><img className='w-8 rounded-full cursor-pointer' src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png" alt="" /></button>
-                        <div className="absolute top-10 right-0  hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
+                        <div className="absolute top-8 right-0  hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
                             <div className="bg-primary dark:bg-base-100 dark:border p-1 lg:p-5 shadow rounded-lg">
                                 <div className="flex flex-col items-end gap-4">
                                     <Link to="#" className="text-base-100 dark:text-primary hover:text-accent dark:hover:text-accent text-sm">FAQ</Link>

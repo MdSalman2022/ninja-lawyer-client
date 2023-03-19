@@ -66,8 +66,9 @@ export const router = createBrowserRouter([
         element: <AdminLogin></AdminLogin>,
       },
       {
-        path: "/lawyer-profile",
-        element: <LawyerProfile/>
+        path: "/profile/:id",
+        loader: ({ params }) => fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyer/${params.id}`),
+        element: <LawyerProfile />
       },
     ],
   },

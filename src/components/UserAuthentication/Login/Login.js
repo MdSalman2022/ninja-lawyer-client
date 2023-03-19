@@ -142,8 +142,8 @@ export default function Login() {
   }
 
   return (
-    <div>
-      <section className="bg-primary dark:bg-base-100 pb-7 pt-3">
+    <div className="h-full py-24 bg-primary dark:bg-base-100 flex flex-col justify-center">
+      <section className="pb-7 pt-3">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
           <div className="w-full bg-white rounded-lg shadow-lg dark:shadow-none dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-base-100 dark:border-primary">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -285,7 +285,7 @@ export default function Login() {
                 </button>
               </form>
               {/* Social logins */}
-              <div className="flex md:flex-row flex-col">
+              {/* <div className="flex md:flex-row flex-col">
                 <button
                   type="button"
                   className="lg:w-2/4 sm:w-full text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 md:mr-2 mb-2"
@@ -297,7 +297,6 @@ export default function Login() {
                   Google Login
                 </button>
 
-                {/* facebook */}
                 <button
                   type="button"
                   className="lg:w-2/4 sm:w-full text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mb-2"
@@ -307,7 +306,7 @@ export default function Login() {
                   </span>{" "}
                   Facebook Login
                 </button>
-              </div>
+              </div> */}
               {/* End of social logins */}
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don't have an account yet?{" "}

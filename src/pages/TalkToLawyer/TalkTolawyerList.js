@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { FaChevronDown, FaChevronUp, FaStar } from 'react-icons/fa'
 import { BiTime } from 'react-icons/bi'
-import { lawyersList } from './LawyerList'
-import {IoLocationSharp} from 'react-icons/io5'
+// import { lawyersList } from './LawyerList'
+import { IoLocationSharp } from 'react-icons/io5'
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 
 function TalkToLawyerList() {
@@ -14,7 +16,37 @@ function TalkToLawyerList() {
     const [isExperience, isExperienceActive] = useState(false);
 
     const [problemSeeMore, setProblemSeeMore] = useState(false);
-    const [languageSeeMore, setLanguageSeeMore] = useState(false); 
+    const [languageSeeMore, setLanguageSeeMore] = useState(false);
+
+    const [lawyerList, setLawyerList] = useState([])
+
+    useEffect(() => {
+        fetch('https://ninja-lawyer-server.vercel.app/api/users/get-lawyer/all')
+            .then(res => res.json())
+            .then(data => setLawyerList(data))
+    }, [])
+
+    console.log(lawyerList)
+
+    const handleDelete = (id) => {
+        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/delete/${id}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result) {
+                    const remaining = lawyerList.filter(lawyer => lawyer._id !== id)
+                    setLawyerList(remaining)
+                    console.log(result)
+                }
+            })
+    }
+
+
+    const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
+    const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter.", "RERA Consultation", "Muslim Law", "DEBT RECOVERY TRIBUNAL MATTERS", "Banking related Matters"];
+
+
 
     return (
         <div className='bg-primary dark:bg-base-100'>
@@ -27,35 +59,42 @@ function TalkToLawyerList() {
                         <div className='border rounded-xl p-5 flex flex-col gap-5 select-none '>
                             <span onClick={() => isProblemActive(!isProblem)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Problem Type <FaChevronDown className={`transition-all duration-300 ${isProblem && 'text-accent rotate-180'}`} /> </span>
                             <ul className={`transition-all duration-300 p-1 flex flex-col items-start  ${isProblem ? 'flex' : 'hidden '}`}>
-                                <label className={`flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Divorce & Child Custody</label>
-                                <label className={`flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Property & Real Estate</label>
-                                <label className={`flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Cheque Bounce & Money Recovery</label>
-                                <label className={`flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Employment Issues</label>
+                                {
+                                    specialtiesSuggestions.splice(0, 4).map((specialty, index) => {
+                                        return (
+                                            <label key={index} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' /> {specialty}</label>
+                                        )
+                                    })
+                                }
                                 <label onClick={() => setProblemSeeMore(!problemSeeMore)} className={`${problemSeeMore ? 'hidden' : 'flex'} gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}><FaChevronDown />Show more</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Consumer Protection</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Civil Matters</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Cyber Crime</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Company & Start-Ups</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Other Legal Problem</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> Criminal Matter</label>
-                                <label className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> MSME Recovery, MSME related matters</label>
+                                {
+                                    specialtiesSuggestions.map((specialty, index) => {
+                                        return (
+                                            <label key={index} className={`${problemSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> {specialty}</label>
+                                        )
+                                    })
+                                }
                                 <label onClick={() => setProblemSeeMore(!problemSeeMore)} className={`${problemSeeMore ? 'flex' : 'hidden'} gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}><FaChevronUp />Show less</label>
 
                             </ul>
                             <span onClick={() => isLanguageActive(!isLanguage)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Language <FaChevronDown className={`transition-all duration-300 ${isLanguage && 'text-accent rotate-180'}`} /> </span>
                             <ul className={`transition-all duration-300 p-1 flex flex-col items-start ${isLanguage ? 'flex' : 'hidden'}`}>
-                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> English</label>
-                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Hindi</label>
-                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Telegu</label>
-                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Assamese</label>
-                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Kannada</label>
+                                {
+                                    languageSuggestions.splice(0, 4).map((language, index) => {
+                                        return (
+                                            <label key={index} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' /> {language}</label>
+                                        )
+                                    })
+                                }
                                 <label onClick={() => setLanguageSeeMore(!languageSeeMore)} className={`${languageSeeMore ? 'hidden' : 'flex'} gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}><FaChevronDown />Show more</label>
-                                <label className={`${languageSeeMore ? 'flex' : 'hidden'} gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Marathi</label>
-                                <label className={`${languageSeeMore ? 'flex' : 'hidden'} gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Odia</label>
-                                <label className={`${languageSeeMore ? 'flex' : 'hidden'} gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Bengali</label>
-                                <label className={`${languageSeeMore ? 'flex' : 'hidden'} gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Tamil</label>
-                                <label className={`${languageSeeMore ? 'flex' : 'hidden'} gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Malayalam</label>
-                                <label onClick={() => setLanguageSeeMore(!languageSeeMore)} className={`${languageSeeMore ? 'flex' : 'hidden'} gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}><FaChevronUp />Show more</label>
+                                {
+                                    languageSuggestions.map((language, index) => {
+                                        return (
+                                            <label key={index} className={`${languageSeeMore ? "flex" : "hidden"} gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}><input type="checkbox" className='accent-accent' /> {language}</label>
+                                        )
+                                    })
+                                }
+                                <label onClick={() => setLanguageSeeMore(!languageSeeMore)} className={`${languageSeeMore ? 'flex' : 'hidden'} gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}><FaChevronUp />Show less</label>
 
                             </ul>
 
@@ -79,27 +118,27 @@ function TalkToLawyerList() {
                     <div className='col-span-1 md:col-span-2 xl:col-span-3 px-5 md:px-0'>
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 justify-items-center place-content-center'>
                             {
-                                lawyersList.map((lawyer, index) => (
-                                    <div className='bg-primary dark:bg-base-100 p-3 shadow flex flex-col h-full items-start justify-start rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-700 relative  '>
+                                lawyerList?.map((lawyer, index) => (
+                                    <div key={lawyer.index} className='bg-primary dark:bg-base-100 p-3 shadow flex flex-col h-full items-start justify-start rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-700 relative  '>
                                         <figure className='relative rounded-xl  w-full'>
-                                            
-                                            <img className='rounded-xl  h-60 w-full object-cover' src={lawyer.img} alt="" />
+
+                                            <img className='rounded-xl  h-60 w-full object-cover' src={lawyer?.img ? lawyer.img : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'} alt="" />
                                             <div className='absolute top-0 bg-primary w-full h-60 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-[50%] dark:bg-opacity-[50%]'></div>
                                             <span className='absolute top-0 right-0 bg-primary dark:bg-base-100 p-2 rounded-bl-xl shadow-xl'>
-                                                <p className='text-2xl text-end font-bold'>₹{lawyer.price}</p>
+                                                <p className='text-2xl text-end font-bold'>₹{lawyer?.price}</p>
                                                 <p className='text-base-100 dark:text-secondary opacity-60 text-sm'>Per Minute</p>
                                             </span>
                                         </figure>
                                         <div className="content p-1 flex justify-between w-full h-full">
                                             <div className='flex flex-col items-start justify-between '>
                                                 {/* <p className='flex items-center gap-3 text-xl font-bold'><div>{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span> </div><span className={`${lawyer.available ? 'bg-success' : 'bg-accent'} w-2 h-2 rounded-full`}></span> </p> */}
-                                                <div>
-                                                    <p className='font-bold text-xl'>{lawyer.name}</p>
-                                                    <p className='flex items-center '><IoLocationSharp className='text-xl'/>{lawyer.location}</p>
+                                                <div className='space-y-3'>
+                                                    <Link to={`/profile/${lawyer.UID}`} className='font-bold text-xl'>{lawyer?.fname}</Link>
+                                                    <p className='flex items-start justify-start text-sm'><IoLocationSharp className='text-lg' />{lawyer?.city},{lawyer?.state}, India</p>
                                                 </div>
                                                 <p className='flex flex-col items-start'>
-                                                    {lawyer.skills.map((skill, index) => (
-                                                        <span className='text-xs border m-1 p-1 rounded-full'>
+                                                    {lawyer?.specialties?.map((skill, index) => (
+                                                        <span className='text-xs border m-1 p-1 rounded-full' key={index}>
                                                             {skill}
                                                         </span>
                                                     ))}
@@ -107,43 +146,20 @@ function TalkToLawyerList() {
                                             </div>
                                             <div className='flex flex-col items-end justify-between'>
                                                 <div>
-                                                <p className='flex items-center justify-end gap-2'>{lawyer.experience}<BiTime className='text-xl'/> </p>
-                                                <div className='flex items-center justify-end gap-1  text-warning'><span className='flex items-center'><FaStar /> {lawyer.rating}</span> <span className='text-xs text-base-100 dark:text-primary'>({lawyer.reviews})</span></div>
-                                                <p className='flex flex-col items-center gap-1 text-end'>{lawyer.language}</p>
-                                                </div> 
+                                                    <p className='flex items-center justify-end gap-2'>{lawyer?.experience}<BiTime className='text-xl' /> </p>
+                                                    <div className='flex items-center justify-end gap-1  text-warning'><span className='flex items-center'><FaStar /></span> <span className='text-xs text-base-100 dark:text-primary'>5</span></div>
+                                                    <p className='flex flex-col items-end'>
+                                                        {lawyer?.language?.map((item, index) => (
+                                                            <span className='text-xs border m-1 p-1 rounded-md' key={index}>
+                                                                {item}
+                                                            </span>
+                                                        ))}
+                                                    </p>
+                                                </div>
+                                                <button onClick={() => handleDelete(lawyer.UID)} className='primary-btn '>Delete</button>
                                             </div>
                                         </div>
                                     </div>
-                                    // <div className=' bg-primary dark:bg-base-100 p-5 shadow flex flex-col items-center justify-center rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-800 relative  ' >
-                                    //     {/* <img className='absolute z-0 h-full object-cover rounded-xl' src="https://i.ibb.co/wJCkTdM/mesh-962.png" alt="" /> */}
-                                    //     {/* <div className='absolute h-full bg-primary dark:bg-base-100 w-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-[99%] dark:bg-opacity-[99%]'></div> */}
-                                    //     <div className='absolute top-2 right-5 flex items-center gap-1 text-warning'><span className='flex items-center'><FaStar /> {lawyer.rating}</span> <span className='text-xs text-base-100 dark:text-primary'>({lawyer.reviews})</span></div>
-                                    //     <figure className='relative drop-shadow-lg z-40'>
-                                    //         <span className={`absolute top-1 right-4 w-3 h-3 border border-primary rounded-full z-50 ${lawyer.available ? 'bg-success' : 'bg-accent'}`}></span>
-                                    //         <img className={`rounded-full w-28 h-28 object-cover outline outline-offset-2 outline-1  ${lawyer.available ? 'outline-success' : 'outline-accent'}`} src={lawyer.img} alt="" />
-                                    //         <span className='bg-black w-28 h-28 absolute top-0 rounded-full backdrop-blur-sm bg-white/30'></span>
-                                    //     </figure>
-                                    //     <div className="content-body z-50">
-                                    //         <div className='flex justify-center items-center gap-5'>
-                                    //             <span className='p-2 primary-outline-btn cursor-pointer text-2xl rounded-lg flex items-center justify-between gap-2 group'><BiPhoneCall /><span className='text-sm hidden group-hover:flex'>Call</span></span>
-                                    //             <span className='p-2 primary-outline-btn cursor-pointer text-2xl rounded-lg flex items-center justify-between gap-2 group'><MdWifiCalling3 /><span className='text-sm hidden group-hover:flex'>Internet Call</span></span>
-                                    //         </div>
-                                    //         <span className="select-none flex items-center justify-start">{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span></span>
-                                    //         <p className='flex items-center gap-2'><BiCurrentLocation /> {lawyer.location}</p>
-                                    //         <p className='flex items-center gap-2'><BiTime /> {lawyer.experience}</p>
-                                    //         <p className='flex items-center gap-2'><TbLanguage />{lawyer.language}</p>
-                                    //         <p className='flex items-center flex-wrap'> <TiTickOutline />
-                                    //             {lawyer.skills.map((skill, index) => (
-                                    //                 <span className='text-xs border m-1 p-1 rounded-full'>
-                                    //                     {skill}
-                                    //                 </span>
-                                    //             ))}
-                                    //         </p>
-                                    //         <p className='text-2xl font-bold'>₹{lawyer.price}</p>
-                                    //         <p className='text-base-100 opacity-60 text-sm'>Per Minute</p>
-                                    //     </div>
-
-                                    // </div>
                                 ))
                             }
                         </div>

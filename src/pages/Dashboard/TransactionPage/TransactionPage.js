@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MdSimCardDownload } from 'react-icons/md'
 import { FaSearch } from 'react-icons/fa';
 import CalenderComp from './CalenderComp';
 
 function TransactionPage() {
+
+
+    const [value, onChange] = useState(new Date());
+
+    console.log(value)
+
     return (
         <div className=''>
             <h1 className="text-3xl text-base-100 dark:text-primary">My Orders</h1>
             <div className="grid lg:grid-cols-3 xl:grid-cols-4 gap-10 py-10">
                 <div className="col-span-1  text-base-100 dark:text-primary rounded-lg">
                     <div className="flex flex-col ">
-                        <CalenderComp />
+
+                        <CalenderComp onChange={onChange} value={value} />
                     </div>
                 </div>
                 <div className='lg:col-span-2 xl:col-span-3 '>

@@ -1,43 +1,38 @@
 import React, { useContext } from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
-import { StateContext } from '../../contexts/StateProvider/StateProvider';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { RxCross1 } from 'react-icons/rx'
+import { BiEdit } from 'react-icons/bi';
+import { RxCross1 } from 'react-icons/rx';
 
-function ModalBox() {
+
+const LawyerUpdateModal = ({ lawyer }) => {
+    console.log(lawyer)
     const [isOpen, setIsOpen] = useState(false);
 
-    const [zipCode, setZipCode] = useState('');
-    const [stateInfo, setStateInfo] = useState(null);
-    const [cityInfo, setCityInfo] = useState([]);
+    const [zipCode, setZipCode] = useState(lawyer.pincode);
+    const [stateInfo, setStateInfo] = useState(lawyer.state);
+    const [cityInfo, setCityInfo] = useState(lawyer.city);
 
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const [specialties, setSpecialties] = useState([]);
-    const [languages, setLanguages] = useState([]);
+    const [specialties, setSpecialties] = useState(lawyer.specialties);
+    const [languages, setLanguages] = useState(lawyer.language);
+
+
 
     const onSubmit = data => {
 
-        setIsOpen(false);
-        if (specialties.length === 0) {
-            setSpecialtiesError(0);
-            return;
-        }
-        if (languages.length === 0) {
-            setLanguageError(0);
-            return;
-        }
 
+        setIsOpen(false);
         const { fname, email, city, contact, experience, rate, summary } = data;
 
-        const lawyer = {
+        const lawyerUpdated = {
             fname,
             email,
-            contact: ("+" + 91 + contact).toString(),
+            contact,
             state: stateInfo,
             city,
             pincode: zipCode,
@@ -48,80 +43,29 @@ function ModalBox() {
             summary,
             rating: 0,
             review: 0,
-            UID: `U${Math.floor(Math.random() * 100000)}`,
+            UID: lawyer.UID,
         }
 
-        console.log(lawyer)
+        console.log(lawyerUpdated)
 
         try {
-            fetch(`https://ninja-lawyer-server.vercel.app/api/users/add-lawyer`, {
-                method: 'POST',
+            fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/update/${lawyer.UID}`, {
+                method: 'PUT',
                 headers: {
                     'content-type': 'application/json'
                 },
-                body: JSON.stringify(lawyer)
+                body: JSON.stringify(lawyerUpdated)
             })
                 .then(res => res.json())
                 .then(data => {
                     console.log('lawyer data: ', data)
+                    toast.success('Lawyer Updated Successfully')
                 })
         }
         catch (error) {
             console.log(errors);
         }
     }
-
-
-    /* const imageHostKey = process.env.REACT_APP_IMGBB_KEY;
-
-
-    const onSubmit = data => {
-        const { fname, email, state, city, contact, experience, rate, language, specialties, summary } = data;
-
-        const image = data.image[0]
-        const formData = new FormData()
-        formData.append('image', image)
-        const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`
-        fetch(url, {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => res.json())
-            .then(imgUpload => {
-                if (imgUpload.success) {
-                    console.log(imgUpload.data.url)
-                    const lawyer = {
-                        fname,
-                        email,
-                        contact,
-                        image: imgUpload.data.url,
-                        state,
-                        city,
-                        experience,
-                        rate,
-                        language,
-                        specialties,
-                        summary,
-                        rating: 0,
-                        review: 0,
-                        date: new Date().toDateString(),
-                    }
-                    fetch(`${process.env.REACT_APP_SERVER_LINK}/add`, {
-                        method: 'POST',
-                        headers: {
-                            'content-type': 'application/json'
-                        },
-                        body: JSON.stringify(lawyer)
-                    })
-                        .then(res => res.json())
-                        .then(result => {
-                            toast.success(`${lawyer.fname} is added successfully`) 
-                        }
-                        )
-                }
-            })
-
-    } */
 
 
     const handlePlace = (state, city) => {
@@ -143,18 +87,6 @@ function ModalBox() {
         setZipCode(event.target.value);
     };
 
-
-
-    // useEffect(() => {
-    //     fetch("https://datahub.io/core/language-codes/r/language-codes-3b2-iso-639-2.json")
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             setLanguages(data);
-    //         })
-    //         .catch((error) => console.error(error));
-    // }, []);
-
-    // console.log(languages) 
 
     const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
     const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter.", "RERA Consultation", "Muslim Law", "DEBT RECOVERY TRIBUNAL MATTERS", "Banking related Matters"];
@@ -252,11 +184,13 @@ function ModalBox() {
 
     console.log(languages)
     console.log(specialties)
+    console.log(cityInfo)
+
 
 
     return (
         <>
-            <button className='primary-btn' onClick={() => setIsOpen(true)}>Add Lawyer</button>
+            <span onClick={() => setIsOpen(true)} className='absolute top-5 right-5 text-xl'><BiEdit /></span>
 
             {isOpen ? (
                 <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -279,7 +213,7 @@ function ModalBox() {
                                                 type="text"
                                                 class="input-box w-full"
                                                 name="fname"
-                                                placeholder='Rajesh Kumar'
+                                                defaultValue={lawyer.fname}
                                                 {...register("fname", { required: true, maxLength: 80 })} />
                                             {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
                                         </label>
@@ -291,7 +225,7 @@ function ModalBox() {
                                                 type="email"
                                                 class="input-box w-full"
                                                 name="email"
-                                                placeholder='example@mail.com'
+                                                defaultValue={lawyer.email}
                                                 {...register("email", { required: true, maxLength: 80 })}
                                             />
                                         </label>
@@ -306,7 +240,7 @@ function ModalBox() {
                                                     type="text"
                                                     class="input-box w-full rounded-l-none border-l-none"
                                                     name="contact"
-                                                    placeholder='1234567890'
+                                                    defaultValue={lawyer.contact}
                                                     {...register("contact", { required: true, maxLength: 80 })}
                                                 />
 
@@ -334,7 +268,6 @@ function ModalBox() {
                                                     type="text"
                                                     class="input-box w-full"
                                                     name="state"
-                                                    placeholder='West Bengal, Maharashtra, etc.'
                                                     value={stateInfo} readOnly
                                                 />
                                             </label>
@@ -343,7 +276,8 @@ function ModalBox() {
                                                     City
                                                 </span>
                                                 <select className="input-box w-full max-w-xs" {...register("city", { required: true })}>
-                                                    {cityInfo?.map(city => <option value={city['place name']}>{city['place name']}</option>)}
+                                                    {lawyer.city && <option className='text-accent' value={lawyer.city} selected>{lawyer.city}</option>}
+                                                    {cityInfo?.map(city => city['place name'] !== lawyer.city && <option value={city['place name']}>{city['place name']}</option>)}
                                                 </select>
                                             </label>
                                             <label class="col-span-1 flex flex-col items-start">
@@ -365,7 +299,7 @@ function ModalBox() {
                                                 type="number"
                                                 class="input-box w-full"
                                                 name="experience"
-                                                placeholder='In years'
+                                                defaultValue={lawyer.experience}
                                                 {...register("experience", { required: true, maxLength: 80 })}
 
                                             />
@@ -378,7 +312,7 @@ function ModalBox() {
                                                 type="number"
                                                 class="input-box w-full"
                                                 name="rate"
-                                                placeholder='In Rs'
+                                                defaultValue={lawyer.rate}
                                                 {...register("rate", { required: true, maxLength: 80 })}
 
                                             />
@@ -396,7 +330,7 @@ function ModalBox() {
                                                 </datalist>
                                                 <div className='text-xs flex flex-wrap gap-1 mt-1'>
                                                     {
-                                                        languages.map((language, index) => <div className='flex items-center justify-between'>
+                                                        lawyer.language.map((language, index) => <div className='flex items-center justify-between'>
                                                             <span key={index} className='px-1 rounded border  flex items-center gap-1'>{language} <RxCross1 onClick={() => handleRemoveLanguage(language)} className='cursor-pointer' /></span>
                                                         </div>)
                                                     }
@@ -417,7 +351,7 @@ function ModalBox() {
                                                 </datalist>
                                                 <div className='text-xs flex flex-wrap gap-1 mt-1'>
                                                     {
-                                                        specialties.map((specialty, index) => <div className='flex items-center justify-between'>
+                                                        lawyer.specialties.map((specialty, index) => <div className='flex items-center justify-between'>
                                                             <span key={index} className='px-1 rounded border  flex items-center gap-1'>{specialty} <RxCross1 onClick={() => handleRemoveSpecialty(specialty)} className='cursor-pointer' /></span>
                                                         </div>)
                                                     }
@@ -433,7 +367,7 @@ function ModalBox() {
                                                 type="text"
                                                 class="input-box w-full h-28"
                                                 name="summary"
-                                                placeholder='Write your professional summary'
+                                                defaultValue={lawyer.summary}
                                                 {...register("summary", { required: true, maxLength: 400 })}
 
                                             />
@@ -456,4 +390,4 @@ function ModalBox() {
     );
 }
 
-export default ModalBox;
+export default LawyerUpdateModal
