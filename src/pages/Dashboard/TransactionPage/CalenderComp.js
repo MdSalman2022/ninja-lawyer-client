@@ -30,28 +30,28 @@ function CalenderComp({ value, onChange }) {
         <div className='flex flex-col'>
             <div className="flex flex-col">
 
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col md:flex-row  md:items-center md:justify-between">
                     <p>Start Date:</p>
                     <input
                         type="text"
-                        className='input-box'
+                        className='input-box w-40'
                         value={startDate ? startDate.toLocaleDateString() : ''}
                         onClick={() => handleInputClick('start')}
                     />
                 </div>
 
-                <div className='flex items-center justify-between'>
+                <div className='flex flex-col md:flex-row  md:items-center md:justify-between'>
                     <p>End Date:</p>
                     <input
                         type="text"
-                        className='input-box'
+                        className='input-box w-40'
                         value={endDate ? endDate.toLocaleDateString() : ''}
                         onClick={() => handleInputClick('end')}
                     />
                 </div>
             </div>
             <br />
-            <div className="flex justify-center">
+            <div className="flex flex-col md:flex-row  md:items-center md:justify-between">
                 {calendarOpen === 'start' ? (
                     <Calendar
                         onChange={handleDateChange}

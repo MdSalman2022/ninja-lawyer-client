@@ -21,12 +21,12 @@ function TransactionPage() {
                     </div>
                 </div>
                 <div className='lg:col-span-2 xl:col-span-3 '>
-                    <div className='space-y-3'>
+                    <div className='space-y-3 overflow-x-auto'>
                         <label htmlFor="" className='flex items-center relative border w-full rounded-lg'>
                             <input type="text" className='input-box w-full rounded-r-none py-3 mt-0' placeholder='Search Here...' />
                             <div className="primary-btn rounded-l-none m-0 py-4 cursor-pointer"><FaSearch /></div>
                         </label>
-                        <table class="min-w-full border ">
+                        <table class="min-w-full border">
                             <thead class="bg-primary dark:bg-base-100 border-b">
                                 <tr>
                                     <th scope="col" class="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">

@@ -156,7 +156,7 @@ function TalkToLawyerList() {
                                                         ))}
                                                     </p>
                                                 </div>
-                                                <button onClick={() => handleDelete(lawyer.UID)} className='primary-btn '>Delete</button>
+                                                {/* <button onClick={() => handleDelete(lawyer.UID)} className='primary-btn '>Delete</button> */}
                                             </div>
                                         </div>
                                     </div>
