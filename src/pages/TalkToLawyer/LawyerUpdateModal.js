@@ -89,7 +89,7 @@ const LawyerUpdateModal = ({ lawyer }) => {
 
 
     const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
-    const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter.", "RERA Consultation", "Muslim Law", "DEBT RECOVERY TRIBUNAL MATTERS", "Banking related Matters"];
+    const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter."];
 
     const [languageError, setLanguageError] = useState('')
     const [specialtiesError, setSpecialtiesError] = useState('')

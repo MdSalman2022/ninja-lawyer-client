@@ -63,6 +63,7 @@ function ModalBox() {
             })
                 .then(res => res.json())
                 .then(data => {
+                    toast.success(`${lawyer.fname} lawyer is added successfully`)
                     console.log('lawyer data: ', data)
                 })
         }
@@ -157,7 +158,7 @@ function ModalBox() {
     // console.log(languages) 
 
     const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
-    const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter.", "RERA Consultation", "Muslim Law", "DEBT RECOVERY TRIBUNAL MATTERS", "Banking related Matters"];
+    const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter."];
 
     const [languageError, setLanguageError] = useState('')
     const [specialtiesError, setSpecialtiesError] = useState('')
@@ -417,8 +418,8 @@ function ModalBox() {
                                                 </datalist>
                                                 <div className='text-xs flex flex-wrap gap-1 mt-1'>
                                                     {
-                                                        specialties.map((specialty, index) => <div className='flex items-center justify-between'>
-                                                            <span key={index} className='px-1 rounded border  flex items-center gap-1'>{specialty} <RxCross1 onClick={() => handleRemoveSpecialty(specialty)} className='cursor-pointer' /></span>
+                                                        specialties.map((specialty, index) => <div className='flex items-start justify-start'>
+                                                            <span key={index} className='px-1 rounded border  flex items-start justify-start text-left gap-1'>{specialty} <RxCross1 onClick={() => handleRemoveSpecialty(specialty)} className='cursor-pointer' /></span>
                                                         </div>)
                                                     }
                                                 </div>

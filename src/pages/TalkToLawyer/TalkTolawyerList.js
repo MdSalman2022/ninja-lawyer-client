@@ -5,6 +5,7 @@ import { BiTime } from 'react-icons/bi'
 import { IoLocationSharp } from 'react-icons/io5'
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 
 function TalkToLawyerList() {
@@ -37,6 +38,7 @@ function TalkToLawyerList() {
                 if (result) {
                     const remaining = lawyerList.filter(lawyer => lawyer._id !== id)
                     setLawyerList(remaining)
+                    toast.success(`${id} lawyer deleted successfully}`)
                     console.log(result)
                 }
             })
@@ -44,7 +46,7 @@ function TalkToLawyerList() {
 
 
     const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
-    const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter.", "RERA Consultation", "Muslim Law", "DEBT RECOVERY TRIBUNAL MATTERS", "Banking related Matters"];
+    const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter."];
 
 
 
@@ -54,7 +56,7 @@ function TalkToLawyerList() {
             <svg width="100%" height="100%" id="svg" viewBox="0 0 1440 690" xmlns="http://www.w3.org/2000/svg" class="transition duration-300 ease-in-out delay-150"><path d="M 0,700 C 0,700 0,350 0,350 C 90.47846889952157,365.56937799043067 180.95693779904315,381.1387559808613 267,351 C 353.04306220095685,320.8612440191387 434.6507177033492,245.01435406698567 532,252 C 629.3492822966508,258.9856459330143 742.4401913875599,348.80382775119614 839,385 C 935.5598086124401,421.19617224880386 1015.5885167464114,403.7703349282297 1113,389 C 1210.4114832535886,374.2296650717703 1325.2057416267944,362.11483253588517 1440,350 C 1440,350 1440,700 1440,700 Z" stroke="none" stroke-width="0" fill="#eb144c" fill-opacity="1" class="transition-all duration-300 ease-in-out delay-150 path-0" transform="rotate(-180 720 350)"></path></svg>
             </div> */}
             <div className="container mx-auto py-10">
-                <div className="flex flex-col lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-center z-50">
+                <div className="flex flex-col lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:gap-10 xl:gap-20 justify-items-center z-50">
                     <div className="w-full col-span-1 lg:col-span-1 bg-primary dark:bg-base-100 z-50  rounded-xl">
                         <div className='border rounded-xl p-5 flex flex-col gap-5 select-none '>
                             <span onClick={() => isProblemActive(!isProblem)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Problem Type <FaChevronDown className={`transition-all duration-300 ${isProblem && 'text-accent rotate-180'}`} /> </span>
@@ -115,11 +117,11 @@ function TalkToLawyerList() {
 
                     {/* Lawyers profile */}
 
-                    <div className='col-span-1 md:col-span-2 xl:col-span-3 px-5 md:px-0'>
-                        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 justify-items-center place-content-center'>
+                    <div className='w-full col-span-1 md:col-span-2 xl:col-span-3 px-5 md:px-0'>
+                        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center place-content-center'>
                             {
                                 lawyerList?.map((lawyer, index) => (
-                                    <div key={lawyer.index} className='bg-primary dark:bg-base-100 p-3 shadow flex flex-col h-full items-start justify-start rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-700 relative  '>
+                                    <div key={lawyer.index} className='bg-primary dark:bg-base-100 p-3 shadow flex flex-col h-full w-full items-start justify-start rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-700 relative  '>
                                         <figure className='relative rounded-xl  w-full'>
 
                                             <img className='rounded-xl  h-60 w-full object-cover' src={lawyer?.img ? lawyer.img : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'} alt="" />
@@ -156,7 +158,7 @@ function TalkToLawyerList() {
                                                         ))}
                                                     </p>
                                                 </div>
-                                                <button onClick={() => handleDelete(lawyer.UID)} className='primary-btn '>Delete</button>
+                                                {/* <button onClick={() => handleDelete(lawyer.UID)} className='primary-btn '>Delete</button> */}
                                             </div>
                                         </div>
                                     </div>
