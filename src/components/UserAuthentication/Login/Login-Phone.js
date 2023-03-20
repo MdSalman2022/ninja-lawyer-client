@@ -7,7 +7,7 @@ import { auth } from "../../../assets/firebase.config";
 import { sendToServer } from "./LoginPostDB";
 
 // Function to confirm otp entered by user
-function confirmOTP(otp, phoneNumber) {
+async function confirmOTP(otp, phoneNumber) {
   let message;
   let confirmationResult = window.confirmationResult;
   confirmationResult

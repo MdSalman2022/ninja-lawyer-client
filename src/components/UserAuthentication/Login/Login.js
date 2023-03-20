@@ -12,7 +12,7 @@ import { reVerify, confirmOTP } from "./Login-Phone";
 import { AiFillGoogleCircle, AiFillFacebook } from "react-icons/ai";
 import { StateContext } from "../../../contexts/StateProvider/StateProvider";
 import { sendToServer } from "./LoginPostDB";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 
 export default function Login() {
   const { user, loading } = useContext(AuthContext);
@@ -126,17 +126,17 @@ export default function Login() {
       });
   }
 
-  function verifyOTP() {
+  async function verifyOTP() {
     let otpLet = otp;
     if (otpLet.length === 6) {
       console.log(otpLet);
-      const getOTPConfirmation = confirmOTP(otpLet, phoneNumber);
-      console.log(getOTPConfirmation);
+      const getOTPConfirmation = await confirmOTP(otpLet, phoneNumber);
+      console.log(getOTPConfirmation, "-0-");
       if (getOTPConfirmation.message === true) {
         console.log("Sent true");
         navigateDashboard();
       } else {
-        toast.error("Invalid OTP")
+        toast.error("Invalid OTP");
       }
     }
   }
@@ -187,7 +187,8 @@ export default function Login() {
                     Your OTP
                   </label>
                   <input
-                    pattern="[0-9]*" maxlength="6"
+                    pattern="[0-9]*"
+                    maxlength="6"
                     type="text"
                     name="OTP"
                     id="OTP"

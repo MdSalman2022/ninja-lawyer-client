@@ -11,22 +11,25 @@ function Navbar() {
   const { darkmode, toggleDarkMode } = useContext(StateContext);
 
   const location = useLocation();
-  const pathname  = '/'; 
-
+  const pathname = "/";
 
   /* const [menu, setMenu] = useState("");
 
   const [dropdown, setDropdown] = useState(false);
   const [propertyDropdown, setPropertyDropdown] = useState(false); */
 
-  let activeClassName = `text-accent dark:text-accent flex items-center gap-4 ${pathname === "/talk-to-lawyer" ? "text-secondary" : "text-accent"}`;
+  let activeClassName = `text-accent dark:text-accent flex items-center gap-4 ${
+    pathname === "/talk-to-lawyer" ? "text-secondary" : "text-accent"
+  }`;
 
-
-  console.log(user?.uid);
-
+  console.log(user?.uid, "sadnan");
 
   return (
-    <div className={`${pathname === '/talk-to-lawyer' ? 'bg-transparent' : 'bg-primary'} dark:bg-base-100 `}>
+    <div
+      className={`${
+        pathname === "/talk-to-lawyer" ? "bg-transparent" : "bg-primary"
+      } dark:bg-base-100 `}
+    >
       <div className="container mx-auto ">
         <div className="navbar w-full flex items-center justify-between ">
           <div className="gap-1 md:gap-0">
@@ -317,13 +320,11 @@ function Navbar() {
                 </NavLink>
               </li>
             </ul>
-            {user?.email ? (
+            {user?.uid ? (
               <NavbarUserMenu />
             ) : (
               <Link to="/login">
-                <span
-                  className={`cursor-pointer primary-outline-btn`}
-                >
+                <span className={`cursor-pointer primary-outline-btn`}>
                   Login
                 </span>
               </Link>
