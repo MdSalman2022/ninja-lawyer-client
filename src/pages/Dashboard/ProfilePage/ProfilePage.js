@@ -20,7 +20,7 @@ function ProfilePage() {
   useEffect(() => {
     const getProfile = (id) => {
       console.log("yes");
-      fetch(`http://localhost:5000/api/users/get/${id}`)
+      fetch(`https://ninja-lawyer-server.vercel.app/api/users/get/${id}`)
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
