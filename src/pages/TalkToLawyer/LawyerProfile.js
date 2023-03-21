@@ -10,8 +10,9 @@ const LawyerProfile = () => {
 
   console.log(lawyer)
 
-  const { fname, experience, state, city, pincode, language, specialties, img, available, rating, reviews, rate, summary } = lawyer
+  const { fname, experience, state, city, pincode, language, specialties, img, available, rating, reviews, rate, summary, year, name, gender } = lawyer
 
+  const date = new Date()
 
   return (
     <div className='py-20 bg-secondary dark:bg-base-100 text-base-100 dark:text-primary'>
@@ -26,7 +27,7 @@ const LawyerProfile = () => {
               <span className='absolute top-5 right-5 rounded-full w-2 h-2 bg-success animate-ping'></span>
               <span className='absolute top-5 right-5 rounded-full w-2 h-2 bg-success'></span>
             </figure>
-            <p>{fname}</p>
+            <p>{name}</p>
             <p className='flex items-center gap-1'>Rating: {rating} <FaStar className='text-yellow-400' /></p>
             <button className='primary-btn w-52'>Chat</button>
             <p className="text-2xl font-bold">Services</p>
@@ -40,26 +41,28 @@ const LawyerProfile = () => {
             <div className='space-y-4'>
               <p>Specialties</p>
               <div className='flex gap-5'>
-                {
+                {/* {specialties &&
                   specialties?.map((specialty, index) => {
                     return (
-                      <span className=' bg-secondary dark:bg-base-100 dark:border dark:border-gray-600 p-2 rounded-lg' key={index}>{specialty}</span>
+                      <span className=' bg-secondary dark:bg-base-100 dark:border dark:border-gray-600 p-2 rounded-lg' key={index}>{specialty ? specialty : "no speciality"}</span>
                     )
                   })
-                }
+                } */}
               </div>
             </div>
             <div>
               <p>Experience</p>
-              <p>{experience} years</p>
+              <p>{experience ? experience : date.getFullYear() - year} years</p>
             </div>
             <div className='space-y-4'>
               <p>Languages</p>
-              <p className='flex gap-5'>{lawyer?.language?.map((item, index) => (
-                <span className='bg-secondary dark:bg-base-100 dark:border dark:border-gray-600 p-2 rounded-lg' key={index}>
-                  {item}
-                </span>
-              ))}</p>
+              {/* {
+                language && <p className='flex gap-5'>{lawyer?.language?.map((item, index) => (
+                  <span className='bg-secondary dark:bg-base-100 dark:border dark:border-gray-600 p-2 rounded-lg' key={index}>
+                    {item}
+                  </span>
+                ))}</p>
+              } */}
             </div>
             <div>
               <p>Location</p>

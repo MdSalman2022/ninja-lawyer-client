@@ -71,7 +71,7 @@ export default function LawyerRegister() {
           // ...
         })
         .catch((error) => {
-          console.log(errors);
+          console.log(error);
         });
     }
   };
@@ -129,7 +129,7 @@ export default function LawyerRegister() {
                 <label htmlFor="">
                   Password
                   <input
-                    type="text"
+                    type="password"
                     name="fname"
                     className="input-box w-full"
                     {...register("password", { required: true, maxLength: 80 })}
@@ -138,7 +138,7 @@ export default function LawyerRegister() {
                 <label htmlFor="">
                   Confirm password
                   <input
-                    type="text"
+                    type="password"
                     name="confirm_password"
                     className="input-box w-full"
                     {...register("confirm_password", {

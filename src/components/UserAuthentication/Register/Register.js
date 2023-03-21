@@ -39,7 +39,7 @@ export default function Register() {
           sendToServer(user.id, postData);
           console.log("sent to server");
           // Navigate function once user logs in
-          navigate(from, { replace: true });
+          navigate('/');
           // ...
         })
         .catch((error) => {

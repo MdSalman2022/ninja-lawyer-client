@@ -97,7 +97,7 @@ const LawyerUpdateModal = ({ lawyer }) => {
     })
 
     useEffect(() => {
-        if (zipCode.length > 5) {
+        if (zipCode?.length > 5) {
             fetch(`http://api.zippopotam.us/in/${zipCode}`)
                 .then(response => response.json())
                 .then(data => handlePlace((data.places[0].state), (data.places)))
