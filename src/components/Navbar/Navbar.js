@@ -328,13 +328,6 @@ function Navbar() {
               <NavbarUserMenu />
             ) : (
               <div className="flex gap-2">
-                <Link to="/lawyer-register">
-                  <span
-                    className={`cursor-pointer primary-outline-btn`}
-                  >
-                    Lawyer Click Here
-                  </span>
-                </Link>
                 <Link to="/login">
                   <span
                     className={`cursor-pointer primary-outline-btn`}

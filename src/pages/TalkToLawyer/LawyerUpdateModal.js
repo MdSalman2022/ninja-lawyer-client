@@ -23,6 +23,7 @@ const LawyerUpdateModal = ({ lawyer }) => {
 
 
 
+
     const onSubmit = data => {
 
 
@@ -73,6 +74,27 @@ const LawyerUpdateModal = ({ lawyer }) => {
         setCityInfo(city);
     }
 
+
+    const apiKey = 'aHhIRnFkYWRqTU5FVjhKd3labW1UMTR2Zm1TMXpaQmwzRERVUzlLSg==';
+    const countryId = 'IN';
+    const url = `https://api.countrystatecity.in/v1/countries/${countryId}/states/4853/cities`;
+
+
+
+    useEffect(() => {
+        fetch(url, {
+            headers: {
+                'X-CSCAPI-KEY': apiKey
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    })
 
     useEffect(() => {
         if (zipCode.length > 5) {

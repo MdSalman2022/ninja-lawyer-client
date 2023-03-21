@@ -12,21 +12,6 @@ const LawyerProfile = () => {
 
   const { fname, experience, state, city, pincode, language, specialties, img, available, rating, reviews, rate, summary } = lawyer
 
-  //   const lawyer = [
-  //     {
-  //       name: 'Rajesh Kumar',
-  //       experience: '5 years',
-  //       location: 'Delhi, India',
-  //       language: 'English, Hindi',
-  //       specialties: ['Divorce & Child Custody', 'Property & Real Estate', 'Cheque Bounce & Money Recovery'],
-  //       img: "https://i.ibb.co/sbnk2tP/img2.webp",
-  //       available: true,
-  //       rating: "5.0",
-  //       reviews: 83,
-  //       price: 29,
-  //   },
-  // ] 
-
 
   return (
     <div className='py-20 bg-secondary dark:bg-base-100 text-base-100 dark:text-primary'>
