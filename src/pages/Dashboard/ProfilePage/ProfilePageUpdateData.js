@@ -28,7 +28,7 @@ const updateData = (event, UID) => {
 };
 
 const putDataToServer = (id, data) => {
-  fetch(`http://localhost:5000/api/users/update/${id}`, {
+  fetch(`https://ninja-lawyer-server.vercel.app/api/users/update/${id}`, {
     method: "PUT",
     headers: {
       "content-type": "application/json",

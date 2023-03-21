@@ -14,24 +14,26 @@ function Navbar() {
   const location = useLocation();
   const pathname = '/';
 
-
   /* const [menu, setMenu] = useState("");
 
   const [dropdown, setDropdown] = useState(false);
   const [propertyDropdown, setPropertyDropdown] = useState(false); */
 
-  let activeClassName = `text-accent dark:text-accent flex items-center gap-4 ${pathname === "/talk-to-lawyer" ? "text-secondary" : "text-accent"}`;
-
-
-  console.log(user?.uid);
+  let activeClassName = `text-accent dark:text-accent flex items-center gap-4 ${pathname === "/talk-to-lawyer" ? "text-secondary" : "text-accent"
+    }`;
 
   // for different navbar 
   // if (user?.userType === "lawyer") {
   //   return <LawyerNavbar />
   // }
   // else 
+  console.log(user?.uid, "sadnan");
+
   return (
-    <div className={`${pathname === '/talk-to-lawyer' ? 'bg-transparent' : 'bg-primary'} dark:bg-base-100 `}>
+    <div
+      className={`${pathname === "/talk-to-lawyer" ? "bg-transparent" : "bg-primary"
+        } dark:bg-base-100 `}
+    >
       <div className="container mx-auto ">
         <div className="navbar w-full flex items-center justify-between ">
           <div className="gap-1 md:gap-0">
@@ -322,7 +324,7 @@ function Navbar() {
                 </NavLink>
               </li>
             </ul>
-            {user?.email ? (
+            {user?.uid ? (
               <NavbarUserMenu />
             ) : (
               <div className="flex gap-2">
