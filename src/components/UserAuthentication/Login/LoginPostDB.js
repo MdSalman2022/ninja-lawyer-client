@@ -1,6 +1,6 @@
-const sendToServer = async (user, data) => {
+const sendToServer = (user, data) => {
   // try post api
-  fetch("https://ninja-lawyer-server.vercel.app/api/users/add", {
+  fetch("http://localhost:5000/api/users/add", {
     method: "POST",
     headers: {
       "content-type": "application/json",
