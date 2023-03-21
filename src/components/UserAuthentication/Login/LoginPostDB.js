@@ -18,4 +18,24 @@ const sendToServer = (user, data) => {
   //
 };
 
-export { sendToServer };
+const sendToServerLawyer = (user, data) => {
+  // try post api
+  fetch("http://localhost:5000/api/users/add-lawyer", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.acknowledged) {
+        return data;
+      } else {
+        return false;
+      }
+    });
+  //
+};
+
+export { sendToServer, sendToServerLawyer };

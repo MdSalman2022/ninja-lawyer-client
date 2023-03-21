@@ -12,27 +12,29 @@ function Navbar() {
   const { darkmode, toggleDarkMode } = useContext(StateContext);
 
   const location = useLocation();
-  const pathname = '/';
+  const pathname = "/";
 
   /* const [menu, setMenu] = useState("");
 
   const [dropdown, setDropdown] = useState(false);
   const [propertyDropdown, setPropertyDropdown] = useState(false); */
 
-  let activeClassName = `text-accent dark:text-accent flex items-center gap-4 ${pathname === "/talk-to-lawyer" ? "text-secondary" : "text-accent"
-    }`;
+  let activeClassName = `text-accent dark:text-accent flex items-center gap-4 ${
+    pathname === "/talk-to-lawyer" ? "text-secondary" : "text-accent"
+  }`;
 
-  // for different navbar 
+  // for different navbar
   // if (user?.userType === "lawyer") {
   //   return <LawyerNavbar />
   // }
-  // else 
-  console.log(user?.uid, "sadnan");
+  // else
+  console.log(user);
 
   return (
     <div
-      className={`${pathname === "/talk-to-lawyer" ? "bg-transparent" : "bg-primary"
-        } dark:bg-base-100 `}
+      className={`${
+        pathname === "/talk-to-lawyer" ? "bg-transparent" : "bg-primary"
+      } dark:bg-base-100 `}
     >
       <div className="container mx-auto ">
         <div className="navbar w-full flex items-center justify-between ">
@@ -329,20 +331,15 @@ function Navbar() {
             ) : (
               <div className="flex gap-2">
                 <Link to="/lawyer-register">
-                  <span
-                    className={`cursor-pointer primary-outline-btn`}
-                  >
+                  <span className={`cursor-pointer primary-outline-btn`}>
                     Lawyer Click Here
                   </span>
                 </Link>
                 <Link to="/login">
-                  <span
-                    className={`cursor-pointer primary-outline-btn`}
-                  >
+                  <span className={`cursor-pointer primary-outline-btn`}>
                     Login
                   </span>
                 </Link>
-
               </div>
             )}
           </div>
@@ -350,7 +347,6 @@ function Navbar() {
       </div>
     </div>
   );
-
 }
 
 export default Navbar;
