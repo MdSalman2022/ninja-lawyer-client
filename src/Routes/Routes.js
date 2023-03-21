@@ -19,8 +19,8 @@ import PrivateRoute from "./PrivateRoute";
 import CallLogsPage from "../pages/Dashboard/CallLogsPage/CallLogsPage";
 import TransactionPage from "../pages/Dashboard/TransactionPage/TransactionPage";
 import LawyerProfile from "../pages/TalkToLawyer/LawyerProfile";
-import LawyerLogin from "../components/UserAuthentication/LawyerLogin/LawyerLogin";
 import LawyerRegister from "../components/UserAuthentication/LawyerRegister/LawyerRegister";
+import LawyerNavbar from "../components/Navbar/LawyerNavbar";
 
 export const router = createBrowserRouter([
   {
@@ -71,10 +71,6 @@ export const router = createBrowserRouter([
         path: "/profile/:id",
         loader: ({ params }) => fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyer/${params.id}`),
         element: <LawyerProfile />
-      },
-      {
-        path: "/lawyer-login",
-        element: <PrivateRoute><LawyerLogin /></PrivateRoute>,
       },
       {
         path: "/lawyer-register",

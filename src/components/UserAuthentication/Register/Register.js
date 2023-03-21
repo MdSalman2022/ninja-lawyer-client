@@ -48,7 +48,16 @@ export default function Register() {
       <section className="bg-primary dark:bg-base-100 pb-7">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-base-100 dark:border-gray-700">
+
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <div className="grid grid-cols-2 gap-5 pb-0">
+                <div className="transition-all duration-300 border rounded-lg p-2 text-center bg-accent text-primary cursor-pointer">
+                  User
+                </div>
+                <Link to="/lawyer-register" className="transition-all duration-300 border rounded-lg p-2 text-center hover:bg-accent hover:text-primary cursor-pointer">
+                  Lawyer
+                </Link>
+              </div>
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Create an account
               </h1>

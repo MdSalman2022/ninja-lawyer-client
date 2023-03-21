@@ -3,6 +3,7 @@ import { /* FaAngleDown, FaAngleRight, */ FaBars } from "react-icons/fa";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import { StateContext } from "../../contexts/StateProvider/StateProvider";
+import LawyerNavbar from "./LawyerNavbar";
 /* import { allProperties, findLawyer } from "./NavbarItems"; */
 import NavbarUserMenu from "./NavbarUserMenu";
 
@@ -24,7 +25,11 @@ function Navbar() {
 
   console.log(user?.uid);
 
-
+  // for different navbar 
+  // if (user?.userType === "lawyer") {
+  //   return <LawyerNavbar />
+  // }
+  // else 
   return (
     <div className={`${pathname === '/talk-to-lawyer' ? 'bg-transparent' : 'bg-primary'} dark:bg-base-100 `}>
       <div className="container mx-auto ">
@@ -54,35 +59,35 @@ function Navbar() {
                   </NavLink>
                 </li>
                 {/* 
-                Find Lawyer Dropdown commented for now
-                <li>
-                  <span
-                    onClick={() => setDropdown(!dropdown)}
-                    className="justify-between text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent "
+                  Find Lawyer Dropdown commented for now
+                  <li>
+                    <span
+                      onClick={() => setDropdown(!dropdown)}
+                      className="justify-between text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent "
+                    >
+                      <Link to="/">Find Lawyer</Link> <FaAngleDown />
+                    </span>
+                  </li>
+                  <ul
+                    className={`${
+                      dropdown ? "" : "hidden"
+                    } bg-secondary bg-opacity-10 text-left w-60 h-96 overflow-y-scroll rounded-md `}
                   >
-                    <Link to="/">Find Lawyer</Link> <FaAngleDown />
-                  </span>
-                </li>
-                <ul
-                  className={`${
-                    dropdown ? "" : "hidden"
-                  } bg-secondary bg-opacity-10 text-left w-60 h-96 overflow-y-scroll rounded-md `}
-                >
-                  {findLawyer.map((item, index) => (
-                    <li key={index} className={` flex flex-col items-start`}>
-                      <span className="pb-1 text-accent">{item.title}</span>
-                      {item.submenu.map((subItem, subIndex) => (
-                        <NavLink
-                          key={subIndex}
-                          to={subItem.link}
-                          className="transition-all duration-300 text-base-100 dark:text-primary w-fit flex items-center hover:text-accent hover:dark:text-accent bg-transparent"
-                        >
-                          {subItem.title}
-                        </NavLink>
-                      ))}
-                    </li>
-                  ))}
-                </ul> */}
+                    {findLawyer.map((item, index) => (
+                      <li key={index} className={` flex flex-col items-start`}>
+                        <span className="pb-1 text-accent">{item.title}</span>
+                        {item.submenu.map((subItem, subIndex) => (
+                          <NavLink
+                            key={subIndex}
+                            to={subItem.link}
+                            className="transition-all duration-300 text-base-100 dark:text-primary w-fit flex items-center hover:text-accent hover:dark:text-accent bg-transparent"
+                          >
+                            {subItem.title}
+                          </NavLink>
+                        ))}
+                      </li>
+                    ))}
+                  </ul> */}
                 <li>
                   {" "}
                   <NavLink
@@ -97,40 +102,40 @@ function Navbar() {
                   </NavLink>
                 </li>
                 {/*
-                Property Dropdown commented for now
-                <li>
-                  <span className="justify-between text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent ">
-                    <Link to="/property-sale-and-purchase">Property</Link>{" "}
-                    <FaAngleDown
-                      onClick={() => setPropertyDropdown(!propertyDropdown)}
-                    />
-                  </span>
-                </li>
-                <ul
-                  className={`${
-                    propertyDropdown ? "" : "hidden"
-                  } bg-secondary bg-opacity-10 text-left w-60 h-full rounded-md `}
-                >
-                  {allProperties.map((item, index) => (
-                    <li key={index} className={` flex flex-col items-start`}>
-                      {item.submenu?.map((sub, index) => (
-                        <NavLink
-                          className={({ isActive }) =>
-                            isActive
-                              ? activeClassName
-                              : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
-                          }
-                          key={index}
-                          to={`${sub.link}`}
-                        >
-                          <li className="transition-all duration-300 text-base-100 dark:text-primary w-max flex items-center  hover:text-accent hover:dark:text-accent ">
-                            {sub.name}
-                          </li>
-                        </NavLink>
-                      ))}
-                    </li>
-                  ))}
-                </ul> */}
+                  Property Dropdown commented for now
+                  <li>
+                    <span className="justify-between text-base-100 dark:text-primary flex items-center gap-4 hover:text-accent ">
+                      <Link to="/property-sale-and-purchase">Property</Link>{" "}
+                      <FaAngleDown
+                        onClick={() => setPropertyDropdown(!propertyDropdown)}
+                      />
+                    </span>
+                  </li>
+                  <ul
+                    className={`${
+                      propertyDropdown ? "" : "hidden"
+                    } bg-secondary bg-opacity-10 text-left w-60 h-full rounded-md `}
+                  >
+                    {allProperties.map((item, index) => (
+                      <li key={index} className={` flex flex-col items-start`}>
+                        {item.submenu?.map((sub, index) => (
+                          <NavLink
+                            className={({ isActive }) =>
+                              isActive
+                                ? activeClassName
+                                : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent "
+                            }
+                            key={index}
+                            to={`${sub.link}`}
+                          >
+                            <li className="transition-all duration-300 text-base-100 dark:text-primary w-max flex items-center  hover:text-accent hover:dark:text-accent ">
+                              {sub.name}
+                            </li>
+                          </NavLink>
+                        ))}
+                      </li>
+                    ))}
+                  </ul> */}
                 <li>
                   {" "}
                   <NavLink
@@ -202,40 +207,40 @@ function Navbar() {
                 </NavLink>
               </li>
               {/* <li
-                className={`relative group flex gap-1 justify-center items-center transition-all duration-300 text-base-100 dark:text-primary bg-primary dark:bg-base-100  w-max cursor-pointer text-sm `}
-              >
-                <NavLink
-                  to="/demo"
-                  className={({ isActive }) =>
-                    isActive
-                      ? activeClassName
-                      : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent group-hover:text-accent"
-                  }
+                  className={`relative group flex gap-1 justify-center items-center transition-all duration-300 text-base-100 dark:text-primary bg-primary dark:bg-base-100  w-max cursor-pointer text-sm `}
                 >
-                  Find Lawyer{" "}
-                  <FaAngleDown className="transition-all duration-300 group-hover:rotate-180 group-hover:text-accent" />{" "}
-                </NavLink>
-                <div className="absolute top-5  hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
-                  <div className="grid grid-cols-3 lg:grid-cols-5 lg:gap-4 2xl:gap-10 bg-primary dark:bg-base-100 p-1 lg:p-5 shadow rounded-lg">
-                    {findLawyer.map((item, index) => (
-                      <div key={index} className="flex flex-col gap-4">
-                        <p className="lg:text-xl border-b pb-3 text-accent">
-                          {item.title}
-                        </p>
-                        {item.submenu.map((subItem, subIndex) => (
-                          <NavLink
-                            key={subIndex}
-                            to={subItem.link}
-                            className="transition-all duration-300 text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent hover:dark:text-accent"
-                          >
-                            {subItem.title}
-                          </NavLink>
-                        ))}
-                      </div>
-                    ))}
+                  <NavLink
+                    to="/demo"
+                    className={({ isActive }) =>
+                      isActive
+                        ? activeClassName
+                        : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent group-hover:text-accent"
+                    }
+                  >
+                    Find Lawyer{" "}
+                    <FaAngleDown className="transition-all duration-300 group-hover:rotate-180 group-hover:text-accent" />{" "}
+                  </NavLink>
+                  <div className="absolute top-5  hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
+                    <div className="grid grid-cols-3 lg:grid-cols-5 lg:gap-4 2xl:gap-10 bg-primary dark:bg-base-100 p-1 lg:p-5 shadow rounded-lg">
+                      {findLawyer.map((item, index) => (
+                        <div key={index} className="flex flex-col gap-4">
+                          <p className="lg:text-xl border-b pb-3 text-accent">
+                            {item.title}
+                          </p>
+                          {item.submenu.map((subItem, subIndex) => (
+                            <NavLink
+                              key={subIndex}
+                              to={subItem.link}
+                              className="transition-all duration-300 text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent hover:dark:text-accent"
+                            >
+                              {subItem.title}
+                            </NavLink>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </li> */}
+                </li> */}
               <li>
                 {" "}
                 <NavLink
@@ -250,59 +255,59 @@ function Navbar() {
                 </NavLink>
               </li>
               {/* <li
-                className={`relative group flex gap-1 justify-center items-center transition-all duration-300 text-base-100 dark:text-primary bg-primary dark:bg-base-100  w-max cursor-pointer text-sm `}
-              >
-                <NavLink
-                  to="property-sale-and-purchase"
-                  className={({ isActive }) =>
-                    isActive
-                      ? activeClassName
-                      : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent group-hover:text-accent"
-                  }
+                  className={`relative group flex gap-1 justify-center items-center transition-all duration-300 text-base-100 dark:text-primary bg-primary dark:bg-base-100  w-max cursor-pointer text-sm `}
                 >
-                  Property{" "}
-                  <FaAngleDown className="transition-all duration-300 group-hover:rotate-180 group-hover:text-accent" />
-                </NavLink>
-                <div className="absolute top-5 2xl:left-0 hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
-                  <ul className="space-y-2 rounded-lg shadow z-50 bg-primary">
-                    {allProperties.map((item, index) => (
-                      <li
-                        onMouseEnter={() => setMenu("property")}
-                        onMouseLeave={() => setMenu("")}
-                      >
-                        <Link key={index} to={`${item.link}`}>
-                          <li
-                            className={`flex items-center gap-3 transition-all duration-300 cursor-pointer px-5 py-4 z-50  hover:text-accent h-full w-max bg-primary dark:bg-base-100 ${
-                              menu === "property" && "text-accent"
+                  <NavLink
+                    to="property-sale-and-purchase"
+                    className={({ isActive }) =>
+                      isActive
+                        ? activeClassName
+                        : "text-base-100 dark:text-primary w-fit flex items-center gap-4 hover:text-accent group-hover:text-accent"
+                    }
+                  >
+                    Property{" "}
+                    <FaAngleDown className="transition-all duration-300 group-hover:rotate-180 group-hover:text-accent" />
+                  </NavLink>
+                  <div className="absolute top-5 2xl:left-0 hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
+                    <ul className="space-y-2 rounded-lg shadow z-50 bg-primary">
+                      {allProperties.map((item, index) => (
+                        <li
+                          onMouseEnter={() => setMenu("property")}
+                          onMouseLeave={() => setMenu("")}
+                        >
+                          <Link key={index} to={`${item.link}`}>
+                            <li
+                              className={`flex items-center gap-3 transition-all duration-300 cursor-pointer px-5 py-4 z-50  hover:text-accent h-full w-max bg-primary dark:bg-base-100 ${
+                                menu === "property" && "text-accent"
+                              }`}
+                            >
+                              {item.name} <FaAngleRight />
+                            </li>
+                          </Link>
+                          <div
+                            className={`w-max absolute -right-44 top-0 rounded-lg bg-primary dark:bg-base-100 shadow-md  ${
+                              item.submenu && menu === "property" ? "" : "hidden"
                             }`}
                           >
-                            {item.name} <FaAngleRight />
-                          </li>
-                        </Link>
-                        <div
-                          className={`w-max absolute -right-44 top-0 rounded-lg bg-primary dark:bg-base-100 shadow-md  ${
-                            item.submenu && menu === "property" ? "" : "hidden"
-                          }`}
-                        >
-                          <ul className="space-y-2 rounded-lg p-2">
-                            {item.submenu?.map((sub, index) => (
-                              <li className="transition-all duration-300 text-base-100 dark:text-primary w-max flex items-center gap-1 hover:text-accent hover:dark:text-accent ">
-                                <Link
-                                  key={index}
-                                  className=""
-                                  to={`${sub.link}`}
-                                >
-                                  {sub.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </li> */}
+                            <ul className="space-y-2 rounded-lg p-2">
+                              {item.submenu?.map((sub, index) => (
+                                <li className="transition-all duration-300 text-base-100 dark:text-primary w-max flex items-center gap-1 hover:text-accent hover:dark:text-accent ">
+                                  <Link
+                                    key={index}
+                                    className=""
+                                    to={`${sub.link}`}
+                                  >
+                                    {sub.name}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </li> */}
               <li>
                 {" "}
                 <NavLink
@@ -321,11 +326,11 @@ function Navbar() {
               <NavbarUserMenu />
             ) : (
               <div className="flex gap-2">
-                <Link to="/lawyer-login">
+                <Link to="/lawyer-register">
                   <span
                     className={`cursor-pointer primary-outline-btn`}
                   >
-                    Lawyer Login
+                    Lawyer Click Here
                   </span>
                 </Link>
                 <Link to="/login">
@@ -343,6 +348,7 @@ function Navbar() {
       </div>
     </div>
   );
+
 }
 
 export default Navbar;
