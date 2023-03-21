@@ -10,3 +10,4 @@ Change logs:
 6. Added call logs page
 7. Added call transaction page
 8. Added calender filter for transactions
+9. Added lawyer register page
