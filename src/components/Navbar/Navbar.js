@@ -11,7 +11,7 @@ function Navbar() {
   const { darkmode, toggleDarkMode } = useContext(StateContext);
 
   const location = useLocation();
-  const pathname  = '/'; 
+  const pathname = '/';
 
 
   /* const [menu, setMenu] = useState("");
@@ -320,13 +320,23 @@ function Navbar() {
             {user?.email ? (
               <NavbarUserMenu />
             ) : (
-              <Link to="/login">
-                <span
-                  className={`cursor-pointer primary-outline-btn`}
-                >
-                  Login
-                </span>
-              </Link>
+              <div className="flex gap-2">
+                <Link to="/lawyer-login">
+                  <span
+                    className={`cursor-pointer primary-outline-btn`}
+                  >
+                    Lawyer Login
+                  </span>
+                </Link>
+                <Link to="/login">
+                  <span
+                    className={`cursor-pointer primary-outline-btn`}
+                  >
+                    Login
+                  </span>
+                </Link>
+
+              </div>
             )}
           </div>
         </div>
