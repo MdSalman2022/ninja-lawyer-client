@@ -19,9 +19,13 @@ export default function Register() {
     const email = form.email.value;
     const password = form.password.value;
     const confirmPassword = form.confirm_password.value;
+    const phone = form.phone.value;
+    const name = form.name.value;
+    console.log(email);
     if (password === confirmPassword) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+          console.log(email);
           // Signed in
           const user = userCredential.user;
           console.log(user);
@@ -29,6 +33,8 @@ export default function Register() {
           const postData = {
             UID: user.uid,
             email: email,
+            name: name,
+            phone: phone,
           };
           sendToServer(user.id, postData);
           console.log("sent to server");
@@ -39,6 +45,7 @@ export default function Register() {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          console.log(errorCode, errorMessage);
           // ..
         });
     }
@@ -48,13 +55,15 @@ export default function Register() {
       <section className="bg-primary dark:bg-base-100 pb-7">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-base-100 dark:border-gray-700">
-
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <div className="grid grid-cols-2 gap-5 pb-0">
                 <div className="transition-all duration-300 border rounded-lg p-2 text-center bg-accent text-primary cursor-pointer">
                   User
                 </div>
-                <Link to="/lawyer-register" className="transition-all duration-300 border rounded-lg p-2 text-center hover:bg-accent hover:text-primary cursor-pointer">
+                <Link
+                  to="/lawyer-register"
+                  className="transition-all duration-300 border rounded-lg p-2 text-center hover:bg-accent hover:text-primary cursor-pointer"
+                >
                   Lawyer
                 </Link>
               </div>
@@ -75,6 +84,40 @@ export default function Register() {
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name@company.com"
+                    required=""
+                  />
+                </div>
+                {/* name */}
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Your name
+                  </label>
+                  <input
+                    type="name"
+                    name="name"
+                    id="name"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="John Doe"
+                    required=""
+                  />
+                </div>
+                {/* Phone */}
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Your phone
+                  </label>
+                  <input
+                    type="phone"
+                    name="phone"
+                    id="phone"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="+918787678768"
                     required=""
                   />
                 </div>

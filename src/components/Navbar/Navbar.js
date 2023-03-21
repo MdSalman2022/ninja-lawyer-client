@@ -12,7 +12,7 @@ function Navbar() {
   const { darkmode, toggleDarkMode } = useContext(StateContext);
 
   const location = useLocation();
-  const pathname = '/';
+  const pathname = "/";
 
   /* const [menu, setMenu] = useState("");
 
@@ -22,12 +22,12 @@ function Navbar() {
   let activeClassName = `text-accent dark:text-accent flex items-center gap-4 ${pathname === "/talk-to-lawyer" ? "text-secondary" : "text-accent"
     }`;
 
-  // for different navbar 
+  // for different navbar
   // if (user?.userType === "lawyer") {
   //   return <LawyerNavbar />
   // }
-  // else 
-  console.log(user?.uid, "sadnan");
+  // else
+  console.log(user);
 
   return (
     <div
@@ -329,13 +329,10 @@ function Navbar() {
             ) : (
               <div className="flex gap-2">
                 <Link to="/login">
-                  <span
-                    className={`cursor-pointer primary-outline-btn`}
-                  >
+                  <span className={`cursor-pointer primary-outline-btn`}>
                     Login
                   </span>
                 </Link>
-
               </div>
             )}
           </div>
@@ -343,7 +340,6 @@ function Navbar() {
       </div>
     </div>
   );
-
 }
 
 export default Navbar;
