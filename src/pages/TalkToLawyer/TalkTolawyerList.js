@@ -128,7 +128,7 @@ function TalkToLawyerList() {
                                             <img className='rounded-xl  h-60 w-full object-cover' src={lawyer?.img ? lawyer.img : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'} alt="" />
                                             <div className='absolute top-0 bg-primary w-full h-60 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-[50%] dark:bg-opacity-[50%]'></div>
                                             <span className='absolute top-0 right-0 bg-primary dark:bg-base-100 p-2 rounded-bl-xl shadow-xl'>
-                                                <p className='text-2xl text-end font-bold'>₹{lawyer?.price}</p>
+                                                <p className='text-2xl text-end font-bold'>₹{lawyer?.rate}</p>
                                                 <p className='text-base-100 dark:text-secondary opacity-60 text-sm'>Per Minute</p>
                                             </span>
                                         </figure>

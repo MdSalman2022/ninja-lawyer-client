@@ -63,6 +63,7 @@ export default function LawyerRegister() {
             bar,
             id,
             year,
+            verified: false,
           };
           sendToServerLawyer(user.id, postData);
           console.log("sent to server");

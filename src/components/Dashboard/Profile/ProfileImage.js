@@ -57,18 +57,17 @@ export default function ProfileImage(props) {
           <AiOutlineCamera className="absolute left-[38%] top-[40%] text-3xl text-white hidden group-hover:flex" />
           <img
             className="rounded-full h-32 w-32 object-cover"
-            src={imgLink}
-            // src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png"
+            src={imgLink ? imgLink : 'https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png'}
             alt=""
           />
         </div>
         {/* **change later */}
-        <div className="mt-9 flex flex-row">
+        <div className="mt-9 flex flex-row w-60">
+
           <input
-            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            type="file" className="file-input file-input-bordered w-full max-w-xs"
             id="fileInput"
             name="fileInput"
-            type="file"
             onChange={handleFileChange}
           />
           <button

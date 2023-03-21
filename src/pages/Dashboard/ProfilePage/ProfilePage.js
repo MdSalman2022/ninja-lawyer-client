@@ -11,6 +11,7 @@ import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import { updateData, putDataToServer } from "./ProfilePageUpdateData";
 import { StateContext } from "../../../contexts/StateProvider/StateProvider";
 import ProfileImage from "../../../components/Dashboard/Profile/ProfileImage";
+import { RxCross1 } from 'react-icons/rx'
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
@@ -20,7 +21,7 @@ function ProfilePage() {
   useEffect(() => {
     const getProfile = (id) => {
       console.log("yes");
-      fetch(`https://ninja-lawyer-server.vercel.app/api/users/get/${id}`)
+      fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
@@ -41,7 +42,106 @@ function ProfilePage() {
     console.log(data);
     const updateResult = putDataToServer(user.uid, data);
     console.log(updateResult, "----");
+    setHeightFull(!heightFull)
   }
+
+
+  // specialties and languages function 
+
+  const [specialties, setSpecialties] = useState([]);
+  const [languages, setLanguages] = useState([]);
+  const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
+  const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter."];
+
+  const [languageError, setLanguageError] = useState('')
+  const [specialtiesError, setSpecialtiesError] = useState('')
+
+
+  const [languageInputValue, setLanguageInputValue] = useState('')
+  const [specialtiesInputValue, setSpecialtiesInputValue] = useState('')
+
+  const handleSpecialtyInputValue = (event) => {
+    const { value } = event.target;
+    setSpecialtiesInputValue(value);
+  }
+
+  const handleSpecialties = (event) => {
+    const { value } = event.target;
+
+    console.log(value)
+
+    if (event.key === 'Enter' && value.trim() !== '') {
+      event.preventDefault()
+      if (specialties.includes(value)) {
+        setSpecialtiesInputValue('')
+        setSpecialtiesError(`${value} specialty already added`)
+        return;
+      }
+      else
+        setSpecialtiesError('')
+
+      if (!specialtiesSuggestions.includes(value)) {
+        setSpecialtiesError(`"${value}" specialty not available`)
+        return;
+      }
+      else
+        setSpecialtiesError('')
+
+      setSpecialties([...specialties, value]);
+      setSpecialtiesInputValue('');
+    }
+    else if (event.key === 'Enter' && value.trim() === '') {
+      event.preventDefault()
+
+    }
+  }
+
+  const handleRemoveSpecialty = (specialty) => {
+    const newSpecialties = specialties.filter((special) => special !== specialty);
+    setSpecialties(newSpecialties);
+  }
+
+  const handleLanguageInputValue = (event) => {
+    const { value } = event.target;
+    setLanguageInputValue(value);
+  }
+
+  const handleLanguages = (event) => {
+    const { value } = event.target;
+    console.log(value)
+
+    if (event.key === 'Enter' && value.trim() !== '') {
+      event.preventDefault()
+      if (languages.includes(value)) {
+        setLanguageInputValue('')
+        setLanguageError(`${value} language already added`)
+        return;
+      }
+      else
+        setLanguageError('')
+
+      if (!languageSuggestions.includes(value)) {
+        setLanguageError(`"${value}" language not available`)
+        return;
+      }
+      else
+        setLanguageError('')
+
+      setLanguages([...languages, value]);
+      setLanguageInputValue('');
+    }
+    else if (event.key === 'Enter' && value.trim() === '') {
+      event.preventDefault()
+
+    }
+  }
+
+  const handleRemoveLanguage = (language) => {
+    const newLanguages = languages.filter((lang) => lang !== language);
+    setLanguages(newLanguages);
+  }
+  console.log(languages)
+  console.log(specialties)
 
   return (
     <div
@@ -74,13 +174,16 @@ function ProfilePage() {
             </h2>
             <span className="flex items-center gap-2">
               {" "}
-              {/* <img
+              <img
                 className="w-5"
                 src="https://i.ibb.co/R2B63FR/Flag-India.webp"
                 alt=""
-              />{" "} */}
-              {userData.location}
+              />{" "}
+              {userData.city}, {userData.state}, India
             </span>
+            {
+              user.displayName === "lawyer" && <button onClick={() => setHeightFull(!heightFull)} className="primary-btn">Get Verified</button>
+            }
             {/* <div className="flex items-center gap-2">
               <span className="text-sm font-semibold">@bhupen</span>
               <span className="font-semibold flex items-center">
@@ -108,29 +211,29 @@ function ProfilePage() {
       </div>
 
       <div className={`${!heightFull && "hidden"}`}>
-        <div className="flex justify-between mb-10">
-          <h1 className="text-3xl font-bold">Edit Profile</h1>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setHeightFull(!heightFull)}
-              className="primary-outline-btn"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => setHeightFull(!heightFull)}
-              className="primary-btn"
-            >
-              Save
-            </button>
-          </div>
-        </div>
-
         <div className={`pb-5`}>
           <form
-            className="col-span-1 grid grid-cols-3 gap-5"
+            className="col-span-1 grid grid-cols-3 gap-5 mt-5"
             onSubmit={handleUpdate}
           >
+            <div className=" col-span-3 flex justify-between gap-2">
+
+              <h1 className="text-3xl font-bold">Edit Profile</h1>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setHeightFull(!heightFull)}
+                  className="primary-outline-btn"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="primary-btn"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
             <label class="col-span-2 grid grid-cols-2">
               <span class=" font-medium text-base-100 dark:text-primary w-32">
                 Name
@@ -166,19 +269,9 @@ function ProfilePage() {
               <input
                 type="text"
                 class="input-box w-full"
-                name="phone"
-                defaultValue={userData.phone}
-              />
-            </label>
-            <label class="col-span-2 grid grid-cols-2">
-              <span class=" font-medium text-base-100 dark:text-primary w-32">
-                Location
-              </span>
-              <input
-                type="text"
-                class="input-box w-full"
-                name="location"
-                defaultValue={userData.location}
+                name="contact"
+                defaultValue={userData?.phone ? userData.phone : userData.contact}
+                required
               />
             </label>
             <label class="col-span-2 grid grid-cols-2">
@@ -190,6 +283,7 @@ function ProfilePage() {
                 class="input-box w-full"
                 name="state"
                 defaultValue={userData.state}
+                required
               />
             </label>
             <label class="col-span-2 grid grid-cols-2">
@@ -201,45 +295,140 @@ function ProfilePage() {
                 class="input-box w-full"
                 name="city"
                 defaultValue={userData.city}
+                required
               />
             </label>
-            <label class="col-span-2 grid grid-cols-2">
-              <span class=" font-medium text-base-100 dark:text-primary w-32">
-                Postal Code
-              </span>
-              <input
-                type="text"
-                class="input-box w-full"
-                name="postalcode"
-                defaultValue={userData.postalcode}
-              />
-            </label>
-            <label class="col-span-2 grid grid-cols-2">
-              <span class=" font-medium text-base-100 dark:text-primary w-32">
-                Address
-              </span>
-              <input
-                type="text"
-                class="input-box w-full"
-                name="address"
-                defaultValue={userData.address}
-              />
-            </label>
-            <label class="col-span-2 grid grid-cols-2">
-              <span class=" font-medium text-base-100 dark:text-primary w-32">
-                Second Address
-              </span>
-              <input
-                type="text"
-                class="input-box w-full"
-                name="address2"
-                defaultValue={userData.address2}
-              />
-            </label>
-            <button type="submit" className="btn btn-dark">
+
+            {
+              user?.displayName === "lawyer" &&
+              <div className="col-span-2 grid grid-cols-2 gap-5">
+                <label class="col-span-2 grid grid-cols-2">
+                  <span class=" font-medium text-base-100 dark:text-primary w-32">
+                    Rate
+                  </span>
+                  <input
+                    type="number"
+                    class="input-box w-full"
+                    name="rate"
+                    defaultValue={userData.rate}
+                    required
+                  />
+                </label>
+                <label class="col-span-2 grid grid-cols-2">
+                  <span class=" font-medium text-base-100 dark:text-primary w-32">
+                    Bar Council ID
+                  </span>
+                  <input
+                    type="text"
+                    class="input-box w-full"
+                    name="bar"
+                    defaultValue={userData.bar}
+                    required
+                  />
+                </label>
+                <label class="col-span-2 grid grid-cols-2">
+                  <span class=" font-medium text-base-100 dark:text-primary w-44">
+                    Bar Council ID Image
+                  </span>
+                  <div className="flex items-center gap-3">
+                    <img className="w-20" src={`https://thumbs.dreamstime.com/b/document-icon-vector-stack-paper-sheets-illustration-131104983.jpg`} alt="" />
+
+                    <button className="primary-btn">Upload</button>
+                    <button className="primary-outline-btn">Cancel</button>
+                  </div>
+
+                </label>
+                <label class="col-span-2 grid grid-cols-2">
+                  <span class=" font-medium text-base-100 dark:text-primary w-32">
+                    Id no.
+                  </span>
+                  <input
+                    type="text"
+                    class="input-box w-full"
+                    name="id"
+                    defaultValue={userData.id}
+                    required
+                  />
+                </label>
+                <label class="col-span-2 grid grid-cols-2">
+                  <span class=" font-medium text-base-100 dark:text-primary w-32">
+                    Year
+                  </span>
+                  <input
+                    type="text"
+                    class="input-box w-full"
+                    name="year"
+                    defaultValue={userData.year}
+                    required
+                  />
+                </label>
+
+                <label class="col-span-2 grid grid-cols-2">
+                  <span class="text-start font-medium text-base-100 dark:text-primary w-32 flex">
+                    Language
+                  </span>
+                  <div className=''>
+                    <input onKeyDown={handleLanguages} onChange={handleLanguageInputValue} value={languageInputValue} list="languages" id="languageInput" className={`input-box w-full ${languageError === 0 ? 'border border-red-500' : ''}`} required={languages.length > 0 ? false : true} />
+                    <datalist id="languages" className='text-left w-full' >
+                      {
+                        languageSuggestions.map((language, index) => <option key={index} value={language} />)
+                      }
+                    </datalist>
+                    <div className='text-xs flex flex-wrap gap-1 mt-1'>
+                      {
+                        languages.map((language, index) => <div className='flex items-center justify-between'>
+                          <span key={index} className='px-1 rounded border  flex items-center gap-1'>{language} <RxCross1 onClick={() => handleRemoveLanguage(language)} className='cursor-pointer' /></span>
+                        </div>)
+                      }
+                    </div>
+                  </div>
+                  <span className='col-span-2 flex justify-end text-xs text-error'>{languageError === 0 ? 'Please add atleast one language' : languageError}</span>
+                </label>
+                <label class="col-span-2 grid grid-cols-2">
+                  <span class="text-start font-medium text-base-100 dark:text-primary w-32">
+                    Specialties
+                  </span>
+                  <div className=''>
+                    <input onKeyDown={handleSpecialties} onChange={handleSpecialtyInputValue} value={specialtiesInputValue} list="specialties" id="specialtyInput" className={`input-box w-full ${specialtiesError === 0 ? 'border border-red-500' : ''}`} required={specialties.length > 0 ? false : true} />
+                    <datalist id="specialties" className='text-left w-full' >
+                      {
+                        specialtiesSuggestions.map((specialty, index) => <option key={index} value={specialty} />)
+                      }
+                    </datalist>
+                    <div className='text-xs flex flex-wrap gap-1 mt-1'>
+                      {
+                        specialties.map((specialty, index) => <div className='flex items-start justify-start'>
+                          <span key={index} className='px-1 rounded border  flex items-start justify-start text-left gap-1'>{specialty} <RxCross1 onClick={() => handleRemoveSpecialty(specialty)} className='cursor-pointer' /></span>
+                        </div>)
+                      }
+                    </div>
+                  </div>
+                  <span className='col-span-2 flex justify-end text-xs text-error text-left'>{specialtiesError === 0 ? 'Please add atleast one specialty' : specialtiesError}</span>
+                </label>
+                <label class="col-span-2 grid grid-cols-2 ">
+                  <span class="text-start font-medium text-base-100 dark:text-primary w-60">
+                    Professional Summary
+                  </span>
+                  <textarea
+                    type="text"
+                    class="input-box w-full h-28"
+                    name="summary"
+                    placeholder='Write your professional summary'
+                    required
+                  />
+                </label>
+              </div>
+            }
+
+
+
+            {/* <button type="submit" className="btn btn-dark">
               {" "}
               Submit{" "}
-            </button>
+            </button> */}
+
+
+
           </form>
         </div>
       </div>
