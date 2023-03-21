@@ -29,6 +29,14 @@ export default function LawyerRegister() {
                     const postData = {
                         UID: user.uid,
                         email: email,
+                        fname,
+                        lname,
+                        gender,
+                        state,
+                        city,
+                        bar,
+                        id,
+                        year,
                     };
                     sendToServer(user.id, postData);
                     console.log("sent to server");
