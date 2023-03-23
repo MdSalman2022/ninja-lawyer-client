@@ -272,40 +272,40 @@ function ModalBox() {
                                         className="grid grid-cols-2 gap-5"
                                         onSubmit={handleSubmit(onSubmit)}
                                     >
-                                        <label class="col-span-2 flex flex-col items-start justify-start ">
-                                            <span class="text-start font-medium text-base-100 dark:text-primary w-32">
+                                        <label className="col-span-2 flex flex-col items-start justify-start ">
+                                            <span className="text-start font-medium text-base-100 dark:text-primary w-32">
                                                 Full Name:
                                             </span>
                                             <input
                                                 type="text"
-                                                class="input-box w-full"
+                                                className="input-box w-full"
                                                 name="fname"
                                                 placeholder='Rajesh Kumar'
                                                 {...register("fname", { required: true, maxLength: 80 })} />
                                             {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
                                         </label>
-                                        <label class="col-span-1 flex flex-col items-start justify-start ">
-                                            <span class="text-start font-medium text-base-100 dark:text-primary w-14">
+                                        <label className="col-span-1 flex flex-col items-start justify-start ">
+                                            <span className="text-start font-medium text-base-100 dark:text-primary w-14">
                                                 Email
                                             </span>
                                             <input
                                                 type="email"
-                                                class="input-box w-full"
+                                                className="input-box w-full"
                                                 name="email"
                                                 placeholder='example@mail.com'
                                                 {...register("email", { required: true, maxLength: 80 })}
                                             />
                                         </label>
-                                        <label class="col-span-1 flex flex-col items-start ">
+                                        <label className="col-span-1 flex flex-col items-start ">
 
-                                            <span class="text-start font-medium text-base-100 dark:text-primary w-40">
+                                            <span className="text-start font-medium text-base-100 dark:text-primary w-40">
                                                 Contact number
                                             </span>
                                             <div className='flex items-end'>
                                                 <span className=' rounded-l-md h-[90%] border-y border-l px-1 bg-primary flex items-center'>+91</span>
                                                 <input
                                                     type="text"
-                                                    class="input-box w-full rounded-l-none border-l-none"
+                                                    className="input-box w-full rounded-l-none border-l-none"
                                                     name="contact"
                                                     placeholder='1234567890'
                                                     {...register("contact", { required: true, maxLength: 80 })}
@@ -327,28 +327,28 @@ function ModalBox() {
                             </label> */}
 
                                         <div className="col-span-2 grid grid-cols-3 gap-5">
-                                            <label class="col-span-1 flex flex-col items-start">
-                                                <span class="text-start font-medium text-base-100 dark:text-primary w-32">
+                                            <label className="col-span-1 flex flex-col items-start">
+                                                <span className="text-start font-medium text-base-100 dark:text-primary w-32">
                                                     State
                                                 </span>
                                                 <input
                                                     type="text"
-                                                    class="input-box w-full"
+                                                    className="input-box w-full"
                                                     name="state"
                                                     placeholder='West Bengal, Maharashtra, etc.'
                                                     value={stateInfo} readOnly
                                                 />
                                             </label>
-                                            <label class="col-span-1 flex flex-col items-start">
-                                                <span class="text-start font-medium text-base-100 dark:text-primary w-32">
+                                            <label className="col-span-1 flex flex-col items-start">
+                                                <span className="text-start font-medium text-base-100 dark:text-primary w-32">
                                                     City
                                                 </span>
                                                 <select className="input-box w-full max-w-xs" {...register("city", { required: true })}>
                                                     {cityInfo?.map(city => <option value={city['place name']}>{city['place name']}</option>)}
                                                 </select>
                                             </label>
-                                            <label class="col-span-1 flex flex-col items-start">
-                                                <span class="text-start font-medium text-base-100 dark:text-primary w-32">
+                                            <label className="col-span-1 flex flex-col items-start">
+                                                <span className="text-start font-medium text-base-100 dark:text-primary w-32">
                                                     Pincode
                                                 </span>
                                                 <input
@@ -358,34 +358,34 @@ function ModalBox() {
                                                 />
                                             </label>
                                         </div>
-                                        <label class="col-span-1 flex flex-col items-start">
-                                            <span class="text-start font-medium text-base-100 dark:text-primary w-32">
+                                        <label className="col-span-1 flex flex-col items-start">
+                                            <span className="text-start font-medium text-base-100 dark:text-primary w-32">
                                                 Experience
                                             </span>
                                             <input
                                                 type="number"
-                                                class="input-box w-full"
+                                                className="input-box w-full"
                                                 name="experience"
                                                 placeholder='In years'
                                                 {...register("experience", { required: true, maxLength: 80 })}
 
                                             />
                                         </label>
-                                        <label class="col-span-1 flex flex-col items-start">
-                                            <span class="text-start font-medium text-base-100 dark:text-primary w-32">
+                                        <label className="col-span-1 flex flex-col items-start">
+                                            <span className="text-start font-medium text-base-100 dark:text-primary w-32">
                                                 Rate per minute
                                             </span>
                                             <input
                                                 type="number"
-                                                class="input-box w-full"
+                                                className="input-box w-full"
                                                 name="rate"
                                                 placeholder='In Rs'
                                                 {...register("rate", { required: true, maxLength: 80 })}
 
                                             />
                                         </label>
-                                        <label class="col-span-1 flex flex-col items-start w-full">
-                                            <span class="text-start font-medium text-base-100 dark:text-primary w-32 flex">
+                                        <label className="col-span-1 flex flex-col items-start w-full">
+                                            <span className="text-start font-medium text-base-100 dark:text-primary w-32 flex">
                                                 Language
                                             </span>
                                             <div className=''>
@@ -405,8 +405,8 @@ function ModalBox() {
                                             </div>
                                             <span className='text-xs text-error'>{languageError === 0 ? 'Please add atleast one language' : languageError}</span>
                                         </label>
-                                        <label class="col-span-1 flex flex-col items-start">
-                                            <span class="text-start font-medium text-base-100 dark:text-primary w-32">
+                                        <label className="col-span-1 flex flex-col items-start">
+                                            <span className="text-start font-medium text-base-100 dark:text-primary w-32">
                                                 Specialties
                                             </span>
                                             <div className=''>
@@ -426,13 +426,13 @@ function ModalBox() {
                                             </div>
                                             <span className='text-xs text-error text-left'>{specialtiesError === 0 ? 'Please add atleast one specialty' : specialtiesError}</span>
                                         </label>
-                                        <label class="col-span-2 flex flex-col items-start">
-                                            <span class="text-start font-medium text-base-100 dark:text-primary w-60">
+                                        <label className="col-span-2 flex flex-col items-start">
+                                            <span className="text-start font-medium text-base-100 dark:text-primary w-60">
                                                 Professional Summary
                                             </span>
                                             <textarea
                                                 type="text"
-                                                class="input-box w-full h-28"
+                                                className="input-box w-full h-28"
                                                 name="summary"
                                                 placeholder='Write your professional summary'
                                                 {...register("summary", { required: true, maxLength: 400 })}

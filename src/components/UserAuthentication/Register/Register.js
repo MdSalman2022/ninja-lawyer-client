@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
@@ -6,12 +6,25 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../assets/firebase.config";
 import { useLocation, useNavigate } from "react-router-dom";
 import { sendToServer } from "../Login/LoginPostDB";
+import { toast } from 'react-hot-toast';
 
 export default function Register() {
+
+  const { logOut, user } = useContext(AuthContext)
   // For navigation
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+
+  useEffect(() => {
+    if (user) {
+      console.log("already logged");
+      navigate(from, { replace: true });
+    } else {
+      console.log("not logged");
+      console.log(user);
+    }
+  }, [user]);
 
   function handleSignUp(e) {
     e.preventDefault();
@@ -38,6 +51,8 @@ export default function Register() {
           };
           sendToServer(user.id, postData);
           console.log("sent to server");
+          toast.success("User Registered Successfully");
+          logOut()
           // Navigate function once user logs in
           navigate('/login');
           // ...
@@ -145,7 +160,7 @@ export default function Register() {
                     Confirm password
                   </label>
                   <input
-                    type="confirm-password"
+                    type="password"
                     name="confirm_password"
                     id="confirm_password"
                     placeholder="••••••••"

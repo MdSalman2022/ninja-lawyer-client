@@ -26,51 +26,51 @@ function TransactionPage() {
                             <input type="text" className='input-box w-full rounded-r-none py-3 mt-0' placeholder='Search Here...' />
                             <div className="primary-btn rounded-l-none m-0 py-4 cursor-pointer"><FaSearch /></div>
                         </label>
-                        <table class="min-w-full border">
-                            <thead class="bg-primary dark:bg-base-100 border-b">
+                        <table className="min-w-full border">
+                            <thead className="bg-primary dark:bg-base-100 border-b">
                                 <tr>
-                                    <th scope="col" class="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
+                                    <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
                                         #
                                     </th>
-                                    <th scope="col" class="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
+                                    <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
                                         Payment Id
                                     </th>
-                                    <th scope="col" class="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
+                                    <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
                                         Payment Date
                                     </th>
-                                    <th scope="col" class="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
+                                    <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
                                         Service Name
                                     </th>
-                                    <th scope="col" class="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
+                                    <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
                                         Amount
                                     </th>
-                                    <th scope="col" class="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
+                                    <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
                                         Payment method
                                     </th>
-                                    <th scope="col" class="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
+                                    <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
                                         Invoice
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="bg-primary dark:bg-base-100">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-base-100 dark:text-primary">1</td>
-                                    <td class="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
+                                <tr className="bg-primary dark:bg-base-100">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-base-100 dark:text-primary">1</td>
+                                    <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
                                         P01
                                     </td>
-                                    <td class="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
+                                    <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
                                         5 March 2023
                                     </td>
-                                    <td class="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
+                                    <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
                                         Civil Matters
                                     </td>
-                                    <td class="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
+                                    <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
                                         1799
                                     </td>
-                                    <td class="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
+                                    <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
                                         Visa Card
                                     </td>
-                                    <td class="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap cursor-pointer">
+                                    <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap cursor-pointer">
                                         <MdSimCardDownload className='text-xl' />
                                     </td>
                                 </tr>

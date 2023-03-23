@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layout/Main";
 import AskLawyerPage from "../pages/AskLawyerPage/AskLawyerPage";
@@ -20,7 +20,7 @@ import CallLogsPage from "../pages/Dashboard/CallLogsPage/CallLogsPage";
 import TransactionPage from "../pages/Dashboard/TransactionPage/TransactionPage";
 import LawyerProfile from "../pages/TalkToLawyer/LawyerProfile";
 import LawyerRegister from "../components/UserAuthentication/LawyerRegister/LawyerRegister";
-import LawyerNavbar from "../components/Navbar/LawyerNavbar";
+import { AuthContext } from "../contexts/AuthProvider/AuthProvider";
 
 export const router = createBrowserRouter([
   {

@@ -12,11 +12,24 @@ import { updateData, putDataToServer } from "./ProfilePageUpdateData";
 import { StateContext } from "../../../contexts/StateProvider/StateProvider";
 import ProfileImage from "../../../components/Dashboard/Profile/ProfileImage";
 import { RxCross1 } from 'react-icons/rx'
+import { useForm } from "react-hook-form";
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
   const [userData, setUserData] = useState({});
   const { heightFull, setHeightFull } = useContext(StateContext);
+  const [states, setStates] = useState([])
+  const [statesName, setStateName] = useState('')
+  const [stateId, setStateId] = useState('');
+  const [cities, setCities] = useState([]);
+  const [cityName, setCityName] = useState('');
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
 
   useEffect(() => {
     const getProfile = (id) => {
@@ -34,15 +47,25 @@ function ProfilePage() {
     }
   }, [user]);
 
-  const [edit, setEdit] = useState(false);
 
-  function handleUpdate(e) {
-    e.preventDefault();
-    const data = updateData(e, user.uid);
-    console.log(data);
-    const updateResult = putDataToServer(user.uid, data);
-    console.log(updateResult, "----");
-    setHeightFull(!heightFull)
+  const handleUpdate = (data) => {
+
+    // const { name, email, contact, city } = data
+
+    // const updatedData = {
+    //   name,
+    //   email,
+    //   contact,
+    //   state: statesName,
+    //   city,
+    // }
+    console.log(data)
+
+    // const update = updateData(updatedData, user.uid);
+    // console.log(updatedData);
+    // const updateResult = putDataToServer(user.uid, update);
+    // console.log(updateResult, "----");
+    // setHeightFull(!heightFull)
   }
 
 
@@ -59,6 +82,7 @@ function ProfilePage() {
 
   const [languageInputValue, setLanguageInputValue] = useState('')
   const [specialtiesInputValue, setSpecialtiesInputValue] = useState('')
+
 
   const handleSpecialtyInputValue = (event) => {
     const { value } = event.target;
@@ -140,8 +164,58 @@ function ProfilePage() {
     const newLanguages = languages.filter((lang) => lang !== language);
     setLanguages(newLanguages);
   }
-  console.log(languages)
-  console.log(specialties)
+  // console.log(languages)
+  // console.log(specialties)
+
+
+
+
+  const handleState = (iso) => {
+    setStateId(iso)
+    const name = states.find(state => state.iso2 === iso).name
+    setStateName(name)
+  }
+
+
+  const apiKey = 'aHhIRnFkYWRqTU5FVjhKd3labW1UMTR2Zm1TMXpaQmwzRERVUzlLSg==';
+
+  useEffect(() => {
+    fetch(`https://api.countrystatecity.in/v1/countries/IN/states/`, {
+      headers: {
+        'X-CSCAPI-KEY': apiKey
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setStates(data)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, [])
+
+
+
+  useEffect(() => {
+    fetch(`https://api.countrystatecity.in/v1/countries/IN/states/${stateId}/cities`, {
+      headers: {
+        'X-CSCAPI-KEY': apiKey
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setCities(data)
+        console.log(data)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, [stateId])
+
+  console.log(cities)
+  console.log(states)
+  console.log(stateId)
+  console.log(statesName)
 
   return (
     <div
@@ -211,123 +285,114 @@ function ProfilePage() {
       </div>
 
       <div className={`${!heightFull && "hidden"}`}>
-        <div className={`pb-5`}>
+        <div className={`pb-5 `}>
           <form
-            className="col-span-1 grid grid-cols-3 gap-5 mt-5"
-            onSubmit={handleUpdate}
+            className="grid grid-cols-3 gap-5 mt-5 "
+            onSubmit={handleSubmit(handleUpdate)}
           >
-            <div className=" col-span-3 flex justify-between gap-2">
+            <h1 className="col-span-3 ext-3xl font-bold">Edit Profile</h1>
 
-              <h1 className="text-3xl font-bold">Edit Profile</h1>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setHeightFull(!heightFull)}
-                  className="primary-outline-btn"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="primary-btn"
-                >
-                  Save
-                </button>
-              </div>
+            <div className="col-span-3 flex justify-end gap-3">
+              <button onClick={() => setHeightFull(!heightFull)} className="primary-outline-btn ">Cancel</button>
+              <button type="submit" className="primary-btn " >Save</button>
             </div>
-            <label class="col-span-2 grid grid-cols-2">
-              <span class=" font-medium text-base-100 dark:text-primary w-32">
+
+            <label className="col-span-2 grid grid-cols-2">
+              <span className=" font-medium text-base-100 dark:text-primary w-32">
                 Name
               </span>
               <input
                 type="text"
-                class="input-box w-full"
+                className="input-box w-full"
                 name="name"
                 defaultValue={userData.name}
+                {...register("name", { required: true, maxLength: 80 })}
               />
             </label>
-            {/* <label class="col-span-2 grid grid-cols-2">
-              <span class=" font-medium text-base-100 dark:text-primary w-32">
-                Last Name
-              </span>
-              <input type="text" class="input-box w-full" />
-            </label> */}
-            <label class="col-span-2 grid grid-cols-2">
-              <span class=" font-medium text-base-100 dark:text-primary w-32">
+            <label className="col-span-2 grid grid-cols-2">
+              <span className=" font-medium text-base-100 dark:text-primary w-32">
                 Email
               </span>
               <input
                 type="text"
-                class="input-box w-full"
+                className="input-box w-full"
                 name="email"
                 defaultValue={userData.email}
+                {...register("email", { required: true, maxLength: 80 })}
               />
             </label>
-            <label class="col-span-2 grid grid-cols-2">
-              <span class=" font-medium text-base-100 dark:text-primary w-32">
+            <label className="col-span-2 grid grid-cols-2">
+              <span className=" font-medium text-base-100 dark:text-primary w-32">
                 Phone number
               </span>
               <input
                 type="text"
-                class="input-box w-full"
+                className="input-box w-full"
                 name="contact"
                 defaultValue={userData?.phone ? userData.phone : userData.contact}
-                required
+                {...register("contact", { required: true, maxLength: 80 })}
               />
             </label>
-            <label class="col-span-2 grid grid-cols-2">
-              <span class=" font-medium text-base-100 dark:text-primary w-32">
+            <label className="col-span-2 grid grid-cols-2">
+              <span className=" font-medium text-base-100 dark:text-primary w-32">
                 State
               </span>
-              <input
-                type="text"
-                class="input-box w-full"
-                name="state"
-                defaultValue={userData.state}
-                required
-              />
+              <select name="state" id="" className="input-box" onChange={(e) => handleState(e.target.value)}
+                {...register("state", { required: true, maxLength: 80 })}
+              >
+                {
+                  states.length > 0 &&
+                  states?.map((state) => (
+                    <option key={state.id} value={state.iso2}>{state.name}</option>
+                  ))
+                }
+              </select>
             </label>
-            <label class="col-span-2 grid grid-cols-2">
-              <span class=" font-medium text-base-100 dark:text-primary w-32">
+            <label className="col-span-2 grid grid-cols-2">
+              <span className=" font-medium text-base-100 dark:text-primary w-32">
                 City
               </span>
-              <input
-                type="text"
-                class="input-box w-full"
-                name="city"
-                defaultValue={userData.city}
-                required
-              />
+              <select name="city" id="" className="input-box" onChange={(e) => setCityName(e.target.value)}
+                {...register("city", { required: true, maxLength: 80 })}
+              >
+                {/* <option value="select" disabled selected>Select a City</option> */}
+                {cities.length > 0 &&
+                  cities?.map((city) => (
+                    <option key={city.id} value={city.name}>{city.name}</option>
+                  ))
+                }
+              </select>
             </label>
 
             {
               user?.displayName === "lawyer" &&
               <div className="col-span-2 grid grid-cols-2 gap-5">
-                <label class="col-span-2 grid grid-cols-2">
-                  <span class=" font-medium text-base-100 dark:text-primary w-32">
+                <label className="col-span-2 grid grid-cols-2">
+                  <span className=" font-medium text-base-100 dark:text-primary w-32">
                     Rate
                   </span>
                   <input
                     type="number"
-                    class="input-box w-full"
+                    className="input-box w-full"
                     name="rate"
                     defaultValue={userData.rate}
                     required
                   />
                 </label>
-                <label class="col-span-2 grid grid-cols-2">
-                  <span class=" font-medium text-base-100 dark:text-primary w-32">
+                <label className="col-span-2 grid grid-cols-2">
+                  <span className=" font-medium text-base-100 dark:text-primary w-32">
                     Bar Council ID
                   </span>
                   <input
                     type="text"
-                    class="input-box w-full"
+                    className="input-box w-full"
                     name="bar"
                     defaultValue={userData.bar}
                     required
                   />
                 </label>
-                <label class="col-span-2 grid grid-cols-2">
-                  <span class=" font-medium text-base-100 dark:text-primary w-44">
+                <label className="col-span-2 grid grid-cols-2">
+                  <span className=" font-medium text-base-100 dark:text-primary w-44">
                     Bar Council ID Image
                   </span>
                   <div className="flex items-center gap-3">
@@ -338,33 +403,33 @@ function ProfilePage() {
                   </div>
 
                 </label>
-                <label class="col-span-2 grid grid-cols-2">
-                  <span class=" font-medium text-base-100 dark:text-primary w-32">
+                <label className="col-span-2 grid grid-cols-2">
+                  <span className=" font-medium text-base-100 dark:text-primary w-32">
                     Id no.
                   </span>
                   <input
                     type="text"
-                    class="input-box w-full"
+                    className="input-box w-full"
                     name="id"
                     defaultValue={userData.id}
                     required
                   />
                 </label>
-                <label class="col-span-2 grid grid-cols-2">
-                  <span class=" font-medium text-base-100 dark:text-primary w-32">
+                <label className="col-span-2 grid grid-cols-2">
+                  <span className=" font-medium text-base-100 dark:text-primary w-32">
                     Year
                   </span>
                   <input
                     type="text"
-                    class="input-box w-full"
+                    className="input-box w-full"
                     name="year"
                     defaultValue={userData.year}
                     required
                   />
                 </label>
 
-                <label class="col-span-2 grid grid-cols-2">
-                  <span class="text-start font-medium text-base-100 dark:text-primary w-32 flex">
+                <label className="col-span-2 grid grid-cols-2">
+                  <span className="text-start font-medium text-base-100 dark:text-primary w-32 flex">
                     Language
                   </span>
                   <div className=''>
@@ -384,8 +449,8 @@ function ProfilePage() {
                   </div>
                   <span className='col-span-2 flex justify-end text-xs text-error'>{languageError === 0 ? 'Please add atleast one language' : languageError}</span>
                 </label>
-                <label class="col-span-2 grid grid-cols-2">
-                  <span class="text-start font-medium text-base-100 dark:text-primary w-32">
+                <label className="col-span-2 grid grid-cols-2">
+                  <span className="text-start font-medium text-base-100 dark:text-primary w-32">
                     Specialties
                   </span>
                   <div className=''>
@@ -405,13 +470,13 @@ function ProfilePage() {
                   </div>
                   <span className='col-span-2 flex justify-end text-xs text-error text-left'>{specialtiesError === 0 ? 'Please add atleast one specialty' : specialtiesError}</span>
                 </label>
-                <label class="col-span-2 grid grid-cols-2 ">
-                  <span class="text-start font-medium text-base-100 dark:text-primary w-60">
+                <label className="col-span-2 grid grid-cols-2 ">
+                  <span className="text-start font-medium text-base-100 dark:text-primary w-60">
                     Professional Summary
                   </span>
                   <textarea
                     type="text"
-                    class="input-box w-full h-28"
+                    className="input-box w-full h-28"
                     name="summary"
                     placeholder='Write your professional summary'
                     required
@@ -419,16 +484,6 @@ function ProfilePage() {
                 </label>
               </div>
             }
-
-
-
-            {/* <button type="submit" className="btn btn-dark">
-              {" "}
-              Submit{" "}
-            </button> */}
-
-
-
           </form>
         </div>
       </div>

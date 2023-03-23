@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../../assets/firebase.config";
 import { useLocation, useNavigate } from "react-router-dom";
 import { sendToServerLawyer } from "../Login/LoginPostDB";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
+import { toast } from 'react-hot-toast';
 
 export default function LawyerRegister() {
+
+  const { logOut, user } = useContext(AuthContext)
+
   const {
     register,
     handleSubmit,
@@ -16,6 +21,16 @@ export default function LawyerRegister() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+
+  useEffect(() => {
+    if (user) {
+      console.log("already logged");
+      navigate(from, { replace: true });
+    } else {
+      console.log("not logged");
+      console.log(user);
+    }
+  }, [user]);
 
   const handleSignUp = (data) => {
     const {
@@ -67,8 +82,10 @@ export default function LawyerRegister() {
           };
           sendToServerLawyer(user.id, postData);
           console.log("sent to server");
+          toast.success("Account created successfully");
+          logOut();
           // Navigate function once user logs in
-          navigate(from, { replace: true });
+          navigate('/login');
           // ...
         })
         .catch((error) => {
@@ -148,8 +165,8 @@ export default function LawyerRegister() {
                     })}
                   />
                 </label>
-                <label class="col-span-1 flex flex-col items-start">
-                  <span class="text-start font-medium text-base-100 dark:text-primary ">
+                <label className="col-span-1 flex flex-col items-start">
+                  <span className="text-start font-medium text-base-100 dark:text-primary ">
                     Gender
                   </span>
                   <select

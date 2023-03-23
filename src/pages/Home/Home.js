@@ -8,20 +8,21 @@ function Home() {
   const { user } = useContext(AuthContext)
 
   // for different home page
-  /* if (user.userType === "lawyer") {
+  if (user?.displayName === "lawyer") {
     return (
       <div className="bg-primary dark:bg-base-100 h-screen text-center">
         <h1 className="text-5xl font-bold">Welcome to Lawyer Home page</h1>
       </div>
     )
   }
-  else  */
-  return (
-    <div className="bg-primary dark:bg-base-100">
-      <HeroSection />
-      <Middle />
-    </div>
-  );
+  else {
+    return (
+      <div className="bg-primary dark:bg-base-100">
+        <HeroSection />
+        <Middle />
+      </div>
+    );
+  }
 
 
 }

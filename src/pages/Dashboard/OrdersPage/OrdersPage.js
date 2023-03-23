@@ -14,19 +14,19 @@ function OrdersPage() {
 
                     <div className="flex flex-col gap-5">
                         <div className='flex items-center gap-3'>
-                            <input type="checkbox" class="accent-accent w-4 h-4 cursor-pointer" />
+                            <input type="checkbox" className="accent-accent w-4 h-4 cursor-pointer" />
                             Pending
                         </div>
                         <div className='flex items-center gap-3'>
-                            <input type="checkbox" class="accent-accent w-4 h-4 cursor-pointer" />
+                            <input type="checkbox" className="accent-accent w-4 h-4 cursor-pointer" />
                             Ongoing
                         </div>
                         <div className='flex items-center gap-3'>
-                            <input type="checkbox" class="accent-accent w-4 h-4 cursor-pointer" />
+                            <input type="checkbox" className="accent-accent w-4 h-4 cursor-pointer" />
                             Completed
                         </div>
                         <div className='flex items-center gap-3'>
-                            <input type="checkbox" class="accent-accent w-4 h-4 cursor-pointer" />
+                            <input type="checkbox" className="accent-accent w-4 h-4 cursor-pointer" />
                             Feedback Given
                         </div>
                     </div>

@@ -16,7 +16,6 @@ import { toast } from "react-hot-toast";
 
 export default function Login() {
   const { user, loading } = useContext(AuthContext);
-  const { darkmode } = useContext(StateContext);
 
   const [otp, setOtp] = useState("");
   const [otpDisplay, setOTPDisplay] = useState(false);
@@ -29,15 +28,14 @@ export default function Login() {
 
   // Useeffect to check if users' logged in already
   useEffect(() => {
-    if (user?.email) {
+    if (user) {
       console.log("already logged");
-      toast.success("Logged in successfully");
       navigate(from, { replace: true });
     } else {
       console.log("not logged");
       console.log(user);
     }
-  }, [user?.email]);
+  }, [user]);
   // Spinner
   if (loading) {
     return (
@@ -115,11 +113,12 @@ export default function Login() {
     const appVerifier = window.recaptchaVerifier;
     signInWithPhoneNumber(auth, number, appVerifier)
       .then((confirmationResult) => {
-        toast.success("Login code sent");
+        toast.success("OTP code sent");
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
         console.log("yes, sent");
+
       })
       .catch((error) => {
         console.log(error);
@@ -131,10 +130,12 @@ export default function Login() {
     if (otpLet.length === 6) {
       console.log(otpLet);
       const getOTPConfirmation = await confirmOTP(otpLet, phoneNumber);
+
       console.log(getOTPConfirmation, "-0-");
       if (getOTPConfirmation.message === true) {
         console.log("Sent true");
-        navigateDashboard();
+        toast.success("Logged in successfully");
+
       } else {
         toast.error("Invalid OTP");
       }

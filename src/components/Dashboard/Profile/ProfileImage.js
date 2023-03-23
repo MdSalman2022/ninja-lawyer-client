@@ -14,7 +14,7 @@ export default function ProfileImage(props) {
   const [submitShow, setSubmitShow] = useState(false);
   const [imgLink, setImgLink] = useState("");
   const userID = props.props;
-  console.log(props.props);
+  // console.log(props.props);
 
   useEffect(() => {
     const getProfileImage = (userID) => {

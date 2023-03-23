@@ -4,7 +4,7 @@ import carSVG from "../../media/carSVG.svg";
 
 export default function Middle() {
   return (
-    <div className="py-5"> 
+    <div className="py-5">
       <div className="middle-container flex flex-row p-6 ">
         {/* <img src={require("../../media/banner.jpg")} alt="" /> */}
         <div className="flex flex-col justify-center middle-left lg:w-6/12">
@@ -15,7 +15,7 @@ export default function Middle() {
             Lorem ipsum dolor sit amet consectetur elit. Eius maiores ratione
             omnis quia quas eveniet voluptas qui quod beatae.
           </p>
-          <button class="bg-purple-500 hover:bg-purple-400 text-white font-bold py-2 px-4 border-b-4 border-purple-700 hover:border-blue-500 rounded w-6/12">
+          <button className="bg-purple-500 hover:bg-purple-400 text-white font-bold py-2 px-4 border-b-4 border-purple-700 hover:border-blue-500 rounded w-6/12">
             Button
           </button>
         </div>

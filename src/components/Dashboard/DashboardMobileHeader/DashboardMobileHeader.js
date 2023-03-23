@@ -133,8 +133,8 @@ function DashboardMobileHeader() {
                 </div>
             </div>
             <div className='flex items-center text-2xl'>
-                <div onClick={setMenu} class="relative mr-3">
-                    <button class=""><img className='w-8 rounded-full cursor-pointer' src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png" alt="" /></button>
+                <div onClick={setMenu} className="relative mr-3">
+                    <button className=""><img className='w-8 rounded-full cursor-pointer' src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png" alt="" /></button>
                     <div className={`absolute top-10 right-0 ${menu ? 'flex flex-col items-center' : 'hidden'}  z-50 rounded-lg h-full w-min bg-primary dark:bg-base-100`}>
                         <div className="bg-primary dark:bg-base-100 dark:border p-1 lg:p-5 shadow rounded-lg">
                             <div className="flex flex-col gap-4">

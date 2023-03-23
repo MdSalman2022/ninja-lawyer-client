@@ -1,20 +1,19 @@
-const updateData = (event, UID) => {
-  const form = event.target;
-  const name = form.name.value;
+const updateData = (data, UID) => {
+  const name = data.name;
   console.log(name, "1224");
-  const email = form.email.value;
-  const contact = form.contact.value; 
-  const state = form.state.value;
-  const city = form.city.value; 
+  const email = data.email;
+  const contact = data.contact;
+  const state = data.state;
+  const city = data.city;
 
   return {
     update_data: {
       UID: UID,
       name,
       email,
-      contact, 
+      contact,
       state,
-      city,  
+      city,
     },
   };
 };
