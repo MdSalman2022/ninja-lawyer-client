@@ -13,16 +13,17 @@ import { StateContext } from "../../../contexts/StateProvider/StateProvider";
 import ProfileImage from "../../../components/Dashboard/Profile/ProfileImage";
 import { RxCross1 } from 'react-icons/rx'
 import { useForm } from "react-hook-form";
+import { toast } from 'react-hot-toast';
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
   const [userData, setUserData] = useState({});
   const { heightFull, setHeightFull } = useContext(StateContext);
   const [states, setStates] = useState([])
-  const [statesName, setStateName] = useState('')
+  const [statesName, setStateName] = useState(userData.state ? userData.state : '')
   const [stateId, setStateId] = useState('');
   const [cities, setCities] = useState([]);
-  const [cityName, setCityName] = useState('');
+  const [cityName, setCityName] = useState(userData.city ? userData.city : '');
 
   const {
     register,
@@ -48,31 +49,62 @@ function ProfilePage() {
   }, [user]);
 
 
+  const [specialties, setSpecialties] = useState([]);
+  const [languages, setLanguages] = useState([]);
+  console.log(languages)
+
   const handleUpdate = (data) => {
 
-    // const { name, email, contact, city } = data
+    const { name, email, contact, rate, bar, id, year, summary } = data
 
-    // const updatedData = {
-    //   name,
-    //   email,
-    //   contact,
-    //   state: statesName,
-    //   city,
-    // }
-    console.log(data)
+    if (user.displayName !== 'lawyer') {
 
-    // const update = updateData(updatedData, user.uid);
-    // console.log(updatedData);
-    // const updateResult = putDataToServer(user.uid, update);
-    // console.log(updateResult, "----");
-    // setHeightFull(!heightFull)
+      const update_data = {
+        name,
+        email,
+        contact,
+        state: statesName,
+        city: cityName,
+      }
+
+      console.log(data)
+
+      const update = updateData(update_data, user.uid);
+      console.log(update_data);
+      const updateResult = putDataToServer(user.uid, update, user);
+      console.log(updateResult, "----");
+      toast.success('Profile Updated Successfully')
+      setHeightFull(!heightFull)
+    }
+    else {
+      const update_data = {
+        name,
+        email,
+        contact,
+        state: statesName,
+        city: cityName,
+        languages: languages,
+        specialties: specialties,
+        rate,
+        year,
+        bar,
+        id,
+        summary
+      }
+
+      console.log(data)
+
+      const update = updateData(update_data, user.uid);
+      console.log(update_data);
+      const updateResult = putDataToServer(user.uid, update, user);
+      console.log(updateResult, "----");
+      toast.success('Profile Updated Successfully')
+      setHeightFull(!heightFull)
+    }
   }
 
 
   // specialties and languages function 
-
-  const [specialties, setSpecialties] = useState([]);
-  const [languages, setLanguages] = useState([]);
   const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
   const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter."];
 
@@ -212,11 +244,7 @@ function ProfilePage() {
       });
   }, [stateId])
 
-  console.log(cities)
-  console.log(states)
-  console.log(stateId)
-  console.log(statesName)
-
+  console.log(userData.id)
   return (
     <div
       className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10`}
@@ -268,7 +296,7 @@ function ProfilePage() {
           </div>
           <div className="flex flex-col items-end gap-5 font-semibold">
             <span className="flex items-center gap-3">
-              {userData.phone}
+              {userData.contact}
               <FiPhoneCall />{" "}
             </span>
             <span className="flex items-center gap-3">
@@ -329,7 +357,7 @@ function ProfilePage() {
                 type="text"
                 className="input-box w-full"
                 name="contact"
-                defaultValue={userData?.phone ? userData.phone : userData.contact}
+                defaultValue={userData?.contact}
                 {...register("contact", { required: true, maxLength: 80 })}
               />
             </label>
@@ -338,11 +366,15 @@ function ProfilePage() {
                 State
               </span>
               <select name="state" id="" className="input-box" onChange={(e) => handleState(e.target.value)}
-                {...register("state", { required: true, maxLength: 80 })}
+                required
               >
                 {
+                  userData.state &&
+                  <option value={states.find(state => state.name === userData.state).iso2} selected>{userData.state}</option>
+                }
+                {
                   states.length > 0 &&
-                  states?.map((state) => (
+                  states.filter(state => state.name !== userData.state).map((state) => (
                     <option key={state.id} value={state.iso2}>{state.name}</option>
                   ))
                 }
@@ -353,17 +385,21 @@ function ProfilePage() {
                 City
               </span>
               <select name="city" id="" className="input-box" onChange={(e) => setCityName(e.target.value)}
-                {...register("city", { required: true, maxLength: 80 })}
+                required
               >
-                {/* <option value="select" disabled selected>Select a City</option> */}
+                {
+                  userData.city && !cities.length &&
+                  <option value={userData.city} selected>{userData.city}</option>
+                }
                 {cities.length > 0 &&
-                  cities?.map((city) => (
+                  cities.filter(city => city.name !== userData.city).map((city) => (
                     <option key={city.id} value={city.name}>{city.name}</option>
                   ))
                 }
               </select>
             </label>
 
+            {/* lawyer data */}
             {
               user?.displayName === "lawyer" &&
               <div className="col-span-2 grid grid-cols-2 gap-5">
@@ -376,7 +412,7 @@ function ProfilePage() {
                     className="input-box w-full"
                     name="rate"
                     defaultValue={userData.rate}
-                    required
+                    {...register("rate", { required: true, maxLength: 80 })}
                   />
                 </label>
                 <label className="col-span-2 grid grid-cols-2">
@@ -388,7 +424,8 @@ function ProfilePage() {
                     className="input-box w-full"
                     name="bar"
                     defaultValue={userData.bar}
-                    required
+
+                    {...register("bar", { required: true, maxLength: 80 })}
                   />
                 </label>
                 <label className="col-span-2 grid grid-cols-2">
@@ -412,7 +449,7 @@ function ProfilePage() {
                     className="input-box w-full"
                     name="id"
                     defaultValue={userData.id}
-                    required
+                    {...register("id", { required: true, maxLength: 80 })}
                   />
                 </label>
                 <label className="col-span-2 grid grid-cols-2">
@@ -424,7 +461,7 @@ function ProfilePage() {
                     className="input-box w-full"
                     name="year"
                     defaultValue={userData.year}
-                    required
+                    {...register("year", { required: true, maxLength: 80 })}
                   />
                 </label>
 
@@ -479,7 +516,8 @@ function ProfilePage() {
                     className="input-box w-full h-28"
                     name="summary"
                     placeholder='Write your professional summary'
-                    required
+                    {...register("summary", { required: true })}
+                    defaultValue={userData.summary}
                   />
                 </label>
               </div>
