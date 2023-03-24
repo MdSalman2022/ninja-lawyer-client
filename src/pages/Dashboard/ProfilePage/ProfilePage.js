@@ -11,19 +11,21 @@ import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import { updateData, putDataToServer } from "./ProfilePageUpdateData";
 import { StateContext } from "../../../contexts/StateProvider/StateProvider";
 import ProfileImage from "../../../components/Dashboard/Profile/ProfileImage";
-import { RxCross1 } from 'react-icons/rx'
+import { RxCross1 } from "react-icons/rx";
 import { useForm } from "react-hook-form";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
   const [userData, setUserData] = useState({});
   const { heightFull, setHeightFull } = useContext(StateContext);
-  const [states, setStates] = useState([])
-  const [statesName, setStateName] = useState(userData.state ? userData.state : '')
-  const [stateId, setStateId] = useState('');
+  const [states, setStates] = useState([]);
+  const [statesName, setStateName] = useState(
+    userData.state ? userData.state : ""
+  );
+  const [stateId, setStateId] = useState("");
   const [cities, setCities] = useState([]);
-  const [cityName, setCityName] = useState(userData.city ? userData.city : '');
+  const [cityName, setCityName] = useState(userData.city ? userData.city : "");
 
   const {
     register,
@@ -31,11 +33,14 @@ function ProfilePage() {
     formState: { errors },
   } = useForm();
 
-
   useEffect(() => {
     const getProfile = (id) => {
       console.log("yes");
-      fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
+      fetch(
+        `https://ninja-lawyer-server.vercel.app/api/users/${
+          user.displayName === "lawyer" ? "get-lawyer" : "get"
+        }/${id}`
+      )
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
@@ -48,35 +53,30 @@ function ProfilePage() {
     }
   }, [user]);
 
-
   const [specialties, setSpecialties] = useState([]);
   const [languages, setLanguages] = useState([]);
-  console.log(languages)
+  console.log(languages);
 
-  const handleUpdate = (data) => {
+  const handleUpdate = async (data) => {
+    const { name, email, contact, rate, bar, id, year, summary } = data;
+    console.log(data);
 
-    const { name, email, contact, rate, bar, id, year, summary } = data
-
-    if (user.displayName !== 'lawyer') {
-
+    if (user.displayName !== "lawyer") {
       const update_data = {
         name,
         email,
         contact,
         state: statesName,
         city: cityName,
-      }
-
-      console.log(data)
+      };
 
       const update = updateData(update_data, user.uid);
       console.log(update_data);
       const updateResult = putDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
-      toast.success('Profile Updated Successfully')
-      setHeightFull(!heightFull)
-    }
-    else {
+      toast.success("Profile Updated Successfully");
+      setHeightFull(!heightFull);
+    } else {
       const update_data = {
         name,
         email,
@@ -89,162 +89,169 @@ function ProfilePage() {
         year,
         bar,
         id,
-        summary
-      }
+        summary,
+      };
 
-      console.log(data)
+      console.log(data);
 
       const update = updateData(update_data, user.uid);
       console.log(update_data);
       const updateResult = putDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
-      toast.success('Profile Updated Successfully')
-      setHeightFull(!heightFull)
+      toast.success("Profile Updated Successfully");
+      setHeightFull(!heightFull);
     }
-  }
+  };
 
+  // specialties and languages function
+  const languageSuggestions = [
+    "English",
+    "Hindi",
+    "Telegu",
+    "Assamese",
+    "Kannada",
+    "Marathi",
+    "Odia",
+    "Bengali",
+    "Tamil",
+    "Malayalam",
+  ];
+  const specialtiesSuggestions = [
+    "Divorce & Child Custody",
+    "Property & Real Estate",
+    "Cheque Bounce & Money Recovery",
+    "Employment Issues",
+    "Consumer Protection",
+    "Civil Matters",
+    "Cyber Crime",
+    "Company & Start-Ups",
+    "Other Legal Problem",
+    "Criminal Matter",
+    "MSME Recovery, MSME related matter.",
+  ];
 
-  // specialties and languages function 
-  const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
-  const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter."];
+  const [languageError, setLanguageError] = useState("");
+  const [specialtiesError, setSpecialtiesError] = useState("");
 
-  const [languageError, setLanguageError] = useState('')
-  const [specialtiesError, setSpecialtiesError] = useState('')
-
-
-  const [languageInputValue, setLanguageInputValue] = useState('')
-  const [specialtiesInputValue, setSpecialtiesInputValue] = useState('')
-
+  const [languageInputValue, setLanguageInputValue] = useState("");
+  const [specialtiesInputValue, setSpecialtiesInputValue] = useState("");
 
   const handleSpecialtyInputValue = (event) => {
     const { value } = event.target;
     setSpecialtiesInputValue(value);
-  }
+  };
 
   const handleSpecialties = (event) => {
     const { value } = event.target;
 
-    console.log(value)
+    console.log(value);
 
-    if (event.key === 'Enter' && value.trim() !== '') {
-      event.preventDefault()
+    if (event.key === "Enter" && value.trim() !== "") {
+      event.preventDefault();
       if (specialties.includes(value)) {
-        setSpecialtiesInputValue('')
-        setSpecialtiesError(`${value} specialty already added`)
+        setSpecialtiesInputValue("");
+        setSpecialtiesError(`${value} specialty already added`);
         return;
-      }
-      else
-        setSpecialtiesError('')
+      } else setSpecialtiesError("");
 
       if (!specialtiesSuggestions.includes(value)) {
-        setSpecialtiesError(`"${value}" specialty not available`)
+        setSpecialtiesError(`"${value}" specialty not available`);
         return;
-      }
-      else
-        setSpecialtiesError('')
+      } else setSpecialtiesError("");
 
       setSpecialties([...specialties, value]);
-      setSpecialtiesInputValue('');
+      setSpecialtiesInputValue("");
+    } else if (event.key === "Enter" && value.trim() === "") {
+      event.preventDefault();
     }
-    else if (event.key === 'Enter' && value.trim() === '') {
-      event.preventDefault()
-
-    }
-  }
+  };
 
   const handleRemoveSpecialty = (specialty) => {
-    const newSpecialties = specialties.filter((special) => special !== specialty);
+    const newSpecialties = specialties.filter(
+      (special) => special !== specialty
+    );
     setSpecialties(newSpecialties);
-  }
+  };
 
   const handleLanguageInputValue = (event) => {
     const { value } = event.target;
     setLanguageInputValue(value);
-  }
+  };
 
   const handleLanguages = (event) => {
     const { value } = event.target;
-    console.log(value)
+    console.log(value);
 
-    if (event.key === 'Enter' && value.trim() !== '') {
-      event.preventDefault()
+    if (event.key === "Enter" && value.trim() !== "") {
+      event.preventDefault();
       if (languages.includes(value)) {
-        setLanguageInputValue('')
-        setLanguageError(`${value} language already added`)
+        setLanguageInputValue("");
+        setLanguageError(`${value} language already added`);
         return;
-      }
-      else
-        setLanguageError('')
+      } else setLanguageError("");
 
       if (!languageSuggestions.includes(value)) {
-        setLanguageError(`"${value}" language not available`)
+        setLanguageError(`"${value}" language not available`);
         return;
-      }
-      else
-        setLanguageError('')
+      } else setLanguageError("");
 
       setLanguages([...languages, value]);
-      setLanguageInputValue('');
+      setLanguageInputValue("");
+    } else if (event.key === "Enter" && value.trim() === "") {
+      event.preventDefault();
     }
-    else if (event.key === 'Enter' && value.trim() === '') {
-      event.preventDefault()
-
-    }
-  }
+  };
 
   const handleRemoveLanguage = (language) => {
     const newLanguages = languages.filter((lang) => lang !== language);
     setLanguages(newLanguages);
-  }
+  };
   // console.log(languages)
   // console.log(specialties)
 
-
-
-
   const handleState = (iso) => {
-    setStateId(iso)
-    const name = states.find(state => state.iso2 === iso).name
-    setStateName(name)
-  }
+    setStateId(iso);
+    const name = states.find((state) => state.iso2 === iso).name;
+    setStateName(name);
+  };
 
-
-  const apiKey = 'aHhIRnFkYWRqTU5FVjhKd3labW1UMTR2Zm1TMXpaQmwzRERVUzlLSg==';
+  const apiKey = "aHhIRnFkYWRqTU5FVjhKd3labW1UMTR2Zm1TMXpaQmwzRERVUzlLSg==";
 
   useEffect(() => {
     fetch(`https://api.countrystatecity.in/v1/countries/IN/states/`, {
       headers: {
-        'X-CSCAPI-KEY': apiKey
-      }
+        "X-CSCAPI-KEY": apiKey,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
-        setStates(data)
+      .then((response) => response.json())
+      .then((data) => {
+        setStates(data);
       })
-      .catch(error => {
-        console.error('Error fetching data:', error);
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
-  }, [])
-
-
+  }, []);
 
   useEffect(() => {
-    fetch(`https://api.countrystatecity.in/v1/countries/IN/states/${stateId}/cities`, {
-      headers: {
-        'X-CSCAPI-KEY': apiKey
+    fetch(
+      `https://api.countrystatecity.in/v1/countries/IN/states/${stateId}/cities`,
+      {
+        headers: {
+          "X-CSCAPI-KEY": apiKey,
+        },
       }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setCities(data)
-        console.log(data)
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setCities(data);
+        console.log(data);
       })
-      .catch(error => {
-        console.error('Error fetching data:', error);
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
-  }, [stateId])
+  }, [stateId]);
 
-  console.log(userData.id)
+  console.log(userData.id);
   return (
     <div
       className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10`}
@@ -283,9 +290,14 @@ function ProfilePage() {
               />{" "}
               {userData.city}, {userData.state}, India
             </span>
-            {
-              user.displayName === "lawyer" && <button onClick={() => setHeightFull(!heightFull)} className="primary-btn">Get Verified</button>
-            }
+            {user.displayName === "lawyer" && (
+              <button
+                onClick={() => setHeightFull(!heightFull)}
+                className="primary-btn"
+              >
+                Get Verified
+              </button>
+            )}
             {/* <div className="flex items-center gap-2">
               <span className="text-sm font-semibold">@bhupen</span>
               <span className="font-semibold flex items-center">
@@ -321,8 +333,15 @@ function ProfilePage() {
             <h1 className="col-span-3 ext-3xl font-bold">Edit Profile</h1>
 
             <div className="col-span-3 flex justify-end gap-3">
-              <button onClick={() => setHeightFull(!heightFull)} className="primary-outline-btn ">Cancel</button>
-              <button type="submit" className="primary-btn " >Save</button>
+              <button
+                onClick={() => setHeightFull(!heightFull)}
+                className="primary-outline-btn "
+              >
+                Cancel
+              </button>
+              <button type="submit" className="primary-btn ">
+                Save
+              </button>
             </div>
 
             <label className="col-span-2 grid grid-cols-2">
@@ -365,43 +384,63 @@ function ProfilePage() {
               <span className=" font-medium text-base-100 dark:text-primary w-32">
                 State
               </span>
-              <select name="state" id="" className="input-box" onChange={(e) => handleState(e.target.value)}
+              <select
+                name="state"
+                id=""
+                className="input-box"
+                onChange={(e) => handleState(e.target.value)}
                 required
               >
-                {
-                  userData.state &&
-                  <option value={states.find(state => state.name === userData.state).iso2} selected>{userData.state}</option>
-                }
-                {
-                  states.length > 0 &&
-                  states.filter(state => state.name !== userData.state).map((state) => (
-                    <option key={state.id} value={state.iso2}>{state.name}</option>
-                  ))
-                }
+                {userData.state && (
+                  <option
+                    value={
+                      states.find((state) => state.name === userData.state)
+                        ?.iso2
+                    }
+                    selected
+                  >
+                    {userData.state}
+                  </option>
+                )}
+                {states.length > 0 &&
+                  states
+                    .filter((state) => state.name !== userData.state)
+                    .map((state) => (
+                      <option key={state.id} value={state?.iso2}>
+                        {state.name}
+                      </option>
+                    ))}
               </select>
             </label>
             <label className="col-span-2 grid grid-cols-2">
               <span className=" font-medium text-base-100 dark:text-primary w-32">
                 City
               </span>
-              <select name="city" id="" className="input-box" onChange={(e) => setCityName(e.target.value)}
+              <select
+                name="city"
+                id=""
+                className="input-box"
+                onChange={(e) => setCityName(e.target.value)}
                 required
               >
-                {
-                  userData.city && !cities.length &&
-                  <option value={userData.city} selected>{userData.city}</option>
-                }
+                {userData.city && !cities.length && (
+                  <option value={userData.city} selected>
+                    {userData.city}
+                  </option>
+                )}
                 {cities.length > 0 &&
-                  cities.filter(city => city.name !== userData.city).map((city) => (
-                    <option key={city.id} value={city.name}>{city.name}</option>
-                  ))
-                }
+                  cities
+                    .filter((city) => city.name !== userData.city)
+                    .map((city) => (
+                      <option key={city.id} value={city.name}>
+                        {city.name}
+                      </option>
+                    ))}
               </select>
             </label>
 
             {/* lawyer data */}
-            {
-              user?.displayName === "lawyer" &&
+            {user?.displayName === "lawyer" && (
               <div className="col-span-2 grid grid-cols-2 gap-5">
                 <label className="col-span-2 grid grid-cols-2">
                   <span className=" font-medium text-base-100 dark:text-primary w-32">
@@ -424,7 +463,6 @@ function ProfilePage() {
                     className="input-box w-full"
                     name="bar"
                     defaultValue={userData.bar}
-
                     {...register("bar", { required: true, maxLength: 80 })}
                   />
                 </label>
@@ -433,12 +471,15 @@ function ProfilePage() {
                     Bar Council ID Image
                   </span>
                   <div className="flex items-center gap-3">
-                    <img className="w-20" src={`https://thumbs.dreamstime.com/b/document-icon-vector-stack-paper-sheets-illustration-131104983.jpg`} alt="" />
+                    <img
+                      className="w-20"
+                      src={`https://thumbs.dreamstime.com/b/document-icon-vector-stack-paper-sheets-illustration-131104983.jpg`}
+                      alt=""
+                    />
 
                     <button className="primary-btn">Upload</button>
                     <button className="primary-outline-btn">Cancel</button>
                   </div>
-
                 </label>
                 <label className="col-span-2 grid grid-cols-2">
                   <span className=" font-medium text-base-100 dark:text-primary w-32">
@@ -469,43 +510,89 @@ function ProfilePage() {
                   <span className="text-start font-medium text-base-100 dark:text-primary w-32 flex">
                     Language
                   </span>
-                  <div className=''>
-                    <input onKeyDown={handleLanguages} onChange={handleLanguageInputValue} value={languageInputValue} list="languages" id="languageInput" className={`input-box w-full ${languageError === 0 ? 'border border-red-500' : ''}`} required={languages.length > 0 ? false : true} />
-                    <datalist id="languages" className='text-left w-full' >
-                      {
-                        languageSuggestions.map((language, index) => <option key={index} value={language} />)
-                      }
+                  <div className="">
+                    <input
+                      onKeyDown={handleLanguages}
+                      onChange={handleLanguageInputValue}
+                      value={languageInputValue}
+                      list="languages"
+                      id="languageInput"
+                      className={`input-box w-full ${
+                        languageError === 0 ? "border border-red-500" : ""
+                      }`}
+                      required={languages.length > 0 ? false : true}
+                    />
+                    <datalist id="languages" className="text-left w-full">
+                      {languageSuggestions.map((language, index) => (
+                        <option key={index} value={language} />
+                      ))}
                     </datalist>
-                    <div className='text-xs flex flex-wrap gap-1 mt-1'>
-                      {
-                        languages.map((language, index) => <div className='flex items-center justify-between'>
-                          <span key={index} className='px-1 rounded border  flex items-center gap-1'>{language} <RxCross1 onClick={() => handleRemoveLanguage(language)} className='cursor-pointer' /></span>
-                        </div>)
-                      }
+                    <div className="text-xs flex flex-wrap gap-1 mt-1">
+                      {languages.map((language, index) => (
+                        <div className="flex items-center justify-between">
+                          <span
+                            key={index}
+                            className="px-1 rounded border  flex items-center gap-1"
+                          >
+                            {language}{" "}
+                            <RxCross1
+                              onClick={() => handleRemoveLanguage(language)}
+                              className="cursor-pointer"
+                            />
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  <span className='col-span-2 flex justify-end text-xs text-error'>{languageError === 0 ? 'Please add atleast one language' : languageError}</span>
+                  <span className="col-span-2 flex justify-end text-xs text-error">
+                    {languageError === 0
+                      ? "Please add atleast one language"
+                      : languageError}
+                  </span>
                 </label>
                 <label className="col-span-2 grid grid-cols-2">
                   <span className="text-start font-medium text-base-100 dark:text-primary w-32">
                     Specialties
                   </span>
-                  <div className=''>
-                    <input onKeyDown={handleSpecialties} onChange={handleSpecialtyInputValue} value={specialtiesInputValue} list="specialties" id="specialtyInput" className={`input-box w-full ${specialtiesError === 0 ? 'border border-red-500' : ''}`} required={specialties.length > 0 ? false : true} />
-                    <datalist id="specialties" className='text-left w-full' >
-                      {
-                        specialtiesSuggestions.map((specialty, index) => <option key={index} value={specialty} />)
-                      }
+                  <div className="">
+                    <input
+                      onKeyDown={handleSpecialties}
+                      onChange={handleSpecialtyInputValue}
+                      value={specialtiesInputValue}
+                      list="specialties"
+                      id="specialtyInput"
+                      className={`input-box w-full ${
+                        specialtiesError === 0 ? "border border-red-500" : ""
+                      }`}
+                      required={specialties.length > 0 ? false : true}
+                    />
+                    <datalist id="specialties" className="text-left w-full">
+                      {specialtiesSuggestions.map((specialty, index) => (
+                        <option key={index} value={specialty} />
+                      ))}
                     </datalist>
-                    <div className='text-xs flex flex-wrap gap-1 mt-1'>
-                      {
-                        specialties.map((specialty, index) => <div className='flex items-start justify-start'>
-                          <span key={index} className='px-1 rounded border  flex items-start justify-start text-left gap-1'>{specialty} <RxCross1 onClick={() => handleRemoveSpecialty(specialty)} className='cursor-pointer' /></span>
-                        </div>)
-                      }
+                    <div className="text-xs flex flex-wrap gap-1 mt-1">
+                      {specialties.map((specialty, index) => (
+                        <div className="flex items-start justify-start">
+                          <span
+                            key={index}
+                            className="px-1 rounded border  flex items-start justify-start text-left gap-1"
+                          >
+                            {specialty}{" "}
+                            <RxCross1
+                              onClick={() => handleRemoveSpecialty(specialty)}
+                              className="cursor-pointer"
+                            />
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  <span className='col-span-2 flex justify-end text-xs text-error text-left'>{specialtiesError === 0 ? 'Please add atleast one specialty' : specialtiesError}</span>
+                  <span className="col-span-2 flex justify-end text-xs text-error text-left">
+                    {specialtiesError === 0
+                      ? "Please add atleast one specialty"
+                      : specialtiesError}
+                  </span>
                 </label>
                 <label className="col-span-2 grid grid-cols-2 ">
                   <span className="text-start font-medium text-base-100 dark:text-primary w-60">
@@ -515,13 +602,14 @@ function ProfilePage() {
                     type="text"
                     className="input-box w-full h-28"
                     name="summary"
-                    placeholder='Write your professional summary'
+                    placeholder="Write your professional summary"
                     {...register("summary", { required: true })}
                     defaultValue={userData.summary}
                   />
                 </label>
               </div>
-            }
+            )}
+            <button type="submit">Submit</button>
           </form>
         </div>
       </div>

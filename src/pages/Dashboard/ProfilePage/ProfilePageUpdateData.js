@@ -27,15 +27,16 @@ const updateData = (data, UID) => {
       year,
       bar,
       id,
-      summary
+      summary,
     },
   };
 };
 
 const putDataToServer = (id, data, user) => {
-  console.log(user)
-  console.log(data)
-  fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/update/${id}`, {
+  console.log(user);
+  console.log("++++", data);
+  // ninja-lawyer-server.vercel.app
+  fetch(`http://localhost:5000/api/users/lawyer/update/${id}`, {
     method: "PUT",
     headers: {
       "content-type": "application/json",
@@ -44,7 +45,7 @@ const putDataToServer = (id, data, user) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data)
+      console.log(data);
       if (data.acknowledged) {
         return true;
       } else {
