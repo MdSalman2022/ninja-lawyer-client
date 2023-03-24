@@ -32,11 +32,11 @@ const updateData = (data, UID) => {
   };
 };
 
-const putDataToServer = (id, data, user) => {
-  console.log(user);
+const putDataToServer = async (id, data, user) => {
   console.log("++++", data);
+  let message = false;
   // ninja-lawyer-server.vercel.app
-  fetch(`http://localhost:5000/api/users/lawyer/update/${id}`, {
+  await fetch(`http://localhost:5000/api/users/lawyer/update/${id}`, {
     method: "PUT",
     headers: {
       "content-type": "application/json",
@@ -45,13 +45,15 @@ const putDataToServer = (id, data, user) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
+      console.log(data, "---===");
       if (data.acknowledged) {
-        return true;
+        message = true;
+        console.log("abcdefg");
       } else {
-        return false;
+        message = false;
       }
     });
+  return message;
 };
 
 export { updateData, putDataToServer };

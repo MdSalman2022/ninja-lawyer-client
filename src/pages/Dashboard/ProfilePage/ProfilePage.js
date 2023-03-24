@@ -96,9 +96,14 @@ function ProfilePage() {
 
       const update = updateData(update_data, user.uid);
       console.log(update_data);
-      const updateResult = putDataToServer(user.uid, update, user);
+      const updateResult = await putDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
-      toast.success("Profile Updated Successfully");
+      if (updateResult === true) {
+        toast.success("Profile Updated Successfully");
+      } else {
+        toast.error("Internal server error");
+      }
+
       setHeightFull(!heightFull);
     }
   };
