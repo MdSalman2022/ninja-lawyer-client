@@ -1,55 +1,169 @@
-import React, { useEffect } from "react";
-import TestAPI from "../../components/Testing/Test-API";
-import { users_data } from "./users-data";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { sendToServer } from "../../components/UserAuthentication/Login/LoginPostDB";
-import { auth } from "../../assets/firebase.config";
+import React, { useState, useEffect } from "react";
+import { storage } from "../../assets/firebase.config";
+import { ref, uploadBytes } from "firebase/storage";
+import { putDataToServer } from "../Dashboard/ProfilePage/ProfilePageUpdateData";
 
-function TestApiPage() {
-  // useEffect(() => {
-  //   for (let i = 0; i < 100; i++) {
-  //     console.log(users_data[i]);
-  //     async function emailLogin() {
-  //       const email = users_data[i].email;
-  //       const password = users_data[i].password;
-  //       const name = `${users_data[i].First_Name} ${users_data[i].Last_Name}`;
-  //       const phone = `${users_data[i].phone}`;
+export default function TestApiPage() {
+  const [data, setData] = useState([1, 2, 3]);
+  const [ren, setRen] = useState(1);
 
-  //       createUserWithEmailAndPassword(auth, email, password)
-  //         .then((userCredential) => {
-  //           // Signed in
-  //           const user = userCredential.user;
-  //           console.log(user);
-  //           // Post to sever
-  //           const postData = {
-  //             UID: user.uid,
-  //             email: email,
-  //             name: name,
-  //             phone: phone,
-  //           };
-  //           const msg = sendToServer(user.id, postData);
-  //           return msg;
-  //         })
-  //         .catch((error) => {
-  //           const errorCode = error.code;
-  //           const errorMessage = error.message;
-  //           console.log(errorMessage, "Code: ", errorCode);
-  //           const msg = errorCode;
-  //           return msg;
-  //         });
-  //     }
-  //     // emailLogin();
-  //   }
-  // }, []);
+  useEffect(() => {
+    const getLawyers = async () => {
+      fetch(
+        "https://ninja-lawyer-server.vercel.app/api/users/lawyer/unverified"
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data);
+          console.log(data);
+        });
+    };
+    getLawyers();
+  }, [ren]);
+
+  async function verifyLawyer(lawyerData) {
+    lawyerData.verified = true;
+    const sendData = { update_data: lawyerData };
+    console.log(lawyerData.UID, sendData, "user");
+    const putResult = await putDataToServer(lawyerData.UID, sendData, "user");
+    console.log(putResult, "--00--");
+    if (putResult === true) {
+      if (ren === 1) {
+        setRen(0);
+      } else {
+        setRen(1);
+      }
+    }
+  }
 
   return (
-    <div className="bg-primary dark:bg-base-100">
-      <TestAPI />
+    <div className="flex flex-col">
+      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    ID
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Name
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Email
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    BarID
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Specialties
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {data.map((lawyer) => {
+                  return (
+                    <tr key={lawyer._id}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {lawyer.UID}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.name}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.email}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.bar}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <button
+                          className="btn"
+                          onClick={() => verifyLawyer(lawyer)}
+                        >
+                          Verify
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default TestApiPage;
+// import React, { useEffect } from "react";
+// import TestAPI from "../../components/Testing/Test-API";
+// import { users_data } from "./users-data";
+// import {
+//   signInWithEmailAndPassword,
+//   createUserWithEmailAndPassword,
+// } from "firebase/auth";
+// import { sendToServer } from "../../components/UserAuthentication/Login/LoginPostDB";
+// import { auth } from "../../assets/firebase.config";
+
+// function TestApiPage() {
+//   // useEffect(() => {
+//   //   for (let i = 0; i < 100; i++) {
+//   //     console.log(users_data[i]);
+//   //     async function emailLogin() {
+//   //       const email = users_data[i].email;
+//   //       const password = users_data[i].password;
+//   //       const name = `${users_data[i].First_Name} ${users_data[i].Last_Name}`;
+//   //       const phone = `${users_data[i].phone}`;
+
+//   //       createUserWithEmailAndPassword(auth, email, password)
+//   //         .then((userCredential) => {
+//   //           // Signed in
+//   //           const user = userCredential.user;
+//   //           console.log(user);
+//   //           // Post to sever
+//   //           const postData = {
+//   //             UID: user.uid,
+//   //             email: email,
+//   //             name: name,
+//   //             phone: phone,
+//   //           };
+//   //           const msg = sendToServer(user.id, postData);
+//   //           return msg;
+//   //         })
+//   //         .catch((error) => {
+//   //           const errorCode = error.code;
+//   //           const errorMessage = error.message;
+//   //           console.log(errorMessage, "Code: ", errorCode);
+//   //           const msg = errorCode;
+//   //           return msg;
+//   //         });
+//   //     }
+//   //     // emailLogin();
+//   //   }
+//   // }, []);
+
+//   return (
+//     <div className="bg-primary dark:bg-base-100">
+//       <TestAPI />
+//     </div>
+//   );
+// }
+
+// export default TestApiPage;

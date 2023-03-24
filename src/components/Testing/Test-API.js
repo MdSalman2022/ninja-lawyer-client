@@ -3,10 +3,14 @@ import { storage } from "../../assets/firebase.config";
 import { ref, uploadBytes } from "firebase/storage";
 
 export default function TestAPI() {
-  const [data, setData] = useState();
+  const [data, setData] = useState([1, 2, 3]);
+  const [ren, setRen] = useState(1);
+
   useEffect(() => {
     const getLawyers = async () => {
-      fetch("http://localhost:5000/api/users/lawyer/unverified")
+      fetch(
+        "https://ninja-lawyer-server.vercel.app/api/users/lawyer/unverified"
+      )
         .then((res) => res.json())
         .then((data) => {
           setData(data);
@@ -17,6 +21,7 @@ export default function TestAPI() {
   }, []);
 
   function verifyLawyer(lawyerData) {
+    // lawyerData.verified = true;
     console.log(lawyerData);
   }
 
@@ -61,33 +66,32 @@ export default function TestAPI() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {data &&
-                  data.map((lawyer) => {
-                    return (
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {lawyer.UID}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.name}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.email}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.bar}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          <button
-                            className="btn"
-                            onClick={verifyLawyer(lawyer)}
-                          >
-                            Verify
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                {data.map((lawyer) => {
+                  return (
+                    <tr key={lawyer._id}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {lawyer.UID}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.name}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.email}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.bar}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <button
+                          className="btn"
+                          onClick={() => verifyLawyer(lawyer)}
+                        >
+                          Verify
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

@@ -36,13 +36,16 @@ const putDataToServer = async (id, data, user) => {
   console.log("++++", data);
   let message = false;
   // ninja-lawyer-server.vercel.app
-  await fetch(`http://localhost:5000/api/users/lawyer/update/${id}`, {
-    method: "PUT",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
+  await fetch(
+    `https://ninja-lawyer-server.vercel.app/api/users/lawyer/update/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  )
     .then((res) => res.json())
     .then((data) => {
       console.log(data, "---===");
