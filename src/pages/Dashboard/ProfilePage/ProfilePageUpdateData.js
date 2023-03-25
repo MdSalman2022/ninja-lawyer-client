@@ -20,11 +20,11 @@ const updateData = (data, UID) => {
     },
   };
 };
-
+// Lawyer data update
 const putDataToServer = (id, data, user) => {
   console.log(user)
   console.log(data)
-  fetch(`http://localhost:5000/api/users/lawyer/update/${id}`, {
+  fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/update/${id}`, {
     method: "PUT",
     headers: {
       "content-type": "application/json",
@@ -41,7 +41,7 @@ const putDataToServer = (id, data, user) => {
       }
     });
 };
-
+// User data update
 const putUserDataToServer = (id, data, user) => {
   console.log(user)
   console.log(data)
