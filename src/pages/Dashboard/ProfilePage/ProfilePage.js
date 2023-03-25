@@ -68,7 +68,7 @@ function ProfilePage() {
   }
 
 
-  const handleUpdate = (data) => {
+  const handleUpdate = async (data) => {
     let { name, email, contact, rate, bar, id, year, summary, city, state } = data
     if (cityName) {
       city = cityName
@@ -108,7 +108,7 @@ function ProfilePage() {
 
       const update = updateData(update_data, user.uid);
       console.log(update_data);
-      const updateResult = putUserDataToServer(user.uid, update, user);
+      const updateResult =await putUserDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
       toast.success('Profile Updated Successfully')
       setHeightFull(!heightFull)
@@ -133,7 +133,7 @@ function ProfilePage() {
 
       let update = updateData(update_data, user.uid);
       console.log(update_data);
-      const updateResult = putDataToServer(user.uid, update, user);
+      const updateResult =await putDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
       toast.success('Profile Updated Successfully')
       setHeightFull(!heightFull)

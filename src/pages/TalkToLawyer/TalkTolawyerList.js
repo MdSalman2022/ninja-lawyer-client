@@ -25,12 +25,22 @@ function TalkToLawyerList() {
 
     const [lawyerList, setLawyerList] = useState([])
     
-
     // useEffect(() => {
-    //     fetch('https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all')
-    //         .then(res => res.json())
-    //         .then(data => setLawyerList(data))
-    // }, [])
+    //     fetch("https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all")
+    //       .then((res) => res.json())
+    //       .then((data) => {
+    //         console.log(data);
+    //         let filterData = [];
+    //         for (let i = 0; i < data.length; i++) {
+    //           if (data[i].verified === true) {
+    //             filterData.push(data[i]);
+    //           }
+    //         }
+    //         console.log(filterData, "9900");
+    
+    //         setLawyerList(filterData);
+    //       });
+    //   }, []); 
 
     const [locationCheck, setLocationCheck] = useState('city');
  

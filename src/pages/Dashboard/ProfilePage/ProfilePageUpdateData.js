@@ -16,36 +16,44 @@ const updateData = (data, UID) => {
       year,
       bar,
       id,
-      summary
+      summary,
     },
   };
 };
 
-const putDataToServer = (id, data, user) => {
-  console.log(user)
-  console.log(data)
-  fetch(`http://localhost:5000/api/users/lawyer/update/${id}`, {
-    method: "PUT",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
+const putDataToServer = async (id, data, user) => {
+  console.log("++++", data);
+  let message = false;
+  // ninja-lawyer-server.vercel.app
+  await fetch(
+    `https://ninja-lawyer-server.vercel.app/api/users/lawyer/update/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  )
     .then((res) => res.json())
     .then((data) => {
-      console.log(data)
+      console.log(data, "---===");
       if (data.acknowledged) {
-        return true;
+        message = true;
+        console.log("abcdefg");
       } else {
-        return false;
+        message = false;
       }
     });
+  return message;
 };
 
-const putUserDataToServer = (id, data, user) => {
+const putUserDataToServer = async (id, data, user) => {
   console.log(user)
   console.log(data)
-  fetch(`https://ninja-lawyer-server.vercel.app/api/users/update/${id}`, {
+  console.log("++++", data);
+  let message = false;
+  await fetch(`https://ninja-lawyer-server.vercel.app/api/users/update/${id}`, {
     method: "PUT",
     headers: {
       "content-type": "application/json",
@@ -56,9 +64,10 @@ const putUserDataToServer = (id, data, user) => {
     .then((data) => {
       console.log(data)
       if (data.acknowledged) {
-        return true;
+        message = true;
+        console.log("abcdefg");
       } else {
-        return false;
+        message = false;
       }
     });
 };
