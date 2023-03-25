@@ -10,7 +10,7 @@ const LawyerProfile = () => {
 
   console.log(lawyer)
 
-  const { fname, experience, state, city, pincode, language, specialties, img, available, rating, reviews, rate, summary, year, name, gender } = lawyer
+  const { fname, experience, state, city, pincode, languages, specialties, img, available, rating, reviews, rate, summary, year, name, gender } = lawyer
 
   const date = new Date()
 
@@ -19,8 +19,8 @@ const LawyerProfile = () => {
       <div className="container mx-auto">
         <div className="grid grid-cols-4 gap-10">
           <div className="col-span-1 h-full flex flex-col items-center gap-5 bg-primary dark:bg-base-100 dark:border dark:border-gray-600 p-10 rounded-xl relative">
-            <span className='absolute top-5 right-5 text-xl'><BiEdit /></span>
-            <LawyerUpdateModal lawyer={lawyer} />
+            {/* <span className='absolute top-5 right-5 text-xl'><BiEdit /></span> */}
+            {/* <LawyerUpdateModal lawyer={lawyer} /> */}
             <figure className='relative'>
               <img className='w-40 rounded-full h-40 object-cover border ' src={img ? img : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="} alt="" />
               <span className='absolute top-0 bg-transparent border border-success w-40 h-40 rounded-full'></span>
@@ -31,6 +31,7 @@ const LawyerProfile = () => {
             <p className='flex items-center gap-1'>Rating: {rating} <FaStar className='text-yellow-400' /></p>
             <button className='primary-btn w-52'>Chat</button>
             <p className="text-2xl font-bold">Services</p>
+            <button className='primary-outline-btn'>Take service</button>
           </div>
           <div className="col-span-3 flex flex-col gap-5 bg-primary dark:bg-base-100 dark:border dark:border-gray-600 p-10 rounded-xl">
             <p className="font-bold">Professional Summary</p>
@@ -41,13 +42,13 @@ const LawyerProfile = () => {
             <div className='space-y-4'>
               <p>Specialties</p>
               <div className='flex gap-5'>
-                {/* {specialties &&
+                {specialties &&
                   specialties?.map((specialty, index) => {
                     return (
                       <span className=' bg-secondary dark:bg-base-100 dark:border dark:border-gray-600 p-2 rounded-lg' key={index}>{specialty ? specialty : "no speciality"}</span>
                     )
                   })
-                } */}
+                }
               </div>
             </div>
             <div>
@@ -56,13 +57,13 @@ const LawyerProfile = () => {
             </div>
             <div className='space-y-4'>
               <p>Languages</p>
-              {/* {
-                language && <p className='flex gap-5'>{lawyer?.language?.map((item, index) => (
+              {
+                languages && <p className='flex gap-5'>{lawyer?.languages?.map((item, index) => (
                   <span className='bg-secondary dark:bg-base-100 dark:border dark:border-gray-600 p-2 rounded-lg' key={index}>
                     {item}
                   </span>
                 ))}</p>
-              } */}
+              }
             </div>
             <div>
               <p>Location</p>

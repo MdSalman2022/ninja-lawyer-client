@@ -21,6 +21,7 @@ import TransactionPage from "../pages/Dashboard/TransactionPage/TransactionPage"
 import LawyerProfile from "../pages/TalkToLawyer/LawyerProfile";
 import LawyerRegister from "../components/UserAuthentication/LawyerRegister/LawyerRegister";
 import { AuthContext } from "../contexts/AuthProvider/AuthProvider";
+import TestAPI from "../components/Testing/Test-API";
 
 export const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
         path: "/lawyer-register",
         element: <PrivateRoute><LawyerRegister /></PrivateRoute>,
       },
+      {
+        path: "/admin-page",
+        element: <PrivateRoute><TestAPI /></PrivateRoute>,
+      }
     ],
   },
   {

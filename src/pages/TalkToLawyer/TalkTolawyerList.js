@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { FaChevronDown, FaChevronUp, FaStar } from 'react-icons/fa'
 import { BiTime } from 'react-icons/bi'
 // import { lawyersList } from './LawyerList'
@@ -6,27 +6,65 @@ import { IoLocationSharp } from 'react-icons/io5'
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
 
 function TalkToLawyerList() {
 
+    const {user} = useContext(AuthContext);
 
+    const [userData, setUserData] = useState({});
     const [isProblem, isProblemActive] = useState(true);
     const [isLanguage, isLanguageActive] = useState(false);
     const [isGender, isGenderActive] = useState(false);
     const [isExperience, isExperienceActive] = useState(false);
+    const [isLocation, isLocationActive] = useState(true);
 
     const [problemSeeMore, setProblemSeeMore] = useState(false);
     const [languageSeeMore, setLanguageSeeMore] = useState(false);
 
     const [lawyerList, setLawyerList] = useState([])
+    
+
+    // useEffect(() => {
+    //     fetch('https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all')
+    //         .then(res => res.json())
+    //         .then(data => setLawyerList(data))
+    // }, [])
+
+    const [locationCheck, setLocationCheck] = useState('city');
+ 
 
     useEffect(() => {
-        fetch('https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all')
+        locationCheck === 'any' ?
+            fetch('https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all')
             .then(res => res.json())
             .then(data => setLawyerList(data))
-    }, [])
+            :
+        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?${locationCheck==='city' ? `city=${userData?.city?.replace(/\s+/g, '_')}` : `state=${userData?.state}`}`)
+            .then(res => res.json())
+            .then(data => setLawyerList(data))
+    }, [locationCheck]);
 
+
+
+    useEffect(() => {
+        const getProfile = (id) => {
+          console.log("yes");
+          fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+              setUserData(data);
+            });
+        };
+        // call get
+        if (user?.uid) {
+          getProfile(user.uid);
+        }
+      }, [user]);
+
+    
     console.log(lawyerList)
 
     const handleDelete = (id) => {
@@ -52,14 +90,19 @@ function TalkToLawyerList() {
 
     return (
         <div className='bg-primary dark:bg-base-100'>
-            {/* <div className='absolute top-0 w-full opacity-100 z-0'>
-            <svg width="100%" height="100%" id="svg" viewBox="0 0 1440 690" xmlns="http://www.w3.org/2000/svg" className="transition duration-300 ease-in-out delay-150"><path d="M 0,700 C 0,700 0,350 0,350 C 90.47846889952157,365.56937799043067 180.95693779904315,381.1387559808613 267,351 C 353.04306220095685,320.8612440191387 434.6507177033492,245.01435406698567 532,252 C 629.3492822966508,258.9856459330143 742.4401913875599,348.80382775119614 839,385 C 935.5598086124401,421.19617224880386 1015.5885167464114,403.7703349282297 1113,389 C 1210.4114832535886,374.2296650717703 1325.2057416267944,362.11483253588517 1440,350 C 1440,350 1440,700 1440,700 Z" stroke="none" stroke-width="0" fill="#eb144c" fill-opacity="1" className="transition-all duration-300 ease-in-out delay-150 path-0" transform="rotate(-180 720 350)"></path></svg>
-            </div> */}
+            
             <div className="container mx-auto py-10">
                 {/* <h1 className='text-black'>Total lawyer: {lawyerList.length}</h1> */}
                 <div className="flex flex-col lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:gap-10 xl:gap-20 justify-items-center z-50">
                     <div className="w-full col-span-1 lg:col-span-1 bg-primary dark:bg-base-100 z-50  rounded-xl">
                         <div className='border rounded-xl p-5 flex flex-col gap-5 select-none '>
+                            
+                            <span onClick={()=>isLocationActive(!isLocation)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Location <FaChevronDown className={`transition-all duration-300 ${isLocation && 'text-accent rotate-180'}`} /> </span>
+                            <ul className={`transition-all duration-300 p-1 flex flex-col items-start  ${isLocation ? 'flex' : 'hidden '}`}> 
+                                <label onClick={()=>setLocationCheck('city')} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' checked={locationCheck==='city' ? true : false} /> {userData.city} {locationCheck==='city' && `(${lawyerList.length})`}</label>
+                                <label onClick={()=>setLocationCheck('state')} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' checked={locationCheck==='state' ? true : false}/> {userData.state} {locationCheck==='state' && `(${lawyerList.length})`}</label>
+                                <label onClick={()=>setLocationCheck('any')} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' checked={locationCheck==='any' ? true : false}/> Any {locationCheck==='any' && `(${lawyerList.length})`}</label>
+                            </ul>
                             <span onClick={() => isProblemActive(!isProblem)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Problem Type <FaChevronDown className={`transition-all duration-300 ${isProblem && 'text-accent rotate-180'}`} /> </span>
                             <ul className={`transition-all duration-300 p-1 flex flex-col items-start  ${isProblem ? 'flex' : 'hidden '}`}>
                                 {
@@ -119,6 +162,7 @@ function TalkToLawyerList() {
                     {/* Lawyers profile */}
 
                     <div className='w-full col-span-1 md:col-span-2 xl:col-span-3 px-5 md:px-0'>
+                        {/* <h1 className="text-center">No lawyers found in your city.</h1>  */}
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center place-content-center'>
                             {
                                 lawyerList?.map((lawyer, index) => (
@@ -137,7 +181,7 @@ function TalkToLawyerList() {
                                                 {/* <p className='flex items-center gap-3 text-xl font-bold'><div>{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span> </div><span className={`${lawyer.available ? 'bg-success' : 'bg-accent'} w-2 h-2 rounded-full`}></span> </p> */}
                                                 <div className='space-y-3'>
                                                     <Link to={`/profile/${lawyer.UID}`} className='font-bold text-xl'>{lawyer?.name}</Link>
-                                                    <p className='flex items-start justify-start text-sm'><IoLocationSharp className='text-lg' />{lawyer?.city},{lawyer?.state}, India</p>
+                                                    <p className='flex items-start justify-start text-sm'><IoLocationSharp className='text-lg' />{lawyer?.city}, {lawyer?.state}, India</p>
                                                 </div>
                                                 <p className='flex flex-col items-start'>
                                                     {lawyer?.specialties?.map((skill, index) => (

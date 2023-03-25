@@ -8,7 +8,7 @@ import { FiPhoneCall } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { BsGenderMale } from "react-icons/bs";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
-import { updateData, putDataToServer } from "./ProfilePageUpdateData";
+import { updateData, putDataToServer, putUserDataToServer } from "./ProfilePageUpdateData";
 import { StateContext } from "../../../contexts/StateProvider/StateProvider";
 import ProfileImage from "../../../components/Dashboard/Profile/ProfileImage";
 import { RxCross1 } from 'react-icons/rx'
@@ -48,14 +48,51 @@ function ProfilePage() {
     }
   }, [user]);
 
+  // console.log(userData)
 
-  const [specialties, setSpecialties] = useState([]);
-  const [languages, setLanguages] = useState([]);
+
+  let [specialties, setSpecialties] = useState(userData.specialties ? userData.specialties : []);
+  let [languages, setLanguages] = useState(userData.languages ? userData.languages : []);
   console.log(languages)
 
-  const handleUpdate = (data) => {
 
-    const { name, email, contact, rate, bar, id, year, summary } = data
+  const handleState = (iso) => {
+    setStateId(iso)
+    const name = states.find(state => state.iso2 === iso).name
+    setStateName(name)
+  }
+
+  const handleCity = (data) => {
+    console.log(data)
+    setCityName(data)
+  }
+
+
+  const handleUpdate = (data) => {
+    let { name, email, contact, rate, bar, id, year, summary, city, state } = data
+    if (cityName) {
+      city = cityName
+    } else {
+      city = userData.city
+    }
+    if (statesName) {
+      state = statesName
+    } else {
+      state = userData.state
+    }
+
+    if (languages.length === 0) {
+      languages = userData.languages
+    }
+    else {
+      languages = [...languages ,...userData.languages]
+    }
+    if (specialties.length === 0) {
+      specialties = userData.specialties
+    } else {
+      specialties = [...specialties, ...userData.specialties]
+    }
+    
 
     if (user.displayName !== 'lawyer') {
 
@@ -63,26 +100,26 @@ function ProfilePage() {
         name,
         email,
         contact,
-        state: statesName,
-        city: cityName,
+        state,
+        city,
       }
 
-      console.log(data)
+      console.log(update_data)
 
       const update = updateData(update_data, user.uid);
       console.log(update_data);
-      const updateResult = putDataToServer(user.uid, update, user);
+      const updateResult = putUserDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
       toast.success('Profile Updated Successfully')
       setHeightFull(!heightFull)
     }
-    else {
+    else if(user.displayName === 'lawyer') {
       const update_data = {
         name,
         email,
         contact,
-        state: statesName,
-        city: cityName,
+        state,
+        city,
         languages: languages,
         specialties: specialties,
         rate,
@@ -92,9 +129,9 @@ function ProfilePage() {
         summary
       }
 
-      console.log(data)
+      console.log(update_data)
 
-      const update = updateData(update_data, user.uid);
+      let update = updateData(update_data, user.uid);
       console.log(update_data);
       const updateResult = putDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
@@ -201,13 +238,8 @@ function ProfilePage() {
 
 
 
-
-  const handleState = (iso) => {
-    setStateId(iso)
-    const name = states.find(state => state.iso2 === iso).name
-    setStateName(name)
-  }
-
+  
+  console.log(cityName)
 
   const apiKey = 'aHhIRnFkYWRqTU5FVjhKd3labW1UMTR2Zm1TMXpaQmwzRERVUzlLSg==';
 
@@ -286,13 +318,7 @@ function ProfilePage() {
             {
               user.displayName === "lawyer" && <button onClick={() => setHeightFull(!heightFull)} className="primary-btn">Get Verified</button>
             }
-            {/* <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold">@bhupen</span>
-              <span className="font-semibold flex items-center">
-                <AiOutlineDatabase className="" />
-                Data Analyst at Dell Technologies
-              </span>
-            </div> */}
+           
           </div>
           <div className="flex flex-col items-end gap-5 font-semibold">
             <span className="flex items-center gap-3">
@@ -312,6 +338,8 @@ function ProfilePage() {
         </div>
       </div>
 
+      
+      {/* Profile edit section  */}
       <div className={`${!heightFull && "hidden"}`}>
         <div className={`pb-5 `}>
           <form
@@ -337,6 +365,7 @@ function ProfilePage() {
                 {...register("name", { required: true, maxLength: 80 })}
               />
             </label>
+
             <label className="col-span-2 grid grid-cols-2">
               <span className=" font-medium text-base-100 dark:text-primary w-32">
                 Email
@@ -349,6 +378,7 @@ function ProfilePage() {
                 {...register("email", { required: true, maxLength: 80 })}
               />
             </label>
+
             <label className="col-span-2 grid grid-cols-2">
               <span className=" font-medium text-base-100 dark:text-primary w-32">
                 Phone number
@@ -361,6 +391,7 @@ function ProfilePage() {
                 {...register("contact", { required: true, maxLength: 80 })}
               />
             </label>
+
             <label className="col-span-2 grid grid-cols-2">
               <span className=" font-medium text-base-100 dark:text-primary w-32">
                 State
@@ -370,32 +401,37 @@ function ProfilePage() {
               >
                 {
                   userData.state &&
-                  <option value={states.find(state => state.name === userData.state).iso2} selected>{userData.state}</option>
+                  <option value={states.find(state => state.name === userData.state).iso2} selected>
+                      {userData.state}
+                    </option>
                 }
                 {
                   states.length > 0 &&
                   states.filter(state => state.name !== userData.state).map((state) => (
-                    <option key={state.id} value={state.iso2}>{state.name}</option>
+                    <option key={state.id} value={state?.iso2}>{state.name}</option>
                   ))
                 }
               </select>
             </label>
+            
             <label className="col-span-2 grid grid-cols-2">
               <span className=" font-medium text-base-100 dark:text-primary w-32">
                 City
               </span>
-              <select name="city" id="" className="input-box" onChange={(e) => setCityName(e.target.value)}
+              <select name="city" id="" className="input-box" onChange={(e) => handleCity(e.target.value)}
                 required
               >
-                {
-                  userData.city && !cities.length &&
-                  <option value={userData.city} selected>{userData.city}</option>
-                }
+                {userData.city && !cities.length && (
+                  <option value={userData.city} selected>
+                    {userData.city}
+                  </option>
+                )}
                 {cities.length > 0 &&
-                  cities.filter(city => city.name !== userData.city).map((city) => (
-                    <option key={city.id} value={city.name}>{city.name}</option>
-                  ))
-                }
+                  cities.map((city) => (
+                      <option key={city.id} value={city.name}>
+                        {city.name}
+                      </option>
+                    ))}
               </select>
             </label>
 
@@ -435,7 +471,7 @@ function ProfilePage() {
                   <div className="flex items-center gap-3">
                     <img className="w-20" src={`https://thumbs.dreamstime.com/b/document-icon-vector-stack-paper-sheets-illustration-131104983.jpg`} alt="" />
 
-                    <button className="primary-btn">Upload</button>
+                    <button type="disabled" className="primary-btn">Upload</button>
                     <button className="primary-outline-btn">Cancel</button>
                   </div>
 
@@ -470,15 +506,21 @@ function ProfilePage() {
                     Language
                   </span>
                   <div className=''>
-                    <input onKeyDown={handleLanguages} onChange={handleLanguageInputValue} value={languageInputValue} list="languages" id="languageInput" className={`input-box w-full ${languageError === 0 ? 'border border-red-500' : ''}`} required={languages.length > 0 ? false : true} />
+                    <input onKeyDown={handleLanguages} onChange={handleLanguageInputValue} value={languageInputValue} list="languages" id="languageInput" className={`input-box w-full ${languageError === 0 ? 'border border-red-500' : ''}`} required={languages.length > 0 ? false : true || userData.languages.length > 0 ? false : true} />
                     <datalist id="languages" className='text-left w-full' >
                       {
                         languageSuggestions.map((language, index) => <option key={index} value={language} />)
                       }
                     </datalist>
                     <div className='text-xs flex flex-wrap gap-1 mt-1'>
-                      {
+                      {languages &&
                         languages.map((language, index) => <div className='flex items-center justify-between'>
+                          <span key={index} className='px-1 rounded border  flex items-center gap-1'>{language} <RxCross1 onClick={() => handleRemoveLanguage(language)} className='cursor-pointer' /></span>
+                        </div>)
+                      }
+                      {
+                        userData.languages &&
+                        userData.languages.map((language, index) => <div className='flex items-center justify-between'>
                           <span key={index} className='px-1 rounded border  flex items-center gap-1'>{language} <RxCross1 onClick={() => handleRemoveLanguage(language)} className='cursor-pointer' /></span>
                         </div>)
                       }
@@ -491,15 +533,21 @@ function ProfilePage() {
                     Specialties
                   </span>
                   <div className=''>
-                    <input onKeyDown={handleSpecialties} onChange={handleSpecialtyInputValue} value={specialtiesInputValue} list="specialties" id="specialtyInput" className={`input-box w-full ${specialtiesError === 0 ? 'border border-red-500' : ''}`} required={specialties.length > 0 ? false : true} />
+                    <input onKeyDown={handleSpecialties} onChange={handleSpecialtyInputValue} value={specialtiesInputValue} list="specialties" id="specialtyInput" className={`input-box w-full ${specialtiesError === 0 ? 'border border-red-500' : ''}`} required={specialties.length > 0 ? false : true || userData.specialties.length > 0 ? false : true} />
                     <datalist id="specialties" className='text-left w-full' >
                       {
                         specialtiesSuggestions.map((specialty, index) => <option key={index} value={specialty} />)
                       }
                     </datalist>
                     <div className='text-xs flex flex-wrap gap-1 mt-1'>
-                      {
+                      {specialties &&
                         specialties.map((specialty, index) => <div className='flex items-start justify-start'>
+                          <span key={index} className='px-1 rounded border  flex items-start justify-start text-left gap-1'>{specialty} <RxCross1 onClick={() => handleRemoveSpecialty(specialty)} className='cursor-pointer' /></span>
+                        </div>)
+                      }
+                      {
+                        userData.specialties &&
+                        userData.specialties.map((specialty, index) => <div className='flex items-start justify-start'>
                           <span key={index} className='px-1 rounded border  flex items-start justify-start text-left gap-1'>{specialty} <RxCross1 onClick={() => handleRemoveSpecialty(specialty)} className='cursor-pointer' /></span>
                         </div>)
                       }
