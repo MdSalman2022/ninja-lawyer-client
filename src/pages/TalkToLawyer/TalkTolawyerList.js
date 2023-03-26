@@ -139,15 +139,15 @@ function TalkToLawyerList() {
     };
 
     // location input box handle
-    const handleLocation = (e) => {
-        let { value } = e.target;
-        if (e.key === "Enter" && value.trim() !== "") {
-            value = value.substring(0, 1).toUpperCase() + value.substring(1);
-            value = value.replace(/\s+/g, "_");
-            setCityName(value);
-            console.log(value);
-        }
-    };
+    // const handleLocation = (e) => {
+    //     let { value } = e.target;
+    //     if (e.key === "Enter" && value.trim() !== "") {
+    //         value = value.substring(0, 1).toUpperCase() + value.substring(1);
+    //         value = value.replace(/\s+/g, "_");
+    //         setCityName(value);
+    //         console.log(value);
+    //     }
+    // };
 
     // lawyer list fetch
     useEffect(() => {
