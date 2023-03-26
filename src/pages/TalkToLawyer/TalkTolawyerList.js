@@ -12,9 +12,8 @@ import { StateContext } from '../../contexts/StateProvider/StateProvider';
 function TalkToLawyerList() {
 
     const {user} = useContext(AuthContext);
-    const {userData} = useContext(StateContext);
-
-    // const [userData, setUserData] = useState({});
+    const { userData } = useContext(StateContext);
+    
     const [isProblem, isProblemActive] = useState(true);
     const [isLanguage, isLanguageActive] = useState(false);
     const [isGender, isGenderActive] = useState(false);
@@ -25,11 +24,12 @@ function TalkToLawyerList() {
     const [languageSeeMore, setLanguageSeeMore] = useState(false);
     const [mylocation, setMyLocation] = useState(userData.state);
     const [lawyerList, setLawyerList] = useState([])
-    
     const [cityName, setCityName] = useState('')
-    const [stateName, setStateName] = useState('')
+    const date = new Date()
 
-    const [locationCheck, setLocationCheck] = useState('state');
+    const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
+    const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter."];
+ 
 
 
  
@@ -87,41 +87,6 @@ function TalkToLawyerList() {
         )
     }, [states])
      
-    
-//   useEffect(() => {
-//     fetch(`https://api.countrystatecity.in/v1/countries/IN/states/${stateId}/cities`, {
-//       headers: {
-//         'X-CSCAPI-KEY': apiKey
-//       }
-//     })
-//       .then(response => response.json())
-//       .then(data => {
-//         setCities(data) 
-//       })
-//       .catch(error => {
-//         console.error('Error fetching data:', error);
-//       });
-//   }, [stateId])
-  
-// console.log(cities)
-
-
-    // useEffect(() => {
-    //     const getProfile = (id) => {
-    //       console.log("yes");
-    //       fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //           console.log(data);
-    //           setUserData(data);
-    //         });
-    //     };
-    //     // call get
-    //     if (user?.uid) {
-    //       getProfile(user.uid);
-    //     }
-    //   }, [user]);
- 
 
     const handleDelete = (id) => {
         fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/delete/${id}`, {
@@ -139,21 +104,18 @@ function TalkToLawyerList() {
     }
 
 
-    const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
-    const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter."];
- 
-
+    // location input box handle 
     const handleLocation = (e) => {        
         let { value } = e.target;
         if (e.key === 'Enter' && value.trim() !== '') {
             value = value.substring(0, 1).toUpperCase() + value.substring(1) 
-            value = value.replace(/\s+/g, '_')
-            setLocationCheck('city')
+            value = value.replace(/\s+/g, '_') 
             setCityName(value)
             console.log(value)
         }
     }
 
+    // lawyer list fetch 
     useEffect(() => {
         !cityName &&
             fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?state=${userData.state}`)
@@ -170,11 +132,7 @@ function TalkToLawyerList() {
                 console.log(data)
             })
     }, [cityName]);
-
-    
-
-
-    const date = new Date()
+ 
 
     return (
         <div className='bg-primary dark:bg-base-100'>
@@ -251,11 +209,11 @@ function TalkToLawyerList() {
                         {/* <h1 className="text-center">No lawyers found in your city.</h1>  */}
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-5 justify-items-center place-content-center'>
                             <div className='col-span-3 w-full flex justify-end items-end gap-2'>
-                                <div className='input-box flex items-center gap-2  dark:border-gray-700'>
+                                <div className='input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100'>
                                     Available
                                     <input type="checkbox" className="toggle toggle-sm toggle-success" />
                                 </div>
-                                <select className="input-box dark:border-gray-700"> 
+                                <select className="input-box dark:border-gray-700 dark:bg-base-100"> 
                                     <option selected>Popularity</option> 
                                     <option>Price(Low to High)</option> 
                                     <option>Price(High to Low)</option> 
@@ -269,7 +227,7 @@ function TalkToLawyerList() {
                                 </div>
                             :
                                 lawyerList?.map((lawyer, index) => (
-                                    <div key={lawyer.index} className='bg-primary dark:bg-base-100 p-3 shadow flex flex-col h-full w-full items-start justify-start rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-700 relative  '>
+                                    <div key={lawyer.index} className='bg-primary dark:bg-base-100 p-3 shadow flex flex-col h-full w-full items-start justify-start rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-800 relative  '>
                                         <figure className='relative rounded-xl  w-full'>
 
                                             <img className='rounded-xl  h-60 w-full object-cover' src={lawyer?.img ? lawyer.img : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'} alt="" />
