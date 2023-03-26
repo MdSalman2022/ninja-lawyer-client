@@ -6,14 +6,14 @@ import { IoLocationSharp } from 'react-icons/io5'
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
-
+import { AuthContext } from '../../contexts/AuthProvider/AuthProvider'; 
+import { StateContext } from '../../contexts/StateProvider/StateProvider';
 
 function TalkToLawyerList() {
 
     const {user} = useContext(AuthContext);
-
-    const [userData, setUserData] = useState({});
+    const { userData } = useContext(StateContext);
+    
     const [isProblem, isProblemActive] = useState(true);
     const [isLanguage, isLanguageActive] = useState(false);
     const [isGender, isGenderActive] = useState(false);
@@ -22,60 +22,71 @@ function TalkToLawyerList() {
 
     const [problemSeeMore, setProblemSeeMore] = useState(false);
     const [languageSeeMore, setLanguageSeeMore] = useState(false);
-
+    const [mylocation, setMyLocation] = useState(userData.state);
     const [lawyerList, setLawyerList] = useState([])
-    
-    // useEffect(() => {
-    //     fetch("https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all")
-    //       .then((res) => res.json())
-    //       .then((data) => {
-    //         console.log(data);
-    //         let filterData = [];
-    //         for (let i = 0; i < data.length; i++) {
-    //           if (data[i].verified === true) {
-    //             filterData.push(data[i]);
-    //           }
-    //         }
-    //         console.log(filterData, "9900");
-    
-    //         setLawyerList(filterData);
-    //       });
-    //   }, []); 
+    const [cityName, setCityName] = useState('')
+    const date = new Date()
 
-    const [locationCheck, setLocationCheck] = useState('city');
+    const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
+    const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter."];
  
 
-    useEffect(() => {
-        locationCheck === 'any' ?
-            fetch('https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all')
-            .then(res => res.json())
-            .then(data => setLawyerList(data))
-            :
-        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?${locationCheck==='city' ? `city=${userData?.city?.replace(/\s+/g, '_')}` : `state=${userData?.state}`}`)
-            .then(res => res.json())
-            .then(data => setLawyerList(data))
-    }, [locationCheck]);
 
-
-
-    useEffect(() => {
-        const getProfile = (id) => {
-          console.log("yes");
-          fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
-            .then((res) => res.json())
-            .then((data) => {
-              console.log(data);
-              setUserData(data);
-            });
-        };
-        // call get
-        if (user?.uid) {
-          getProfile(user.uid);
-        }
-      }, [user]);
-
-    
+ 
     console.log(lawyerList)
+    
+    const apiKey = 'aHhIRnFkYWRqTU5FVjhKd3labW1UMTR2Zm1TMXpaQmwzRERVUzlLSg==';
+
+    const [states, setStates] = useState([]);
+    const [cities, setCities] = useState([]);
+    const [stateId, setStateId] = useState('');
+
+
+    const citiesList = []
+    useEffect(() => {
+    fetch(`https://api.countrystatecity.in/v1/countries/IN/states/`, {
+      headers: {
+        'X-CSCAPI-KEY': apiKey
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+          data.find(state => state.name === userData.state) && setStateId(data.find(state => state.name === userData.state).iso2)
+          setStates(data)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+    }, [])
+      
+
+    useEffect(() => {
+        states.map(state => {
+            fetch(`https://api.countrystatecity.in/v1/countries/IN/states/${state.iso2}/cities`, {
+                headers: {
+                    'X-CSCAPI-KEY': apiKey    
+                }
+            })
+                .then(response => response.json())
+                .then(data => { 
+                    citiesList.push(data.map(city => 
+                    {
+                        return {
+                            name: city.name,
+                            state: state.iso2,
+                            stateName: state.name
+                        }
+                            }
+                        )) 
+                    setCities(citiesList)
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }    
+        )
+    }, [states])
+     
 
     const handleDelete = (id) => {
         fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/delete/${id}`, {
@@ -93,10 +104,35 @@ function TalkToLawyerList() {
     }
 
 
-    const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
-    const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter."];
+    // location input box handle 
+    const handleLocation = (e) => {        
+        let { value } = e.target;
+        if (e.key === 'Enter' && value.trim() !== '') {
+            value = value.substring(0, 1).toUpperCase() + value.substring(1) 
+            value = value.replace(/\s+/g, '_') 
+            setCityName(value)
+            console.log(value)
+        }
+    }
 
+    // lawyer list fetch 
+    useEffect(() => {
+        !cityName &&
+            fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?state=${userData.state}`)
+            .then(res => res.json())
+                .then(data => setLawyerList(data))
+    }, [cityName,userData.state]);
 
+    useEffect(() => {
+        cityName &&
+        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?city=${cityName}`)
+            .then(res => res.json())
+            .then(data => {
+                setLawyerList(data)
+                console.log(data)
+            })
+    }, [cityName]);
+ 
 
     return (
         <div className='bg-primary dark:bg-base-100'>
@@ -105,15 +141,19 @@ function TalkToLawyerList() {
                 {/* <h1 className='text-black'>Total lawyer: {lawyerList.length}</h1> */}
                 <div className="flex flex-col lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:gap-10 xl:gap-20 justify-items-center z-50">
                     <div className="w-full col-span-1 lg:col-span-1 bg-primary dark:bg-base-100 z-50  rounded-xl">
-                        <div className='border rounded-xl p-5 flex flex-col gap-5 select-none '>
-                            
-                            <span onClick={()=>isLocationActive(!isLocation)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Location <FaChevronDown className={`transition-all duration-300 ${isLocation && 'text-accent rotate-180'}`} /> </span>
-                            <ul className={`transition-all duration-300 p-1 flex flex-col items-start  ${isLocation ? 'flex' : 'hidden '}`}> 
-                                <label onClick={()=>setLocationCheck('city')} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' checked={locationCheck==='city' ? true : false} /> {userData.city} {locationCheck==='city' && `(${lawyerList.length})`}</label>
-                                <label onClick={()=>setLocationCheck('state')} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' checked={locationCheck==='state' ? true : false}/> {userData.state} {locationCheck==='state' && `(${lawyerList.length})`}</label>
-                                <label onClick={()=>setLocationCheck('any')} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' checked={locationCheck==='any' ? true : false}/> Any {locationCheck==='any' && `(${lawyerList.length})`}</label>
-                            </ul>
-                            <span onClick={() => isProblemActive(!isProblem)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Problem Type <FaChevronDown className={`transition-all duration-300 ${isProblem && 'text-accent rotate-180'}`} /> </span>
+                        <div className='border  dark:border-gray-700 rounded-xl p-5 flex flex-col gap-5 select-none '>
+                            <div className='flex flex-col'>
+                                <labal>Location</labal>
+                                <input onKeyDown={handleLocation} type="text" className='input-box dark:border-gray-700' list="languages" id="languageInput" defaultValue={userData.state} />  
+                                <datalist id="languages" className='w-full' >
+                                {cities.map((innerArray, index) => (
+                                    innerArray.map((value, index) => (
+                                        <option key={`${index}-${value}`} value={`${value.name}`}>{value.stateName}</option>
+                                    ))
+                                ))}
+                                </datalist>
+                            </div>
+                            <span onClick={() => isProblemActive(!isProblem)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Problem Type <FaChevronDown className={`transition-all duration-300 ${isProblem && 'text-accent rotate-180'}`} /> </span>
                             <ul className={`transition-all duration-300 p-1 flex flex-col items-start  ${isProblem ? 'flex' : 'hidden '}`}>
                                 {
                                     specialtiesSuggestions.splice(0, 4).map((specialty, index) => {
@@ -133,7 +173,7 @@ function TalkToLawyerList() {
                                 <label onClick={() => setProblemSeeMore(!problemSeeMore)} className={`${problemSeeMore ? 'flex' : 'hidden'} gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}><FaChevronUp />Show less</label>
 
                             </ul>
-                            <span onClick={() => isLanguageActive(!isLanguage)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Language <FaChevronDown className={`transition-all duration-300 ${isLanguage && 'text-accent rotate-180'}`} /> </span>
+                            <span onClick={() => isLanguageActive(!isLanguage)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Language <FaChevronDown className={`transition-all duration-300 ${isLanguage && 'text-accent rotate-180'}`} /> </span>
                             <ul className={`transition-all duration-300 p-1 flex flex-col items-start ${isLanguage ? 'flex' : 'hidden'}`}>
                                 {
                                     languageSuggestions.splice(0, 4).map((language, index) => {
@@ -154,17 +194,11 @@ function TalkToLawyerList() {
 
                             </ul>
 
-                            <span onClick={() => isGenderActive(!isGender)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Gender <FaChevronDown className={`transition-all duration-300 ${isGender && 'text-accent rotate-180'}`} /> </span>
+                            <span onClick={() => isGenderActive(!isGender)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Gender <FaChevronDown className={`transition-all duration-300 ${isGender && 'text-accent rotate-180'}`} /> </span>
                             <ul className={`transition-all duration-300 p-1 flex flex-col items-start ${isGender ? 'flex' : 'hidden'}`}>
                                 <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Male</label>
                                 <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Female</label>
-                            </ul>
-                            <span onClick={() => isExperienceActive(!isExperience)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Experience <FaChevronDown className={`transition-all duration-300 ${isExperience && 'text-accent rotate-180'}`} /> </span>
-                            <ul className={`transition-all duration-300 p-1 flex flex-col items-start ${isExperience ? 'flex' : 'hidden'}`}>
-                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> {">"} 2 yrs</label>
-                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> {">"} 3 yrs</label>
-                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> {">"} 5 yrs</label>
-                            </ul>
+                            </ul> 
 
                         </div>
                     </div>
@@ -173,46 +207,62 @@ function TalkToLawyerList() {
 
                     <div className='w-full col-span-1 md:col-span-2 xl:col-span-3 px-5 md:px-0'>
                         {/* <h1 className="text-center">No lawyers found in your city.</h1>  */}
-                        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center place-content-center'>
-                            {
+                        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-5 justify-items-center place-content-center'>
+                            <div className='col-span-3 w-full flex justify-end items-end gap-2'>
+                                <div className='input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100'>
+                                    Available
+                                    <input type="checkbox" className="toggle toggle-sm toggle-success" />
+                                </div>
+                                <select className="input-box dark:border-gray-700 dark:bg-base-100"> 
+                                    <option selected>Popularity</option> 
+                                    <option>Price(Low to High)</option> 
+                                    <option>Price(High to Low)</option> 
+                                    <option>User Rating</option> 
+                                    <option>Experience</option> 
+                                </select>
+                            </div>
+                            {lawyerList?.length === 0 ? 
+                                <div className='col-span-3 flex flex-col h-full w-full '>
+                                    <h1 className="text-center text-3xl">No lawyers found in your city.</h1> 
+                                </div>
+                            :
                                 lawyerList?.map((lawyer, index) => (
-                                    <div key={lawyer.index} className='bg-primary dark:bg-base-100 p-3 shadow flex flex-col h-full w-full items-start justify-start rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-700 relative  '>
+                                    <div key={lawyer.index} className='bg-primary dark:bg-base-100 p-3 shadow flex flex-col h-full w-full items-start justify-start rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-800 relative  '>
                                         <figure className='relative rounded-xl  w-full'>
 
                                             <img className='rounded-xl  h-60 w-full object-cover' src={lawyer?.img ? lawyer.img : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'} alt="" />
-                                            <div className='absolute top-0 bg-primary w-full h-60 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-[50%] dark:bg-opacity-[50%]'></div>
+                                            <div className='absolute top-0 bg-primary w-full h-60 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-[50%] dark:bg-opacity-[10%] dark:brightness-50'></div>
                                             <span className='absolute top-0 right-0 bg-primary dark:bg-base-100 p-2 rounded-bl-xl shadow-xl'>
                                                 <p className='text-2xl text-end font-bold'>₹{lawyer?.rate}</p>
                                                 <p className='text-base-100 dark:text-secondary opacity-60 text-sm'>Per Minute</p>
                                             </span>
                                         </figure>
-                                        <div className="content p-1 flex justify-between w-full h-full">
-                                            <div className='flex flex-col items-start justify-between '>
+                                        <div className="content p-1 grid grid-cols-2 justify-between w-full h-full">
+                                            <div className='flex flex-col items-start justify-start '>
                                                 {/* <p className='flex items-center gap-3 text-xl font-bold'><div>{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span> </div><span className={`${lawyer.available ? 'bg-success' : 'bg-accent'} w-2 h-2 rounded-full`}></span> </p> */}
                                                 <div className='space-y-3'>
                                                     <Link to={`/profile/${lawyer.UID}`} className='font-bold text-xl'>{lawyer?.name}</Link>
                                                     <p className='flex items-start justify-start text-sm'><IoLocationSharp className='text-lg' />{lawyer?.city}, {lawyer?.state}, India</p>
                                                 </div>
                                                 <p className='flex flex-col items-start'>
+                                                    <span className='font-semibold my-2'>Specialties</span>
                                                     {lawyer?.specialties?.map((skill, index) => (
-                                                        <span className='text-xs border m-1 p-1 rounded-full' key={index}>
+                                                        <span className='text-xs border dark:border-gray-700 m-1 p-1 rounded-md' key={index}>
                                                             {skill}
                                                         </span>
                                                     ))}
                                                 </p>
                                             </div>
-                                            <div className='flex flex-col items-end justify-between'>
-                                                <div>
-                                                    <p className='flex items-center justify-end gap-2'>{lawyer?.experience}<BiTime className='text-xl' /> </p>
-                                                    <div className='flex items-center justify-end gap-1  text-warning'><span className='flex items-center'><FaStar /></span> <span className='text-xs text-base-100 dark:text-primary'>5</span></div>
-                                                    <p className='flex flex-col items-end'>
-                                                        {lawyer?.language?.map((item, index) => (
-                                                            <span className='text-xs border m-1 p-1 rounded-md' key={index}>
+                                            <div className='flex flex-col items-end justify-start gap-2'> 
+                                                    <p className='flex items-center justify-end gap-2'>{lawyer?.experience ? lawyer.experience : date.getFullYear() - lawyer.year} years<BiTime className='text-sm' /> </p>
+                                                    <div className='flex items-center justify-end gap-1  text-warning'><span className='flex items-center'><FaStar /></span> <span className='text-xs text-base-100 dark:text-primary'>5.0</span></div>
+                                                    <p className='flex flex-wrap justify-end'>
+                                                        {lawyer?.languages?.map((item, index) => (
+                                                            <span className='text-xs border dark:border-gray-700 m-1 p-1 rounded-md' key={index}>
                                                                 {item}
                                                             </span>
                                                         ))}
-                                                    </p>
-                                                </div>
+                                                    </p> 
                                                 {/* <button onClick={() => handleDelete(lawyer.UID)} className='primary-btn '>Delete</button> */}
                                             </div>
                                         </div>

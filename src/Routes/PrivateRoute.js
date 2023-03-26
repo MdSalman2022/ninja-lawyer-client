@@ -8,7 +8,7 @@ import AdminLogin from '../pages/AdminLogin/AdminLogin';
 
 const PrivateRoute = ({ children }) => {
 
-    const { user, loading, isAdmin } = useContext(AuthContext)
+    const { user, loading } = useContext(AuthContext)
 
 
 
@@ -18,13 +18,12 @@ const PrivateRoute = ({ children }) => {
             loop={true}
         />
     </div>;
-
-    if (isAdmin) {
-        return children
-    }
+ 
 
     if (user) {
         return children;
+    } else {
+        return <Navigate to='/login' />
     }
 
 

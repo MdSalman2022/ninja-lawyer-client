@@ -13,47 +13,46 @@ import { StateContext } from "../../../contexts/StateProvider/StateProvider";
 import ProfileImage from "../../../components/Dashboard/Profile/ProfileImage";
 import { RxCross1 } from 'react-icons/rx'
 import { useForm } from "react-hook-form";
-import { toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast'; 
 
 function ProfilePage() {
-  const { user } = useContext(AuthContext);
-  const [userData, setUserData] = useState({});
-  const { heightFull, setHeightFull } = useContext(StateContext);
+  const { user } = useContext(AuthContext);  
+  const { heightFull, setHeightFull,userData } = useContext(StateContext);
   const [states, setStates] = useState([])
   const [statesName, setStateName] = useState(userData.state ? userData.state : '')
   const [stateId, setStateId] = useState('');
   const [cities, setCities] = useState([]);
   const [cityName, setCityName] = useState(userData.city ? userData.city : '');
 
+
+  // useEffect(() => {
+  //   const getProfile = (id) => {
+  //     console.log("yes");
+  //     fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
+  //       .then((res) => res.json())
+  //       .then((data) => { 
+  //         setUserData(data);
+  //       });
+  //   };
+  //   // call get
+  //   if (user?.uid) {
+  //     getProfile(user.uid);
+  //   }
+  // }, [user]);
+
+  // console.log(userData)
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-
-
-  useEffect(() => {
-    const getProfile = (id) => {
-      console.log("yes");
-      fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setUserData(data);
-        });
-    };
-    // call get
-    if (user?.uid) {
-      getProfile(user.uid);
-    }
-  }, [user]);
-
-  // console.log(userData)
+  } = useForm({ 
+    validateCriteriaMode: "onSubmit",
+  });
 
 
   let [specialties, setSpecialties] = useState(userData.specialties ? userData.specialties : []);
-  let [languages, setLanguages] = useState(userData.languages ? userData.languages : []);
-  console.log(languages)
+  let [languages, setLanguages] = useState(userData.languages ? userData.languages : []); 
 
 
   const handleState = (iso) => {
@@ -81,16 +80,22 @@ function ProfilePage() {
       state = userData.state
     }
 
-    if (languages.length === 0) {
-      languages = userData.languages
+    if (languages?.length === 0) {
+      languages = userData?.languages
     }
-    else {
-      languages = [...languages ,...userData.languages]
+    else if (userData.languages === '' || userData.languages === undefined) {
+      languages = [...languages] 
     }
-    if (specialties.length === 0) {
-      specialties = userData.specialties
+    else{
+      languages = [...languages ,...userData?.languages]
+    } 
+
+    if (specialties?.length === 0) {
+      specialties = userData?.specialties
+    } else if (userData.specialties === ''  || userData.specialties === undefined) {
+      specialties = [...specialties]
     } else {
-      specialties = [...specialties, ...userData.specialties]
+      specialties = [...specialties, ...userData?.specialties]
     }
     
 
@@ -235,11 +240,7 @@ function ProfilePage() {
   }
   // console.log(languages)
   // console.log(specialties)
-
-
-
-  
-  console.log(cityName)
+ 
 
   const apiKey = 'aHhIRnFkYWRqTU5FVjhKd3labW1UMTR2Zm1TMXpaQmwzRERVUzlLSg==';
 
@@ -268,15 +269,13 @@ function ProfilePage() {
     })
       .then(response => response.json())
       .then(data => {
-        setCities(data)
-        console.log(data)
+        setCities(data) 
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
   }, [stateId])
-
-  console.log(userData.id)
+ 
   return (
     <div
       className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10`}
@@ -345,6 +344,7 @@ function ProfilePage() {
           <form
             className="grid grid-cols-3 gap-5 mt-5 "
             onSubmit={handleSubmit(handleUpdate)}
+            noValidate
           >
             <h1 className="col-span-3 ext-3xl font-bold">Edit Profile</h1>
 
@@ -362,7 +362,7 @@ function ProfilePage() {
                 className="input-box w-full"
                 name="name"
                 defaultValue={userData.name}
-                {...register("name", { required: true, maxLength: 80 })}
+                {...register("name", { required: true, maxLength: 80 })} 
               />
             </label>
 
@@ -375,7 +375,7 @@ function ProfilePage() {
                 className="input-box w-full"
                 name="email"
                 defaultValue={userData.email}
-                {...register("email", { required: true, maxLength: 80 })}
+                {...register("email", { required: true, maxLength: 80 })} 
               />
             </label>
 
@@ -401,7 +401,7 @@ function ProfilePage() {
               >
                 {
                   userData.state &&
-                  <option value={states.find(state => state.name === userData.state).iso2} selected>
+                  <option value={states.find(state => state.name === userData.state)?.iso2} selected>
                       {userData.state}
                     </option>
                 }
@@ -514,13 +514,13 @@ function ProfilePage() {
                     </datalist>
                     <div className='text-xs flex flex-wrap gap-1 mt-1'>
                       {languages &&
-                        languages.map((language, index) => <div className='flex items-center justify-between'>
+                        languages?.map((language, index) => <div className='flex items-center justify-between'>
                           <span key={index} className='px-1 rounded border  flex items-center gap-1'>{language} <RxCross1 onClick={() => handleRemoveLanguage(language)} className='cursor-pointer' /></span>
                         </div>)
                       }
                       {
                         userData.languages &&
-                        userData.languages.map((language, index) => <div className='flex items-center justify-between'>
+                        userData?.languages.map((language, index) => <div className='flex items-center justify-between'>
                           <span key={index} className='px-1 rounded border  flex items-center gap-1'>{language} <RxCross1 onClick={() => handleRemoveLanguage(language)} className='cursor-pointer' /></span>
                         </div>)
                       }
