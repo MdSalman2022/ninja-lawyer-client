@@ -7,12 +7,14 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider'; 
+import { StateContext } from '../../contexts/StateProvider/StateProvider';
 
 function TalkToLawyerList() {
 
     const {user} = useContext(AuthContext);
+    const {userData} = useContext(StateContext);
 
-    const [userData, setUserData] = useState({});
+    // const [userData, setUserData] = useState({});
     const [isProblem, isProblemActive] = useState(true);
     const [isLanguage, isLanguageActive] = useState(false);
     const [isGender, isGenderActive] = useState(false);
@@ -116,21 +118,21 @@ function TalkToLawyerList() {
 
 
 
-    useEffect(() => {
-        const getProfile = (id) => {
-          console.log("yes");
-          fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
-            .then((res) => res.json())
-            .then((data) => {
-              console.log(data);
-              setUserData(data);
-            });
-        };
-        // call get
-        if (user?.uid) {
-          getProfile(user.uid);
-        }
-      }, [user]);
+    // useEffect(() => {
+    //     const getProfile = (id) => {
+    //       console.log("yes");
+    //       fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //           console.log(data);
+    //           setUserData(data);
+    //         });
+    //     };
+    //     // call get
+    //     if (user?.uid) {
+    //       getProfile(user.uid);
+    //     }
+    //   }, [user]);
  
 
     const handleDelete = (id) => {
@@ -154,22 +156,22 @@ function TalkToLawyerList() {
  
 
     const handleLocation = (e) => {        
-        const { value } = e.target;
+        let { value } = e.target;
         if (e.key === 'Enter' && value.trim() !== '') {
-            // setStateName(value)
+            value = value.substring(0, 1).toUpperCase() + value.substring(1) 
+            value = value.replace(/\s+/g, '_')
             setLocationCheck('city')
             setCityName(value)
             console.log(value)
         }
     }
 
-    console.log(cityName.replace(/\s+/g, '_'))
     useEffect(() => {
         !cityName &&
             fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?state=${userData.state}`)
             .then(res => res.json())
                 .then(data => setLawyerList(data))
-    }, [locationCheck, userData.state]);
+    }, [cityName,userData.state]);
 
     useEffect(() => {
         cityName &&
@@ -179,10 +181,12 @@ function TalkToLawyerList() {
                 setLawyerList(data)
                 console.log(data)
             })
-    }, [locationCheck, cityName]);
+    }, [cityName]);
 
     
 
+
+    const date = new Date()
 
     return (
         <div className='bg-primary dark:bg-base-100'>
@@ -270,7 +274,16 @@ function TalkToLawyerList() {
 
                     <div className='w-full col-span-1 md:col-span-2 xl:col-span-3 px-5 md:px-0'>
                         {/* <h1 className="text-center">No lawyers found in your city.</h1>  */}
-                        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center place-content-center'>
+                        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-5 justify-items-center place-content-center'>
+                            <div className='col-span-3 w-full flex justify-end items-end'>
+                                <select className="input-box"> 
+                                    <option selected>Popularity</option> 
+                                    <option>Price(Low to High)</option> 
+                                    <option>Price(High to Low)</option> 
+                                    <option>User Rating</option> 
+                                    <option>Experience</option> 
+                                </select>
+                            </div>
                             {lawyerList?.length === 0 ? 
                                 <div className='col-span-3 flex flex-col h-full w-full '>
                                     <h1 className="text-center text-3xl">No lawyers found in your city.</h1> 
@@ -287,33 +300,32 @@ function TalkToLawyerList() {
                                                 <p className='text-base-100 dark:text-secondary opacity-60 text-sm'>Per Minute</p>
                                             </span>
                                         </figure>
-                                        <div className="content p-1 flex justify-between w-full h-full">
-                                            <div className='flex flex-col items-start justify-between '>
+                                        <div className="content p-1 grid grid-cols-2 justify-between w-full h-full">
+                                            <div className='flex flex-col items-start justify-start '>
                                                 {/* <p className='flex items-center gap-3 text-xl font-bold'><div>{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span> </div><span className={`${lawyer.available ? 'bg-success' : 'bg-accent'} w-2 h-2 rounded-full`}></span> </p> */}
                                                 <div className='space-y-3'>
                                                     <Link to={`/profile/${lawyer.UID}`} className='font-bold text-xl'>{lawyer?.name}</Link>
                                                     <p className='flex items-start justify-start text-sm'><IoLocationSharp className='text-lg' />{lawyer?.city}, {lawyer?.state}, India</p>
                                                 </div>
                                                 <p className='flex flex-col items-start'>
+                                                    <span className='font-semibold my-2'>Specialties</span>
                                                     {lawyer?.specialties?.map((skill, index) => (
-                                                        <span className='text-xs border m-1 p-1 rounded-full' key={index}>
+                                                        <span className='text-xs border m-1 p-1 rounded-md' key={index}>
                                                             {skill}
                                                         </span>
                                                     ))}
                                                 </p>
                                             </div>
-                                            <div className='flex flex-col items-end justify-between'>
-                                                <div>
-                                                    <p className='flex items-center justify-end gap-2'>{lawyer?.experience}<BiTime className='text-xl' /> </p>
-                                                    <div className='flex items-center justify-end gap-1  text-warning'><span className='flex items-center'><FaStar /></span> <span className='text-xs text-base-100 dark:text-primary'>5</span></div>
-                                                    <p className='flex flex-col items-end'>
-                                                        {lawyer?.language?.map((item, index) => (
+                                            <div className='flex flex-col items-end justify-start gap-2'> 
+                                                    <p className='flex items-center justify-end gap-2'>{lawyer?.experience ? lawyer.experience : date.getFullYear() - lawyer.year} years<BiTime className='text-sm' /> </p>
+                                                    <div className='flex items-center justify-end gap-1  text-warning'><span className='flex items-center'><FaStar /></span> <span className='text-xs text-base-100 dark:text-primary'>5.0</span></div>
+                                                    <p className='flex flex-wrap justify-end'>
+                                                        {lawyer?.languages?.map((item, index) => (
                                                             <span className='text-xs border m-1 p-1 rounded-md' key={index}>
                                                                 {item}
                                                             </span>
                                                         ))}
-                                                    </p>
-                                                </div>
+                                                    </p> 
                                                 {/* <button onClick={() => handleDelete(lawyer.UID)} className='primary-btn '>Delete</button> */}
                                             </div>
                                         </div>

@@ -13,12 +13,11 @@ import { StateContext } from "../../../contexts/StateProvider/StateProvider";
 import ProfileImage from "../../../components/Dashboard/Profile/ProfileImage";
 import { RxCross1 } from 'react-icons/rx'
 import { useForm } from "react-hook-form";
-import { toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast'; 
 
 function ProfilePage() {
-  const { user } = useContext(AuthContext);
-  const [userData, setUserData] = useState({});
-  const { heightFull, setHeightFull } = useContext(StateContext);
+  const { user } = useContext(AuthContext);  
+  const { heightFull, setHeightFull,userData } = useContext(StateContext);
   const [states, setStates] = useState([])
   const [statesName, setStateName] = useState(userData.state ? userData.state : '')
   const [stateId, setStateId] = useState('');
@@ -26,20 +25,20 @@ function ProfilePage() {
   const [cityName, setCityName] = useState(userData.city ? userData.city : '');
 
 
-  useEffect(() => {
-    const getProfile = (id) => {
-      console.log("yes");
-      fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
-        .then((res) => res.json())
-        .then((data) => { 
-          setUserData(data);
-        });
-    };
-    // call get
-    if (user?.uid) {
-      getProfile(user.uid);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   const getProfile = (id) => {
+  //     console.log("yes");
+  //     fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
+  //       .then((res) => res.json())
+  //       .then((data) => { 
+  //         setUserData(data);
+  //       });
+  //   };
+  //   // call get
+  //   if (user?.uid) {
+  //     getProfile(user.uid);
+  //   }
+  // }, [user]);
 
   // console.log(userData)
 
@@ -81,16 +80,22 @@ function ProfilePage() {
       state = userData.state
     }
 
-    if (languages.length === 0) {
-      languages = userData.languages
+    if (languages?.length === 0) {
+      languages = userData?.languages
     }
-    else {
-      languages = [...languages ,...userData.languages]
+    else if (userData.languages === '' || userData.languages === undefined) {
+      languages = [...languages] 
     }
-    if (specialties.length === 0) {
-      specialties = userData.specialties
+    else{
+      languages = [...languages ,...userData?.languages]
+    } 
+
+    if (specialties?.length === 0) {
+      specialties = userData?.specialties
+    } else if (userData.specialties === ''  || userData.specialties === undefined) {
+      specialties = [...specialties]
     } else {
-      specialties = [...specialties, ...userData.specialties]
+      specialties = [...specialties, ...userData?.specialties]
     }
     
 
@@ -509,13 +514,13 @@ function ProfilePage() {
                     </datalist>
                     <div className='text-xs flex flex-wrap gap-1 mt-1'>
                       {languages &&
-                        languages.map((language, index) => <div className='flex items-center justify-between'>
+                        languages?.map((language, index) => <div className='flex items-center justify-between'>
                           <span key={index} className='px-1 rounded border  flex items-center gap-1'>{language} <RxCross1 onClick={() => handleRemoveLanguage(language)} className='cursor-pointer' /></span>
                         </div>)
                       }
                       {
                         userData.languages &&
-                        userData.languages.map((language, index) => <div className='flex items-center justify-between'>
+                        userData?.languages.map((language, index) => <div className='flex items-center justify-between'>
                           <span key={index} className='px-1 rounded border  flex items-center gap-1'>{language} <RxCross1 onClick={() => handleRemoveLanguage(language)} className='cursor-pointer' /></span>
                         </div>)
                       }
