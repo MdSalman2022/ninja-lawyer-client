@@ -24,6 +24,7 @@ const updateData = (data, UID) => {
 const putDataToServer = (id, data, user) => {
   console.log(user)
   console.log(data)
+  let message = false;
   fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/update/${id}`, {
     method: "PUT",
     headers: {
@@ -43,18 +44,13 @@ const putDataToServer = (id, data, user) => {
     });
   return message;
 };
-<<<<<<< HEAD
-
-const putUserDataToServer = async (id, data, user) => {
-=======
 // User data update
 const putUserDataToServer = (id, data, user) => {
->>>>>>> salman
   console.log(user)
   console.log(data)
   console.log("++++", data);
   let message = false;
-  await fetch(`https://ninja-lawyer-server.vercel.app/api/users/update/${id}`, {
+  fetch(`https://ninja-lawyer-server.vercel.app/api/users/update/${id}`, {
     method: "PUT",
     headers: {
       "content-type": "application/json",
