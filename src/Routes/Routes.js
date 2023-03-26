@@ -22,15 +22,17 @@ import LawyerProfile from "../pages/TalkToLawyer/LawyerProfile";
 import LawyerRegister from "../components/UserAuthentication/LawyerRegister/LawyerRegister";
 import { AuthContext } from "../contexts/AuthProvider/AuthProvider";
 import TestAPI from "../components/Testing/Test-API";
+import AdminRoute from "./AdminRoute"; 
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    errorElement: <div>404</div>,
     children: [
       {
         path: "/",
-        element: <PrivateRoute><Home></Home></PrivateRoute>,
+        element: <AdminRoute><Home></Home></AdminRoute>,
       },
       {
         path: "/test",
@@ -38,19 +40,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <PrivateRoute><LoginPage></LoginPage></PrivateRoute>,
+        element: <AdminRoute><LoginPage></LoginPage></AdminRoute>,
       },
       {
         path: "/register",
-        element: <PrivateRoute><RegisterPage></RegisterPage></PrivateRoute>,
+        element: <AdminRoute><RegisterPage></RegisterPage></AdminRoute>,
       },
       {
         path: "/talk-to-lawyer",
-        element: <PrivateRoute><TalkToLawyer></TalkToLawyer></PrivateRoute>,
+        element: <AdminRoute><TalkToLawyer></TalkToLawyer></AdminRoute>,
       },
       {
         path: "/ask-a-lawyer",
-        element: <PrivateRoute><AskLawyerPage></AskLawyerPage></PrivateRoute>,
+        element: <AdminRoute><AskLawyerPage></AskLawyerPage></AdminRoute>,
       },
       {
         path: "/property-sale-and-purchase",
@@ -75,7 +77,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/lawyer-register",
-        element: <PrivateRoute><LawyerRegister /></PrivateRoute>,
+        element: <AdminRoute><LawyerRegister /></AdminRoute>,
       },
       {
         path: "/admin-page",
@@ -86,6 +88,7 @@ export const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+    errorElement: <div>404</div>,
     children: [
       {
         path: "/dashboard",

@@ -45,7 +45,7 @@ export default function ProfileImage(props) {
       console.log("Uploaded a blob or file!", snapshot);
     });
   }
-
+console.log(image)
   return (
     <div>
       <div className="relative bg-gradient-to-r from-base-100 to-primary h-52 w-full rounded-t-xl">
@@ -54,28 +54,30 @@ export default function ProfileImage(props) {
         </div>
         <div className="absolute -bottom-16 left-10 border-4 rounded-full border-primary group cursor-pointer">
           <div className="absolute rounded-full h-32 w-32 bg-black bg-opacity-70 hidden group-hover:flex"></div>
-          <AiOutlineCamera className="absolute left-[38%] top-[40%] text-3xl text-white hidden group-hover:flex" />
-          <img
-            className="rounded-full h-32 w-32 object-cover"
-            src={imgLink ? imgLink : 'https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png'}
-            alt=""
-          />
-        </div>
-        {/* **change later */}
-        <div className="mt-9 flex flex-row w-60">
-
           <input
-            type="file" className="file-input file-input-bordered w-full max-w-xs"
+            type="file" className="w-32 h-32 absolute opacity-0 z-50"
             id="fileInput"
             name="fileInput"
             onChange={handleFileChange}
           />
+          <AiOutlineCamera className="absolute left-[38%] top-[40%] text-3xl text-white hidden group-hover:flex" />
+          <img
+            className="rounded-full h-32 w-32 object-cover"
+            src={imgLink ? imgLink : image ? image.name : 'https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png'}
+            alt=""
+          />
+        </div>
+        {/* **change later */}
+        <div className="relative">      
+          <div className="flex items-center gap-5 absolute right-10 top-5">
+          <p className="">{image?.name}</p>  
           <button
             onClick={handleImageChange}
-            className=" w-full text-black dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+            className="primary-btn "
           >
             Change
           </button>
+          </div>
         </div>
       </div>
     </div>

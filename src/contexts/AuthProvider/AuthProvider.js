@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
     if (admin) { 
       setIsAdmin(true)
     } else { 
-      setIsAdmin(false) 
+      setIsAdmin(false)  
     }
   }, [isAdmin])
  
