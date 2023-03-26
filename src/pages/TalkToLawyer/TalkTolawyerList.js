@@ -224,12 +224,14 @@ function TalkToLawyerList() {
 
     const handleSearch = (event) => {
         setQuery(event.target.value);
+        console.log(event.target.value)
         setActiveIndex(-1);
         setShowResults(true);
     };
 
     const handleKeyDown = (event) => {
         let value = event.target.value;
+        console.log(value)
         switch (event.keyCode) {
             case 38: // Arrow up
                 event.preventDefault();
@@ -247,12 +249,18 @@ function TalkToLawyerList() {
                 break;
             case 13: // Enter
                 if (activeIndex >= 0 && activeIndex < results.length) {
-                    setQuery(results[activeIndex].item.city);
-                    setCityName(results[activeIndex].item.city);
+                    const { city, state } = results[activeIndex].item;
+                    const query = `${city}, ${state}`;
+                    setActiveIndex(-1);
+                    setQuery(query);
+                    console.log(city)
+                    setCityName(city);
+                    setShowResults(false);
                 } else {
                     value = value.substring(0, 1).toUpperCase() + value.substring(1).replace(/\s+/g, "_");
-                    setCityName(value);
+                    setCityName(value.split(',')[0]);
                     setShowResults(false);
+                    setActiveIndex(-1);
                 }
                 break;
             default:
@@ -264,7 +272,8 @@ function TalkToLawyerList() {
     results.sort((a, b) => b.score - a.score);
 
     const handleSearchResult = (data, index) => {
-        setCityName(data);
+        setQuery(`${data.city}, ${data.state}`);
+        setCityName(data.city);
         setActiveIndex(index);
         setShowResults(false);
     };
@@ -292,7 +301,7 @@ function TalkToLawyerList() {
                                     <ul className={`input-box p-0`}>
                                         {results.map((item, index) => (
                                             <li
-                                                onClick={() => handleSearchResult(item.item.city, index)}
+                                                onClick={() => handleSearchResult(item.item, index)}
                                                 className={` hover:bg-accent hover:text-white py-2 px-2 ${index === activeIndex ? 'bg-accent text-white' : ''}`}
                                                 key={item.id}
                                             >
