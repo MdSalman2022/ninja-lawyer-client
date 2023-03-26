@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "daisyui": "^2.51.3",
     "firebase": "^9.17.2",
+    "fuse.js": "^6.6.2",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
     "react-calendar": "^4.0.0",
