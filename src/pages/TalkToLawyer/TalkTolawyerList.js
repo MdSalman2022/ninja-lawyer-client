@@ -18,7 +18,7 @@ function TalkToLawyerList() {
   const [isGender, isGenderActive] = useState(false);
   const [isExperience, isExperienceActive] = useState(false);
   const [isLocation, isLocationActive] = useState(true);
-
+  const [specialtiesArray, setSpecialtiesArray] = useState(["nothing"]);
   const [problemSeeMore, setProblemSeeMore] = useState(false);
   const [languageSeeMore, setLanguageSeeMore] = useState(false);
   const [mylocation, setMyLocation] = useState(userData.state);
@@ -158,6 +158,47 @@ function TalkToLawyerList() {
         });
   }, [cityName]);
 
+  //   Get cehcbox of specialties
+  const handleCheck = async (specialty) => {
+    if (specialtiesArray.includes(specialty)) {
+      let i = 0;
+      for (i = 0; i < specialtiesArray.length; i++) {
+        if (specialtiesArray[i] === specialty) {
+          specialtiesArray.splice(i, 1);
+        }
+      }
+    } else {
+      const newItems = [...specialtiesArray, specialty];
+      setSpecialtiesArray(newItems);
+    }
+    //
+    const fetchPerams = handleArrayOfSpecialties();
+    fetch(
+      `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search-specialties/${fetchPerams}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("___--___", data);
+        setLawyerList(data);
+      });
+  };
+
+  function handleArrayOfSpecialties() {
+    let string = specialtiesArray[0];
+    let returnString = "";
+    for (let i = 1; i < specialtiesArray.length; i++) {
+      string = string + "," + specialtiesArray[i];
+    }
+    for (let i = 0; i < string.length; i++) {
+      if (string[i] !== " ") {
+        returnString = returnString + string[i];
+      } else {
+        returnString = returnString + "_";
+      }
+    }
+    return returnString;
+  }
+
   return (
     <div className="bg-primary dark:bg-base-100">
       <div className="container mx-auto py-10">
@@ -207,7 +248,11 @@ function TalkToLawyerList() {
                       key={index}
                       className="flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary"
                     >
-                      <input type="checkbox" className="accent-accent" />{" "}
+                      <input
+                        type="checkbox"
+                        className="accent-accent"
+                        onClick={() => handleCheck(specialty)}
+                      />{" "}
                       {specialty}
                     </label>
                   );
@@ -229,7 +274,11 @@ function TalkToLawyerList() {
                         problemSeeMore ? "flex" : "hidden"
                       } gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}
                     >
-                      <input type="checkbox" className="accent-accent" />{" "}
+                      <input
+                        type="checkbox"
+                        className="accent-accent"
+                        onClick={() => handleCheck(specialty)}
+                      />{" "}
                       {specialty}
                     </label>
                   );
