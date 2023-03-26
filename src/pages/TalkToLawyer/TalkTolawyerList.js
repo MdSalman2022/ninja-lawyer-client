@@ -104,18 +104,6 @@ function TalkToLawyerList() {
 //   }, [stateId])
   
 // console.log(cities)
-    
-    // useEffect(() => {
-    //     locationCheck === 'any' ?
-    //         fetch('https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all')
-    //         .then(res => res.json())
-    //         .then(data => setLawyerList(data))
-    //         :
-    //     fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?${locationCheck==='city' ? `city=${userData?.city?.replace(/\s+/g, '_')}` : `state=${userData?.state}`}`)
-    //         .then(res => res.json())
-    //         .then(data => setLawyerList(data))
-    // }, [locationCheck]);
-
 
 
     // useEffect(() => {
@@ -195,17 +183,10 @@ function TalkToLawyerList() {
                 {/* <h1 className='text-black'>Total lawyer: {lawyerList.length}</h1> */}
                 <div className="flex flex-col lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:gap-10 xl:gap-20 justify-items-center z-50">
                     <div className="w-full col-span-1 lg:col-span-1 bg-primary dark:bg-base-100 z-50  rounded-xl">
-                        <div className='border rounded-xl p-5 flex flex-col gap-5 select-none '>
-{/*                             
-                            <span onClick={()=>isLocationActive(!isLocation)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Location <FaChevronDown className={`transition-all duration-300 ${isLocation && 'text-accent rotate-180'}`} /> </span>
-                            <ul className={`transition-all duration-300 p-1 flex flex-col items-start  ${isLocation ? 'flex' : 'hidden '}`}> 
-                                <label onClick={()=>setLocationCheck('city')} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' checked={locationCheck==='city' ? true : false} /> {userData.city} {locationCheck==='city' && `(${lawyerList.length})`}</label>
-                                <label onClick={()=>setLocationCheck('state')} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' checked={locationCheck==='state' ? true : false}/> {userData.state} {locationCheck==='state' && `(${lawyerList.length})`}</label>
-                                <label onClick={()=>setLocationCheck('any')} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' checked={locationCheck==='any' ? true : false}/> Any {locationCheck==='any' && `(${lawyerList.length})`}</label>
-                            </ul> */}
+                        <div className='border  dark:border-gray-700 rounded-xl p-5 flex flex-col gap-5 select-none '>
                             <div className='flex flex-col'>
                                 <labal>Location</labal>
-                                <input onKeyDown={handleLocation} type="text" className='input-box' list="languages" id="languageInput" defaultValue={userData.state} />  
+                                <input onKeyDown={handleLocation} type="text" className='input-box dark:border-gray-700' list="languages" id="languageInput" defaultValue={userData.state} />  
                                 <datalist id="languages" className='w-full' >
                                 {cities.map((innerArray, index) => (
                                     innerArray.map((value, index) => (
@@ -214,7 +195,7 @@ function TalkToLawyerList() {
                                 ))}
                                 </datalist>
                             </div>
-                            <span onClick={() => isProblemActive(!isProblem)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Problem Type <FaChevronDown className={`transition-all duration-300 ${isProblem && 'text-accent rotate-180'}`} /> </span>
+                            <span onClick={() => isProblemActive(!isProblem)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Problem Type <FaChevronDown className={`transition-all duration-300 ${isProblem && 'text-accent rotate-180'}`} /> </span>
                             <ul className={`transition-all duration-300 p-1 flex flex-col items-start  ${isProblem ? 'flex' : 'hidden '}`}>
                                 {
                                     specialtiesSuggestions.splice(0, 4).map((specialty, index) => {
@@ -234,7 +215,7 @@ function TalkToLawyerList() {
                                 <label onClick={() => setProblemSeeMore(!problemSeeMore)} className={`${problemSeeMore ? 'flex' : 'hidden'} gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}><FaChevronUp />Show less</label>
 
                             </ul>
-                            <span onClick={() => isLanguageActive(!isLanguage)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Language <FaChevronDown className={`transition-all duration-300 ${isLanguage && 'text-accent rotate-180'}`} /> </span>
+                            <span onClick={() => isLanguageActive(!isLanguage)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Language <FaChevronDown className={`transition-all duration-300 ${isLanguage && 'text-accent rotate-180'}`} /> </span>
                             <ul className={`transition-all duration-300 p-1 flex flex-col items-start ${isLanguage ? 'flex' : 'hidden'}`}>
                                 {
                                     languageSuggestions.splice(0, 4).map((language, index) => {
@@ -255,17 +236,11 @@ function TalkToLawyerList() {
 
                             </ul>
 
-                            <span onClick={() => isGenderActive(!isGender)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Gender <FaChevronDown className={`transition-all duration-300 ${isGender && 'text-accent rotate-180'}`} /> </span>
+                            <span onClick={() => isGenderActive(!isGender)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Gender <FaChevronDown className={`transition-all duration-300 ${isGender && 'text-accent rotate-180'}`} /> </span>
                             <ul className={`transition-all duration-300 p-1 flex flex-col items-start ${isGender ? 'flex' : 'hidden'}`}>
                                 <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Male</label>
                                 <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> Female</label>
-                            </ul>
-                            <span onClick={() => isExperienceActive(!isExperience)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Experience <FaChevronDown className={`transition-all duration-300 ${isExperience && 'text-accent rotate-180'}`} /> </span>
-                            <ul className={`transition-all duration-300 p-1 flex flex-col items-start ${isExperience ? 'flex' : 'hidden'}`}>
-                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> {">"} 2 yrs</label>
-                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> {">"} 3 yrs</label>
-                                <label className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}><input type="checkbox" className='accent-accent' /> {">"} 5 yrs</label>
-                            </ul>
+                            </ul> 
 
                         </div>
                     </div>
@@ -275,8 +250,12 @@ function TalkToLawyerList() {
                     <div className='w-full col-span-1 md:col-span-2 xl:col-span-3 px-5 md:px-0'>
                         {/* <h1 className="text-center">No lawyers found in your city.</h1>  */}
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-5 justify-items-center place-content-center'>
-                            <div className='col-span-3 w-full flex justify-end items-end'>
-                                <select className="input-box"> 
+                            <div className='col-span-3 w-full flex justify-end items-end gap-2'>
+                                <div className='input-box flex items-center gap-2  dark:border-gray-700'>
+                                    Available
+                                    <input type="checkbox" className="toggle toggle-sm toggle-success" />
+                                </div>
+                                <select className="input-box dark:border-gray-700"> 
                                     <option selected>Popularity</option> 
                                     <option>Price(Low to High)</option> 
                                     <option>Price(High to Low)</option> 
@@ -294,7 +273,7 @@ function TalkToLawyerList() {
                                         <figure className='relative rounded-xl  w-full'>
 
                                             <img className='rounded-xl  h-60 w-full object-cover' src={lawyer?.img ? lawyer.img : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'} alt="" />
-                                            <div className='absolute top-0 bg-primary w-full h-60 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-[50%] dark:bg-opacity-[50%]'></div>
+                                            <div className='absolute top-0 bg-primary w-full h-60 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-[50%] dark:bg-opacity-[10%] dark:brightness-50'></div>
                                             <span className='absolute top-0 right-0 bg-primary dark:bg-base-100 p-2 rounded-bl-xl shadow-xl'>
                                                 <p className='text-2xl text-end font-bold'>₹{lawyer?.rate}</p>
                                                 <p className='text-base-100 dark:text-secondary opacity-60 text-sm'>Per Minute</p>
@@ -310,7 +289,7 @@ function TalkToLawyerList() {
                                                 <p className='flex flex-col items-start'>
                                                     <span className='font-semibold my-2'>Specialties</span>
                                                     {lawyer?.specialties?.map((skill, index) => (
-                                                        <span className='text-xs border m-1 p-1 rounded-md' key={index}>
+                                                        <span className='text-xs border dark:border-gray-700 m-1 p-1 rounded-md' key={index}>
                                                             {skill}
                                                         </span>
                                                     ))}
@@ -321,7 +300,7 @@ function TalkToLawyerList() {
                                                     <div className='flex items-center justify-end gap-1  text-warning'><span className='flex items-center'><FaStar /></span> <span className='text-xs text-base-100 dark:text-primary'>5.0</span></div>
                                                     <p className='flex flex-wrap justify-end'>
                                                         {lawyer?.languages?.map((item, index) => (
-                                                            <span className='text-xs border m-1 p-1 rounded-md' key={index}>
+                                                            <span className='text-xs border dark:border-gray-700 m-1 p-1 rounded-md' key={index}>
                                                                 {item}
                                                             </span>
                                                         ))}
