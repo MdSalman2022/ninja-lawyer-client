@@ -387,7 +387,7 @@ function TalkToLawyerList() {
 
           <div className="w-full col-span-1 md:col-span-2 xl:col-span-3 px-5 md:px-0">
             {/* <h1 className="text-center">No lawyers found in your city.</h1>  */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-5 justify-items-center place-content-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center place-content-center">
               <div className="col-span-3 w-full flex justify-end items-end gap-2">
                 <div className="input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100">
                   Available
