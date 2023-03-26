@@ -25,20 +25,13 @@ function ProfilePage() {
   const [cities, setCities] = useState([]);
   const [cityName, setCityName] = useState(userData.city ? userData.city : '');
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
 
   useEffect(() => {
     const getProfile = (id) => {
       console.log("yes");
       fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
         .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
+        .then((data) => { 
           setUserData(data);
         });
     };
@@ -50,10 +43,17 @@ function ProfilePage() {
 
   // console.log(userData)
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ 
+    validateCriteriaMode: "onSubmit",
+  });
+
 
   let [specialties, setSpecialties] = useState(userData.specialties ? userData.specialties : []);
-  let [languages, setLanguages] = useState(userData.languages ? userData.languages : []);
-  console.log(languages)
+  let [languages, setLanguages] = useState(userData.languages ? userData.languages : []); 
 
 
   const handleState = (iso) => {
@@ -235,11 +235,7 @@ function ProfilePage() {
   }
   // console.log(languages)
   // console.log(specialties)
-
-
-
-  
-  console.log(cityName)
+ 
 
   const apiKey = 'aHhIRnFkYWRqTU5FVjhKd3labW1UMTR2Zm1TMXpaQmwzRERVUzlLSg==';
 
@@ -268,15 +264,13 @@ function ProfilePage() {
     })
       .then(response => response.json())
       .then(data => {
-        setCities(data)
-        console.log(data)
+        setCities(data) 
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
   }, [stateId])
-
-  console.log(userData.id)
+ 
   return (
     <div
       className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10`}
@@ -345,6 +339,7 @@ function ProfilePage() {
           <form
             className="grid grid-cols-3 gap-5 mt-5 "
             onSubmit={handleSubmit(handleUpdate)}
+            noValidate
           >
             <h1 className="col-span-3 ext-3xl font-bold">Edit Profile</h1>
 
@@ -362,7 +357,7 @@ function ProfilePage() {
                 className="input-box w-full"
                 name="name"
                 defaultValue={userData.name}
-                {...register("name", { required: true, maxLength: 80 })}
+                {...register("name", { required: true, maxLength: 80 })} 
               />
             </label>
 
@@ -375,7 +370,7 @@ function ProfilePage() {
                 className="input-box w-full"
                 name="email"
                 defaultValue={userData.email}
-                {...register("email", { required: true, maxLength: 80 })}
+                {...register("email", { required: true, maxLength: 80 })} 
               />
             </label>
 
@@ -401,7 +396,7 @@ function ProfilePage() {
               >
                 {
                   userData.state &&
-                  <option value={states.find(state => state.name === userData.state).iso2} selected>
+                  <option value={states.find(state => state.name === userData.state)?.iso2} selected>
                       {userData.state}
                     </option>
                 }

@@ -6,9 +6,9 @@ import animationData from './animation.json';
 import AdminLogin from '../pages/AdminLogin/AdminLogin';
 
 
-const PrivateRoute = ({ children }) => {
+const AdminRoute = ({ children }) => {
 
-    const { user, loading } = useContext(AuthContext)
+    const { user, loading, isAdmin } = useContext(AuthContext)
 
 
 
@@ -18,16 +18,14 @@ const PrivateRoute = ({ children }) => {
             loop={true}
         />
     </div>;
- 
 
-    if (user) {
-        return children;
-    } else {
-        return <Navigate to='/login' />
+    if (isAdmin) {
+        return children
     }
+
 
 
     return <AdminLogin />
 };
 
-export default PrivateRoute;
+export default AdminRoute;

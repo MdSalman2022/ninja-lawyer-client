@@ -6,8 +6,7 @@ import { IoLocationSharp } from 'react-icons/io5'
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
-
+import { AuthContext } from '../../contexts/AuthProvider/AuthProvider'; 
 
 function TalkToLawyerList() {
 
@@ -22,29 +21,98 @@ function TalkToLawyerList() {
 
     const [problemSeeMore, setProblemSeeMore] = useState(false);
     const [languageSeeMore, setLanguageSeeMore] = useState(false);
-
+    const [mylocation, setMyLocation] = useState(userData.state);
     const [lawyerList, setLawyerList] = useState([])
     
+    const [cityName, setCityName] = useState('')
+    const [stateName, setStateName] = useState('')
 
-    // useEffect(() => {
-    //     fetch('https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all')
-    //         .then(res => res.json())
-    //         .then(data => setLawyerList(data))
-    // }, [])
+    const [locationCheck, setLocationCheck] = useState('state');
 
-    const [locationCheck, setLocationCheck] = useState('city');
+
  
+    console.log(lawyerList)
+    
+    const apiKey = 'aHhIRnFkYWRqTU5FVjhKd3labW1UMTR2Zm1TMXpaQmwzRERVUzlLSg==';
+
+    const [states, setStates] = useState([]);
+    const [cities, setCities] = useState([]);
+    const [stateId, setStateId] = useState('');
+
+
+    const citiesList = []
+    useEffect(() => {
+    fetch(`https://api.countrystatecity.in/v1/countries/IN/states/`, {
+      headers: {
+        'X-CSCAPI-KEY': apiKey
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+          data.find(state => state.name === userData.state) && setStateId(data.find(state => state.name === userData.state).iso2)
+          setStates(data)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+    }, [])
+      
 
     useEffect(() => {
-        locationCheck === 'any' ?
-            fetch('https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all')
-            .then(res => res.json())
-            .then(data => setLawyerList(data))
-            :
-        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?${locationCheck==='city' ? `city=${userData?.city?.replace(/\s+/g, '_')}` : `state=${userData?.state}`}`)
-            .then(res => res.json())
-            .then(data => setLawyerList(data))
-    }, [locationCheck]);
+        states.map(state => {
+            fetch(`https://api.countrystatecity.in/v1/countries/IN/states/${state.iso2}/cities`, {
+                headers: {
+                    'X-CSCAPI-KEY': apiKey    
+                }
+            })
+                .then(response => response.json())
+                .then(data => { 
+                    citiesList.push(data.map(city => 
+                    {
+                        return {
+                            name: city.name,
+                            state: state.iso2,
+                            stateName: state.name
+                        }
+                            }
+                        )) 
+                    setCities(citiesList)
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }    
+        )
+    }, [states])
+     
+    
+//   useEffect(() => {
+//     fetch(`https://api.countrystatecity.in/v1/countries/IN/states/${stateId}/cities`, {
+//       headers: {
+//         'X-CSCAPI-KEY': apiKey
+//       }
+//     })
+//       .then(response => response.json())
+//       .then(data => {
+//         setCities(data) 
+//       })
+//       .catch(error => {
+//         console.error('Error fetching data:', error);
+//       });
+//   }, [stateId])
+  
+// console.log(cities)
+    
+    // useEffect(() => {
+    //     locationCheck === 'any' ?
+    //         fetch('https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all')
+    //         .then(res => res.json())
+    //         .then(data => setLawyerList(data))
+    //         :
+    //     fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?${locationCheck==='city' ? `city=${userData?.city?.replace(/\s+/g, '_')}` : `state=${userData?.state}`}`)
+    //         .then(res => res.json())
+    //         .then(data => setLawyerList(data))
+    // }, [locationCheck]);
 
 
 
@@ -63,9 +131,7 @@ function TalkToLawyerList() {
           getProfile(user.uid);
         }
       }, [user]);
-
-    
-    console.log(lawyerList)
+ 
 
     const handleDelete = (id) => {
         fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/delete/${id}`, {
@@ -85,7 +151,37 @@ function TalkToLawyerList() {
 
     const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
     const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter."];
+ 
 
+    const handleLocation = (e) => {        
+        const { value } = e.target;
+        if (e.key === 'Enter' && value.trim() !== '') {
+            // setStateName(value)
+            setLocationCheck('city')
+            setCityName(value)
+            console.log(value)
+        }
+    }
+
+    console.log(cityName.replace(/\s+/g, '_'))
+    useEffect(() => {
+        !cityName &&
+            fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?state=${userData.state}`)
+            .then(res => res.json())
+                .then(data => setLawyerList(data))
+    }, [locationCheck, userData.state]);
+
+    useEffect(() => {
+        cityName &&
+        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?city=${cityName}`)
+            .then(res => res.json())
+            .then(data => {
+                setLawyerList(data)
+                console.log(data)
+            })
+    }, [locationCheck, cityName]);
+
+    
 
 
     return (
@@ -96,13 +192,24 @@ function TalkToLawyerList() {
                 <div className="flex flex-col lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:gap-10 xl:gap-20 justify-items-center z-50">
                     <div className="w-full col-span-1 lg:col-span-1 bg-primary dark:bg-base-100 z-50  rounded-xl">
                         <div className='border rounded-xl p-5 flex flex-col gap-5 select-none '>
-                            
+{/*                             
                             <span onClick={()=>isLocationActive(!isLocation)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Location <FaChevronDown className={`transition-all duration-300 ${isLocation && 'text-accent rotate-180'}`} /> </span>
                             <ul className={`transition-all duration-300 p-1 flex flex-col items-start  ${isLocation ? 'flex' : 'hidden '}`}> 
                                 <label onClick={()=>setLocationCheck('city')} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' checked={locationCheck==='city' ? true : false} /> {userData.city} {locationCheck==='city' && `(${lawyerList.length})`}</label>
                                 <label onClick={()=>setLocationCheck('state')} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' checked={locationCheck==='state' ? true : false}/> {userData.state} {locationCheck==='state' && `(${lawyerList.length})`}</label>
                                 <label onClick={()=>setLocationCheck('any')} className='flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary'><input type="checkbox" className='accent-accent' checked={locationCheck==='any' ? true : false}/> Any {locationCheck==='any' && `(${lawyerList.length})`}</label>
-                            </ul>
+                            </ul> */}
+                            <div className='flex flex-col'>
+                                <labal>Location</labal>
+                                <input onKeyDown={handleLocation} type="text" className='input-box' list="languages" id="languageInput" defaultValue={userData.state} />  
+                                <datalist id="languages" className='w-full' >
+                                {cities.map((innerArray, index) => (
+                                    innerArray.map((value, index) => (
+                                        <option key={`${index}-${value}`} value={`${value.name}`}>{value.stateName}</option>
+                                    ))
+                                ))}
+                                </datalist>
+                            </div>
                             <span onClick={() => isProblemActive(!isProblem)} className='flex items-center justify-between bg-secondary dark:bg-transparent dark:border dark:border-secondary p-3 rounded-lg text-base-100 dark:text-primary font-semibold'>Problem Type <FaChevronDown className={`transition-all duration-300 ${isProblem && 'text-accent rotate-180'}`} /> </span>
                             <ul className={`transition-all duration-300 p-1 flex flex-col items-start  ${isProblem ? 'flex' : 'hidden '}`}>
                                 {
@@ -164,7 +271,11 @@ function TalkToLawyerList() {
                     <div className='w-full col-span-1 md:col-span-2 xl:col-span-3 px-5 md:px-0'>
                         {/* <h1 className="text-center">No lawyers found in your city.</h1>  */}
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center place-content-center'>
-                            {
+                            {lawyerList?.length === 0 ? 
+                                <div className='col-span-3 flex flex-col h-full w-full '>
+                                    <h1 className="text-center text-3xl">No lawyers found in your city.</h1> 
+                                </div>
+                            :
                                 lawyerList?.map((lawyer, index) => (
                                     <div key={lawyer.index} className='bg-primary dark:bg-base-100 p-3 shadow flex flex-col h-full w-full items-start justify-start rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-700 relative  '>
                                         <figure className='relative rounded-xl  w-full'>
