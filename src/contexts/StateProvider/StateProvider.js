@@ -42,6 +42,13 @@ const StateProvider = ({ children }) => {
     }
   }, [user]);
 
+  // useEffect(() => {
+  //   fetch(`https://api.postalpincode.in/pincode/110001`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //     });
+  // }, []);
 
 
   const stateInfo = {

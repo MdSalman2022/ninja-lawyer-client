@@ -36,6 +36,15 @@ const LawyerNavbar = () => {
                                 className="menu menu-compact dropdown-content mt-3 shadow bg-primary dark:bg-base-100 rounded-box w-fit"
                             >
                                 <li>
+                                    <div className="input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100">
+                                        Available
+                                        <input
+                                            type="checkbox"
+                                            className="toggle toggle-sm toggle-success"
+                                        />
+                                    </div>
+                                </li>
+                                <li>
                                     {" "}
                                     <NavLink
                                         to=""
@@ -120,6 +129,15 @@ const LawyerNavbar = () => {
 
                         {/* menu for desktop */}
                         <ul className=" hidden lg:flex lg:flex-nowrap gap-5 items-center w-fit">
+                            <li>
+                                <div className="input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100">
+                                    Available
+                                    <input
+                                        type="checkbox"
+                                        className="toggle toggle-sm toggle-success"
+                                    />
+                                </div>
+                            </li>
                             <li>
                                 {" "}
                                 <NavLink

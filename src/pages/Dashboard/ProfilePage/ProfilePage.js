@@ -13,11 +13,11 @@ import { StateContext } from "../../../contexts/StateProvider/StateProvider";
 import ProfileImage from "../../../components/Dashboard/Profile/ProfileImage";
 import { RxCross1 } from 'react-icons/rx'
 import { useForm } from "react-hook-form";
-import { toast } from 'react-hot-toast'; 
+import { toast } from 'react-hot-toast';
 
 function ProfilePage() {
-  const { user } = useContext(AuthContext);  
-  const { heightFull, setHeightFull,userData } = useContext(StateContext);
+  const { user } = useContext(AuthContext);
+  const { heightFull, setHeightFull, userData } = useContext(StateContext);
   const [states, setStates] = useState([])
   const [statesName, setStateName] = useState(userData.state ? userData.state : '')
   const [stateId, setStateId] = useState('');
@@ -46,13 +46,13 @@ function ProfilePage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ 
+  } = useForm({
     validateCriteriaMode: "onSubmit",
   });
 
 
   let [specialties, setSpecialties] = useState(userData.specialties ? userData.specialties : []);
-  let [languages, setLanguages] = useState(userData.languages ? userData.languages : []); 
+  let [languages, setLanguages] = useState(userData.languages ? userData.languages : []);
 
 
   const handleState = (iso) => {
@@ -84,20 +84,20 @@ function ProfilePage() {
       languages = userData?.languages
     }
     else if (userData.languages === '' || userData.languages === undefined) {
-      languages = [...languages] 
+      languages = [...languages]
     }
-    else{
-      languages = [...languages ,...userData?.languages]
-    } 
+    else {
+      languages = [...languages, ...userData?.languages]
+    }
 
     if (specialties?.length === 0) {
       specialties = userData?.specialties
-    } else if (userData.specialties === ''  || userData.specialties === undefined) {
+    } else if (userData.specialties === '' || userData.specialties === undefined) {
       specialties = [...specialties]
     } else {
       specialties = [...specialties, ...userData?.specialties]
     }
-    
+
 
     if (user.displayName !== 'lawyer') {
 
@@ -108,17 +108,15 @@ function ProfilePage() {
         state,
         city,
       }
-
       console.log(update_data)
-
       const update = updateData(update_data, user.uid);
       console.log(update_data);
-      const updateResult =await putUserDataToServer(user.uid, update, user);
+      const updateResult = await putUserDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
       toast.success('Profile Updated Successfully')
       setHeightFull(!heightFull)
     }
-    else if(user.displayName === 'lawyer') {
+    else if (user.displayName === 'lawyer') {
       const update_data = {
         name,
         email,
@@ -133,12 +131,11 @@ function ProfilePage() {
         id,
         summary
       }
-
       console.log(update_data)
 
       let update = updateData(update_data, user.uid);
       console.log(update_data);
-      const updateResult =await putDataToServer(user.uid, update, user);
+      const updateResult = await putDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
       toast.success('Profile Updated Successfully')
       setHeightFull(!heightFull)
@@ -240,7 +237,7 @@ function ProfilePage() {
   }
   // console.log(languages)
   // console.log(specialties)
- 
+
 
   const apiKey = 'aHhIRnFkYWRqTU5FVjhKd3labW1UMTR2Zm1TMXpaQmwzRERVUzlLSg==';
 
@@ -269,13 +266,13 @@ function ProfilePage() {
     })
       .then(response => response.json())
       .then(data => {
-        setCities(data) 
+        setCities(data)
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
   }, [stateId])
- 
+
   return (
     <div
       className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10`}
@@ -317,7 +314,7 @@ function ProfilePage() {
             {
               user.displayName === "lawyer" && <button onClick={() => setHeightFull(!heightFull)} className="primary-btn">Get Verified</button>
             }
-           
+
           </div>
           <div className="flex flex-col items-end gap-5 font-semibold">
             <span className="flex items-center gap-3">
@@ -337,7 +334,7 @@ function ProfilePage() {
         </div>
       </div>
 
-      
+
       {/* Profile edit section  */}
       <div className={`${!heightFull && "hidden"}`}>
         <div className={`pb-5 `}>
@@ -362,7 +359,7 @@ function ProfilePage() {
                 className="input-box w-full"
                 name="name"
                 defaultValue={userData.name}
-                {...register("name", { required: true, maxLength: 80 })} 
+                {...register("name", { required: true, maxLength: 80 })}
               />
             </label>
 
@@ -375,7 +372,7 @@ function ProfilePage() {
                 className="input-box w-full"
                 name="email"
                 defaultValue={userData.email}
-                {...register("email", { required: true, maxLength: 80 })} 
+                {...register("email", { required: true, maxLength: 80 })}
               />
             </label>
 
@@ -402,8 +399,8 @@ function ProfilePage() {
                 {
                   userData.state &&
                   <option value={states.find(state => state.name === userData.state)?.iso2} selected>
-                      {userData.state}
-                    </option>
+                    {userData.state}
+                  </option>
                 }
                 {
                   states.length > 0 &&
@@ -413,7 +410,7 @@ function ProfilePage() {
                 }
               </select>
             </label>
-            
+
             <label className="col-span-2 grid grid-cols-2">
               <span className=" font-medium text-base-100 dark:text-primary w-32">
                 City
@@ -428,10 +425,10 @@ function ProfilePage() {
                 )}
                 {cities.length > 0 &&
                   cities.map((city) => (
-                      <option key={city.id} value={city.name}>
-                        {city.name}
-                      </option>
-                    ))}
+                    <option key={city.id} value={city.name}>
+                      {city.name}
+                    </option>
+                  ))}
               </select>
             </label>
 
