@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
-import firebase from "firebase/app";
-import "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../../assets/firebase.config";
+import { toast } from "react-hot-toast";
 
 const useUserAcivityTimer = (timeout = 2 * 60 * 60 * 1000) => {
+  //2 * 60 * 60 * 1000
   const userRef = useRef(null);
   const timeoutRef = useRef(null);
 
@@ -19,12 +21,20 @@ const useUserAcivityTimer = (timeout = 2 * 60 * 60 * 1000) => {
   const resetTimeout = () => {
     clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
-      firebase.auth().signOut();
+      signOut(auth)
+        .then(() => {
+          toast.success("Logged out for inactivity");
+          console.log("signed out");
+          // navigate(from, { replace: true });
+        })
+        .catch((error) => {
+          toast.error(`Could not logout. ${error}`);
+        });
     }, timeout);
   };
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged(handleUserChange);
+    const unsubscribe = onAuthStateChanged(auth, handleUserChange);
     return () => unsubscribe();
   }, []);
 
