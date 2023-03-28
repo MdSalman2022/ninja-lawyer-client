@@ -161,17 +161,18 @@ function TalkToLawyerList() {
   //   Get cehcbox of specialties
   const handleCheck = async (specialty) => {
     if (specialtiesArray.includes(specialty)) {
-      let i = 0;
-      for (i = 0; i < specialtiesArray.length; i++) {
-        if (specialtiesArray[i] === specialty) {
-          specialtiesArray.splice(i, 1);
-        }
-      }
+      setSpecialtiesArray((prevSpecialtiesArray) =>
+        prevSpecialtiesArray.filter((s) => s !== specialty)
+      );
     } else {
-      const newItems = [...specialtiesArray, specialty];
-      setSpecialtiesArray(newItems);
+      setSpecialtiesArray((prevSpecialtiesArray) => [
+        ...prevSpecialtiesArray,
+        specialty,
+      ]);
     }
-    //
+  };
+
+  useEffect(() => {
     const fetchPerams = handleArrayOfSpecialties();
     fetch(
       `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search-specialties/${fetchPerams}`
@@ -181,7 +182,7 @@ function TalkToLawyerList() {
         console.log("___--___", data);
         setLawyerList(data);
       });
-  };
+  }, [specialtiesArray]);
 
   function handleArrayOfSpecialties() {
     let string = specialtiesArray[0];
