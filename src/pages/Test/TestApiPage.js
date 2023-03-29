@@ -9,30 +9,53 @@ import AuthProvider from "../../contexts/AuthProvider/AuthProvider";
 export default function TestApiPage() {
   function convertToArray(obj) {
     const specialties = obj.specialties.split(","); // convert specialties to array
-    const language = obj.language.split(","); // convert language to array
+    const languages = obj.language.split(","); // convert language to array
     return {
       ...obj, // spread the existing object properties
       specialties, // add the new specialties array
-      language, // add the new language array
+      languages, // add the new language array
     };
   }
 
   const createUser = async (userData) => {
-    const userD = convertToArray(userData);
-    console.log(userD, userD.email, userD.password);
+    let createdUser;
+    const user = convertToArray(userData);
+    console.log(user, user.email, user.password);
     try {
-      // await createUserWithEmailAndPassword(
-      //   auth,
-      //   user.email,
-      //   user.password
-      // ).catch((error) => console.log(error));
+      await createUserWithEmailAndPassword(auth, user.email, user.password)
+        .then((data) => {
+          createdUser = data.user;
+        })
+        .catch((error) => console.log(error, "error in create user"));
 
       await updateProfile(auth.currentUser, {
         displayName: "lawyer",
-      })
-        .then((data) => console.log("...", data))
-        .catch((error) => console.log(error));
-    } catch {}
+      }).catch((error) => console.log(error, "error in updateProfile"));
+
+      //
+      let name = `${user.First_Name} ${user.Last_Name}`;
+      console.log("aaa", name);
+      //
+      const response = await fetch(
+        "http://localhost:5000/api/users/add-lawyer",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...user,
+            name,
+            verified: false,
+            UID: createdUser.uid, // add the Firebase Authentication user ID to the user data
+          }),
+        }
+      )
+        .then((data) => console.log(data, response))
+        .catch((error) => console.log(error, "error in fetch"));
+    } catch (error) {
+      console.log(error, "error in main try catch");
+    }
   };
 
   // function to create a user in Firebase and post their data to the database
@@ -118,24 +141,12 @@ export default function TestApiPage() {
   }
 
   useEffect(() => {
-    // createAndPostAllUsers();
-    createUser({
-      First_Name: "Lawyer100",
-      Last_Name: "Llast100",
-      contact: "2200220100",
-      city: "Churachandpur",
-      state: "Manipur",
-      language: "Hindi, English",
-      email: "lawyer100@qwe.test",
-      password: "123456",
-      rate: "37",
-      id: "NATIONAL_ID_100",
-      barID: "BAR_ID_100",
-      barYear: "37059",
-      specialties: "Divorce & Child Custody, Property & Real Estate",
-      summary:
-        "I have been practicing from last 5 years before the Hon'ble Rajasthan HC, District Courts, Tribunals amd other forums. I'm a third generation lawyer having 40 plus years of goodwill and standing in the legal industry.",
-    });
+    // async function processArray(users) {
+    //   for (const element of users) {
+    //     await createUser(element);
+    //   }
+    // }
+    // processArray(users);
   }, []);
 
   return (
