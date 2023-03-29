@@ -9,6 +9,7 @@ import NavbarUserMenu from "./NavbarUserMenu";
 
 function Navbar() {
   const { user } = useContext(AuthContext);
+  console.log("00--00", user?.displayName);
   const { darkmode, toggleDarkMode } = useContext(StateContext);
 
   const location = useLocation();
@@ -19,18 +20,19 @@ function Navbar() {
   const [dropdown, setDropdown] = useState(false);
   const [propertyDropdown, setPropertyDropdown] = useState(false); */
 
-  let activeClassName = `text-accent dark:text-accent flex items-center gap-4 ${pathname === "/talk-to-lawyer" ? "text-secondary" : "text-accent"
-    }`;
+  let activeClassName = `text-accent dark:text-accent flex items-center gap-4 ${
+    pathname === "/talk-to-lawyer" ? "text-secondary" : "text-accent"
+  }`;
 
   // for different navbar
   if (user?.displayName === "lawyer") {
-    return <LawyerNavbar />
-  }
-  else {
+    return <LawyerNavbar />;
+  } else {
     return (
       <div
-        className={`${pathname === "/talk-to-lawyer" ? "bg-transparent" : "bg-primary"
-          } dark:bg-base-100 `}
+        className={`${
+          pathname === "/talk-to-lawyer" ? "bg-transparent" : "bg-primary"
+        } dark:bg-base-100 `}
       >
         <div className="container mx-auto ">
           <div className="navbar w-full flex items-center justify-between ">
