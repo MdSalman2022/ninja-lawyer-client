@@ -13,11 +13,11 @@ import { StateContext } from "../../../contexts/StateProvider/StateProvider";
 import ProfileImage from "../../../components/Dashboard/Profile/ProfileImage";
 import { RxCross1 } from 'react-icons/rx'
 import { useForm } from "react-hook-form";
-import { toast } from 'react-hot-toast'; 
+import { toast } from 'react-hot-toast';
 
 function ProfilePage() {
-  const { user } = useContext(AuthContext);  
-  const { heightFull, setHeightFull,userData } = useContext(StateContext);
+  const { user } = useContext(AuthContext);
+  const { heightFull, setHeightFull, userData } = useContext(StateContext);
   const [states, setStates] = useState([])
   const [statesName, setStateName] = useState(userData.state ? userData.state : '')
   const [stateId, setStateId] = useState('');
@@ -46,13 +46,13 @@ function ProfilePage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ 
+  } = useForm({
     validateCriteriaMode: "onSubmit",
   });
 
 
   let [specialties, setSpecialties] = useState(userData.specialties ? userData.specialties : []);
-  let [languages, setLanguages] = useState(userData.languages ? userData.languages : []); 
+  let [languages, setLanguages] = useState(userData.languages ? userData.languages : []);
 
 
   const handleState = (iso) => {
@@ -68,7 +68,7 @@ function ProfilePage() {
 
 
   const handleUpdate = async (data) => {
-    let { name, email, contact, rate, bar, id, year, summary, city, state } = data
+    let { name, email, contact, rate, barID, id, barYear, summary, city, state } = data
     if (cityName) {
       city = cityName
     } else {
@@ -84,61 +84,58 @@ function ProfilePage() {
       languages = userData?.languages
     }
     else if (userData.languages === '' || userData.languages === undefined) {
-      languages = [...languages] 
+      languages = [...languages]
     }
-    else{
-      languages = [...languages ,...userData?.languages]
-    } 
+    else {
+      languages = [...languages, ...userData?.languages]
+    }
 
     if (specialties?.length === 0) {
       specialties = userData?.specialties
-    } else if (userData.specialties === ''  || userData.specialties === undefined) {
+    } else if (userData.specialties === '' || userData.specialties === undefined) {
       specialties = [...specialties]
     } else {
       specialties = [...specialties, ...userData?.specialties]
     }
-    
+
 
     if (user.displayName !== 'lawyer') {
 
       const update_data = {
-        name,
-        email,
-        contact,
+        name: name !== '' ? name : userData.name,
+        email: email !== '' ? email : userData.email,
+        contact: contact !== '' ? contact : userData.contact,
         state,
         city,
       }
-
       console.log(update_data)
-
       const update = updateData(update_data, user.uid);
       console.log(update_data);
-      const updateResult =await putUserDataToServer(user.uid, update, user);
+      const updateResult = putUserDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
       toast.success('Profile Updated Successfully')
       setHeightFull(!heightFull)
     }
-    else if(user.displayName === 'lawyer') {
+    else if (user.displayName === 'lawyer') {
       const update_data = {
-        name,
-        email,
-        contact,
+        name: name !== '' ? name : userData.name,
+        email: email !== '' ? email : userData.email,
+        contact: contact !== '' ? contact : userData.contact,
         state,
         city,
         languages: languages,
         specialties: specialties,
-        rate,
-        year,
-        bar,
-        id,
-        summary
+        rate: rate !== '' ? rate : userData.rate,
+        barYear: barYear !== '' ? barYear : userData.barYear,
+        barID: barID !== '' ? barID : userData.barID,
+        id: id !== '' ? id : userData.id,
+        summary: summary !== '' ? summary : userData.summary,
       }
-
       console.log(update_data)
 
       let update = updateData(update_data, user.uid);
       console.log(update_data);
-      const updateResult =await putDataToServer(user.uid, update, user);
+      const updateResult = putDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
       toast.success('Profile Updated Successfully')
       setHeightFull(!heightFull)
@@ -240,7 +237,7 @@ function ProfilePage() {
   }
   // console.log(languages)
   // console.log(specialties)
- 
+
 
   const apiKey = 'aHhIRnFkYWRqTU5FVjhKd3labW1UMTR2Zm1TMXpaQmwzRERVUzlLSg==';
 
@@ -269,30 +266,22 @@ function ProfilePage() {
     })
       .then(response => response.json())
       .then(data => {
-        setCities(data) 
+        setCities(data)
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
   }, [stateId])
- 
+
+
+  console.log(userData.barId, userData.barYear)
+
   return (
     <div
       className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10`}
     >
       <div className="shadow-lg rounded-xl bg-primary dark:bg-base-100 dark:border flex flex-col">
-        {/* <div className="relative bg-gradient-to-r from-base-100 to-primary h-52 w-full rounded-t-xl">
-          <div className="w-full h-full group">
-            <AiOutlineCamera className="absolute left-[50%] top-[45%] text-5xl text-white  hidden group-hover:flex hover:text-primary hover:bg-gray-400 hover:border hover:border-gray-400 hover:shadow-xl cursor-pointer rounded-full p-2" />
-          </div>
-          <div className="absolute -bottom-16 left-10 border-4 rounded-full border-primary group cursor-pointer">
-            <div className="absolute rounded-full h-32 w-32 bg-black bg-opacity-70 hidden group-hover:flex"></div>
-            <AiOutlineCamera className="absolute left-[38%] top-[40%] text-3xl text-white hidden group-hover:flex" /> */}
-        {/* <img
-              className="rounded-full h-32 w-32 object-cover"
-              src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png"
-              alt=""
-            /> */}
+
         <ProfileImage props={user?.uid} />
         {/* </div>
         </div> */}
@@ -317,7 +306,7 @@ function ProfilePage() {
             {
               user.displayName === "lawyer" && <button onClick={() => setHeightFull(!heightFull)} className="primary-btn">Get Verified</button>
             }
-           
+
           </div>
           <div className="flex flex-col items-end gap-5 font-semibold">
             <span className="flex items-center gap-3">
@@ -337,14 +326,14 @@ function ProfilePage() {
         </div>
       </div>
 
-      
+
       {/* Profile edit section  */}
       <div className={`${!heightFull && "hidden"}`}>
         <div className={`pb-5 `}>
           <form
             className="grid grid-cols-3 gap-5 mt-5 "
             onSubmit={handleSubmit(handleUpdate)}
-            noValidate
+            novalidate="" action=""
           >
             <h1 className="col-span-3 ext-3xl font-bold">Edit Profile</h1>
 
@@ -362,8 +351,11 @@ function ProfilePage() {
                 className="input-box w-full"
                 name="name"
                 defaultValue={userData.name}
-                {...register("name", { required: true, maxLength: 80 })} 
+                {...register("name", {
+                  required: userData.name ? false : true, maxLength: 80
+                })}
               />
+              {/* {errors.name && <p className='text-red-500'>{errors.name.message}</p>} */}
             </label>
 
             <label className="col-span-2 grid grid-cols-2">
@@ -375,7 +367,7 @@ function ProfilePage() {
                 className="input-box w-full"
                 name="email"
                 defaultValue={userData.email}
-                {...register("email", { required: true, maxLength: 80 })} 
+                {...register("email", { required: userData.email ? false : true, maxLength: 80 })}
               />
             </label>
 
@@ -388,7 +380,7 @@ function ProfilePage() {
                 className="input-box w-full"
                 name="contact"
                 defaultValue={userData?.contact}
-                {...register("contact", { required: true, maxLength: 80 })}
+                {...register("contact", { required: userData.contact ? false : true, maxLength: 80 })}
               />
             </label>
 
@@ -402,8 +394,8 @@ function ProfilePage() {
                 {
                   userData.state &&
                   <option value={states.find(state => state.name === userData.state)?.iso2} selected>
-                      {userData.state}
-                    </option>
+                    {userData.state}
+                  </option>
                 }
                 {
                   states.length > 0 &&
@@ -413,7 +405,7 @@ function ProfilePage() {
                 }
               </select>
             </label>
-            
+
             <label className="col-span-2 grid grid-cols-2">
               <span className=" font-medium text-base-100 dark:text-primary w-32">
                 City
@@ -428,10 +420,10 @@ function ProfilePage() {
                 )}
                 {cities.length > 0 &&
                   cities.map((city) => (
-                      <option key={city.id} value={city.name}>
-                        {city.name}
-                      </option>
-                    ))}
+                    <option key={city.id} value={city.name}>
+                      {city.name}
+                    </option>
+                  ))}
               </select>
             </label>
 
@@ -448,7 +440,7 @@ function ProfilePage() {
                     className="input-box w-full"
                     name="rate"
                     defaultValue={userData.rate}
-                    {...register("rate", { required: true, maxLength: 80 })}
+                    {...register("rate", { required: userData.rate ? false : true, maxLength: 80 })}
                   />
                 </label>
                 <label className="col-span-2 grid grid-cols-2">
@@ -458,10 +450,10 @@ function ProfilePage() {
                   <input
                     type="text"
                     className="input-box w-full"
-                    name="bar"
-                    defaultValue={userData.bar}
+                    name="barID"
+                    defaultValue={userData.barID}
 
-                    {...register("bar", { required: true, maxLength: 80 })}
+                    {...register("barID", { required: userData.barID ? false : true, maxLength: 80 })}
                   />
                 </label>
                 <label className="col-span-2 grid grid-cols-2">
@@ -485,7 +477,9 @@ function ProfilePage() {
                     className="input-box w-full"
                     name="id"
                     defaultValue={userData.id}
-                    {...register("id", { required: true, maxLength: 80 })}
+                    {...register("id", {
+                      required: userData.id ? false : true, maxLength: 80
+                    })}
                   />
                 </label>
                 <label className="col-span-2 grid grid-cols-2">
@@ -493,11 +487,13 @@ function ProfilePage() {
                     Year
                   </span>
                   <input
-                    type="text"
+                    type="number"
                     className="input-box w-full"
-                    name="year"
-                    defaultValue={userData.year}
-                    {...register("year", { required: true, maxLength: 80 })}
+                    name="barYear"
+                    defaultValue={userData.barYear}
+                    {...register("barYear", {
+                      required: userData.barYear ? false : true, maxLength: 80
+                    })}
                   />
                 </label>
 
@@ -564,7 +560,7 @@ function ProfilePage() {
                     className="input-box w-full h-28"
                     name="summary"
                     placeholder='Write your professional summary'
-                    {...register("summary", { required: true })}
+                    {...register("summary", { required: userData.name ? false : true })}
                     defaultValue={userData.summary}
                   />
                 </label>

@@ -15,6 +15,8 @@ const sendToServer = (user, data) => {
         return false;
       }
     });
+
+
   //
 };
 
@@ -35,7 +37,31 @@ const sendToServerLawyer = (user, data) => {
         return false;
       }
     });
+
   //
 };
 
-export { sendToServer, sendToServerLawyer };
+const sendUserLogs = async (user, action) => {
+
+  try {
+    const response = await fetch(`https://ninja-lawyer-server.vercel.app/api/users/logs/post?UID=${user.uid}&action=${action}`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    const responseData = await response.json();
+
+    if (responseData.acknowledged) {
+      console.log(responseData);
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
+
+export { sendToServer, sendToServerLawyer, sendUserLogs };

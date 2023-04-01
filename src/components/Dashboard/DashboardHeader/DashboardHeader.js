@@ -10,9 +10,9 @@ import { useNavigate } from 'react-router-dom';
 
 function DashboardHeader() {
 
-    const { logOut } = useContext(AuthContext)
+    const { logOut, user } = useContext(AuthContext)
 
-    const { toggleDarkMode } = useContext(StateContext);
+    const { toggleDarkMode, toggleAvailable, available } = useContext(StateContext);
 
     const navigate = useNavigate()
 
@@ -30,6 +30,17 @@ function DashboardHeader() {
                     <Link to='/' className='transition-colors duration-200 text-base-100 dark:text-primary font-bold flex items-center gap-1 hover:text-accent dark:hover:text-accent'><FaAngleLeft /> Back to Home</Link>
                 </div>
                 <div className=' hidden md:flex items-center text-2xl gap-3'>
+                    {user.displayName === 'lawyer' &&
+                        <div className="input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100">
+                            Available
+                            <input
+                                onClick={toggleAvailable}
+                                type="checkbox"
+                                className="toggle toggle-sm toggle-success"
+                                checked={available}
+                            />
+                        </div>
+                    }
                     <label className="swap swap-rotate m-2">
                         <input onClick={toggleDarkMode} type="checkbox" />
                         <svg
