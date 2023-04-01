@@ -17,15 +17,9 @@ function TalkToLawyerList() {
     const { user } = useContext(AuthContext);
     const { userData } = useContext(StateContext);
 
-    const [isProblem, isProblemActive] = useState(true);
-    const [isLanguage, isLanguageActive] = useState(false);
-    const [isGender, isGenderActive] = useState(false);
-    const [isExperience, isExperienceActive] = useState(false);
-    const [isLocation, isLocationActive] = useState(true);
     const [specialtiesArray, setSpecialtiesArray] = useState(["nothing"]);
     const [problemSeeMore, setProblemSeeMore] = useState(false);
     const [languageSeeMore, setLanguageSeeMore] = useState(false);
-    const [mylocation, setMyLocation] = useState(userData.state);
     const [lawyerList, setLawyerList] = useState([]);
     const [cityName, setCityName] = useState("");
 
@@ -144,11 +138,35 @@ function TalkToLawyerList() {
 
 
     // api call for lawyers
+    const [pageSize, setPageSize] = useState(10);
+
+    const [totalPages, setTotalPages] = useState(0)
+
+    const handlePageSize = (e) => {
+        setPageSize(e.target.value);
+    }
+    console.log(pageSize)
+
+    const [page, setPage] = useState(1);
+
+    const handlePageNumber = data => {
+        console.log(data)
+        setPage(data);
+    }
+    console.log(page)
+
 
     const allLawyers = () => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all`)
+        fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyers?page=${page}&limit=${pageSize}`)
             .then((res) => res.json())
-            .then((data) => setLawyerList(data));
+            .then((data) => {
+                setLawyerList(data);
+                const totalPages = Math.ceil(data.length / pageSize);
+                setTotalPages(totalPages);
+
+                console.log(totalPages)
+            });
+
     }
 
     // useEffect(() => {
@@ -169,8 +187,8 @@ function TalkToLawyerList() {
         }
     };
 
-    const fetchPerams = handleArrayOfSpecialties();
-    console.log("fetch params", fetchPerams)
+    const fetchParams = handleArrayOfSpecialties();
+    console.log("fetch params", fetchParams)
     useEffect(() => {
         cityName &&
             fetch(
@@ -184,9 +202,10 @@ function TalkToLawyerList() {
     }, [cityName]);
 
 
-    //   Get cehcbox of specialties
+    //   Get checkbox of specialties
 
     const handleCheck = async (specialty) => {
+
         if (specialtiesArray.includes(specialty)) {
             setSpecialtiesArray((prevSpecialtiesArray) =>
                 prevSpecialtiesArray.filter((s) => s !== specialty)
@@ -200,14 +219,40 @@ function TalkToLawyerList() {
     };
 
 
+
+    // const LawyersBySpecialties = () => {
+    //     if (fetchParams === "nothing") {
+    //         allLawyers();
+    //         allLawyersByCity();
+    //     } else {
+    //         fetch(
+    //             `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search-specialties/${fetchParams}`
+    //         )
+    //             .then((res) => res.json())
+    //             .then((data) => {
+    //                 console.log("fetchparams", data);
+    //                 setLawyerList(data);
+    //                 allLawyersByCity();
+    //                 // const filteredLawyers =
+    //                 setFilteredLawyers(searchLawyerByLocation.filter(lawyer => {
+    //                     return data.some(d => d._id === lawyer._id);
+    //                 }))
+    //                 console.log("filtered lawyers", filteredLawyers)
+    //                 setSearchLawyerByLocation(filteredLawyers);
+    //             });
+    //     }
+    // }
+
+
     useEffect(() => {
-        console.log(fetchPerams)
-        if (fetchPerams === "nothing") {
+
+        console.log(fetchParams)
+        if (fetchParams === "nothing") {
             allLawyers();
             allLawyersByCity();
         } else {
             fetch(
-                `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search-specialties/${fetchPerams}`
+                `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search-specialties/${fetchParams}`
             )
                 .then((res) => res.json())
                 .then((data) => {
@@ -222,7 +267,7 @@ function TalkToLawyerList() {
                     setSearchLawyerByLocation(filteredLawyers);
                 });
         }
-    }, [specialtiesArray]);
+    }, [specialtiesArray, pageSize, page]);
 
 
 
@@ -346,234 +391,260 @@ function TalkToLawyerList() {
         }
     });
 
+    const [activeTab, setActiveTab] = useState(null);
+
+    const toggleTab = (tab) => {
+        if (activeTab === tab) {
+            setActiveTab(null); // If the same tab is clicked twice, close it
+        } else {
+            setActiveTab(tab);
+        }
+    };
+
+
+    const tabRef = useRef(null);
+    const handleClickOutside = (event) => {
+        if (tabRef.current && !tabRef.current.contains(event.target)) {
+            setActiveTab(null); // Close the active tab if the user clicks outside the tab area
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+
+
+
 
 
     return (
         <div className="bg-primary dark:bg-base-100">
-            <div className="container mx-auto py-10">
+            <div ref={tabRef} className="container mx-auto py-10">
                 {/* <h1 className='text-black'>Total lawyer: {lawyerList.length}</h1> */}
                 <div className="flex flex-col lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:gap-10 xl:gap-20 justify-items-center z-50">
-                    <div className="w-full col-span-1 lg:col-span-1 bg-primary dark:bg-base-100 z-50  rounded-xl">
-                        <div className="border  dark:border-gray-700 rounded-xl p-5 flex flex-col gap-5 select-none ">
-                            <div className="flex flex-col ">
-                                <span>Location</span>
-                                <input
-                                    className="input-box"
-                                    type="text"
-                                    value={query}
-                                    onChange={handleSearch}
-                                    onKeyDown={handleKeyDown}
-                                    onBlur={() => setActiveIndex(-1)}
-                                    onFocus={() => setShowResults(true)}
-                                />
-                                <div className="relative">
-                                    {showResults && results.length > 0 && (
-                                        <ul className={`input-box p-0 absolute w-full z-50 shadow-lg`}>
-                                            {results.map((item, index) => (
-                                                <li
-                                                    onClick={() => handleSearchResult(item.item, index)}
-                                                    className={` hover:bg-accent hover:text-white py-2 px-2 ${index === activeIndex ? 'bg-accent text-white' : ''}`}
-                                                    key={item.id}
-                                                >
-                                                    {item.item.city}, {item.item.state}
-                                                </li>
-                                            ))}
-                                        </ul>)}
-                                </div>
-                            </div>
-                            <span
-                                onClick={() => isProblemActive(!isProblem)}
-                                className="flex items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold"
-                            >
-                                Problem Type{" "}
-                                <FaChevronDown
-                                    className={`transition-all duration-300 ${isProblem && "text-accent rotate-180"
-                                        }`}
-                                />{" "}
-                            </span>
-                            <ul
-                                className={`transition-all duration-300 p-1 flex flex-col items-start  ${isProblem ? "flex" : "hidden "
-                                    }`}
-                            >
-                                {specialtiesSuggestions.splice(0, 4).map((specialty, index) => {
-                                    return (
-                                        <label
-                                            key={index}
-                                            className="flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary"
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                className="accent-accent"
-                                                onClick={() => handleCheck(specialty)}
-                                            />{" "}
-                                            {specialty}
-                                        </label>
-                                    );
-                                })}
-                                <label
-                                    onClick={() => setProblemSeeMore(!problemSeeMore)}
-                                    className={`${problemSeeMore ? "hidden" : "flex"
-                                        } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
-                                >
-                                    <FaChevronDown />
-                                    Show more
-                                </label>
-                                {specialtiesSuggestions.map((specialty, index) => {
-                                    return (
-                                        <label
-                                            key={index}
-                                            className={`${problemSeeMore ? "flex" : "hidden"
-                                                } gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                className="accent-accent"
-                                                onClick={() => handleCheck(specialty)}
-                                            />{" "}
-                                            {specialty}
-                                        </label>
-                                    );
-                                })}
-                                <label
-                                    onClick={() => setProblemSeeMore(!problemSeeMore)}
-                                    className={`${problemSeeMore ? "flex" : "hidden"
-                                        } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
-                                >
-                                    <FaChevronUp />
-                                    Show less
-                                </label>
-                            </ul>
-                            <span
-                                onClick={() => isLanguageActive(!isLanguage)}
-                                className="flex items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold"
-                            >
-                                Language{" "}
-                                <FaChevronDown
-                                    className={`transition-all duration-300 ${isLanguage && "text-accent rotate-180"
-                                        }`}
-                                />{" "}
-                            </span>
-                            <ul
-                                className={`transition-all duration-300 p-1 flex flex-col items-start ${isLanguage ? "flex" : "hidden"
-                                    }`}
-                            >
-                                {languageSuggestions.splice(0, 4).map((language, index) => {
-                                    return (
-                                        <label
-                                            key={index}
-                                            className="flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary"
-                                        >
-                                            <input type="checkbox" className="accent-accent" />{" "}
-                                            {language}
-                                        </label>
-                                    );
-                                })}
-                                <label
-                                    onClick={() => setLanguageSeeMore(!languageSeeMore)}
-                                    className={`${languageSeeMore ? "hidden" : "flex"
-                                        } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
-                                >
-                                    <FaChevronDown />
-                                    Show more
-                                </label>
-                                {languageSuggestions.map((language, index) => {
-                                    return (
-                                        <label
-                                            key={index}
-                                            className={`${languageSeeMore ? "flex" : "hidden"
-                                                } gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}
-                                        >
-                                            <input type="checkbox" className="accent-accent" />{" "}
-                                            {language}
-                                        </label>
-                                    );
-                                })}
-                                <label
-                                    onClick={() => setLanguageSeeMore(!languageSeeMore)}
-                                    className={`${languageSeeMore ? "flex" : "hidden"
-                                        } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
-                                >
-                                    <FaChevronUp />
-                                    Show less
-                                </label>
-                            </ul>
-
-                            {/* <span
-                                onClick={() => isGenderActive(!isGender)}
-                                className="flex items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold"
-                            >
-                                Gender{" "}
-                                <FaChevronDown
-                                    className={`transition-all duration-300 ${isGender && "text-accent rotate-180"
-                                        }`}
-                                />{" "}
-                            </span> */}
-                            {/* <ul
-                                className={`transition-all duration-300 p-1 flex flex-col items-start ${isGender ? "flex" : "hidden"
-                                    }`}
-                            >
-                                <label
-                                    className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}
-                                >
-                                    <input type="checkbox" className="accent-accent" /> Male
-                                </label>
-                                <label
-                                    className={`flex gap-5 items-center justify-between p-1 rounded-lg text-base-100 dark:text-primary font-semibold`}
-                                >
-                                    <input type="checkbox" className="accent-accent" /> Female
-                                </label>
-                            </ul> */}
-                        </div>
-                    </div>
-
-                    {/* Lawyers profile */}
-
-                    <div onClick={() => setShowResults(false)} className="w-full col-span-1 md:col-span-2 xl:col-span-3 px-5 md:px-0">
+                    <div onClick={() => setShowResults(false)} className="w-full col-span-1 md:col-span-3 xl:col-span-4 px-5 md:px-0">
                         {/* <h1 className="text-center">No lawyers found in your city.</h1>  */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center place-content-center">
-                            <div className="col-span-3 w-full flex justify-end items-end gap-2">
-                                <div className="input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100">
-                                    Available
-                                    <input
-                                        type="checkbox"
-                                        className="toggle toggle-sm toggle-success"
-                                    />
+                        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2 justify-items-center place-content-center">
+                            {/* FILTER */}
+                            <div ref={tabRef} className="col-span-4 w-full flex justify-between items-center gap-2">
+                                <div className=" rounded-xl flex justify-between gap-5 select-none ">
+                                    <div className="flex flex-col ">
+                                        <input
+                                            className="input-box"
+                                            type="text"
+                                            value={query}
+                                            onChange={handleSearch}
+                                            onKeyDown={handleKeyDown}
+                                            onBlur={() => setActiveIndex(-1)}
+                                            onFocus={() => setShowResults(true)}
+                                        />
+                                        <div className="relative">
+                                            {showResults && results.length > 0 && (
+                                                <ul className={`input-box p-0 absolute w-full z-50 shadow-lg`}>
+                                                    {results.map((item, index) => (
+                                                        <li
+                                                            onClick={() => handleSearchResult(item.item, index)}
+                                                            className={` hover:bg-accent hover:text-white py-2 px-2 ${index === activeIndex ? 'bg-accent text-white' : ''}`}
+                                                            key={item.id}
+                                                        >
+                                                            {item.item.city}, {item.item.state}
+                                                        </li>
+                                                    ))}
+                                                </ul>)}
+                                        </div>
+                                    </div>
+                                    <div className="relative">
+                                        <span
+                                            onClick={() => toggleTab("problem-type")}
+                                            className="flex gap-2 items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold"
+                                        >
+                                            Problem Type{" "}
+                                            <FaChevronDown
+                                                className={`transition-all duration-300 ${activeTab === "problem-type" && "text-accent rotate-180"
+                                                    }`}
+                                            />{" "}
+                                        </span>
+                                        <div
+                                            className={`transition-all duration-300 p-1 grid grid-cols-2 gap-3 items-start z-50 w-max bg-primary shadow-lg rounded-lg ${activeTab === "problem-type" ? "flex absolute top-14" : "hidden "
+                                                }`}
+                                        >
+                                            <div className="col-span-2 flex flex-col items-start">
+                                                {specialtiesSuggestions.splice(0, 4).map((specialty, index) => {
+                                                    return (
+                                                        <label
+                                                            key={index}
+                                                            className="flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary"
+                                                        >
+                                                            <input
+                                                                type="checkbox"
+                                                                className="accent-accent"
+                                                                onClick={() => handleCheck(specialty)}
+                                                            />{" "}
+                                                            {specialty}
+                                                        </label>
+                                                    );
+                                                })}
+                                                <label
+                                                    onClick={() => setProblemSeeMore(!problemSeeMore)}
+                                                    className={`${problemSeeMore ? "hidden" : "flex"
+                                                        } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
+                                                >
+                                                    <FaChevronDown />
+                                                    Show more
+                                                </label>
+                                                {specialtiesSuggestions.map((specialty, index) => {
+                                                    return (
+                                                        <label
+                                                            key={index}
+                                                            className={`${problemSeeMore ? "flex" : "hidden"
+                                                                } gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}
+                                                        >
+                                                            <input
+                                                                type="checkbox"
+                                                                className="accent-accent"
+                                                                onClick={() => handleCheck(specialty)}
+                                                            />{" "}
+                                                            {specialty}
+                                                        </label>
+                                                    );
+                                                })}
+                                                <label
+                                                    onClick={() => setProblemSeeMore(!problemSeeMore)}
+                                                    className={`${problemSeeMore ? "flex" : "hidden"
+                                                        } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
+                                                >
+                                                    <FaChevronUp />
+                                                    Show less
+                                                </label>
+                                            </div>
+                                            {/* <button className="primary-outline-btn">Cancel</button>
+                                            <button className="primary-btn">Apply</button> */}
+                                        </div>
+                                    </div>
+                                    <div className="relative">
+                                        <span
+                                            onClick={() => toggleTab("language")}
+                                            className="flex gap-2 items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold"
+                                        >
+                                            Language{" "}
+                                            <FaChevronDown
+                                                className={`transition-all duration-300 ${activeTab === "language" && "text-accent rotate-180"
+                                                    }`}
+                                            />{" "}
+                                        </span>
+                                        <div
+                                            className={`transition-all duration-300 p-1 grid grid-cols-2 gap-3 items-start z-50 w-max bg-primary shadow-lg rounded-lg ${activeTab === "language" ? "flex absolute top-14" : "hidden "
+                                                }`}
+                                        >
+                                            <div className="col-span-2 flex flex-col items-start">
+                                                {languageSuggestions.splice(0, 4).map((language, index) => {
+                                                    return (
+                                                        <label
+                                                            key={index}
+                                                            className="flex gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary"
+                                                        >
+                                                            <input type="checkbox" className="accent-accent" />{" "}
+                                                            {language}
+                                                        </label>
+                                                    );
+                                                })}
+                                                <label
+                                                    onClick={() => setLanguageSeeMore(!languageSeeMore)}
+                                                    className={`${languageSeeMore ? "hidden" : "flex"
+                                                        } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
+                                                >
+                                                    <FaChevronDown />
+                                                    Show more
+                                                </label>
+                                                {languageSuggestions.map((language, index) => {
+                                                    return (
+                                                        <label
+                                                            key={index}
+                                                            className={`${languageSeeMore ? "flex" : "hidden"
+                                                                } gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}
+                                                        >
+                                                            <input type="checkbox" className="accent-accent" />{" "}
+                                                            {language}
+                                                        </label>
+                                                    );
+                                                })}
+                                                <label
+                                                    onClick={() => setLanguageSeeMore(!languageSeeMore)}
+                                                    className={`${languageSeeMore ? "flex" : "hidden"
+                                                        } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
+                                                >
+                                                    <FaChevronUp />
+                                                    Show less
+                                                </label>
+                                            </div>
+                                            {/* <button className="primary-outline-btn">Cancel</button>
+                                            <button className="primary-btn">Apply</button> */}
+                                        </div>
+                                    </div>
                                 </div>
-                                <select className="input-box dark:border-gray-700 dark:bg-base-100">
-                                    <option selected>Popularity</option>
-                                    <option>Price(Low to High)</option>
-                                    <option>Price(High to Low)</option>
-                                    <option>User Rating</option>
-                                    <option>Experience</option>
-                                </select>
+                                <div className="flex gap-3">
+                                    <div className="input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100">
+                                        Available
+                                        <input
+                                            type="checkbox"
+                                            className="toggle toggle-sm toggle-success"
+                                        />
+                                    </div>
+                                    <select className="input-box dark:border-gray-700 dark:bg-base-100">
+                                        <option selected>Popularity</option>
+                                        <option>Price(Low to High)</option>
+                                        <option>Price(High to Low)</option>
+                                        <option>User Rating</option>
+                                        <option>Experience</option>
+                                    </select>
+                                    <select className="input-box dark:border-gray-700 dark:bg-base-100" onChange={(e) => handlePageSize(e)}>
+                                        <option value={10} selected>10</option>
+                                        <option value={20}>20</option>
+                                        <option value={30}>30</option>
+                                        <option value={40}>40</option>
+                                        <option value={50}>50</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div className="col-span-3 flex flex-col gap-5">
-                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center place-content-center">
+                            <div className="col-span-4 flex flex-col gap-5">
+                                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-center place-content-center">
                                     {
-                                        cityName && fetchPerams === "nothing" && (
+                                        cityName && fetchParams === "nothing" && (
                                             searchLawyerByLocation?.length === 0 ? (
-                                                <div className="col-span-3 flex flex-col gap-10">
+                                                <div className="col-span-4 flex flex-col gap-10">
                                                     <h1 className="text-3xl">No lawyers found in {cityName}</h1>
                                                     <Player className='w-[200px]' autoplay loop src="https://assets6.lottiefiles.com/private_files/lf30_cgfdhxgx.json"></Player>
                                                 </div>
                                             ) : (
                                                 searchLawyerByLocation?.map((lawyer, index) => (
-                                                    <LawyerCard lawyer={lawyer} key={index} />
+                                                    <LawyerCard fetchParams={fetchParams} lawyer={lawyer} key={index} />
                                                 ))
                                             )
                                         )
                                     }
 
                                 </div>
-                                {cityName && fetchPerams === "nothing" &&
+                                {cityName && fetchParams === "nothing" &&
                                     <h1 className="text-3xl text-accent font-semibold">Lawyers from other cities: </h1>
                                 }
-                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center place-content-center">
+                                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-center place-content-center">
                                     {sortedList?.length > 0 && (
                                         sortedList?.map((lawyer, index) => (
-                                            <LawyerCard lawyer={lawyer} key={index} cityName={cityName} />
+                                            <LawyerCard specialtiesArray={specialtiesArray} lawyer={lawyer} key={index} cityName={cityName} />
                                         ))
                                     )}
+                                </div>
+                                <div className="flex justify-center">
+                                    <div className="btn-group gap-2">
+                                        <button onClick={() => handlePageNumber(1)} className={`shadow-red-300 ${page === 1 ? 'primary-btn' : 'primary-outline-btn'}`}>1</button>
+                                        <button onClick={() => handlePageNumber(2)} className={`shadow-red-300 ${page === 2 ? 'primary-btn' : 'primary-outline-btn'}`}>2</button>
+                                        <button onClick={() => handlePageNumber(3)} className={`shadow-red-300 ${page === 3 ? 'primary-btn' : 'primary-outline-btn'}`}>3</button>
+                                        <button onClick={() => handlePageNumber(4)} className={`shadow-red-300 ${page === 4 ? 'primary-btn' : 'primary-outline-btn'}`}>4</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

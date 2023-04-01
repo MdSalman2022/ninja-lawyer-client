@@ -12,7 +12,7 @@ function DashboardHeader() {
 
     const { logOut, user } = useContext(AuthContext)
 
-    const { toggleDarkMode } = useContext(StateContext);
+    const { toggleDarkMode, toggleAvailable, available } = useContext(StateContext);
 
     const navigate = useNavigate()
 
@@ -34,8 +34,10 @@ function DashboardHeader() {
                         <div className="input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100">
                             Available
                             <input
+                                onClick={toggleAvailable}
                                 type="checkbox"
                                 className="toggle toggle-sm toggle-success"
+                                checked={available}
                             />
                         </div>
                     }

@@ -9,7 +9,7 @@ import NavbarUserMenu from "./NavbarUserMenu";
 
 const LawyerNavbar = () => {
     const { user } = useContext(AuthContext);
-    const { darkmode, toggleDarkMode } = useContext(StateContext);
+    const { darkmode, toggleDarkMode, toggleAvailable, available } = useContext(StateContext);
 
     const location = useLocation();
     const pathname = '/';
@@ -17,8 +17,8 @@ const LawyerNavbar = () => {
 
     let activeClassName = `text-accent dark:text-accent flex items-center gap-4 ${pathname === "/talk-to-lawyer" ? "text-secondary" : "text-accent"}`;
 
+    console.log(available)
 
-    console.log(user?.uid);
 
     return (
         <div className={`${pathname === '/talk-to-lawyer' ? 'bg-transparent' : 'bg-primary'} dark:bg-base-100 `}>
@@ -39,11 +39,15 @@ const LawyerNavbar = () => {
                                     <div className="input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100">
                                         Available
                                         <input
+                                            onClick={toggleAvailable}
                                             type="checkbox"
                                             className="toggle toggle-sm toggle-success"
+                                            checked={available}
                                         />
                                     </div>
+
                                 </li>
+
                                 <li>
                                     {" "}
                                     <NavLink

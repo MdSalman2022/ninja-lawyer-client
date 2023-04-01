@@ -40,7 +40,7 @@ const StateProvider = ({ children }) => {
     if (user?.uid) {
       getProfile(user.uid);
     }
-  }, [user]);
+  }, [user, heightFull]);
 
   // useEffect(() => {
   //   fetch(`https://api.postalpincode.in/pincode/110001`)
@@ -50,6 +50,25 @@ const StateProvider = ({ children }) => {
   //     });
   // }, []);
 
+  const [available, setAvailable] = useState(false);
+
+  useEffect(() => {
+    const savedAvailable = localStorage.getItem("available");
+
+    if (savedAvailable) {
+      setAvailable(JSON.parse(savedAvailable));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("available", JSON.stringify(available));
+  }, [available]);
+
+  const toggleAvailable = () => {
+    setAvailable(!available);
+  };
+
+  console.log(available)
 
   const stateInfo = {
     setDarkMode,
@@ -57,7 +76,10 @@ const StateProvider = ({ children }) => {
     toggleDarkMode,
     heightFull,
     setHeightFull,
-    userData
+    userData,
+    available,
+    setAvailable,
+    toggleAvailable
   };
 
   return (

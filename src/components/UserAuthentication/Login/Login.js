@@ -11,7 +11,7 @@ import {
 import { reVerify, confirmOTP } from "./Login-Phone";
 import { AiFillGoogleCircle, AiFillFacebook } from "react-icons/ai";
 import { StateContext } from "../../../contexts/StateProvider/StateProvider";
-import { sendToServer } from "./LoginPostDB";
+import { sendToServer, sendUserLogs } from "./LoginPostDB";
 import { toast } from "react-hot-toast";
 
 export default function Login() {
@@ -93,7 +93,8 @@ export default function Login() {
           email: email,
         };
         sendToServer(user.id, postData);
-        //
+        sendUserLogs(user, "login")
+
         navigateDashboard();
       })
       .catch((error) => {
@@ -135,6 +136,18 @@ export default function Login() {
       if (getOTPConfirmation.message === true) {
         console.log("Sent true");
         toast.success("Logged in successfully");
+
+
+        const url = `https://ninja-lawyer-server.vercel.app/api/users/logs/post?UID=${user.uid}&action=login`;
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({})
+        });
+        const data = await response.json();
+        console.log(data);
 
       } else {
         toast.error("Invalid OTP");

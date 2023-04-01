@@ -1,10 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useState } from 'react'
 import { BiTime } from 'react-icons/bi'
 import { FaStar } from 'react-icons/fa'
 import { IoLocationSharp } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 
-const LawyerCard = ({ lawyer }) => {
+const LawyerCard = ({ lawyer, specialtiesArray }) => {
+
+    // console.log(specialtiesArray)
+
+
+    const specialties = lawyer.specialties;
+
+    const [sortedSpecialties, setSortedSpecialties] = useState([])
+    const [matchedSpecialties, setMatchedSpecialties] = useState([])
+    const [remainingSpecialties, setRemainingSpecialties] = useState([])
+
+    useEffect(() => {
+        if (specialties) {
+            const matched = specialties?.filter(s => specialtiesArray?.includes(s)).sort()
+            setMatchedSpecialties(matched)
+            const remaining = specialties?.filter(s => !specialtiesArray?.includes(s)).sort()
+            setRemainingSpecialties(remaining)
+            setSortedSpecialties([...matchedSpecialties, ...remainingSpecialties])
+        }
+    }, [specialtiesArray])
+
+    // console.log("matched " + matchedSpecialties)
+    // console.log("sorted " + sortedSpecialties)
 
     const date = new Date()
     return (
@@ -43,28 +66,44 @@ const LawyerCard = ({ lawyer }) => {
                         </Link>
                         <p className="flex items-start justify-start text-sm">
                             <IoLocationSharp className="text-lg" />
-                            {lawyer?.city}, {lawyer?.state}, India
+                            {lawyer?.city}, {lawyer?.state}
                         </p>
                     </div>
                     <p className="flex flex-col items-start">
                         <span className="font-semibold my-2">
                             Specialties
                         </span>
-                        {lawyer?.specialties?.map((skill, index) => (
-                            <span
-                                className="text-xs border dark:border-gray-700 m-1 p-1 rounded-md"
-                                key={index}
-                            >
-                                {skill}
-                            </span>
-                        ))}
+                        <div className="flex flex-wrap items-start justify-start">
+                            {
+                                sortedSpecialties.length > 0 ?
+                                    sortedSpecialties?.slice(0, 3)?.map((item, index) => (
+                                        <span
+                                            className="text-sm  m-1 p-1 rounded-md"
+                                            key={index}
+                                        >
+                                            {item}
+
+                                        </span>
+                                    ))
+                                    :
+                                    specialties?.sort()?.slice(0, 3)?.map((item, index) => (
+                                        <span
+                                            className="text-sm  m-1 p-1 rounded-md"
+                                            key={index}
+                                        >
+                                            {item}
+                                        </span>
+                                    ))
+                            }
+
+                        </div>
                     </p>
                 </div>
                 <div className="flex flex-col items-end justify-start gap-2">
                     <p className="flex items-center justify-end gap-2">
-                        {lawyer?.experience
-                            ? lawyer.experience
-                            : date.getFullYear() - lawyer.year}{" "}
+                        {lawyer?.year
+                            ? date.getFullYear() - lawyer.year
+                            : "0 "}
                         years
                         <BiTime className="text-sm" />{" "}
                     </p>
@@ -76,10 +115,10 @@ const LawyerCard = ({ lawyer }) => {
                             5.0
                         </span>
                     </div>
-                    <p className="flex flex-wrap justify-end">
+                    <p className="flex flex-col items-end">
                         {lawyer?.languages?.map((item, index) => (
                             <span
-                                className="text-xs border dark:border-gray-700 m-1 p-1 rounded-md"
+                                className="text-xs m-1 p-1 rounded-md"
                                 key={index}
                             >
                                 {item}

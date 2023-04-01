@@ -1,6 +1,8 @@
+import { sendUserLogs } from "../../../components/UserAuthentication/Login/LoginPostDB";
+
 const updateData = (data, UID) => {
   console.log(data)
-  const { name, email, contact, state, city, languages, specialties, rate, year, bar, id, summary } = data;
+  const { name, email, contact, state, city, languages, specialties, rate, barYear, barID, id, summary } = data;
 
   return {
     update_data: {
@@ -13,8 +15,8 @@ const updateData = (data, UID) => {
       languages: languages,
       specialties: specialties,
       rate,
-      year,
-      bar,
+      barYear,
+      barID,
       id,
       summary,
     },
@@ -38,6 +40,7 @@ const putDataToServer = (id, data, user) => {
       if (data.acknowledged) {
         message = true;
         console.log("abcdefg");
+        sendUserLogs(user, "profile_update")
       } else {
         message = false;
       }
@@ -63,10 +66,11 @@ const putUserDataToServer = (id, data, user) => {
       if (data.acknowledged) {
         message = true;
         console.log("abcdefg");
+        sendUserLogs(user, "profile_update")
       } else {
         message = false;
       }
     });
 };
 
-export { updateData, putDataToServer,putUserDataToServer };
+export { updateData, putDataToServer, putUserDataToServer };

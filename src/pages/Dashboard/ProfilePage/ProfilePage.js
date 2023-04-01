@@ -68,7 +68,7 @@ function ProfilePage() {
 
 
   const handleUpdate = async (data) => {
-    let { name, email, contact, rate, bar, id, year, summary, city, state } = data
+    let { name, email, contact, rate, barID, id, barYear, summary, city, state } = data
     if (cityName) {
       city = cityName
     } else {
@@ -102,40 +102,40 @@ function ProfilePage() {
     if (user.displayName !== 'lawyer') {
 
       const update_data = {
-        name,
-        email,
-        contact,
+        name: name !== '' ? name : userData.name,
+        email: email !== '' ? email : userData.email,
+        contact: contact !== '' ? contact : userData.contact,
         state,
         city,
       }
       console.log(update_data)
       const update = updateData(update_data, user.uid);
       console.log(update_data);
-      const updateResult = await putUserDataToServer(user.uid, update, user);
+      const updateResult = putUserDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
       toast.success('Profile Updated Successfully')
       setHeightFull(!heightFull)
     }
     else if (user.displayName === 'lawyer') {
       const update_data = {
-        name,
-        email,
-        contact,
+        name: name !== '' ? name : userData.name,
+        email: email !== '' ? email : userData.email,
+        contact: contact !== '' ? contact : userData.contact,
         state,
         city,
         languages: languages,
         specialties: specialties,
-        rate,
-        year,
-        bar,
-        id,
-        summary
+        rate: rate !== '' ? rate : userData.rate,
+        barYear: barYear !== '' ? barYear : userData.barYear,
+        barID: barID !== '' ? barID : userData.barID,
+        id: id !== '' ? id : userData.id,
+        summary: summary !== '' ? summary : userData.summary,
       }
       console.log(update_data)
 
       let update = updateData(update_data, user.uid);
       console.log(update_data);
-      const updateResult = await putDataToServer(user.uid, update, user);
+      const updateResult = putDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
       toast.success('Profile Updated Successfully')
       setHeightFull(!heightFull)
@@ -273,23 +273,15 @@ function ProfilePage() {
       });
   }, [stateId])
 
+
+  console.log(userData.barId, userData.barYear)
+
   return (
     <div
       className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10`}
     >
       <div className="shadow-lg rounded-xl bg-primary dark:bg-base-100 dark:border flex flex-col">
-        {/* <div className="relative bg-gradient-to-r from-base-100 to-primary h-52 w-full rounded-t-xl">
-          <div className="w-full h-full group">
-            <AiOutlineCamera className="absolute left-[50%] top-[45%] text-5xl text-white  hidden group-hover:flex hover:text-primary hover:bg-gray-400 hover:border hover:border-gray-400 hover:shadow-xl cursor-pointer rounded-full p-2" />
-          </div>
-          <div className="absolute -bottom-16 left-10 border-4 rounded-full border-primary group cursor-pointer">
-            <div className="absolute rounded-full h-32 w-32 bg-black bg-opacity-70 hidden group-hover:flex"></div>
-            <AiOutlineCamera className="absolute left-[38%] top-[40%] text-3xl text-white hidden group-hover:flex" /> */}
-        {/* <img
-              className="rounded-full h-32 w-32 object-cover"
-              src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png"
-              alt=""
-            /> */}
+
         <ProfileImage props={user?.uid} />
         {/* </div>
         </div> */}
@@ -341,7 +333,7 @@ function ProfilePage() {
           <form
             className="grid grid-cols-3 gap-5 mt-5 "
             onSubmit={handleSubmit(handleUpdate)}
-            noValidate
+            novalidate="" action=""
           >
             <h1 className="col-span-3 ext-3xl font-bold">Edit Profile</h1>
 
@@ -359,8 +351,11 @@ function ProfilePage() {
                 className="input-box w-full"
                 name="name"
                 defaultValue={userData.name}
-                {...register("name", { required: true, maxLength: 80 })}
+                {...register("name", {
+                  required: userData.name ? false : true, maxLength: 80
+                })}
               />
+              {/* {errors.name && <p className='text-red-500'>{errors.name.message}</p>} */}
             </label>
 
             <label className="col-span-2 grid grid-cols-2">
@@ -372,7 +367,7 @@ function ProfilePage() {
                 className="input-box w-full"
                 name="email"
                 defaultValue={userData.email}
-                {...register("email", { required: true, maxLength: 80 })}
+                {...register("email", { required: userData.email ? false : true, maxLength: 80 })}
               />
             </label>
 
@@ -385,7 +380,7 @@ function ProfilePage() {
                 className="input-box w-full"
                 name="contact"
                 defaultValue={userData?.contact}
-                {...register("contact", { required: true, maxLength: 80 })}
+                {...register("contact", { required: userData.contact ? false : true, maxLength: 80 })}
               />
             </label>
 
@@ -445,7 +440,7 @@ function ProfilePage() {
                     className="input-box w-full"
                     name="rate"
                     defaultValue={userData.rate}
-                    {...register("rate", { required: true, maxLength: 80 })}
+                    {...register("rate", { required: userData.rate ? false : true, maxLength: 80 })}
                   />
                 </label>
                 <label className="col-span-2 grid grid-cols-2">
@@ -455,10 +450,10 @@ function ProfilePage() {
                   <input
                     type="text"
                     className="input-box w-full"
-                    name="bar"
-                    defaultValue={userData.bar}
+                    name="barID"
+                    defaultValue={userData.barID}
 
-                    {...register("bar", { required: true, maxLength: 80 })}
+                    {...register("barID", { required: userData.barID ? false : true, maxLength: 80 })}
                   />
                 </label>
                 <label className="col-span-2 grid grid-cols-2">
@@ -482,7 +477,9 @@ function ProfilePage() {
                     className="input-box w-full"
                     name="id"
                     defaultValue={userData.id}
-                    {...register("id", { required: true, maxLength: 80 })}
+                    {...register("id", {
+                      required: userData.id ? false : true, maxLength: 80
+                    })}
                   />
                 </label>
                 <label className="col-span-2 grid grid-cols-2">
@@ -490,11 +487,13 @@ function ProfilePage() {
                     Year
                   </span>
                   <input
-                    type="text"
+                    type="number"
                     className="input-box w-full"
-                    name="year"
-                    defaultValue={userData.year}
-                    {...register("year", { required: true, maxLength: 80 })}
+                    name="barYear"
+                    defaultValue={userData.barYear}
+                    {...register("barYear", {
+                      required: userData.barYear ? false : true, maxLength: 80
+                    })}
                   />
                 </label>
 
@@ -561,7 +560,7 @@ function ProfilePage() {
                     className="input-box w-full h-28"
                     name="summary"
                     placeholder='Write your professional summary'
-                    {...register("summary", { required: true })}
+                    {...register("summary", { required: userData.name ? false : true })}
                     defaultValue={userData.summary}
                   />
                 </label>
