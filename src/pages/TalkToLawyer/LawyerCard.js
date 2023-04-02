@@ -86,9 +86,9 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
                     <div className="flex flex-col items-end justify-end ">
                         <Link
                             to={`/profile/${lawyer.UID}`}
-                            className="font-bold text-xl uppercase"
+                            className="text-xl uppercase flex gap-2"
                         >
-                            <span className='text-accent'>Advocate</span> {lawyer?.name.split(" ")[1]}
+                            <span className='text-accent font-bold'>{lawyer?.name.split(" ")[0]}</span> {lawyer?.name.split(" ")[1]}
                         </Link>
                         <p className="flex justify-end text-sm">
                             {/* <IoLocationSharp className="text-lg" /> */}
@@ -113,9 +113,9 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
                             <div className="flex flex-col items-start justify-start">
                                 {
                                     sortedSpecialties.length > 0 ?
-                                        sortedSpecialties?.map((item, index) => (
+                                        sortedSpecialties.slice(0, 3)?.map((item, index) => (
                                             <span
-                                                className={`text-xs  m-1 p-1 rounded-md ${matchedSpecialties.includes(item) ? 'bg-accent text-primary' : 'bg-primary dark:bg-base-100'}`}
+                                                className={`text-xs  m-1 p-1 rounded-md ${matchedSpecialties.includes(item) ? 'bg-[#FFB2AE] text-primary' : 'bg-primary dark:bg-base-100'}`}
                                                 key={index}
                                             >
                                                 {item}
