@@ -68,6 +68,8 @@ const StateProvider = ({ children }) => {
     setAvailable(!available);
   };
 
+
+
   console.log(available)
 
   const stateInfo = {

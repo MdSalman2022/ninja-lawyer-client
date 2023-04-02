@@ -56,6 +56,7 @@ function TalkToLawyerList() {
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [stateId, setStateId] = useState("");
+    const [totalLawyers, setTotalLawyers] = useState(0);
 
     let citiesList = [];
 
@@ -136,18 +137,24 @@ function TalkToLawyerList() {
             });
     };
 
+    useEffect(() => {
+        fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all`)
+            .then((res) => res.json())
+            .then((data) => setTotalLawyers(data.length));
+    }, []);
+
+    console.log(totalLawyers)
 
     // api call for lawyers
     const [pageSize, setPageSize] = useState(10);
+    const [totalPages, setTotalPages] = useState(8)
+    const [page, setPage] = useState(1);
 
-    const [totalPages, setTotalPages] = useState(0)
 
     const handlePageSize = (e) => {
         setPageSize(e.target.value);
     }
     console.log(pageSize)
-
-    const [page, setPage] = useState(1);
 
     const handlePageNumber = data => {
         console.log(data)
@@ -156,24 +163,19 @@ function TalkToLawyerList() {
     console.log(page)
 
 
+
     const allLawyers = () => {
         fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyers?page=${page}&limit=${pageSize}`)
             .then((res) => res.json())
             .then((data) => {
                 setLawyerList(data);
-                const totalPages = Math.ceil(data.length / pageSize);
+                const totalPages = Math.ceil(totalLawyers / pageSize);
                 setTotalPages(totalPages);
 
                 console.log(totalPages)
             });
-
     }
 
-    // useEffect(() => {
-    //     fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all`)
-    //         .then((res) => res.json())
-    //         .then((data) => setLawyerList(data));
-    // }, []);
 
     const [searchLawyerByLocation, setSearchLawyerByLocation] = useState([]);
 
@@ -428,7 +430,7 @@ function TalkToLawyerList() {
                 <div className="flex flex-col lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:gap-10 xl:gap-20 justify-items-center z-50">
                     <div onClick={() => setShowResults(false)} className="w-full col-span-1 md:col-span-3 xl:col-span-4 px-5 md:px-0">
                         {/* <h1 className="text-center">No lawyers found in your city.</h1>  */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2 justify-items-center place-content-center">
+                        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2 justify-items-stretch place-content-start">
                             {/* FILTER */}
                             <div ref={tabRef} className="col-span-4 w-full flex justify-between items-center gap-2">
                                 <div className=" rounded-xl flex justify-between gap-5 select-none ">
@@ -611,7 +613,7 @@ function TalkToLawyerList() {
                                 </div>
                             </div>
                             <div className="col-span-4 flex flex-col gap-5">
-                                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-center place-content-center">
+                                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-10 justify-items-stretch">
                                     {
                                         cityName && fetchParams === "nothing" && (
                                             searchLawyerByLocation?.length === 0 ? (
@@ -631,7 +633,7 @@ function TalkToLawyerList() {
                                 {cityName && fetchParams === "nothing" &&
                                     <h1 className="text-3xl text-accent font-semibold">Lawyers from other cities: </h1>
                                 }
-                                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-center place-content-center">
+                                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-stretch">
                                     {sortedList?.length > 0 && (
                                         sortedList?.map((lawyer, index) => (
                                             <LawyerCard specialtiesArray={specialtiesArray} lawyer={lawyer} key={index} cityName={cityName} />
@@ -640,12 +642,18 @@ function TalkToLawyerList() {
                                 </div>
                                 <div className="flex justify-center">
                                     <div className="btn-group gap-2">
-                                        <button onClick={() => handlePageNumber(1)} className={`shadow-red-300 ${page === 1 ? 'primary-btn' : 'primary-outline-btn'}`}>1</button>
-                                        <button onClick={() => handlePageNumber(2)} className={`shadow-red-300 ${page === 2 ? 'primary-btn' : 'primary-outline-btn'}`}>2</button>
-                                        <button onClick={() => handlePageNumber(3)} className={`shadow-red-300 ${page === 3 ? 'primary-btn' : 'primary-outline-btn'}`}>3</button>
-                                        <button onClick={() => handlePageNumber(4)} className={`shadow-red-300 ${page === 4 ? 'primary-btn' : 'primary-outline-btn'}`}>4</button>
+                                        {[...Array(totalPages)].map((_, index) => (
+                                            <button
+                                                key={index}
+                                                onClick={() => handlePageNumber(index + 1)}
+                                                className={`shadow-red-300 ${page === index + 1 ? 'primary-btn' : 'primary-outline-btn'}`}
+                                            >
+                                                {index + 1}
+                                            </button>
+                                        ))}
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

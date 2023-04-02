@@ -22,7 +22,8 @@ import LawyerProfile from "../pages/TalkToLawyer/LawyerProfile";
 import LawyerRegister from "../components/UserAuthentication/LawyerRegister/LawyerRegister";
 import { AuthContext } from "../contexts/AuthProvider/AuthProvider";
 import TestAPI from "../components/Testing/Test-API";
-import AdminRoute from "./AdminRoute"; 
+import AdminRoute from "./AdminRoute";
+import LawyersRequests from "../pages/Dashboard/LawyersRequests/LawyersRequests";
 
 export const router = createBrowserRouter([
   {
@@ -109,6 +110,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/transactions",
         element: <PrivateRoute><TransactionPage /></PrivateRoute>
+      },
+      {
+        path: "/dashboard/lawyer-requests",
+        element: <PrivateRoute><LawyersRequests /></PrivateRoute>
       }
     ],
   },
