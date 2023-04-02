@@ -1,10 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
-import { FaChevronDown, FaChevronUp, FaStar } from "react-icons/fa";
-import { BiTime } from "react-icons/bi";
-// import { lawyersList } from './LawyerList'
-import { IoLocationSharp } from "react-icons/io5";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+// import { lawyersList } from './LawyerList' 
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import { StateContext } from "../../contexts/StateProvider/StateProvider";
@@ -151,6 +148,7 @@ function TalkToLawyerList() {
     const [page, setPage] = useState(1);
 
 
+
     const handlePageSize = (e) => {
         setPageSize(e.target.value);
     }
@@ -168,9 +166,10 @@ function TalkToLawyerList() {
         fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyers?page=${page}&limit=${pageSize}`)
             .then((res) => res.json())
             .then((data) => {
+                setTotalPages(8)
                 setLawyerList(data);
-                const totalPages = Math.ceil(totalLawyers / pageSize);
-                setTotalPages(totalPages);
+                const pages = Math.ceil(totalLawyers / pageSize);
+                setTotalPages(pages);
 
                 console.log(totalPages)
             });
@@ -259,6 +258,9 @@ function TalkToLawyerList() {
                 .then((res) => res.json())
                 .then((data) => {
                     console.log("fetchparams", data);
+                    // setTotalLawyers(data.length);
+                    // const pages = Math.ceil(totalLawyers / pageSize);
+                    // setTotalPages(pages);
                     setLawyerList(data);
                     allLawyersByCity();
                     // const filteredLawyers =
@@ -640,17 +642,33 @@ function TalkToLawyerList() {
                                         ))
                                     )}
                                 </div>
-                                <div className="flex justify-center">
+                                <div className={`justify-center ${fetchParams === "nothing" ? 'flex' : 'hidden'}`}>
                                     <div className="btn-group gap-2">
-                                        {[...Array(totalPages)].map((_, index) => (
-                                            <button
-                                                key={index}
-                                                onClick={() => handlePageNumber(index + 1)}
-                                                className={`shadow-red-300 ${page === index + 1 ? 'primary-btn' : 'primary-outline-btn'}`}
-                                            >
-                                                {index + 1}
-                                            </button>
-                                        ))}
+                                        {
+                                            page === 1 && pageSize === 10 ?
+                                                (
+                                                    [...Array(8)].map((_, index) => (
+                                                        <button
+                                                            key={index}
+                                                            onClick={() => handlePageNumber(index + 1)}
+                                                            className={`shadow-red-300 ${page === index + 1 ? 'primary-btn' : 'primary-outline-btn'}`}
+                                                        >
+                                                            {index + 1}
+                                                        </button>
+                                                    ))
+                                                )
+                                                :
+                                                (
+
+                                                    [...Array(totalPages)].map((_, index) => (
+                                                        <button
+                                                            key={index}
+                                                            onClick={() => handlePageNumber(index + 1)}
+                                                            className={`shadow-red-300 ${page === index + 1 ? 'primary-btn' : 'primary-outline-btn'}`}
+                                                        >
+                                                            {index + 1}
+                                                        </button>
+                                                    )))}
                                     </div>
                                 </div>
 

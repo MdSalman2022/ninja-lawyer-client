@@ -9,8 +9,19 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
 
     // console.log(specialtiesArray)
 
+    let specialties = lawyer?.specialties
 
-    const specialties = lawyer.specialties;
+    specialties = specialties.map((str) => {
+        if (str[0] === " ") {
+            return str.substring(1);
+        } else {
+            return str;
+        }
+    }).filter(str => str !== '');
+
+
+
+    console.log(specialties, lawyer.name)
 
     const [sortedSpecialties, setSortedSpecialties] = useState([])
     const [matchedSpecialties, setMatchedSpecialties] = useState([])
@@ -18,13 +29,18 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
 
     useEffect(() => {
         if (specialties) {
-            const matched = specialties.filter(item => specialtiesArray.includes(item.trim())).sort()
+            const matched = specialties.filter(item => specialtiesArray.includes(item)).sort()
             setMatchedSpecialties(matched)
-            const remaining = specialties.filter(item => !specialtiesArray.includes(item.trim())).sort()
+            const remaining = specialties.filter(item => !specialtiesArray.includes(item)).sort()
             setRemainingSpecialties(remaining)
-            setSortedSpecialties([...matchedSpecialties, ...remainingSpecialties])
         }
     }, [specialtiesArray])
+
+    useEffect(() => {
+        setSortedSpecialties([...matchedSpecialties, ...remainingSpecialties])
+    }, [matchedSpecialties, remainingSpecialties, setSortedSpecialties])
+
+    console.log(sortedSpecialties)
 
 
 
@@ -99,7 +115,7 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
                                     sortedSpecialties.length > 0 ?
                                         sortedSpecialties?.map((item, index) => (
                                             <span
-                                                className={`text-xs  m-1 p-1 rounded-md ${matchedSpecialties.includes(item) ? 'bg-accent text-primary' : 'bg-primary dark:bg-base-100'} ${remainingSpecialties.includes(item) ? 'bg-primary dark:bg-base-100' : 'bg-accent text-base-100'}`}
+                                                className={`text-xs  m-1 p-1 rounded-md ${matchedSpecialties.includes(item) ? 'bg-accent text-primary' : 'bg-primary dark:bg-base-100'}`}
                                                 key={index}
                                             >
                                                 {item}
