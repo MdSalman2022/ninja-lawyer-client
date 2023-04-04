@@ -1,13 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+//changes
 
 export const StateContext = createContext();
 
 const StateProvider = ({ children }) => {
-
   const { user } = useContext(AuthContext);
   const [darkmode, setDarkMode] = useState(false);
-  const [heightFull, setHeightFull] = useState(false)
+  const [heightFull, setHeightFull] = useState(false);
 
   useEffect(() => {
     const savedDarkMode = localStorage.getItem("darkmode");
@@ -29,7 +29,11 @@ const StateProvider = ({ children }) => {
   useEffect(() => {
     const getProfile = (id) => {
       console.log("yes");
-      fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
+      fetch(
+        `https://ninja-lawyer-server.vercel.app/api/users/${
+          user.displayName === "lawyer" ? "get-lawyer" : "get"
+        }/${id}`
+      )
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
@@ -60,15 +64,19 @@ const StateProvider = ({ children }) => {
     }
   }, []);
 
+  // changes
+  const [isOnline, setIsOnline] = useState(false);
+
   useEffect(() => {
     localStorage.setItem("available", JSON.stringify(available));
+    // changes
   }, [available]);
 
   const toggleAvailable = () => {
     setAvailable(!available);
   };
 
-  console.log(available)
+  console.log(available);
 
   const stateInfo = {
     setDarkMode,
@@ -79,7 +87,7 @@ const StateProvider = ({ children }) => {
     userData,
     available,
     setAvailable,
-    toggleAvailable
+    toggleAvailable,
   };
 
   return (
