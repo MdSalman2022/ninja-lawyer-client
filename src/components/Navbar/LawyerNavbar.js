@@ -5,9 +5,6 @@ import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import { StateContext } from "../../contexts/StateProvider/StateProvider";
 /* import { allProperties, findLawyer } from "./NavbarItems"; */
 import NavbarUserMenu from "./NavbarUserMenu";
-// ?changes
-import { app } from "../../assets/firebase.config";
-import { getDatabase, ref, set } from "firebase/database";
 
 const LawyerNavbar = () => {
   const { user } = useContext(AuthContext);
@@ -22,20 +19,6 @@ const LawyerNavbar = () => {
   }`;
 
   console.log(available);
-
-  //   changes
-  function writeUserData(userId) {
-    console.log("aaaaaaa", userId);
-    try {
-      const db = getDatabase(app);
-      console.log(db);
-      set(ref(db, "user/" + userId), {
-        STATUS: true,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   return (
     <div
@@ -57,9 +40,6 @@ const LawyerNavbar = () => {
                 className="menu menu-compact dropdown-content mt-3 shadow bg-primary dark:bg-base-100 rounded-box w-fit"
               >
                 <li>
-                  <button onClick={() => writeUserData("ijasi87a89syihn")}>
-                    click
-                  </button>
                   <div className="input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100">
                     Availables
                     <input
