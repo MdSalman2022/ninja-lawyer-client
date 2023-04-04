@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useState } from 'react'
 import { BiTime } from 'react-icons/bi'
 import { FaStar } from 'react-icons/fa'
@@ -9,7 +9,9 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
 
     // console.log(specialtiesArray)
 
+
     let specialties = lawyer?.specialties
+
 
     specialties = specialties.map((str) => {
         if (str[0] === " ") {
@@ -19,28 +21,31 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
         }
     }).filter(str => str !== '');
 
-
-
-    console.log(specialties, lawyer.name)
-
     const [sortedSpecialties, setSortedSpecialties] = useState([])
     const [matchedSpecialties, setMatchedSpecialties] = useState([])
     const [remainingSpecialties, setRemainingSpecialties] = useState([])
 
-    useEffect(() => {
-        if (specialties) {
-            const matched = specialties.filter(item => specialtiesArray.includes(item)).sort()
-            setMatchedSpecialties(matched)
-            const remaining = specialties.filter(item => !specialtiesArray.includes(item)).sort()
-            setRemainingSpecialties(remaining)
-        }
-    }, [specialtiesArray])
 
-    useEffect(() => {
-        setSortedSpecialties([...matchedSpecialties, ...remainingSpecialties])
-    }, [matchedSpecialties, remainingSpecialties, setSortedSpecialties])
+    // console.log(specialties, lawyer.name)
 
-    console.log(sortedSpecialties)
+
+
+
+    // useEffect(() => {
+    //     if (specialties) {
+    //         const matched = specialties?.filter(item => specialtiesArray?.includes(item)).sort()
+    //         setMatchedSpecialties(matched)
+    //         const remaining = specialties?.filter(item => !specialtiesArray?.includes(item)).sort()
+    //         setRemainingSpecialties(remaining)
+    //         setSortedSpecialties([...matchedSpecialties, ...remainingSpecialties])
+    //     }
+    // }, [specialtiesArray, lawyer])
+
+    // useEffect(() => {
+    //     setSortedSpecialties([...matchedSpecialties, ...remainingSpecialties])
+    // }, [matchedSpecialties, remainingSpecialties, setSortedSpecialties])
+
+    // console.log(sortedSpecialties)
 
 
 
@@ -112,26 +117,28 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
                             </span>
                             <div className="flex flex-col items-start justify-start">
                                 {
-                                    sortedSpecialties.length > 0 ?
-                                        sortedSpecialties.slice(0, 3)?.map((item, index) => (
-                                            <span
-                                                className={`text-xs  m-1 p-1 rounded-md ${matchedSpecialties.includes(item) ? 'bg-[#FFB2AE] text-primary' : 'bg-primary dark:bg-base-100'}`}
-                                                key={index}
-                                            >
-                                                {item}
+                                    sortedSpecialties.length > 0 &&
+                                    sortedSpecialties.slice(0, 6)?.map((item, index) => (
+                                        <span
+                                            className={`text-xs  m-1 p-1 rounded-md ${matchedSpecialties.includes(item) ? 'bg-[#FFB2AE] text-primary' : 'bg-primary dark:bg-base-100'}`}
+                                            key={index}
+                                        >
+                                            {item}
 
-                                            </span>
-                                        ))
-                                        :
-                                        specialties?.sort()?.slice(0, 3)?.map((item, index) => (
-                                            <span
-                                                className="text-xs  m-1 p-1 rounded-md"
-                                                key={index}
-                                            >
-                                                {item}
-                                            </span>
-                                        ))
+                                        </span>
+                                    ))
                                 }
+                                {sortedSpecialties.length === 0 &&
+                                    specialties?.sort()?.slice(0, 6)?.map((item, index) => (
+                                        <span
+                                            className="text-xs  m-1 p-1 rounded-md"
+                                            key={index}
+                                        >
+                                            {item}
+                                        </span>
+                                    ))
+                                }
+
 
                             </div>
                         </div>

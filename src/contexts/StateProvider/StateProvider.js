@@ -21,9 +21,12 @@ const StateProvider = ({ children }) => {
     localStorage.setItem("darkmode", JSON.stringify(darkmode));
   }, [darkmode]);
 
+  // darkmode toggle
   const toggleDarkMode = () => {
     setDarkMode(!darkmode);
   };
+
+
 
   const [userData, setUserData] = useState({});
   useEffect(() => {

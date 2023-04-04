@@ -43,9 +43,9 @@ function DashboardLayout() {
                 <aside className={` md:relative col-span-1 h-full hidden md:flex flex-col items-stretch py-10 gap-y-10  transition-all duration-300 ${isOpen ? 'w-52 ' : 'w-24'}  border-r`}>
                     <span onClick={handleSidebar} className='transition-all duration-200 absolute -right-3 bg-primary dark:bg-base-100 rounded-full border text-xl cursor-pointer'><FaChevronRight className={`transition-all duration-500 text-accent p-1 ${isOpen ? 'rotate-180' : 'rotate-0'}`} /></span>
                     <div>
-                        <Link onClick={() => setActiveTab('dashboard')} to="/dashboard" className={`flex justify-center ${isOpen ? 'flex' : 'hidden'}`}><img className='w-32 flex dark:hidden' src="https://i.ibb.co/smWpwrC/png.png" alt="logo" /></Link>
-                        <Link onClick={() => setActiveTab('dashboard')} to="/dashboard" className={`flex justify-center ${isOpen ? 'flex' : 'hidden'}`}><img className='w-32 hidden dark:flex' src="https://i.ibb.co/nPDh7PX/ninja-lawyer-red.png" alt="logo" /></Link>
-                        <Link onClick={() => setActiveTab('dashboard')} to="/dashboard" className={`flex justify-center ${isOpen ? 'hidden' : 'flex'} `}><img className='w-10' src="https://i.ibb.co/qBW666W/NINJA-ICON-ONLY-1.png" alt="logo" /></Link>
+                        <Link onClick={() => setActiveTab('dashboard')} to="/" className={`flex justify-center ${isOpen ? 'flex' : 'hidden'}`}><img className='w-32 flex dark:hidden' src="https://i.ibb.co/smWpwrC/png.png" alt="logo" /></Link>
+                        <Link onClick={() => setActiveTab('dashboard')} to="/" className={`flex justify-center ${isOpen ? 'flex' : 'hidden'}`}><img className='w-32 hidden dark:flex' src="https://i.ibb.co/nPDh7PX/ninja-lawyer-red.png" alt="logo" /></Link>
+                        <Link onClick={() => setActiveTab('dashboard')} to="/" className={`flex justify-center ${isOpen ? 'hidden' : 'flex'} `}><img className='w-10' src="https://i.ibb.co/qBW666W/NINJA-ICON-ONLY-1.png" alt="logo" /></Link>
                     </div>
 
                     <div className='flex flex-col h-full justify-between gap-5 text-base-100 dark:text-primary pl-6'>

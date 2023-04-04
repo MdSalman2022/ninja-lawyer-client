@@ -20,6 +20,7 @@ function TalkToLawyerList() {
     const [lawyerList, setLawyerList] = useState([]);
     const [cityName, setCityName] = useState("");
 
+    //    
     const languageSuggestions = [
         "English",
         "Hindi",
@@ -134,47 +135,26 @@ function TalkToLawyerList() {
             });
     };
 
-    useEffect(() => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all`)
-            .then((res) => res.json())
-            .then((data) => setTotalLawyers(data.length));
-    }, []);
-
-    console.log(totalLawyers)
 
     // api call for lawyers
-    const [pageSize, setPageSize] = useState(10);
-    const [totalPages, setTotalPages] = useState(8)
-    const [page, setPage] = useState(1);
-
-
-
-    const handlePageSize = (e) => {
-        setPageSize(e.target.value);
-    }
-    console.log(pageSize)
-
-    const handlePageNumber = data => {
-        console.log(data)
-        setPage(data);
-    }
-    console.log(page)
+    const [pageSize, setPageSize] = useState(80);
 
 
 
     const allLawyers = () => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyers?page=${page}&limit=${pageSize}`)
+        fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyers?page=1&limit=${pageSize}`)
             .then((res) => res.json())
             .then((data) => {
-                setTotalPages(8)
+                console.log("all lawyers showing")
                 setLawyerList(data);
-                const pages = Math.ceil(totalLawyers / pageSize);
-                setTotalPages(pages);
-
-                console.log(totalPages)
             });
     }
 
+
+    const handleLoadMore = () => {
+        setPageSize(pageSize + 10);
+        allLawyers();
+    }
 
     const [searchLawyerByLocation, setSearchLawyerByLocation] = useState([]);
 
@@ -188,7 +168,10 @@ function TalkToLawyerList() {
         }
     };
 
-    const fetchParams = handleArrayOfSpecialties();
+    console.log("search lawyer by location", searchLawyerByLocation);
+
+
+    let fetchParams = handleArrayOfSpecialties();
     console.log("fetch params", fetchParams)
     useEffect(() => {
         cityName &&
@@ -221,32 +204,8 @@ function TalkToLawyerList() {
 
 
 
-    // const LawyersBySpecialties = () => {
-    //     if (fetchParams === "nothing") {
-    //         allLawyers();
-    //         allLawyersByCity();
-    //     } else {
-    //         fetch(
-    //             `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search-specialties/${fetchParams}`
-    //         )
-    //             .then((res) => res.json())
-    //             .then((data) => {
-    //                 console.log("fetchparams", data);
-    //                 setLawyerList(data);
-    //                 allLawyersByCity();
-    //                 // const filteredLawyers =
-    //                 setFilteredLawyers(searchLawyerByLocation.filter(lawyer => {
-    //                     return data.some(d => d._id === lawyer._id);
-    //                 }))
-    //                 console.log("filtered lawyers", filteredLawyers)
-    //                 setSearchLawyerByLocation(filteredLawyers);
-    //             });
-    //     }
-    // }
-
-
+    // Filter lawyers by specialties
     useEffect(() => {
-
         console.log(fetchParams)
         if (fetchParams === "nothing") {
             allLawyers();
@@ -258,12 +217,8 @@ function TalkToLawyerList() {
                 .then((res) => res.json())
                 .then((data) => {
                     console.log("fetchparams", data);
-                    // setTotalLawyers(data.length);
-                    // const pages = Math.ceil(totalLawyers / pageSize);
-                    // setTotalPages(pages);
                     setLawyerList(data);
                     allLawyersByCity();
-                    // const filteredLawyers =
                     setFilteredLawyers(searchLawyerByLocation.filter(lawyer => {
                         return data.some(d => d._id === lawyer._id);
                     }))
@@ -271,7 +226,7 @@ function TalkToLawyerList() {
                     setSearchLawyerByLocation(filteredLawyers);
                 });
         }
-    }, [specialtiesArray, pageSize, page]);
+    }, [specialtiesArray, pageSize]);
 
 
 
@@ -281,7 +236,7 @@ function TalkToLawyerList() {
         for (let i = 1; i < specialtiesArray.length; i++) {
             string = string + "," + specialtiesArray[i];
         }
-        for (let i = 0; i < string.length; i++) {
+        for (let i = 0; i < string?.length; i++) {
             if (string[i] !== " ") {
                 returnString = returnString + string[i];
             } else {
@@ -374,18 +329,18 @@ function TalkToLawyerList() {
 
 
     const sortedList = lawyerList.sort((a, b) => {
-        if (a.city === cityName && b.city !== cityName) {
-            return -1;
-        } else if (a.city !== cityName && b.city === cityName) {
-            return 1;
-        } else if (a.city === cityName && b.city === cityName) {
-            return 0;
-        } else if (a.city === userData.city && b.city !== userData.city) {
+        if (a.city === userData.city && b.city !== userData.city) {
             return -1;
         } else if (a.city !== userData.city && b.city === userData.city) {
             return 1;
         } else if (a.city === userData.city && b.city === userData.city) {
-            return 0;
+            if (a.state === userData.state && b.state !== userData.state) {
+                return -1;
+            } else if (a.state !== userData.state && b.state === userData.state) {
+                return 1;
+            } else {
+                return 0;
+            }
         } else if (a.state === userData.state && b.state !== userData.state) {
             return -1;
         } else if (a.state !== userData.state && b.state === userData.state) {
@@ -394,6 +349,12 @@ function TalkToLawyerList() {
             return 0;
         }
     });
+
+    console.log(sortedList)
+
+
+    console.log("lawyer list " + lawyerList)
+    console.log("sorted list " + sortedList)
 
     const [activeTab, setActiveTab] = useState(null);
 
@@ -421,7 +382,14 @@ function TalkToLawyerList() {
     }, []);
 
 
-
+    const handleReset = () => {
+        setSpecialtiesArray([])
+        setActiveTab(null);
+        allLawyers();
+        fetchParams = []
+        fetchParams.splice(1);
+        console.log("reset " + fetchParams)
+    }
 
 
 
@@ -435,17 +403,21 @@ function TalkToLawyerList() {
                         <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2 justify-items-stretch place-content-start">
                             {/* FILTER */}
                             <div ref={tabRef} className="col-span-4 w-full flex justify-between items-center gap-2">
-                                <div className=" rounded-xl flex justify-between gap-5 select-none ">
+                                <div className=" rounded-xl flex justify-between items-end gap-5 select-none ">
                                     <div className="flex flex-col ">
-                                        <input
-                                            className="input-box"
-                                            type="text"
-                                            value={query}
-                                            onChange={handleSearch}
-                                            onKeyDown={handleKeyDown}
-                                            onBlur={() => setActiveIndex(-1)}
-                                            onFocus={() => setShowResults(true)}
-                                        />
+                                        <div>
+                                            <span className="text-base-100 dark:text-primary">Location</span>
+                                            <input
+                                                className="input-box"
+                                                type="text"
+                                                value={query}
+                                                onChange={handleSearch}
+                                                onKeyDown={handleKeyDown}
+                                                onBlur={() => setActiveIndex(-1)}
+                                                onFocus={() => setShowResults(true)}
+                                                placeholder="Write Location"
+                                            />
+                                        </div>
                                         <div className="relative">
                                             {showResults && results.length > 0 && (
                                                 <ul className={`input-box p-0 absolute w-full z-50 shadow-lg`}>
@@ -487,6 +459,7 @@ function TalkToLawyerList() {
                                                                 type="checkbox"
                                                                 className="accent-accent"
                                                                 onClick={() => handleCheck(specialty)}
+                                                                checked={specialtiesArray.includes(specialty)}
                                                             />{" "}
                                                             {specialty}
                                                         </label>
@@ -511,6 +484,7 @@ function TalkToLawyerList() {
                                                                 type="checkbox"
                                                                 className="accent-accent"
                                                                 onClick={() => handleCheck(specialty)}
+                                                                checked={specialtiesArray.includes(specialty)}
                                                             />{" "}
                                                             {specialty}
                                                         </label>
@@ -529,7 +503,7 @@ function TalkToLawyerList() {
                                             <button className="primary-btn">Apply</button> */}
                                         </div>
                                     </div>
-                                    <div className="relative">
+                                    <div className="relative flex items-center gap-2">
                                         <span
                                             onClick={() => toggleTab("language")}
                                             className="flex gap-2 items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold"
@@ -588,6 +562,9 @@ function TalkToLawyerList() {
                                             {/* <button className="primary-outline-btn">Cancel</button>
                                             <button className="primary-btn">Apply</button> */}
                                         </div>
+                                        <div className={`${fetchParams === "nothing" ? 'hidden' : 'flex'} items-center cursor-pointer`}>
+                                            <p onClick={handleReset} className="text-blue-500 underline">Reset</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="flex gap-3">
@@ -605,27 +582,20 @@ function TalkToLawyerList() {
                                         <option>User Rating</option>
                                         <option>Experience</option>
                                     </select>
-                                    <select className="input-box dark:border-gray-700 dark:bg-base-100" onChange={(e) => handlePageSize(e)}>
-                                        <option value={10} selected>10</option>
-                                        <option value={20}>20</option>
-                                        <option value={30}>30</option>
-                                        <option value={40}>40</option>
-                                        <option value={50}>50</option>
-                                    </select>
                                 </div>
                             </div>
                             <div className="col-span-4 flex flex-col gap-5">
-                                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-10 justify-items-stretch">
+                                <div ref={tabRef} className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-10 justify-items-stretch">
                                     {
                                         cityName && fetchParams === "nothing" && (
                                             searchLawyerByLocation?.length === 0 ? (
-                                                <div className="col-span-4 flex flex-col gap-10">
+                                                <div ref={tabRef} className="col-span-4 flex flex-col gap-10">
                                                     <h1 className="text-3xl">No lawyers found in {cityName}</h1>
                                                     <Player className='w-[200px]' autoplay loop src="https://assets6.lottiefiles.com/private_files/lf30_cgfdhxgx.json"></Player>
                                                 </div>
                                             ) : (
                                                 searchLawyerByLocation?.map((lawyer, index) => (
-                                                    <LawyerCard fetchParams={fetchParams} lawyer={lawyer} key={index} />
+                                                    <LawyerCard tabRef={tabRef} fetchParams={fetchParams} lawyer={lawyer} key={index} />
                                                 ))
                                             )
                                         )
@@ -635,41 +605,15 @@ function TalkToLawyerList() {
                                 {cityName && fetchParams === "nothing" &&
                                     <h1 className="text-3xl text-accent font-semibold">Lawyers from other cities: </h1>
                                 }
-                                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-stretch">
+                                <div ref={tabRef} className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-stretch">
                                     {sortedList?.length > 0 && (
                                         sortedList?.map((lawyer, index) => (
-                                            <LawyerCard specialtiesArray={specialtiesArray} lawyer={lawyer} key={index} cityName={cityName} />
+                                            <LawyerCard ref={tabRef} specialtiesArray={specialtiesArray} lawyer={lawyer} key={index} cityName={cityName} />
                                         ))
                                     )}
                                 </div>
-                                <div className={`justify-center ${fetchParams === "nothing" ? 'flex' : 'hidden'}`}>
-                                    <div className="btn-group gap-2">
-                                        {
-                                            page === 1 && pageSize === 10 ?
-                                                (
-                                                    [...Array(8)].map((_, index) => (
-                                                        <button
-                                                            key={index}
-                                                            onClick={() => handlePageNumber(index + 1)}
-                                                            className={`shadow-red-300 ${page === index + 1 ? 'primary-btn' : 'primary-outline-btn'}`}
-                                                        >
-                                                            {index + 1}
-                                                        </button>
-                                                    ))
-                                                )
-                                                :
-                                                (
-
-                                                    [...Array(totalPages)].map((_, index) => (
-                                                        <button
-                                                            key={index}
-                                                            onClick={() => handlePageNumber(index + 1)}
-                                                            className={`shadow-red-300 ${page === index + 1 ? 'primary-btn' : 'primary-outline-btn'}`}
-                                                        >
-                                                            {index + 1}
-                                                        </button>
-                                                    )))}
-                                    </div>
+                                <div className="flex justify-center">
+                                    <button onClick={handleLoadMore} className="primary-btn">Load More</button>
                                 </div>
 
                             </div>

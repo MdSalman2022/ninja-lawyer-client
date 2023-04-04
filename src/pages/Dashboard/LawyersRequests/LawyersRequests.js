@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { StateContext } from '../../../contexts/StateProvider/StateProvider';
+import { toast } from 'react-hot-toast';
 
 const LawyersRequests = () => {
 
     const { setHeightFull, heightFull } = useContext(StateContext)
-
 
 
     const [lawyerList, setLawyerList] = useState([]);
@@ -19,6 +19,27 @@ const LawyersRequests = () => {
                 setHeightFull(!heightFull)
             });
     }, [])
+
+    const handleApprove = (user) => {
+        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/verify/${user.UID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ isVerified: true })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                toast.success(`${user.name} Lawyer Approved`)
+                setLawyerList(lawyerList.filter(lawyer => lawyer._id !== user._id))
+            })
+    }
+
+    const handleReject = (user) => {
+        toast.error(`${user.name} Lawyer Rejected`)
+        setLawyerList(lawyerList.filter(lawyer => lawyer._id !== user._id))
+    }
 
     console.log(heightFull)
 
@@ -56,8 +77,8 @@ const LawyersRequests = () => {
                             </div>
                             <span>₹{lawyer.rate}</span>
                             <div className='flex gap-2 h-10 items-center'>
-                                <button className='primary-btn '>Reject</button>
-                                <button className='primary-btn bg-success hover:bg-green-600 '>Approve</button>
+                                <button onClick={() => handleReject(lawyer)} className='primary-btn '>Reject</button>
+                                <button onClick={() => handleApprove(lawyer)} className='primary-btn bg-success hover:bg-green-600 '>Approve</button>
                             </div>
                         </div>
                     ))

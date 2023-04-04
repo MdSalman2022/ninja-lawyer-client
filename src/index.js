@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals'; 
+import reportWebVitals from './reportWebVitals';
 import AuthProvider from './contexts/AuthProvider/AuthProvider';
 import StateProvider from './contexts/StateProvider/StateProvider';
 
@@ -11,9 +11,9 @@ root.render(
   <React.StrictMode>
     <AuthProvider>
       <StateProvider>
-          <App />
-        </StateProvider>
-      </AuthProvider>
+        <App />
+      </StateProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
 

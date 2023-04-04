@@ -3,6 +3,8 @@ import { BiEdit } from 'react-icons/bi'
 import { FaStar } from 'react-icons/fa'
 import { useLoaderData } from 'react-router-dom'
 import LawyerUpdateModal from './LawyerUpdateModal'
+import { GoVerified } from 'react-icons/go'
+import LawyerReview from './LawyerReview'
 
 const LawyerProfile = () => {
 
@@ -10,13 +12,13 @@ const LawyerProfile = () => {
 
   console.log(lawyer)
 
-  const { fname, experience, state, city, pincode, languages, specialties, img, available, rating, reviews, rate, summary, year, name, gender } = lawyer
+  const { fname, experience, state, city, pincode, languages, specialties, img, available, rating, reviews, rate, summary, year, name, gender, verified, UID } = lawyer
 
   const date = new Date()
 
   return (
     <div className='py-20 bg-secondary dark:bg-base-100 text-base-100 dark:text-primary'>
-      <div className="container mx-auto">
+      <div className="container mx-auto space-y-5">
         <div className="grid grid-cols-4 gap-10">
           <div className="col-span-1 h-full flex flex-col items-center gap-5 bg-primary dark:bg-base-100 dark:border dark:border-gray-600 p-10 rounded-xl relative">
             {/* <span className='absolute top-5 right-5 text-xl'><BiEdit /></span> */}
@@ -27,7 +29,7 @@ const LawyerProfile = () => {
               <span className='absolute top-5 right-5 rounded-full w-2 h-2 bg-success animate-ping'></span>
               <span className='absolute top-5 right-5 rounded-full w-2 h-2 bg-success'></span>
             </figure>
-            <p>{name}</p>
+            <p className='flex items-center gap-1'>{name}<GoVerified className={`${verified ? 'text-blue-500' : 'text-gray-500'}`} /></p>
             <p className='flex items-center gap-1'>Rating: {rating} <FaStar className='text-yellow-400' /></p>
             <button className='primary-btn w-52'>Chat</button>
             <p className="text-2xl font-bold">Services</p>
@@ -71,6 +73,8 @@ const LawyerProfile = () => {
             </div>
           </div>
         </div>
+
+        <LawyerReview lawyer={lawyer} />
       </div>
     </div>
   )
