@@ -36,7 +36,7 @@ function Navbar() {
       >
         <div className="container mx-auto ">
           <div className="navbar w-full flex items-center justify-between ">
-            <div className="gap-1 md:gap-0">
+            <div className="">
               {/* drop down menu in mobile device */}
 
               <div className="dropdown">
@@ -159,14 +159,14 @@ function Navbar() {
               <div className="">
                 <Link to="/">
                   <img
-                    className={`w-32 ${!darkmode && "hidden"}`}
+                    className={`w-20 md:w-32 ${!darkmode && "hidden"}`}
                     src="https://i.ibb.co/nPDh7PX/ninja-lawyer-red.png"
                     alt=""
                   />
                 </Link>
                 <Link to="/">
                   <img
-                    className={`w-32 ${darkmode && "hidden"}`}
+                    className={`w-20 md:w-32 ${darkmode && "hidden"}`}
                     src="https://i.ibb.co/smWpwrC/png.png"
                     alt=""
                   />
@@ -309,7 +309,7 @@ function Navbar() {
 
 
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-2">
               {/* dark mode toggle */}
               <label className="swap swap-rotate m-2">
                 <input onClick={toggleDarkMode} type="checkbox" />

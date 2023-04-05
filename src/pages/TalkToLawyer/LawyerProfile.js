@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BiEdit } from 'react-icons/bi'
 import { FaStar } from 'react-icons/fa'
 import { useLoaderData } from 'react-router-dom'
 import LawyerUpdateModal from './LawyerUpdateModal'
 import { GoVerified } from 'react-icons/go'
 import LawyerReview from './LawyerReview'
+import { AuthContext } from '../../contexts/AuthProvider/AuthProvider'
+import { set } from 'react-hook-form'
 
 const LawyerProfile = () => {
+
+  const { user } = useContext(AuthContext)
 
   const lawyer = useLoaderData()
 
@@ -15,6 +19,29 @@ const LawyerProfile = () => {
   const { fname, experience, state, city, pincode, languages, specialties, img, available, rating, reviews, rate, summary, year, name, gender, verified, UID } = lawyer
 
   const date = new Date()
+
+  const handleServicePurchase = (UID) => {
+    const existingUIDs = localStorage.getItem('lawyerUIDs')
+    const newUIDs = existingUIDs ? JSON.parse(existingUIDs).concat(UID) : [UID]
+    localStorage.setItem('lawyerUIDs', JSON.stringify(newUIDs))
+  }
+
+
+  const [services, setServices] = useState([])
+
+  const [serviceTaken, setServiceTaken] = useState(false)
+
+
+  useEffect(() => {
+    const lawyerUIDs = JSON.parse(localStorage.getItem('lawyerUIDs')) || []
+    setServices(lawyerUIDs)
+
+    let service = lawyerUIDs.includes(UID)
+    setServiceTaken(service)
+  }, [])
+
+  console.log(services)
+  console.log(serviceTaken)
 
   return (
     <div className='py-20 bg-secondary dark:bg-base-100 text-base-100 dark:text-primary'>
@@ -33,7 +60,7 @@ const LawyerProfile = () => {
             <p className='flex items-center gap-1'>Rating: {rating} <FaStar className='text-yellow-400' /></p>
             <button className='primary-btn w-52'>Chat</button>
             <p className="text-2xl font-bold">Services</p>
-            <button className='primary-outline-btn'>Take service</button>
+            <button onClick={() => handleServicePurchase(UID)} className='primary-outline-btn'>Take service</button>
           </div>
           <div className="col-span-3 flex flex-col gap-5 bg-primary dark:bg-base-100 dark:border dark:border-gray-600 p-10 rounded-xl">
             <p className="font-bold">Professional Summary</p>
@@ -74,7 +101,7 @@ const LawyerProfile = () => {
           </div>
         </div>
 
-        <LawyerReview lawyer={lawyer} />
+        <LawyerReview serviceTaken={serviceTaken} lawyer={lawyer} />
       </div>
     </div>
   )

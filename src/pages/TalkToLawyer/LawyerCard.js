@@ -71,9 +71,9 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
                     Per Minute
                 </p>
             </span>
-            <figure className="flex justify-center rounded-full w-full p-3">
+            <figure className="flex justify-center rounded-full w-full p-3 relative">
                 <img
-                    className="rounded-full h-40 w-40 object-cover"
+                    className="rounded-full h-40 w-40 object-cover border"
                     src={
                         lawyer?.img
                             ? lawyer.img
@@ -82,7 +82,11 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
                     alt=""
                 />
                 {/* blur effect */}
-                <div className="absolute   bg-primary w-40 h-40 rounded-full bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-[5%] dark:bg-opacity-[10%] dark:brightness-50"></div>
+                <div className="absolute bg-primary w-40 h-40 rounded-full bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-[5%] dark:bg-opacity-[10%] dark:brightness-50"></div>
+
+                <span className='absolute top-3 bg-transparent border border-success w-40 h-40 rounded-full'></span>
+                <span className='absolute top-5 right-28 rounded-full w-2 h-2 bg-success animate-ping'></span>
+                <span className='absolute top-5 right-28 rounded-full w-2 h-2 bg-success'></span>
 
             </figure>
             <div className="content p-3 w-full h-full  rounded-b-xl ">

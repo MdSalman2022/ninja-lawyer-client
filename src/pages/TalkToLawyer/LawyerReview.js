@@ -16,18 +16,18 @@ function countAndPercentages(reviews) {
     let starCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
 
     // Count the number of reviews for each star rating
-    reviews.forEach(review => {
+    reviews?.forEach(review => {
         starCounts[review.rating]++;
     });
 
     // Calculate the percentages for each star rating
-    let totalReviews = reviews.length;
+    let totalReviews = reviews?.length;
 
-    const fiveStarReviews = reviews.filter(({ rating }) => rating === 5).length;
-    const fourStarReviews = reviews.filter(({ rating }) => rating === 4).length;
-    const threeStarReviews = reviews.filter(({ rating }) => rating === 3).length;
-    const twoStarReviews = reviews.filter(({ rating }) => rating === 2).length;
-    const oneStarReviews = reviews.filter(({ rating }) => rating === 1).length;
+    const fiveStarReviews = reviews.filter(({ rating }) => rating === 5)?.length;
+    const fourStarReviews = reviews.filter(({ rating }) => rating === 4)?.length;
+    const threeStarReviews = reviews.filter(({ rating }) => rating === 3)?.length;
+    const twoStarReviews = reviews.filter(({ rating }) => rating === 2)?.length;
+    const oneStarReviews = reviews.filter(({ rating }) => rating === 1)?.length;
 
     const fiveStarPercentage = (fiveStarReviews / totalReviews) * 100;
     const fourStarPercentage = (fourStarReviews / totalReviews) * 100;
@@ -47,13 +47,10 @@ function countAndPercentages(reviews) {
         return { rating: parseInt(rating), value: Math.floor(value) };
     });
 
-    console.log(objects);
-
-
     return objects;
 }
 
-const LawyerReview = ({ lawyer }) => {
+const LawyerReview = ({ lawyer, serviceTaken }) => {
 
     const { user, allUsers } = useContext(AuthContext);
     const { userData } = useContext(StateContext);
@@ -70,6 +67,9 @@ const LawyerReview = ({ lawyer }) => {
     } = useForm();
     const [allReviews, setALLReviews] = useState([]);
     const [reviewLength, setReviewLength] = useState(0);
+    const [userIds, setUserIds] = useState([]);
+    const [userName, setUserName] = useState([]);
+
 
 
     // Getting reviews of lawyer from server
@@ -79,11 +79,32 @@ const LawyerReview = ({ lawyer }) => {
             .then(data => {
                 console.log(data.reviews);
                 setALLReviews(data.reviews);
-                setReviewLength(data.reviews.length);
+                setReviewLength(data.reviews?.length);
+                console.log(data.reviews.map(review => review.UID));
+                setUserIds(data.reviews.map(review => review.UID));
             })
             .catch(err => console.log(err));
     }, [user]);
 
+    useEffect(() => {
+        fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/users/get?ids=${userIds}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setUserName(data.map(reviewer => ({
+                    uid: reviewer.UID,
+                    name: reviewer.name
+                })));
+                allReviews.map(review => {
+                    const user = data.find(user => user.UID === review.UID);
+                    review.name = user.name;
+                })
+            })
+    }, [user, allReviews])
+
+
+    console.log(userIds)
+    console.log(userName)
 
     // Rating stars function 
     const handleRating = newRating => {
@@ -99,7 +120,6 @@ const LawyerReview = ({ lawyer }) => {
     // Post review to database function
     const handleReview = data => {
         const review = {
-            name: userData.name,
             UID: user.uid,
             rating: rating,
             review: data.comment,
@@ -132,18 +152,15 @@ const LawyerReview = ({ lawyer }) => {
     }
 
 
-
-    // let starPercentages = countAndPercentages(allReviews);
-    // console.log(starPercentages);
-
     const averageRating =
-        allReviews.reduce((sum, review) => sum + review.rating, 0) / allReviews.length;
-    console.log(averageRating);
+        allReviews?.reduce((sum, review) => sum + review.rating, 0) / allReviews?.length;
+
+    const formattedRating = isNaN(averageRating) ? "0.00" : averageRating.toFixed(2);
 
 
     useEffect(() => {
-        const fullStars = Math.floor(averageRating);
-        const hasHalfStar = averageRating % 1 !== 0;
+        const fullStars = Math.floor(formattedRating);
+        const hasHalfStar = formattedRating % 1 !== 0;
         const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
 
@@ -172,10 +189,8 @@ const LawyerReview = ({ lawyer }) => {
 
     }, [allReviews]);
 
-    console.log(stars)
 
-
-    const ratingSummary = countAndPercentages(allReviews);
+    const ratingSummary = allReviews?.length > 0 && countAndPercentages(allReviews);
 
     return (
         <div className="mb-5 text-neutral dark:text-base-100">
@@ -187,15 +202,15 @@ const LawyerReview = ({ lawyer }) => {
                     <div className="rounded-lg border">
                         <div className="grid grid-cols-3 p-5">
                             <div className=" col-span-1 flex flex-col items-start">
-                                <p className="text-5xl font-bold">{averageRating.toFixed(2)}</p>
+                                <p className="text-5xl font-bold">{formattedRating}</p>
                                 <span className="flex text-warning">
                                     <span className="flex items-center text-xl">{stars}</span>
                                 </span>
                                 <p>{reviewLength} reviews</p>
                             </div>
                             <div className="col-span-2 flex flex-col items-start">
-                                {
-                                    ratingSummary.reverse().map((review, index) => (
+                                {ratingSummary &&
+                                    ratingSummary?.reverse().map((review, index) => (
                                         <div key={review.rating} className="grid grid-cols-6 justify-items-end content-center place-items-center gap-2 h-full  w-full">
                                             <span className='col-span-1'>{review.rating}</span>
                                             <input type="range" name="rating" min="1" max="100" value={review.value} class="col-span-4 w-full h-2 bg-warning accent-warning rounded-full appearance-none " />
@@ -210,15 +225,17 @@ const LawyerReview = ({ lawyer }) => {
                 </div>
                 <div className="col-span-3">
                     {/* review start selection */}
-                    <div className="flex flex-col justify-between gap-5 lg:flex-row">
+                    {serviceTaken &&
+                        <div className="flex flex-col justify-between gap-5 lg:flex-row">
 
-                        <span
-                            onClick={() => setWriteReview(!writeReview)}
-                            className="flex cursor-pointer items-center justify-center gap-1 rounded-lg border p-2 hover:border-accent hover:text-accent "
-                        >
-                            <AiOutlineEdit /> Write a review
-                        </span>
-                    </div>
+                            <span
+                                onClick={() => setWriteReview(!writeReview)}
+                                className="flex cursor-pointer items-center justify-center gap-1 rounded-lg border p-2 hover:border-accent hover:text-accent "
+                            >
+                                <AiOutlineEdit /> Write a review
+                            </span>
+                        </div>
+                    }
 
                     <div className="reviews py-5">
                         {/* write review */}
@@ -316,9 +333,10 @@ const LawyerReview = ({ lawyer }) => {
                                     </div>
                                 </form>
                             </div>
-                        )}
+                        )
+                        }
                         <div className="flex flex-col gap-5">
-                            {allReviews.length > 0 &&
+                            {allReviews?.length > 0 ?
                                 allReviews?.map(r => (
                                     <div className="review bg-white flex flex-col gap-3 rounded-lg border p-5">
                                         <div className="flex justify-between">
@@ -328,7 +346,7 @@ const LawyerReview = ({ lawyer }) => {
                                                     src="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
                                                     alt=""
                                                 />
-                                                <span>{r.name ? r.name : "Anonymous"}</span>
+                                                <span>{userName.map(item => item.uid === r.UID && item.name)}</span>
                                             </span>
                                             <span>{formatDate(r.timestamp)}</span>
                                         </div>
@@ -377,7 +395,15 @@ const LawyerReview = ({ lawyer }) => {
                                             </span>
                                         </div>
                                     </div>
-                                ))}
+                                ))
+                                :
+                                (
+                                    <div className='flex items-center justify-center'>
+                                        <h1 className='text-3xl font-bold'>No reviews yet</h1>
+                                    </div>
+                                )
+
+                            }
 
                         </div>
                     </div>
