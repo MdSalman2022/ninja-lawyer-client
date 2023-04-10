@@ -8,6 +8,7 @@ import { StateContext } from "../../contexts/StateProvider/StateProvider";
 import Fuse from 'fuse.js'
 import LawyerCard from "./LawyerCard";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { useQuery } from "@tanstack/react-query";
 
 
 function TalkToLawyerList() {
@@ -140,14 +141,13 @@ function TalkToLawyerList() {
     const [pageSize, setPageSize] = useState(80);
 
 
-
     const allLawyers = () => {
         fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyers?page=1&limit=${pageSize}`)
             .then((res) => res.json())
             .then((data) => {
                 console.log("all lawyers showing")
                 setLawyerList(data);
-            });
+            }); 
     }
 
 
@@ -348,7 +348,8 @@ function TalkToLawyerList() {
         } else {
             return 0;
         }
-    });
+    }); 
+     
 
     console.log(sortedList)
 
@@ -367,23 +368,42 @@ function TalkToLawyerList() {
     };
 
 
-    const tabRef = useRef(null);
-    const handleClickOutside = (event) => {
-        if (tabRef.current && !tabRef.current.contains(event.target)) {
-            setActiveTab(null); // Close the active tab if the user clicks outside the tab area
-        }
-    };
+    const tabRef = useRef();
+    // const handleClickOutside = (event) => {
+    //     if (tabRef.current && activeTab && !tabRef.current.contains(event.target)) {
+    //         setActiveTab(null); // Close the active tab if the user clicks outside the tab area
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     document.addEventListener("mousedown", handleClickOutside);
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //     };
+    // }, []);
+
+
+    const [problemIsOpen, setProblemIsOpen] = useState(false)
+    const [languageIsOpen, setLanguageIsOpen] = useState(false)
 
     useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
+
+        const closeDropDown = (e) => {
+            console.log(tabRef.current)
+            if (e.target !== tabRef.current) {
+                setProblemIsOpen(false)
+                setLanguageIsOpen(false)
+            }
+        }
+        document.body.addEventListener('click', closeDropDown)
+
+        return () => document.body.removeEventListener('click', closeDropDown)
+    }, [problemIsOpen, languageIsOpen])
 
 
     const handleReset = () => {
         setSpecialtiesArray([])
+        console.log(specialtiesArray.length)
         setActiveTab(null);
         allLawyers();
         fetchParams = []
@@ -392,17 +412,30 @@ function TalkToLawyerList() {
     }
 
 
+    console.log(specialtiesArray)
+
+
+    const [reset, setReset] = useState(false)
+
+    useEffect(() => {
+        if (specialtiesArray.length > 1) {
+            setReset(false)
+        } else {
+            setReset(true)
+        }
+    }, [specialtiesArray])
+
 
     return (
         <div className="bg-primary dark:bg-base-100">
-            <div ref={tabRef} className="container mx-auto py-10">
+            <div className="container mx-auto py-10">
                 {/* <h1 className='text-black'>Total lawyer: {lawyerList.length}</h1> */}
                 <div className="flex flex-col lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:gap-10 xl:gap-20 justify-items-center z-50">
                     <div onClick={() => setShowResults(false)} className="w-full col-span-1 md:col-span-3 xl:col-span-4 px-5 md:px-0">
                         {/* <h1 className="text-center">No lawyers found in your city.</h1>  */}
                         <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2 justify-items-stretch place-content-start">
                             {/* FILTER */}
-                            <div ref={tabRef} className="col-span-4 w-full flex justify-between items-center gap-2">
+                            <div className="col-span-4 w-full flex justify-between items-center gap-2">
                                 <div className=" rounded-xl flex justify-between items-end gap-5 select-none ">
                                     <div className="flex flex-col ">
                                         <div>
@@ -433,9 +466,14 @@ function TalkToLawyerList() {
                                                 </ul>)}
                                         </div>
                                     </div>
-                                    <div className="relative">
-                                        <span
-                                            onClick={() => toggleTab("problem-type")}
+                                    <div onClick={e => e.stopPropagation()} className="relative">
+                                        <button
+                                            ref={tabRef}
+                                            // onClick={() => toggleTab("problem-type")}
+                                            onClick={() => {
+                                                setProblemIsOpen(prev => !prev)
+                                                setLanguageIsOpen(false)
+                                            }}
                                             className="flex gap-2 items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold"
                                         >
                                             Problem Type{" "}
@@ -443,9 +481,10 @@ function TalkToLawyerList() {
                                                 className={`transition-all duration-300 ${activeTab === "problem-type" && "text-accent rotate-180"
                                                     }`}
                                             />{" "}
-                                        </span>
+                                        </button>
                                         <div
-                                            className={`transition-all duration-300 p-1 grid grid-cols-2 gap-3 items-start z-50 w-max bg-primary shadow-lg rounded-lg ${activeTab === "problem-type" ? "flex absolute top-14" : "hidden "
+
+                                            className={`transition-all duration-300 p-1 grid grid-cols-2 gap-3 items-start z-50 w-max bg-primary shadow-lg rounded-lg ${problemIsOpen === true ? "flex absolute top-14" : "hidden "
                                                 }`}
                                         >
                                             <div className="col-span-2 flex flex-col items-start">
@@ -503,9 +542,13 @@ function TalkToLawyerList() {
                                             <button className="primary-btn">Apply</button> */}
                                         </div>
                                     </div>
-                                    <div className="relative flex items-center gap-2">
-                                        <span
-                                            onClick={() => toggleTab("language")}
+                                    <div onClick={e => e.stopPropagation()} className="relative flex items-center gap-2">
+                                        <button
+                                            ref={tabRef}
+                                            onClick={() => {
+                                                setLanguageIsOpen(prev => !prev)
+                                                setProblemIsOpen(false)
+                                            }}
                                             className="flex gap-2 items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold"
                                         >
                                             Language{" "}
@@ -513,9 +556,9 @@ function TalkToLawyerList() {
                                                 className={`transition-all duration-300 ${activeTab === "language" && "text-accent rotate-180"
                                                     }`}
                                             />{" "}
-                                        </span>
+                                        </button>
                                         <div
-                                            className={`transition-all duration-300 p-1 grid grid-cols-2 gap-3 items-start z-50 w-max bg-primary shadow-lg rounded-lg ${activeTab === "language" ? "flex absolute top-14" : "hidden "
+                                            className={`transition-all duration-300 p-1 grid grid-cols-2 gap-3 items-start z-50 w-max bg-primary shadow-lg rounded-lg ${languageIsOpen === true ? "flex absolute top-14" : "hidden "
                                                 }`}
                                         >
                                             <div className="col-span-2 flex flex-col items-start">
@@ -562,7 +605,7 @@ function TalkToLawyerList() {
                                             {/* <button className="primary-outline-btn">Cancel</button>
                                             <button className="primary-btn">Apply</button> */}
                                         </div>
-                                        <div className={`${fetchParams === "nothing" ? 'hidden' : 'flex'} items-center cursor-pointer`}>
+                                        <div className={`${reset === false ? 'flex' : 'hidden'} items-center cursor-pointer`}>
                                             <p onClick={handleReset} className="text-blue-500 underline">Reset</p>
                                         </div>
                                     </div>
@@ -585,17 +628,17 @@ function TalkToLawyerList() {
                                 </div>
                             </div>
                             <div className="col-span-4 flex flex-col gap-5">
-                                <div ref={tabRef} className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-10 justify-items-stretch">
+                                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-10 justify-items-stretch">
                                     {
                                         cityName && fetchParams === "nothing" && (
                                             searchLawyerByLocation?.length === 0 ? (
-                                                <div ref={tabRef} className="col-span-4 flex flex-col gap-10">
+                                                <div className="col-span-4 flex flex-col gap-10">
                                                     <h1 className="text-3xl">No lawyers found in {cityName}</h1>
                                                     <Player className='w-[200px]' autoplay loop src="https://assets6.lottiefiles.com/private_files/lf30_cgfdhxgx.json"></Player>
                                                 </div>
                                             ) : (
                                                 searchLawyerByLocation?.map((lawyer, index) => (
-                                                    <LawyerCard tabRef={tabRef} fetchParams={fetchParams} lawyer={lawyer} key={index} />
+                                                    <LawyerCard tab fetchParams={fetchParams} lawyer={lawyer} key={index} />
                                                 ))
                                             )
                                         )
@@ -605,10 +648,10 @@ function TalkToLawyerList() {
                                 {cityName && fetchParams === "nothing" &&
                                     <h1 className="text-3xl text-accent font-semibold">Lawyers from other cities: </h1>
                                 }
-                                <div ref={tabRef} className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-stretch">
+                                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-stretch">
                                     {sortedList?.length > 0 && (
                                         sortedList?.map((lawyer, index) => (
-                                            <LawyerCard ref={tabRef} specialtiesArray={specialtiesArray} lawyer={lawyer} key={index} cityName={cityName} />
+                                            <LawyerCard specialtiesArray={specialtiesArray} lawyer={lawyer} key={index} cityName={cityName} />
                                         ))
                                     )}
                                 </div>

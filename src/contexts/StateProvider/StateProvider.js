@@ -43,7 +43,7 @@ const StateProvider = ({ children }) => {
     if (user?.uid) {
       getProfile(user.uid);
     }
-  }, [user, heightFull]);
+  }, [user]);
 
 
 
@@ -95,6 +95,7 @@ const StateProvider = ({ children }) => {
     heightFull,
     setHeightFull,
     userData,
+    setUserData,
     available,
     setAvailable,
     toggleAvailable

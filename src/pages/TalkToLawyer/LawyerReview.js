@@ -11,7 +11,6 @@ import { StateContext } from '../../contexts/StateProvider/StateProvider';
 import { HiOutlineStar } from 'react-icons/hi'
 import { FaStarHalfAlt } from 'react-icons/fa'
 
-
 function countAndPercentages(reviews) {
     let starCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
 
@@ -50,6 +49,7 @@ function countAndPercentages(reviews) {
     return objects;
 }
 
+
 const LawyerReview = ({ lawyer, serviceTaken }) => {
 
     const { user, allUsers } = useContext(AuthContext);
@@ -72,19 +72,82 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
 
 
 
-    // Getting reviews of lawyer from server
+    const [limit, setLimit] = useState(3);
+
+
+    const [totalReviews, setTotalReviews] = useState([]);
+
+    const [averageRating, setAverageRating] = useState(0);
+    const [formattedRating, setFormattedRating] = useState(0);
+
     useEffect(() => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/get/${lawyer.UID}`)
+        fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/get/all/${lawyer.UID}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data.reviews);
-                setALLReviews(data.reviews);
                 setReviewLength(data.reviews?.length);
-                console.log(data.reviews.map(review => review.UID));
-                setUserIds(data.reviews.map(review => review.UID));
+                setTotalReviews(data.reviews);
+                console.log(data);
+
+                // Calculate the average rating
+                if (data.reviews.length > 0) {
+                    let rating = data.reviews.reduce((sum, review) => sum + review.rating, 0) / data.reviews.length;
+                    setAverageRating(rating);
+console.log(rating)
+                    // Format the rating to 2 decimal places
+                    setFormattedRating(rating.toFixed(2));
+                } else {
+                    setAverageRating(rating)
+                    setFormattedRating(rating);
+                }
             })
             .catch(err => console.log(err));
-    }, [user]);
+    }, [lawyer, user, rating])
+
+    console.log(totalReviews)
+    console.log(averageRating)
+    console.log(formattedRating)
+
+
+
+    // Getting reviews of lawyer from server
+    useEffect(() => {
+        if (reviewByRating === 0) {
+            fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/get?id=${lawyer.UID}&page=1&limit=${limit}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setALLReviews(data);
+                    console.log(data.map(review => review.UID));
+                    setUserIds(data.map(review => review.UID));
+                })
+                .catch(err => console.log(err));
+        }
+    }, [user, lawyer.UID, limit, reviewLength]);
+
+
+    const [reviewByRating, SetReviewByRating] = useState(0)
+
+    // if you select on a specific rating it will fetch this api
+    useEffect(() => {
+        if (reviewByRating > 0) {
+            fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/search?id=${lawyer.UID}&page=1&limit=${limit}&ratings=${reviewByRating}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setALLReviews(data);
+                    console.log(data.map(review => review.UID));
+                    setUserIds(data.map(review => review.UID));
+                })
+                .catch(err => console.log(err));
+        }
+    }, [reviewByRating, lawyer, limit]);
+
+
+    console.log(allReviews)
+
+    const ratingSummary = totalReviews?.length > 0 && countAndPercentages(totalReviews);
+
+
 
     useEffect(() => {
         fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/users/get?ids=${userIds}`)
@@ -95,12 +158,12 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
                     uid: reviewer.UID,
                     name: reviewer.name
                 })));
-                allReviews.map(review => {
+                allReviews?.map(review => {
                     const user = data.find(user => user.UID === review.UID);
                     review.name = user.name;
                 })
             })
-    }, [user, allReviews])
+    }, [user, allReviews, reviewLength,userIds])
 
 
     console.log(userIds)
@@ -118,13 +181,16 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
 
 
     // Post review to database function
-    const handleReview = data => {
+    const handleReview = reviewData => {
+        setWriteReview(!writeReview);
+
         const review = {
             UID: user.uid,
             rating: rating,
-            review: data.comment,
+            review: reviewData.comment,
         };
-        console.log(review)
+        console.log(review);
+
         fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/add/${lawyer.UID}`, {
             method: "POST",
             headers: {
@@ -136,7 +202,41 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
             .then(data => {
                 console.log("review:", data);
                 toast.success("Review Posted");
-                setWriteReview(!writeReview);
+                console.log(userData.name);
+                handleRating(0);
+
+                let newreview = {
+                    UID: user.uid,
+                    name: userData.name,
+                    rating: rating,
+                    review: reviewData.comment,
+                    timestamp: new Date(),
+                };
+                console.log(reviewLength)
+
+                if (reviewLength > 0) {
+                    setALLReviews([newreview, ...allReviews]);
+                    setTotalReviews([...totalReviews, newreview]);
+                } else {
+                    setALLReviews([newreview]);
+                    setTotalReviews([newreview]);
+                    setReviewLength(reviewLength + 1);
+                }
+ 
+
+                let newRating;
+                if (totalReviews.length === 0) {
+                newRating = rating;
+                } else {
+                newRating = (averageRating * totalReviews.length + rating) / (totalReviews.length + 1);
+                }
+                // Format the rating to 2 decimal places
+                let newFormattedRating = newRating.toFixed(2);
+                setAverageRating(newRating);
+                setFormattedRating(newFormattedRating);
+
+                console.log(averageRating)
+                console.log(formattedRating)
             });
     };
 
@@ -152,10 +252,7 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
     }
 
 
-    const averageRating =
-        allReviews?.reduce((sum, review) => sum + review.rating, 0) / allReviews?.length;
 
-    const formattedRating = isNaN(averageRating) ? "0.00" : averageRating.toFixed(2);
 
 
     useEffect(() => {
@@ -190,7 +287,6 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
     }, [allReviews]);
 
 
-    const ratingSummary = allReviews?.length > 0 && countAndPercentages(allReviews);
 
     return (
         <div className="mb-5 text-neutral dark:text-base-100">
@@ -206,12 +302,12 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
                                 <span className="flex text-warning">
                                     <span className="flex items-center text-xl">{stars}</span>
                                 </span>
-                                <p>{reviewLength} reviews</p>
+                                <p>{reviewLength > 0 ? reviewLength + " reviews" : 'No review yet'} </p>
                             </div>
                             <div className="col-span-2 flex flex-col items-start">
                                 {ratingSummary &&
-                                    ratingSummary?.reverse().map((review, index) => (
-                                        <div key={review.rating} className="grid grid-cols-6 justify-items-end content-center place-items-center gap-2 h-full  w-full">
+                                    ratingSummary.reverse().map((review, index) => (
+                                        <div onClick={() => SetReviewByRating(review.rating)} key={review.rating} className="grid grid-cols-6 justify-items-end content-center place-items-center gap-2 h-full  w-full">
                                             <span className='col-span-1'>{review.rating}</span>
                                             <input type="range" name="rating" min="1" max="100" value={review.value} class="col-span-4 w-full h-2 bg-warning accent-warning rounded-full appearance-none " />
                                             <span className='col-span-1'>{review.value}%</span>
@@ -399,12 +495,15 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
                                 :
                                 (
                                     <div className='flex items-center justify-center'>
-                                        <h1 className='text-3xl font-bold'>No reviews yet</h1>
+                                        <h1 className='text-3xl font-bold'>No {reviewByRating > 0 && reviewByRating + " star"}  reviews yet</h1>
                                     </div>
                                 )
 
                             }
 
+                            <div className={`${reviewLength > 3 ? "flex" : "hidden"} justify-center`}>
+                                <button onClick={() => setLimit(limit + 3)} className='primary-btn'>Load More</button>
+                            </div>
                         </div>
                     </div>
                 </div>

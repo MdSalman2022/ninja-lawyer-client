@@ -24,6 +24,8 @@ const LawyerProfile = () => {
     const existingUIDs = localStorage.getItem('lawyerUIDs')
     const newUIDs = existingUIDs ? JSON.parse(existingUIDs).concat(UID) : [UID]
     localStorage.setItem('lawyerUIDs', JSON.stringify(newUIDs))
+    setServiceTaken(true)
+
   }
 
 
@@ -60,7 +62,7 @@ const LawyerProfile = () => {
             <p className='flex items-center gap-1'>Rating: {rating} <FaStar className='text-yellow-400' /></p>
             <button className='primary-btn w-52'>Chat</button>
             <p className="text-2xl font-bold">Services</p>
-            <button onClick={() => handleServicePurchase(UID)} className='primary-outline-btn'>Take service</button>
+            <button onClick={() => handleServicePurchase(UID)} className={`${serviceTaken ? 'primary-btn' : 'primary-outline-btn'}`}>{serviceTaken ? "Service Taken" : "Take service"}</button>
           </div>
           <div className="col-span-3 flex flex-col gap-5 bg-primary dark:bg-base-100 dark:border dark:border-gray-600 p-10 rounded-xl">
             <p className="font-bold">Professional Summary</p>
