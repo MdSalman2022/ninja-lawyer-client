@@ -14,10 +14,16 @@ import ProfileImage from "../../../components/Dashboard/Profile/ProfileImage";
 import { RxCross1 } from 'react-icons/rx'
 import { useForm } from "react-hook-form";
 import { toast } from 'react-hot-toast';
+import {MdLocationPin} from 'react-icons/md'
+import { BiTime } from "react-icons/bi";
+import { TiContacts } from 'react-icons/ti'
+import { GiSkills } from 'react-icons/gi'
+import {GrLanguage} from 'react-icons/gr'
+import { Link } from "react-router-dom";
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
-  const { heightFull, setHeightFull, userData } = useContext(StateContext);
+  const { heightFull, setHeightFull, userData, setUserData } = useContext(StateContext);
   const [states, setStates] = useState([])
   const [statesName, setStateName] = useState(userData.state ? userData.state : '')
   const [stateId, setStateId] = useState('');
@@ -65,6 +71,8 @@ function ProfilePage() {
     console.log(data)
     setCityName(data)
   }
+
+  console.log(userData)
 
 
   const handleUpdate = async (data) => {
@@ -114,6 +122,7 @@ function ProfilePage() {
       const updateResult = putUserDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
       toast.success('Profile Updated Successfully')
+      setUserData(update_data)
       setHeightFull(!heightFull)
     }
     else if (user.displayName === 'lawyer') {
@@ -139,6 +148,7 @@ function ProfilePage() {
       console.log(updateResult, "----");
       toast.success('Profile Updated Successfully')
       setHeightFull(!heightFull)
+      setUserData(update_data)
     }
   }
 
@@ -280,50 +290,61 @@ function ProfilePage() {
     <div
       className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10`}
     >
-      <div className="shadow-lg rounded-xl bg-primary dark:bg-base-100 dark:border flex flex-col">
-
-        <ProfileImage props={user?.uid} />
-        {/* </div>
-        </div> */}
-        <div className="mt-[3%] p-10 flex justify-between">
-          <div className="flex flex-col gap-2">
-            <h2 className="font-bold text-2xl pb-2 flex items-center gap-2">
-              {userData.name}
-              <AiOutlineEdit
-                onClick={() => setHeightFull(!heightFull)}
-                className="hover:bg-gray-200 p-1 rounded-full text-3xl cursor-pointer"
-              />
-            </h2>
-            <span className="flex items-center gap-2">
-              {" "}
-              <img
-                className="w-5"
-                src="https://i.ibb.co/R2B63FR/Flag-India.webp"
-                alt=""
-              />{" "}
-              {userData.city}, {userData.state}, India
-            </span>
-            {
-              user.displayName === "lawyer" && <button onClick={() => setHeightFull(!heightFull)} className="primary-btn">Get Verified</button>
-            }
-
+      <div className="flex flex-col items-center gap-5">
+        <div className="flex items-start justify-center gap-20">
+          <div className="flex gap-20 items-center">
+            <ProfileImage props={user?.uid} /> 
+            <div className="flex flex-col gap-3">
+              <span className="text-xl font-bold">{userData.name}</span>
+              <span className="flex items-center"><MdLocationPin className="text-xl"/> {userData.city}, {userData.state}, India</span>
+              <span>{userData?.summary ? userData?.summary : 'Write your bio here'}</span>
+            </div>
           </div>
-          <div className="flex flex-col items-end gap-5 font-semibold">
-            <span className="flex items-center gap-3">
-              {userData.contact}
-              <FiPhoneCall />{" "}
-            </span>
-            <span className="flex items-center gap-3">
-              {userData.email}
-              <HiOutlineMail />
-            </span>
-            <span className="flex items-center gap-3">
-              {" "}
-              Male
-              <BsGenderMale />
-            </span>
-          </div>
+          <div className="flex gap-3">
+            <button onClick={() => setHeightFull(!heightFull)} className="primary-btn">Edit Profile</button>
+            <Link to={`/profile/${userData.UID}`} className="primary-outline-btn">Public View</Link>
+           </div>
         </div>
+        {user.displayName === 'lawyer' &&
+          
+          <div className="flex justify-between gap-10">
+          <div className="flex items-center gap-3">
+            <BiTime className="text-4xl"/>
+            <div className="flex flex-col text-sm">
+              <span>3+ years Job</span>
+              <span>Experience</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <TiContacts className="text-4xl"/>
+            <div className="flex flex-col text-sm">
+              <span>{userData.contact}</span>
+              <span>{userData.email}</span>
+              
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <GiSkills className="text-4xl"/>
+            <div className="flex flex-col text-sm">
+            {
+                  userData?.specialties.slice(0,3)?.map((language, index) => (
+                    <span key={index}>{language}</span>
+                  ))
+              } 
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <GrLanguage className="text-4xl"/>
+            <div className="flex flex-col text-sm">
+               {
+                  userData?.languages.slice(0,3)?.map((language, index) => (
+                    <span key={index}>{language}</span>
+                  ))
+              } 
+            </div>
+          </div>
+        </div>}
+        
       </div>
 
 
@@ -338,7 +359,7 @@ function ProfilePage() {
             <h1 className="col-span-3 ext-3xl font-bold">Edit Profile</h1>
 
             <div className="col-span-3 flex justify-end gap-3">
-              <button onClick={() => setHeightFull(!heightFull)} className="primary-outline-btn ">Cancel</button>
+              <button onClick={() => setHeightFull(!heightFull)} type="reset" className="primary-outline-btn ">Cancel</button>
               <button type="submit" className="primary-btn " >Save</button>
             </div>
 

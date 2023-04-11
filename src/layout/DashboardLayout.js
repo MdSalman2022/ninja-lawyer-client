@@ -13,16 +13,18 @@ import { RiLinksLine } from 'react-icons/ri';
 import { TbMessages } from 'react-icons/tb'
 import { FaChevronRight } from 'react-icons/fa';
 import { FiHelpCircle } from 'react-icons/fi';
-
+import { IoPersonAdd } from 'react-icons/io5'
 
 function DashboardLayout() {
 
+    const { user } = useContext(AuthContext)
     const { darkmode, heightFull, setHeightFull } = useContext(StateContext)
 
     const location = useLocation();
     const segments = location.pathname.split('/');
     const lastSegment = segments.pop();
 
+    console.log(lastSegment)
 
     const [isOpen, setIsOpen] = useState(true)
     const [activeTab, setActiveTab] = useState(lastSegment)
@@ -31,24 +33,26 @@ function DashboardLayout() {
         setIsOpen(!isOpen);
     }
 
+    console.log(activeTab)
 
 
     return (
         <div className='bg-primary dark:bg-base-100'>
             <DashboardMobileHeader />
 
-            <div className={`transition-all duration-300 relative bg-primary dark:bg-base-100 ${heightFull ? '' : 'h-screen'} select-none md:grid ${isOpen ? 'grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8' : 'grid-cols-4 lg:grid-cols-8 xl:grid-cols-12'}`}>
+            <div className={`transition-all duration-300 relative bg-primary dark:bg-base-100 ${!heightFull ? 'h-screen' : user.displayName === 'lawyer' ? 'h-full' : 'h-screen'} select-none md:grid ${isOpen ? 'grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8' : 'grid-cols-4 lg:grid-cols-8 xl:grid-cols-12'}`}>
                 <aside className={` md:relative col-span-1 h-full hidden md:flex flex-col items-stretch py-10 gap-y-10  transition-all duration-300 ${isOpen ? 'w-52 ' : 'w-24'}  border-r`}>
                     <span onClick={handleSidebar} className='transition-all duration-200 absolute -right-3 bg-primary dark:bg-base-100 rounded-full border text-xl cursor-pointer'><FaChevronRight className={`transition-all duration-500 text-accent p-1 ${isOpen ? 'rotate-180' : 'rotate-0'}`} /></span>
                     <div>
-                        <Link to="/dashboard" className={`flex justify-center ${isOpen ? 'flex' : 'hidden'}`}><img className='w-32 flex dark:hidden' src="https://i.ibb.co/smWpwrC/png.png" alt="logo" /></Link>
-                        <Link to="/dashboard" className={`flex justify-center ${isOpen ? 'flex' : 'hidden'}`}><img className='w-32 hidden dark:flex' src="https://i.ibb.co/nPDh7PX/ninja-lawyer-red.png" alt="logo" /></Link>
-                        <Link to="/dashboard" className={`flex justify-center ${isOpen ? 'hidden' : 'flex'} `}><img className='w-10' src="https://i.ibb.co/qBW666W/NINJA-ICON-ONLY-1.png" alt="logo" /></Link>
+                        <Link onClick={() => setActiveTab('dashboard')} to="/" className={`flex justify-center ${isOpen ? 'flex' : 'hidden'}`}><img className='w-32 flex dark:hidden' src="https://i.ibb.co/smWpwrC/png.png" alt="logo" /></Link>
+                        <Link onClick={() => setActiveTab('dashboard')} to="/" className={`flex justify-center ${isOpen ? 'flex' : 'hidden'}`}><img className='w-32 hidden dark:flex' src="https://i.ibb.co/nPDh7PX/ninja-lawyer-red.png" alt="logo" /></Link>
+                        <Link onClick={() => setActiveTab('dashboard')} to="/" className={`flex justify-center ${isOpen ? 'hidden' : 'flex'} `}><img className='w-10' src="https://i.ibb.co/qBW666W/NINJA-ICON-ONLY-1.png" alt="logo" /></Link>
                     </div>
 
                     <div className='flex flex-col h-full justify-between gap-5 text-base-100 dark:text-primary pl-6'>
                         <div className='flex flex-col gap-5'>
                             <Link onClick={() => setActiveTab('dashboard')} to="/dashboard" className={`transaction-colors duration-200 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'dashboard' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><BsGrid1X2 /></p> <span className={`transition-colors duration-200 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Dashboard</span></Link>
+                            <Link onClick={() => setActiveTab('lawyer-requests')} to="/dashboard/lawyer-requests" className={`transaction-colors duration-200 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'lawyer-requests' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><IoPersonAdd /></p> <span className={`transition-colors duration-200 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Lawyer Request</span></Link>
                             <Link onClick={() => setActiveTab('profile')} to="/dashboard/profile" className={`transaction-colors duration-200 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'profile' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><ImProfile /></p> <span className={`transition-colors duration-200 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Profile</span> </Link>
                             <Link onClick={() => setActiveTab('orders')} to="/dashboard/orders" className={`transaction-colors duration-200 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'orders' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><BsListCheck /></p> <span className={`transition-colors duration-200 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>My Orders</span> </Link>
                             <Link onClick={() => setActiveTab('call-logs')} to="/dashboard/call-logs" className={`transaction-colors duration-200 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'call-logs' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><BiHistory /></p> <span className={`transition-colors duration-200 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Call logs</span> </Link>
