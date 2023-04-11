@@ -25,10 +25,8 @@ function DashboardHeader() {
     }
     return (
         <div className='py-3'>
-            <div className="flex items-center justify-between">
-                <div>
-                    <Link to='/' className='transition-colors duration-200 text-base-100 dark:text-primary font-bold flex items-center gap-1 hover:text-accent dark:hover:text-accent'><FaAngleLeft /> Back to Home</Link>
-                </div>
+            <div className="flex items-center justify-end">
+
                 <div className=' hidden md:flex items-center text-2xl gap-3'>
                     {user.displayName === 'lawyer' &&
                         <div className="input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100">

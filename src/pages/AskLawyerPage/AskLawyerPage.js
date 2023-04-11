@@ -1,14 +1,26 @@
 import { Player } from '@lottiefiles/react-lottie-player'
 import React from 'react'
+import { StateContext } from '../../contexts/StateProvider/StateProvider'
+import { useContext } from 'react'
+import { useEffect } from 'react'
 
 function AskLawyerPage() {
+    // const { cityDetails } = useContext(StateContext)
+
+    // console.log(cityDetails)
+
+
+
+
+
+
     return (
         <div className='bg-primary dark:bg-base-100 py-5'>
             <div className='flex flex-col space-y-3'>
-               <div> 
+                <div>
                     <div className="hero h-full lg:py-20 rounded-lg border-accent ">
                         <div className="flex flex-col items-center lg:flex-row-reverse lg:gap-24 md:gap-10 gap-5 font-bold">
-                        
+
                             <Player className='w-80 md:w-52 lg:w-[600px] object-cover' autoplay loop src="https://assets9.lottiefiles.com/packages/lf20_wr9bxsi0.json"></Player>
                             {/* <img alt="protection" src="https://i.ibb.co/CKTZBMf/house-protection-bank.webp" className="max-w-sm md:max-w-xl rounded-lg shadow-lg md:shadow-2xl" /> */}
                             <div className='flex flex-col text-base-100 dark:text-primary'>
@@ -44,7 +56,7 @@ function AskLawyerPage() {
                             </div>
 
                         </div>
-                   </div>
+                    </div>
 
                 </div>
 

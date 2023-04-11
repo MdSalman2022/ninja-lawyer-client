@@ -4,6 +4,8 @@ import "./styles/style.css";
 import { signOut } from "firebase/auth";
 import { auth } from "../../assets/firebase.config";
 import { toast } from 'react-hot-toast';
+import { TbMessages } from "react-icons/tb";
+import { IoIosNotificationsOutline } from "react-icons/io";
 
 export default function NavbarUserMenu() {
   const [selected, setSelected] = useState("");
@@ -29,6 +31,7 @@ export default function NavbarUserMenu() {
   }
   return (
     <div className="relative lg:ml-3 group">
+
       <button className=""><img className='w-8 rounded-full cursor-pointer' src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png" alt="" /></button>
       <div className="absolute top-8 right-0  hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
         <div className="bg-primary dark:bg-base-100 dark:border p-1 lg:p-5 shadow rounded-lg">
