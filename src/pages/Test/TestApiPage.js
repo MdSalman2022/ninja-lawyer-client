@@ -19,9 +19,10 @@ export default function TestApiPage() {
 
     function writeUserData(uid) {
       if (user && user.displayName !== "lawyer") {
+        console.log("-----", uid);
         set(ref(db, "lawyers/" + uid), {
           isOnline: true,
-          uid,
+          uid: uid,
         });
         setIsOnline(true);
 
@@ -39,8 +40,8 @@ export default function TestApiPage() {
       }
     }
 
-    writeUserData(user?.uid);
-  }, []);
+    writeUserData(user.uid);
+  }, [user]);
 
   return (
     <div className="flex flex-col">
