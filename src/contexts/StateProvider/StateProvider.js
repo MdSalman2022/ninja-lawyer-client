@@ -13,6 +13,7 @@ const StateProvider = ({ children }) => {
   const [available, setAvailable] = useState(false);
 
   // Start of online and offline
+  const [isONLINE, setIsONLINE] = useState(false);
   useEffect(() => {
     const db = getDatabase(app);
     function writeUserData(uid) {
