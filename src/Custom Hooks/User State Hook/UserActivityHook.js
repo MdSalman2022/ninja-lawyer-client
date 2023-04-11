@@ -1,9 +1,14 @@
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../assets/firebase.config";
 import { toast } from "react-hot-toast";
+import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
+// changes
+import { app } from "../../assets/firebase.config";
+import { getDatabase, ref, set } from "firebase/database";
 
 const useUserAcivityTimer = (timeout = 2 * 60 * 60 * 1000) => {
+  const { user } = useContext(AuthContext);
   // const [lastVisitTime, setLastVisitTime] = useState(null);
   //2 * 60 * 60 * 1000
   const userRef = useRef(null);

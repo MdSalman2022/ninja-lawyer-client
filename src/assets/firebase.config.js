@@ -9,6 +9,8 @@ const firebaseConfig = {
   storageBucket: "ninjalawyersweb.appspot.com",
   messagingSenderId: "407640334252",
   appId: "1:407640334252:web:151ef68cdc8784514f2409",
+  databaseURL:
+    "https://ninjalawyersweb-default-rtdb.asia-southeast1.firebasedatabase.app",
 };
 
 const app = initializeApp(firebaseConfig);

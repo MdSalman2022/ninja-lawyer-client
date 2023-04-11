@@ -80,7 +80,6 @@ const StateProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("available", JSON.stringify(available));
-    // changes
   }, [available]);
 
   const toggleAvailable = () => {
