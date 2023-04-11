@@ -21,6 +21,7 @@ export default function TestApiPage() {
       if (user && user.displayName !== "lawyer") {
         set(ref(db, "lawyers/" + uid), {
           isOnline: true,
+          uid,
         });
         setIsOnline(true);
 
