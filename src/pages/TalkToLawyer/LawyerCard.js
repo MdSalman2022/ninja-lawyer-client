@@ -13,7 +13,7 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
     let specialties = lawyer?.specialties
 
 
-    specialties = specialties.map((str) => {
+    specialties = specialties?.map((str) => {
         if (str[0] === " ") {
             return str.substring(1);
         } else {
@@ -61,15 +61,17 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
     const date = new Date()
     return (
         <div
-            className="bg-primary dark:bg-base-100   shadow flex flex-col h-full w-80 items-start justify-start rounded-xl gap-5 text-base-100 dark:text-primary dark:border border-gray-800 relative  "
+            className="bg-primary dark:bg-base-100 shadow flex flex-col h-full w-80 items-start justify-start rounded-xl gap-0 text-base-100 dark:text-primary dark:border border-gray-800 relative  "
         >
-            <span className="absolute top-0 right-0 bg-primary dark:bg-base-100 p-2 rounded-bl-xl shadow-xl ">
-                <p className="text-2xl text-end font-bold">
-                    ₹{lawyer?.rate}
+            <span className="absolute top-0 left-0  dark:bg-base-100 p-2 rounded-bl-xl">
+                <p className="flex items-center text-xl gap-2 text-end font-semibold">
+                    <FaStar className='text-warning' /> 5.0
                 </p>
-                <p className="text-base-100 dark:text-secondary opacity-60 text-sm">
-                    Per Minute
-                </p>
+            </span>
+            <span className="absolute top-0 right-0  dark:bg-base-100 p-2 rounded-bl-xl flex flex-col">
+                <span className="text-2xl p-0 m-0 text-end font-semibold relative">
+                    <sup className='text-[17px] absolute top-3 -left-3'>₹</sup>{lawyer?.rate} <span className='text-sm text-gray-500'>/min</span>
+                </span>
             </span>
             <figure className="flex justify-center rounded-full w-full p-3 relative">
                 <img
@@ -89,56 +91,66 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
                 <span className='absolute top-5 right-28 rounded-full w-2 h-2 bg-success'></span>
 
             </figure>
-            <div className="content p-3 w-full h-full  rounded-b-xl ">
-                <div className="flex flex-col ">
+            <div className="content px-3 w-full h-full  rounded-b-xl ">
+                <div className="flex flex-col gap-5 ">
                     {/* <p className='flex items-center gap-3 text-xl font-bold'><div>{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span> </div><span className={`${lawyer.available ? 'bg-success' : 'bg-accent'} w-2 h-2 rounded-full`}></span> </p> */}
-                    <div className="flex flex-col items-end justify-end ">
+                    <div className="flex flex-col items-end w-64">
                         <Link
                             to={`/profile/${lawyer.UID}`}
-                            className="text-xl uppercase flex gap-2"
+                            className="text-2xl uppercase flex gap-2"
                         >
                             <span className='text-accent font-bold'>{lawyer?.name.split(" ")[0]}</span> {lawyer?.name.split(" ")[1]}
                         </Link>
-                        <p className="flex justify-end text-sm">
+                        <p className="flex justify-end text-md">
                             {/* <IoLocationSharp className="text-lg" /> */}
                             {lawyer?.city}, {lawyer?.state}
                         </p>
-                        <p className="flex items-center gap-2 justify-end text-sm">
-                            5.0  <FaStar className='text-warning' />
-                        </p>
-                        <p className="flex items-center justify-end gap-2">
+                        <div className="flex gap-1">
+                            {lawyer?.languages?.map((item, index) => (
+                                <span
+                                    className="text-xs rounded-md"
+                                    key={index}
+                                >
+                                    {item.trim()}
+                                    {index !== lawyer.languages.length - 1 && ", "}
+                                </span>
+                            ))}
+                        </div>
+                        <p className="flex items-center justify-end gap-2 text-xs">
+                            <BiTime className="text-sm" />{" "}
                             {lawyer?.year
                                 ? date.getFullYear() - lawyer.year
                                 : "0 "}
                             years
-                            <BiTime className="text-sm" />{" "}
+
                         </p>
                     </div>
                     <div className='grid grid-cols-3 gap-3'>
-                        <div className="col-span-2 flex flex-col justify-start items-start p-1 rounded-lg ">
+                        <div className="col-span-3 flex flex-col justify-start items-start p-1 rounded-lg ">
                             <span className="font-semibold my-1">
                                 Specialties
                             </span>
-                            <div className="flex flex-col items-start justify-start">
-                                {
+                            <div className="text-start">
+                                {/* {
                                     sortedSpecialties.length > 0 &&
                                     sortedSpecialties.slice(0, 6)?.map((item, index) => (
                                         <span
-                                            className={`text-xs  m-1 p-1 rounded-md ${matchedSpecialties.includes(item) ? 'bg-[#FFB2AE] text-primary' : 'bg-primary dark:bg-base-100'}`}
+                                            className={`text-xs  ${matchedSpecialties.includes(item) ? 'bg-[#FFB2AE] text-primary' : 'bg-primary dark:bg-base-100'}`}
                                             key={index}
                                         >
                                             {item}
-
+                                            {index !== sortedSpecialties.length - 1 && ", "}
                                         </span>
                                     ))
-                                }
+                                } */}
                                 {sortedSpecialties.length === 0 &&
                                     specialties?.sort()?.slice(0, 6)?.map((item, index) => (
                                         <span
-                                            className="text-xs  m-1 p-1 rounded-md"
+                                            className="text-xs "
                                             key={index}
                                         >
                                             {item}
+                                            {index !== specialties.length - 1 && ", "}
                                         </span>
                                     ))
                                 }
@@ -146,19 +158,19 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
 
                             </div>
                         </div>
-                        <div className="flex flex-col items-end p-1  rounded-lg ">
+                        {/* <div className="flex flex-col gap-1 items-end p-1  rounded-lg ">
                             <span className="font-semibold my-1">
                                 Languages
                             </span>
                             {lawyer?.languages?.map((item, index) => (
                                 <span
-                                    className="text-xs m-1 p-1 rounded-md"
+                                    className="text-xs rounded-md"
                                     key={index}
                                 >
                                     {item}
                                 </span>
                             ))}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="flex flex-col items-end justify-start gap-2">
