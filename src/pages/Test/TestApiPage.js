@@ -18,17 +18,17 @@ export default function TestApiPage() {
     const db = getDatabase(app);
 
     function writeUserData(uid) {
-      if (user && user.displayName !== "lawyer") {
+      if (user && user.uid) {
+        console.log(user.uid, "-0-");
         console.log("-----", uid);
         set(ref(db, "lawyers/" + uid), {
           isOnline: true,
           uid: uid,
         });
-        setIsOnline(true);
 
         const userRef = ref(db, "lawyers/" + uid);
         onDisconnect(userRef)
-          .set({
+          .update({
             isOnline: false,
           })
           .then(() => {
@@ -40,7 +40,7 @@ export default function TestApiPage() {
       }
     }
 
-    writeUserData(user.uid);
+    // writeUserData(user.uid);
   }, [user]);
 
   return (

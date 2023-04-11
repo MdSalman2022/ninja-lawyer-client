@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
-//changes
+//changes for online offline
+import { app } from "../../assets/firebase.config";
+import { getDatabase, ref, set, update, onDisconnect } from "firebase/database";
 
 export const StateContext = createContext();
 
@@ -8,6 +10,40 @@ const StateProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
   const [darkmode, setDarkMode] = useState(false);
   const [heightFull, setHeightFull] = useState(false);
+  const [available, setAvailable] = useState(false);
+
+  // Start of online and offline
+  useEffect(() => {
+    const db = getDatabase(app);
+    function writeUserData(uid) {
+      if (user && uid && available) {
+        set(ref(db, "lawyers/" + uid), {
+          isOnline: true,
+          uid: uid,
+        });
+
+        const userRef = ref(db, "lawyers/" + uid);
+        onDisconnect(userRef)
+          .update({
+            isOnline: false,
+          })
+          .then(() => {
+            console.log("OnDisconnect event set up successfully");
+          })
+          .catch((error) => {
+            console.error("Error setting up onDisconnect event:", error);
+          });
+      }
+      if (!available && user && uid) {
+        update(ref(db, "lawyers/" + uid), {
+          isOnline: false,
+        });
+      }
+    }
+
+    writeUserData(user.uid);
+  }, [available]);
+  // END of online and offline
 
   useEffect(() => {
     const savedDarkMode = localStorage.getItem("darkmode");
@@ -64,8 +100,6 @@ const StateProvider = ({ children }) => {
   //       console.log(data)
   //     });
   // }, []);
-
-  const [available, setAvailable] = useState(false);
 
   useEffect(() => {
     const savedAvailable = localStorage.getItem("available");
