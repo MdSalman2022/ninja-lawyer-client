@@ -35,6 +35,7 @@ const StateProvider = ({ children }) => {
           });
       }
       if (!available && user && uid) {
+        //If the user turns off availibility
         update(ref(db, "lawyers/" + uid), {
           isOnline: false,
         });
