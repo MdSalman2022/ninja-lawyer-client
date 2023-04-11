@@ -39,7 +39,7 @@ export default function TestApiPage() {
       }
     }
 
-    writeUserData("111", "Sadnan", "sadnan.rashid.07@gmail.com");
+    writeUserData(user?.uid);
   }, []);
 
   return (
