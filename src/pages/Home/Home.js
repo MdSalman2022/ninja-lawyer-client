@@ -14,6 +14,12 @@ function Home() {
         <h1 className="text-5xl font-bold">Welcome to Lawyer Home page</h1>
       </div>
     )
+  } else if (user?.displayName === "admin") {
+    return (
+      <div className="bg-primary dark:bg-base-100 h-screen text-center">
+        <h1 className="text-5xl font-bold">Welcome to Admin Home page</h1>
+      </div>
+    )
   }
   else {
     return (

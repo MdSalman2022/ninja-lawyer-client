@@ -20,7 +20,7 @@ const LawyersRequests = () => {
             .then((res) => res.json())
             .then((data) => {
                 setLawyerList(data);
-                setHeightFull(!heightFull)
+                setHeightFull(true)
             });
     }, [])
 
@@ -30,6 +30,7 @@ const LawyersRequests = () => {
             .then((res) => res.json())
             .then((data) => {
                 setApproveList(data.filter(lawyer => lawyer.verified === true));
+                setHeightFull(true)
             });
     }, [approved])
 
@@ -54,6 +55,7 @@ const LawyersRequests = () => {
         toast.error(`${user.name} Lawyer Rejected`)
         setRejectList([...rejectList, user])
         setLawyerList(lawyerList.filter(lawyer => lawyer._id !== user._id))
+        setApproveList(approveList.filter(lawyer => lawyer._id !== user._id))
     }
 
     console.log(heightFull)
@@ -62,7 +64,7 @@ const LawyersRequests = () => {
 
 
     return (
-        <div className=''>
+        <div className='h-full bg-primary dark:bg-base-100'>
             <div className="flex flex-col">
                 <div className='flex items-center gap-5 py-5'>
 
@@ -120,7 +122,7 @@ const LawyersRequests = () => {
                     <span>Rate</span>
                     <span>Action</span>
                 </div>
-                <div>
+                <div className=''>
                     {requested &&
                         lawyerList.map((lawyer, index) => (
                             <div key={lawyer._id} className='grid grid-cols-6  p-2 rounded-lg justify-items-center place-content-center h-full text-base-100 dark:text-primary'>
@@ -140,7 +142,7 @@ const LawyersRequests = () => {
                                         ))
                                     }
                                 </div>
-                                <span>₹{lawyer.rate}</span>
+                                <span>₹{lawyer?.rate}</span>
                                 <div className='flex gap-2 h-10 items-center'>
                                     <button onClick={() => handleReject(lawyer)} className='primary-btn '>Reject</button>
                                     <button onClick={() => handleApprove(lawyer)} className='primary-btn bg-success hover:bg-green-600 '>Approve</button>
@@ -150,55 +152,53 @@ const LawyersRequests = () => {
                     }
                     {
                         approved &&
-                        approveList.map((lawyer, index) => (
-                            <div key={lawyer._id} className='grid grid-cols-6  p-2 rounded-lg justify-items-center place-content-center h-full text-base-100 dark:text-primary'>
+                        approveList?.map((lawyer, index) => (
+                            <div key={lawyer?._id} className='grid grid-cols-6  p-2 rounded-lg justify-items-center place-content-center h-full text-base-100 dark:text-primary'>
                                 <span>{index + 1}</span>
-                                <Link to={`/profile/${lawyer._id}`}><span>{lawyer.name}</span></Link>
+                                <Link to={`/profile/${lawyer?._id}`}><span>{lawyer?.name}</span></Link>
                                 <div className='flex justify-start items-start flex-wrap gap-1'>
                                     {
-                                        lawyer.specialties.map((practiceArea, index) => (
+                                        lawyer?.specialties?.map((practiceArea, index) => (
                                             <span className='bg-gray-200 rounded p-1 text-xs text-base-100' key={index}>{practiceArea}</span>
                                         ))
                                     }
                                 </div>
                                 <div className='flex justify-start items-start flex-wrap gap-1'>
                                     {
-                                        lawyer.languages.map((language, index) => (
+                                        lawyer?.languages?.map((language, index) => (
                                             <span className='bg-gray-200 rounded p-1 text-xs text-base-100' key={index}>{language}</span>
                                         ))
                                     }
                                 </div>
-                                <span>₹{lawyer.rate}</span>
+                                <span>₹{lawyer?.rate}</span>
                                 <div className='flex gap-2 h-10 items-center'>
                                     <button onClick={() => handleReject(lawyer)} className='primary-btn '>Reject</button>
-                                    <button onClick={() => handleApprove(lawyer)} className='primary-btn bg-success hover:bg-green-600 '>Approve</button>
                                 </div>
                             </div>
                         ))
                     }
                     {
                         rejected &&
-                        rejectList.map((lawyer, index) => (
-                            <div key={lawyer._id} className='grid grid-cols-6  p-2 rounded-lg justify-items-center place-content-center h-full text-base-100 dark:text-primary'>
+                        rejectList?.map((lawyer, index) => (
+                            <div key={lawyer?._id} className='grid grid-cols-6  p-2 rounded-lg justify-items-center place-content-center h-full text-base-100 dark:text-primary'>
                                 <span>{index + 1}</span>
-                                <Link to={`/profile/${lawyer._id}`}><span>{lawyer.name}</span></Link>
+                                <Link to={`/profile/${lawyer._id}`}><span>{lawyer?.name}</span></Link>
                                 <div className='flex justify-start items-start flex-wrap gap-1'>
                                     {
-                                        lawyer.specialties.map((practiceArea, index) => (
+                                        lawyer?.specialties?.map((practiceArea, index) => (
                                             <span className='bg-gray-200 rounded p-1 text-xs text-base-100' key={index}>{practiceArea}</span>
                                         ))
                                     }
                                 </div>
                                 <div className='flex justify-start items-start flex-wrap gap-1'>
                                     {
-                                        lawyer.languages.map((language, index) => (
+                                        lawyer?.languages?.map((language, index) => (
                                             <span className='bg-gray-200 rounded p-1 text-xs text-base-100' key={index}>{language}</span>
                                         ))
                                     }
                                 </div>
-                                <span>₹{lawyer.rate}</span>
+                                <span>₹{lawyer?.rate}</span>
                                 <div className='flex gap-2 h-10 items-center'>
-                                    <button onClick={() => handleReject(lawyer)} className='primary-btn '>Reject</button>
                                     <button onClick={() => handleApprove(lawyer)} className='primary-btn bg-success hover:bg-green-600 '>Approve</button>
                                 </div>
                             </div>

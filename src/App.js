@@ -11,7 +11,7 @@ function App() {
   useUserAcivityTimer();
 
   return (
-    <div className={darkmode && "dark"}>
+    <div className={`${darkmode && "dark"} bg-primary dark:bg-base-100`}>
       <RouterProvider router={router}></RouterProvider>
       <Toaster />
     </div>

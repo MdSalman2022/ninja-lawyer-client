@@ -32,7 +32,7 @@ export default function Register() {
     const email = form.email.value;
     const password = form.password.value;
     const confirmPassword = form.confirm_password.value;
-    const phone = form.phone.value;
+    const contact = form.contact.value;
     const name = form.name.value;
     console.log(email);
     if (password === confirmPassword) {
@@ -47,7 +47,7 @@ export default function Register() {
             UID: user.uid,
             email: email,
             name: name,
-            phone: phone,
+            contact: contact,
           };
           sendToServer(user.id, postData);
           console.log("sent to server");
@@ -129,8 +129,8 @@ export default function Register() {
                   </label>
                   <input
                     type="phone"
-                    name="phone"
-                    id="phone"
+                    name="contact"
+                    id="contact"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="+918787678768"
                     required=""
