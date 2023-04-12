@@ -25,6 +25,8 @@ function DashboardHeader() {
             })
             .catch(error => console.error(error))
     }
+
+    console.log("available " + available)
     return (
         <div className='py-3'>
             <div className="flex items-center justify-end">

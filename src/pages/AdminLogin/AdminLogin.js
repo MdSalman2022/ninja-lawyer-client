@@ -16,7 +16,7 @@ function AdminLogin() {
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password)
-        if ((email === 'msmlead@gmail.com' && password === 'Happy@123') || (email === 'mehedi.salman102@gmail.com' && password === 'ninja2020') || (email === 'sadnan.rashid.07@gmail.com' && password === 'sadnan2020') || (email === 'hossainmubarak477@gmail.com' && password === 'ninjadeveloper')) {
+        if ((email === 'msmlead@gmail.com' && password === 'Happy@123') || (email === 'mehedi.salman102@gmail.com' && password === 'salman2026') || (email === 'sadnan.rashid.07@gmail.com' && password === 'sadnan2020')) {
             localStorage.setItem('isAdmin', true)
             setIsAdmin(true)
             navigate('/')
