@@ -59,10 +59,11 @@ const StateProvider = ({ children }) => {
     localStorage.setItem("darkmode", JSON.stringify(darkmode));
   }, [darkmode]);
 
-  // darkmode toggle
   const toggleDarkMode = () => {
     setDarkMode(!darkmode);
   };
+
+
 
   const [userData, setUserData] = useState({});
   useEffect(() => {
@@ -83,7 +84,7 @@ const StateProvider = ({ children }) => {
     if (user?.uid) {
       getProfile(user.uid);
     }
-  }, [user]);
+  }, [user, heightFull]);
 
   // useEffect(() => {
   //   fetch(`https://api.postalpincode.in/pincode/110001`)
@@ -92,6 +93,17 @@ const StateProvider = ({ children }) => {
   //       console.log(data);
   //     });
   // }, []);
+
+  // const [cityDetails, setCityDetails] = useState([]);
+
+  // useEffect(() => {
+  //   fetch(`api.zippopotam.us/IN/110001`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data)
+  //     });
+  // }, []);
+
 
   // const [cityDetails, setCityDetails] = useState([]);
 
@@ -121,6 +133,8 @@ const StateProvider = ({ children }) => {
   const toggleAvailable = () => {
     setAvailable(!available);
   };
+
+
 
   console.log(available);
 
