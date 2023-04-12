@@ -10,6 +10,16 @@ import LawyerCard from "./LawyerCard";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useQuery } from "@tanstack/react-query";
 import { IoLocationSharp } from "react-icons/io5";
+// for online/offline
+import {
+  getDatabase,
+  ref,
+  set,
+  update,
+  onDisconnect,
+  onValue,
+} from "firebase/database";
+import { app } from "../../assets/firebase.config";
 
 function TalkToLawyerList() {
   const { user } = useContext(AuthContext);
@@ -22,6 +32,22 @@ function TalkToLawyerList() {
   const [cityName, setCityName] = useState("");
 
   // For online/offline
+  const [onlineLawyers, setOnlineLawyers] = useState(null);
+  useEffect(() => {
+    let lawyerArr;
+    const db = getDatabase(app);
+    // djQZazeKVehEogSn4fN0BIWBA0o2
+
+    const lawyerRef = ref(db, "/lawyers/");
+    onValue(lawyerRef, (snapshot) => {
+      const data = snapshot.val();
+      lawyerArr = Object.values(data);
+      lawyerArr = checkOnline(lawyerArr);
+      setOnlineLawyers(lawyerArr);
+      //   lawyerArr.push(data);
+    });
+    console.log(lawyerArr, "-0-");
+  }, [user]);
 
   //
   const languageSuggestions = [
@@ -50,7 +76,7 @@ function TalkToLawyerList() {
     "MSME Recovery, MSME related matter.",
   ];
 
-  console.log(lawyerList);
+  // console.log(lawyerList);
 
   const apiKey = "aHhIRnFkYWRqTU5FVjhKd3labW1UMTR2Zm1TMXpaQmwzRERVUzlLSg==";
 
@@ -102,13 +128,13 @@ function TalkToLawyerList() {
               };
             })
           );
-          // console.log(citiesList)
+          // // console.log(citiesList)
           let newCities = citiesList.flat().map((item, index) => ({
             id: index + 1,
             city: item.name,
             state: item.stateName,
           }));
-          // console.log(newCities)
+          // // console.log(newCities)
           setCities(newCities);
         })
         .catch((error) => {
@@ -131,7 +157,7 @@ function TalkToLawyerList() {
           const remaining = lawyerList.filter((lawyer) => lawyer._id !== id);
           setLawyerList(remaining);
           toast.success(`${id} lawyer deleted successfully}`);
-          console.log(result);
+          // console.log(result);
         }
       });
   };
@@ -145,7 +171,7 @@ function TalkToLawyerList() {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log("all lawyers showing");
+        // console.log("all lawyers showing");
         setLawyerList(data);
       });
   };
@@ -169,10 +195,10 @@ function TalkToLawyerList() {
     }
   };
 
-  console.log("search lawyer by location", searchLawyerByLocation);
+  // console.log("search lawyer by location", searchLawyerByLocation);
 
   let fetchParams = handleArrayOfSpecialties();
-  console.log("fetch params", fetchParams);
+  // console.log("fetch params", fetchParams);
   useEffect(() => {
     cityName &&
       fetch(
@@ -181,7 +207,7 @@ function TalkToLawyerList() {
         .then((res) => res.json())
         .then((data) => {
           setSearchLawyerByLocation(data);
-          console.log(data);
+          // console.log(data);
         });
   }, [cityName]);
 
@@ -202,7 +228,7 @@ function TalkToLawyerList() {
 
   // Filter lawyers by specialties
   useEffect(() => {
-    console.log(fetchParams);
+    // console.log(fetchParams);
     if (fetchParams === "nothing") {
       allLawyers();
       allLawyersByCity();
@@ -212,7 +238,7 @@ function TalkToLawyerList() {
       )
         .then((res) => res.json())
         .then((data) => {
-          console.log("fetchparams", data);
+          // console.log("fetchparams", data);
           setLawyerList(data);
           allLawyersByCity();
           setFilteredLawyers(
@@ -220,7 +246,7 @@ function TalkToLawyerList() {
               return data.some((d) => d._id === lawyer._id);
             })
           );
-          console.log("filtered lawyers", filteredLawyers);
+          // console.log("filtered lawyers", filteredLawyers);
           setSearchLawyerByLocation(filteredLawyers);
         });
     }
@@ -242,7 +268,7 @@ function TalkToLawyerList() {
     return returnString;
   }
 
-  // console.log(cities)
+  // // console.log(cities)
 
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -257,7 +283,7 @@ function TalkToLawyerList() {
       setCityName("");
     } else {
       setQuery(event.target.value);
-      console.log(event.target.value);
+      // console.log(event.target.value);
       setActiveIndex(-1);
       setShowResults(true);
       setLawyerList(lawyerList.filter((lawyer) => lawyer.city !== cityName));
@@ -266,7 +292,7 @@ function TalkToLawyerList() {
 
   const handleKeyDown = (event) => {
     let value = event.target.value;
-    console.log(value);
+    // console.log(value);
     switch (event.keyCode) {
       case 38: // Arrow up
         event.preventDefault();
@@ -288,7 +314,7 @@ function TalkToLawyerList() {
           const query = `${city}, ${state}`;
           setActiveIndex(-1);
           setQuery(query);
-          console.log(city);
+          // console.log(city);
           setCityName(city);
           setShowResults(false);
         } else {
@@ -322,7 +348,7 @@ function TalkToLawyerList() {
     setShowResults(false);
   };
 
-  console.log(cityName);
+  // console.log(cityName);
 
   const sortedList = lawyerList.sort((a, b) => {
     if (a.city === userData.city && b.city !== userData.city) {
@@ -346,10 +372,10 @@ function TalkToLawyerList() {
     }
   });
 
-  console.log(sortedList);
+  // console.log(sortedList);
 
-  console.log("lawyer list " + lawyerList);
-  console.log("sorted list " + sortedList);
+  // console.log("lawyer list " + lawyerList);
+  // console.log("sorted list " + sortedList);
 
   const [activeTab, setActiveTab] = useState(null);
 
@@ -380,7 +406,7 @@ function TalkToLawyerList() {
 
   useEffect(() => {
     const closeDropDown = (e) => {
-      console.log(tabRef.current);
+      // console.log(tabRef.current);
       if (e.target !== tabRef.current) {
         setProblemIsOpen(false);
         setLanguageIsOpen(false);
@@ -393,15 +419,15 @@ function TalkToLawyerList() {
 
   const handleReset = () => {
     setSpecialtiesArray([]);
-    console.log(specialtiesArray.length);
+    // console.log(specialtiesArray.length);
     setActiveTab(null);
     allLawyers();
     fetchParams = [];
     fetchParams.splice(1);
-    console.log("reset " + fetchParams);
+    // console.log("reset " + fetchParams);
   };
 
-  console.log(specialtiesArray);
+  // console.log(specialtiesArray);
 
   const [reset, setReset] = useState(false);
 
@@ -687,6 +713,7 @@ function TalkToLawyerList() {
                           tab
                           fetchParams={fetchParams}
                           lawyer={lawyer}
+                          online={onlineLawyers}
                           key={index}
                         />
                       ))
@@ -704,6 +731,7 @@ function TalkToLawyerList() {
                         specialtiesArray={specialtiesArray}
                         lawyer={lawyer}
                         key={index}
+                        online={onlineLawyers}
                         cityName={cityName}
                       />
                     ))}
@@ -721,5 +749,16 @@ function TalkToLawyerList() {
     </div>
   );
 }
+
+const checkOnline = (array) => {
+  let onlineArray = [];
+  for (let i = 0; i < array.length; i++) {
+    console.log(array[i].isOnline);
+    if (array[i].isOnline) {
+      onlineArray.push(array[i].uid);
+    }
+  }
+  return onlineArray;
+};
 
 export default TalkToLawyerList;

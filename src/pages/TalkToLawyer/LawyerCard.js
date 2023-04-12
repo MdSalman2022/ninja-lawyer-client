@@ -5,8 +5,16 @@ import { FaStar } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
-const LawyerCard = ({ lawyer, specialtiesArray }) => {
-  // console.log(specialtiesArray)
+const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
+  // console.log(specialtiesArray, "[][][][][]");
+  // console.log("----------------", lawyer);
+  const [isOnline, setOnline] = useState(false);
+
+  useEffect(() => {
+    if (checkOnline(online, lawyer.UID)) {
+      setOnline(true);
+    }
+  }, [online]);
 
   let specialties = lawyer?.specialties;
 
@@ -57,6 +65,7 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
         <p className="flex items-center text-xl gap-2 text-end font-semibold">
           <FaStar className="text-warning" /> 5.0
         </p>
+        {isOnline ? <p>Online</p> : <p>NOT Online</p>}
       </span>
       <span className="absolute top-0 right-0  dark:bg-base-100 p-2 rounded-bl-xl flex flex-col">
         <span className="text-2xl p-0 m-0 text-end font-semibold relative">
@@ -186,6 +195,15 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
       </div>
     </div>
   );
+};
+
+const checkOnline = (array, uid) => {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] === uid) {
+      return true;
+    }
+  }
+  return false;
 };
 
 export default LawyerCard;
