@@ -449,7 +449,7 @@ function TalkToLawyerList() {
                                                 onKeyDown={handleKeyDown}
                                                 onBlur={() => setActiveIndex(-1)}
                                                 onFocus={() => setShowResults(true)}
-
+                                                placeholder="Write your city name"
                                             />
                                         </div>
                                         <div className="relative">

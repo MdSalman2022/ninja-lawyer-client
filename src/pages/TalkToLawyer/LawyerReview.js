@@ -287,8 +287,6 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
     }, [allReviews]);
 
 
-    const [toggleComment, setToggleComment] = useState(false);
-
 
     return (
         <div className="mb-5 text-neutral dark:text-base-100">
@@ -491,20 +489,8 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
                                             <span className="cursor-pointer rounded-full p-2 hover:bg-accent hover:text-primary">
                                                 <BiDislike />
                                             </span>
-                                            {
-                                            /* {user.displayName === lawyer && */}
-                                            <span onClick={() => setToggleComment(!toggleComment)} className="cursor-pointer rounded-full p-2 hover:bg-accent hover:text-primary">
-                                                <FaRegComment />
-                                            </span>
-                                            }
                                         </div>
 
-                                        {
-                                            // toggleComment && user.displayName === lawyer &&
-                                            <div>
-                                                <input type="text" className='input-box w-full' placeholder='Write Your reply' />
-                                            </div>
-                                        }
 
                                     </div>
                                 ))
