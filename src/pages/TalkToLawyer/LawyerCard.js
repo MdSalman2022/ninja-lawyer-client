@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
   // console.log(specialtiesArray, "[][][][][]");
   // console.log("----------------", lawyer);
+
+  // start of  online/offline
   const [isOnline, setOnline] = useState(false);
 
   useEffect(() => {
@@ -15,6 +17,8 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
       setOnline(true);
     }
   }, [online]);
+
+  // end of  online/offline
 
   let specialties = lawyer?.specialties;
 

@@ -18,7 +18,7 @@ const LawyerNavbar = () => {
     pathname === "/talk-to-lawyer" ? "text-secondary" : "text-accent"
   }`;
 
-  console.log(available);
+  console.log("is Available?: ", available);
 
   return (
     <div

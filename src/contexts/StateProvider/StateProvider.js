@@ -17,7 +17,8 @@ const StateProvider = ({ children }) => {
   useEffect(() => {
     const db = getDatabase(app);
     function writeUserData(uid) {
-      if (user && uid && available) {
+      console.log("pp----pp", available);
+      if (available) {
         set(ref(db, "lawyers/" + uid), {
           isOnline: true,
           uid: uid,
@@ -34,8 +35,7 @@ const StateProvider = ({ children }) => {
           .catch((error) => {
             console.error("Error setting up onDisconnect event:", error);
           });
-      }
-      if (!available && user && uid) {
+      } else if (!available && user && uid) {
         //If the user turns off availibility
         update(ref(db, "lawyers/" + uid), {
           isOnline: false,
@@ -43,7 +43,7 @@ const StateProvider = ({ children }) => {
       }
     }
 
-    writeUserData(user.uid);
+    writeUserData(user?.uid);
   }, [available]);
   // END of online and offline
 
@@ -62,8 +62,6 @@ const StateProvider = ({ children }) => {
   const toggleDarkMode = () => {
     setDarkMode(!darkmode);
   };
-
-
 
   const [userData, setUserData] = useState({});
   useEffect(() => {
@@ -104,7 +102,6 @@ const StateProvider = ({ children }) => {
   //     });
   // }, []);
 
-
   // const [cityDetails, setCityDetails] = useState([]);
 
   // useEffect(() => {
@@ -131,10 +128,9 @@ const StateProvider = ({ children }) => {
   }, [available]);
 
   const toggleAvailable = () => {
+    console.log("-=-=-=-=-=-=-");
     setAvailable(!available);
   };
-
-
 
   console.log(available);
 
