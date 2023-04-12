@@ -26,15 +26,15 @@ const LawyerCard = ({ lawyer, specialtiesArray }) => {
 
   // console.log(specialties, lawyer.name)
 
-  // useEffect(() => {
-  //     if (specialties) {
-  //         const matched = specialties?.filter(item => specialtiesArray?.includes(item)).sort()
-  //         setMatchedSpecialties(matched)
-  //         const remaining = specialties?.filter(item => !specialtiesArray?.includes(item)).sort()
-  //         setRemainingSpecialties(remaining)
-  //         setSortedSpecialties([...matchedSpecialties, ...remainingSpecialties])
-  //     }
-  // }, [specialtiesArray, lawyer])
+  specialties = specialties
+    ?.map((str) => {
+      if (str[0] === " ") {
+        return str.substring(1);
+      } else {
+        return str;
+      }
+    })
+    .filter((str) => str !== "");
 
   // useEffect(() => {
   //     setSortedSpecialties([...matchedSpecialties, ...remainingSpecialties])

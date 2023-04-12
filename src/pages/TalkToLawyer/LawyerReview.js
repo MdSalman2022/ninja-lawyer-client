@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useContext } from 'react';
 import { BiDislike, BiLike } from 'react-icons/bi';
-import { FaStar } from 'react-icons/fa';
+import { FaRegComment, FaStar } from 'react-icons/fa';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -92,7 +92,7 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
                 if (data.reviews.length > 0) {
                     let rating = data.reviews.reduce((sum, review) => sum + review.rating, 0) / data.reviews.length;
                     setAverageRating(rating);
-console.log(rating)
+                    console.log(rating)
                     // Format the rating to 2 decimal places
                     setFormattedRating(rating.toFixed(2));
                 } else {
@@ -163,7 +163,7 @@ console.log(rating)
                     review.name = user.name;
                 })
             })
-    }, [user, allReviews, reviewLength,userIds])
+    }, [user, allReviews, reviewLength, userIds])
 
 
     console.log(userIds)
@@ -222,13 +222,13 @@ console.log(rating)
                     setTotalReviews([newreview]);
                     setReviewLength(reviewLength + 1);
                 }
- 
+
 
                 let newRating;
                 if (totalReviews.length === 0) {
-                newRating = rating;
+                    newRating = rating;
                 } else {
-                newRating = (averageRating * totalReviews.length + rating) / (totalReviews.length + 1);
+                    newRating = (averageRating * totalReviews.length + rating) / (totalReviews.length + 1);
                 }
                 // Format the rating to 2 decimal places
                 let newFormattedRating = newRating.toFixed(2);
@@ -490,6 +490,8 @@ console.log(rating)
                                                 <BiDislike />
                                             </span>
                                         </div>
+
+
                                     </div>
                                 ))
                                 :

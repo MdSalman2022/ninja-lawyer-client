@@ -14,11 +14,11 @@ import ProfileImage from "../../../components/Dashboard/Profile/ProfileImage";
 import { RxCross1 } from 'react-icons/rx'
 import { useForm } from "react-hook-form";
 import { toast } from 'react-hot-toast';
-import {MdLocationPin} from 'react-icons/md'
+import { MdLocationPin } from 'react-icons/md'
 import { BiTime } from "react-icons/bi";
 import { TiContacts } from 'react-icons/ti'
 import { GiSkills } from 'react-icons/gi'
-import {GrLanguage} from 'react-icons/gr'
+import { GrLanguage } from 'react-icons/gr'
 import { Link } from "react-router-dom";
 
 function ProfilePage() {
@@ -293,58 +293,62 @@ function ProfilePage() {
       <div className="flex flex-col items-center gap-5">
         <div className="flex items-start justify-center gap-20">
           <div className="flex gap-20 items-center">
-            <ProfileImage props={user?.uid} /> 
+            <ProfileImage props={user?.uid} />
             <div className="flex flex-col gap-3">
               <span className="text-xl font-bold">{userData.name}</span>
-              <span className="flex items-center"><MdLocationPin className="text-xl"/> {userData.city}, {userData.state}, India</span>
+              <span className="flex items-center"><MdLocationPin className="text-xl" /> {userData.city}, {userData.state}, India</span>
               <span>{userData?.summary ? userData?.summary : 'Write your bio here'}</span>
             </div>
           </div>
           <div className="flex gap-3">
             <button onClick={() => setHeightFull(!heightFull)} className="primary-btn">Edit Profile</button>
-            <Link to={`/profile/${userData.UID}`} className="primary-outline-btn">Public View</Link>
-           </div>
+            {user.displayName === 'lawyer' && <Link to={`/profile/${userData.UID}`} className="primary-outline-btn">Public View</Link>}
+          </div>
         </div>
         {user.displayName === 'lawyer' &&
-          
+
           <div className="flex justify-between gap-10">
-          <div className="flex items-center gap-3">
-            <BiTime className="text-4xl"/>
-            <div className="flex flex-col text-sm">
-              <span>3+ years Job</span>
-              <span>Experience</span>
+            <div className="flex items-center gap-3">
+              <BiTime className="text-4xl" />
+              <div className="flex flex-col text-sm">
+                <span>3+ years Job</span>
+                <span>Experience</span>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <TiContacts className="text-4xl"/>
-            <div className="flex flex-col text-sm">
-              <span>{userData.contact}</span>
-              <span>{userData.email}</span>
-              
+            <div className="flex items-center gap-3">
+              <TiContacts className="text-4xl" />
+              <div className="flex flex-col text-sm">
+                <span>{userData?.contact}</span>
+                <span>{userData?.email}</span>
+
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <GiSkills className="text-4xl"/>
-            <div className="flex flex-col text-sm">
-            {
-                  userData?.specialties.slice(0,3)?.map((language, index) => (
+            <div className="flex items-center gap-3">
+              <GiSkills className="text-4xl" />
+              <div className="flex flex-col text-sm">
+                {userData.specialties ?
+                  userData?.specialties?.slice(0, 3)?.map((language, index) => (
                     <span key={index}>{language}</span>
                   ))
-              } 
+                  :
+                  "No Specialties"
+                }
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <GrLanguage className="text-4xl"/>
-            <div className="flex flex-col text-sm">
-               {
-                  userData?.languages.slice(0,3)?.map((language, index) => (
+            <div className="flex items-center gap-3">
+              <GrLanguage className="text-4xl" />
+              <div className="flex flex-col text-sm">
+                {userData.languages ?
+                  userData?.languages?.slice(0, 3)?.map((language, index) => (
                     <span key={index}>{language}</span>
                   ))
-              } 
+                  :
+                  "No Languages added"
+                }
+              </div>
             </div>
-          </div>
-        </div>}
-        
+          </div>}
+
       </div>
 
 
@@ -402,6 +406,7 @@ function ProfilePage() {
                 name="contact"
                 defaultValue={userData?.contact}
                 {...register("contact", { required: userData.contact ? false : true, maxLength: 80 })}
+                readOnly
               />
             </label>
 
@@ -468,16 +473,19 @@ function ProfilePage() {
                   <span className=" font-medium text-base-100 dark:text-primary w-32">
                     Bar Council ID
                   </span>
-                  <input
-                    type="text"
-                    className="input-box w-full"
-                    name="barID"
-                    defaultValue={userData.barID}
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="text"
+                      className="input-box w-full"
+                      name="barID"
+                      defaultValue={userData.barID}
 
-                    {...register("barID", { required: userData.barID ? false : true, maxLength: 80 })}
-                  />
+                      {...register("barID", { required: userData.barID ? false : true, maxLength: 80 })}
+                    />
+                    <button type="disabled" className="primary-btn">Upload</button>
+                  </div>
                 </label>
-                <label className="col-span-2 grid grid-cols-2">
+                {/* <label className="col-span-2 grid grid-cols-2">
                   <span className=" font-medium text-base-100 dark:text-primary w-44">
                     Bar Council ID Image
                   </span>
@@ -485,10 +493,9 @@ function ProfilePage() {
                     <img className="w-20" src={`https://thumbs.dreamstime.com/b/document-icon-vector-stack-paper-sheets-illustration-131104983.jpg`} alt="" />
 
                     <button type="disabled" className="primary-btn">Upload</button>
-                    <button className="primary-outline-btn">Cancel</button>
                   </div>
 
-                </label>
+                </label> */}
                 <label className="col-span-2 grid grid-cols-2">
                   <span className=" font-medium text-base-100 dark:text-primary w-32">
                     Id no.

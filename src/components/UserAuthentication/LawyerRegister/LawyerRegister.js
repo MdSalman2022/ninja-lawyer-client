@@ -39,6 +39,7 @@ export default function LawyerRegister() {
       email,
       password,
       confirm_password,
+      contact,
       gender,
       state,
       city,
@@ -47,7 +48,6 @@ export default function LawyerRegister() {
       year,
     } = data;
 
-    const name = fname + " " + lname;
 
     console.log(data);
 
@@ -71,13 +71,16 @@ export default function LawyerRegister() {
           const postData = {
             UID: user.uid,
             email: email,
-            name,
+            First_Name: fname,
+            Last_Name: lname,
+            name: fname + " " + lname,
+            contact,
             gender,
             state,
             city,
-            bar,
+            barID: bar,
             id,
-            year,
+            barYear: year,
             verified: false,
           };
           sendToServerLawyer(user.id, postData);
@@ -135,13 +138,22 @@ export default function LawyerRegister() {
                     {...register("lname", { required: true, maxLength: 80 })}
                   />
                 </label>
-                <label className="col-span-2" htmlFor="">
+                <label className="col-span-1" htmlFor="">
                   Email
                   <input
                     type="email"
                     name="email"
                     className="input-box w-full "
                     {...register("email", { required: true, maxLength: 80 })}
+                  />
+                </label>
+                <label className="col-span-1" htmlFor="">
+                  Contact
+                  <input
+                    type="text"
+                    name="contact"
+                    className="input-box w-full "
+                    {...register("contact", { required: true, maxLength: 80 })}
                   />
                 </label>
                 <label htmlFor="">

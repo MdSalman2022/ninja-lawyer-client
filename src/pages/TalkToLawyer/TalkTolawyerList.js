@@ -9,6 +9,7 @@ import Fuse from 'fuse.js'
 import LawyerCard from "./LawyerCard";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useQuery } from "@tanstack/react-query";
+import { IoLocationSharp } from "react-icons/io5";
 
 
 function TalkToLawyerList() {
@@ -147,7 +148,7 @@ function TalkToLawyerList() {
             .then((data) => {
                 console.log("all lawyers showing")
                 setLawyerList(data);
-            }); 
+            });
     }
 
 
@@ -348,8 +349,8 @@ function TalkToLawyerList() {
         } else {
             return 0;
         }
-    }); 
-     
+    });
+
 
     console.log(sortedList)
 
@@ -438,17 +439,17 @@ function TalkToLawyerList() {
                             <div className="col-span-4 w-full flex justify-between items-center gap-2">
                                 <div className=" rounded-xl flex justify-between items-end gap-5 select-none ">
                                     <div className="flex flex-col ">
-                                        <div>
-                                            <span className="text-base-100 dark:text-primary">Location</span>
+                                        <div className="relative">
+                                            <IoLocationSharp className="absolute top-3 left-2 text-2xl" />
                                             <input
-                                                className="input-box"
+                                                className="input-box pl-8"
                                                 type="text"
                                                 value={query}
                                                 onChange={handleSearch}
                                                 onKeyDown={handleKeyDown}
                                                 onBlur={() => setActiveIndex(-1)}
                                                 onFocus={() => setShowResults(true)}
-                                                placeholder="Write Location"
+                                                placeholder="Write your city name"
                                             />
                                         </div>
                                         <div className="relative">
@@ -474,7 +475,7 @@ function TalkToLawyerList() {
                                                 setProblemIsOpen(prev => !prev)
                                                 setLanguageIsOpen(false)
                                             }}
-                                            className="flex gap-2 items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold"
+                                            className="flex gap-2 items-center justify-between bg-transparent dark:border  dark:border-gray-700 input-box rounded-lg text-base-100 dark:text-primary font-semibold"
                                         >
                                             Problem Type{" "}
                                             <FaChevronDown
@@ -549,7 +550,7 @@ function TalkToLawyerList() {
                                                 setLanguageIsOpen(prev => !prev)
                                                 setProblemIsOpen(false)
                                             }}
-                                            className="flex gap-2 items-center justify-between bg-secondary dark:bg-transparent dark:border  dark:border-gray-700 p-3 rounded-lg text-base-100 dark:text-primary font-semibold"
+                                            className="flex gap-2 items-center justify-between bg-transparent dark:border  dark:border-gray-700 input-box rounded-lg text-base-100 dark:text-primary font-semibold"
                                         >
                                             Language{" "}
                                             <FaChevronDown
@@ -628,7 +629,7 @@ function TalkToLawyerList() {
                                 </div>
                             </div>
                             <div className="col-span-4 flex flex-col gap-5">
-                                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-10 justify-items-stretch">
+                                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-stretch">
                                     {
                                         cityName && fetchParams === "nothing" && (
                                             searchLawyerByLocation?.length === 0 ? (
