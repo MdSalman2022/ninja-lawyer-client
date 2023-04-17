@@ -23,7 +23,8 @@ import LawyerRegister from "../components/UserAuthentication/LawyerRegister/Lawy
 import { AuthContext } from "../contexts/AuthProvider/AuthProvider";
 import TestAPI from "../components/Testing/Test-API";
 import AdminRoute from "./AdminRoute";
-import LawyersRequests from "../pages/Dashboard/LawyersRequests/LawyersRequests";
+import LawyersRequests from "../pages/Dashboard/LawyersRequests/LawyersRequests"; 
+import CaseDetailsPage from "../pages/Dashboard/OrdersPage/CaseDetailsPage";
 
 export const router = createBrowserRouter([
   {
@@ -83,7 +84,8 @@ export const router = createBrowserRouter([
       {
         path: "/admin-page",
         element: <PrivateRoute><TestAPI /></PrivateRoute>,
-      }
+      },
+      
     ],
   },
   {
@@ -114,6 +116,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/lawyer-requests",
         element: <PrivateRoute><LawyersRequests /></PrivateRoute>
+      },
+      {
+        path: "/dashboard/cases/case-details/",
+        element: <PrivateRoute><CaseDetailsPage /></PrivateRoute>,
       }
     ],
   },

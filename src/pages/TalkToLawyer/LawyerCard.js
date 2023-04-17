@@ -82,7 +82,7 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
           className="rounded-full h-40 w-40 object-cover border"
           src={
             lawyer?.img
-              ? lawyer.img
+              ? lawyer?.img
               : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
           }
           alt=""
@@ -110,7 +110,7 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
           {/* <p className='flex items-center gap-3 text-xl font-bold'><div>{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span> </div><span className={`${lawyer.available ? 'bg-success' : 'bg-accent'} w-2 h-2 rounded-full`}></span> </p> */}
           <div className="flex flex-col items-end w-64">
             <Link
-              to={`/profile/${lawyer.UID}`}
+              to={`/profile/${lawyer?.UID}`}
               className="text-2xl uppercase flex gap-2"
             >
               <span className="text-accent font-bold">
@@ -126,13 +126,13 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
               {lawyer?.languages?.map((item, index) => (
                 <span className="text-xs rounded-md" key={index}>
                   {item.trim()}
-                  {index !== lawyer.languages.length - 1 && ", "}
+                  {index !== lawyer?.languages.length - 1 && ", "}
                 </span>
               ))}
             </div>
             <p className="flex items-center justify-end gap-2 text-xs">
               <BiTime className="text-sm" />{" "}
-              {lawyer?.year ? date.getFullYear() - lawyer.year : "0 "}
+              {lawyer?.year ? date?.getFullYear() - lawyer?.year : "0 "}
               years
             </p>
           </div>
@@ -159,7 +159,7 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
                     ?.map((item, index) => (
                       <span className="text-xs " key={index}>
                         {item}
-                        {index !== specialties.length - 1 && ", "}
+                        {index !== specialties?.length - 1 && ", "}
                       </span>
                     ))}
               </div>

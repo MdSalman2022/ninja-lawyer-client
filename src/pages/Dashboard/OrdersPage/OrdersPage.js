@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { FaSearch } from 'react-icons/fa';
+import { FaExternalLinkAlt, FaSearch } from 'react-icons/fa';
 import { Player } from '@lottiefiles/react-lottie-player';
 import ModalBox from '../../../components/HeroSection/ModalBox';
 import { FiFilter } from 'react-icons/fi';
 import {allOffers} from './offers'
 import ModalReview from './ModalReview';
+import { Link } from 'react-router-dom';
 
 function OrdersPage() {
 
@@ -145,9 +146,9 @@ function OrdersPage() {
                                 <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
                                     Name
                                 </th>
-                                <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
+                                {/* <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
                                     Contact
-                                </th>
+                                </th> */}
                                 <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
                                     Time
                                 </th>
@@ -156,6 +157,9 @@ function OrdersPage() {
                                 </th>
                                 <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
                                     Status
+                                </th>
+                                <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
+                                    Case Page
                                 </th>
                             </tr>
                         </thead>
@@ -168,9 +172,9 @@ function OrdersPage() {
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
                                             {offer.name}
                                         </td>
-                                        <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                        {/* <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
                                             {offer.contact}
-                                        </td>
+                                        </td> */}
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
                                             {offer.time}
                                         </td>
@@ -180,7 +184,11 @@ function OrdersPage() {
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
                                             <ModalBox offerStatus={offer.status} handleComplete={handleComplete} CaseComplete={CaseComplete} offer={offer} />
                                         </td>
-                                        
+                                        {offer.status === 'accepted' &&
+                                            <td className="text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                            <Link to='/dashboard/cases/case-details' target="_blank"><button className='hover:bg-gray-200 p-2 rounded-full'><FaExternalLinkAlt /></button></Link>
+                                        </td>
+                                        }
                                     </tr>
                                     
                                 ))

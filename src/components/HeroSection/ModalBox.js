@@ -188,9 +188,9 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete}) {
                 <>
                     {offerStatus === 'offer' && <button className='primary-btn' onClick={() => setIsOpen(true)}>View Offer</button>}
                     <div className="relative">
-                        {offerStatus === 'accepted' && <button onClick={()=>setCompleteOpen(!completeOpen)} className={`primary-btn bg-success hover:bg-green-600 ${CaseComplete === false ?  'flex items-center justify-center' : 'hidden'} gap-2 px-2`}>Approved <FaCaretRight/></button>} 
-                        {offerStatus === 'accepted' && <button onClick={()=>handleComplete(true)} className={`${completeOpen === true && CaseComplete === false ? 'absolute right-10 top-0' : 'hidden'} primary-outline-btn border-success hover:bg-green-600 hover:border-green-600 text-success `}>Completed</button>} 
-                        {offerStatus === 'accepted' && <button className={`${CaseComplete === true ? 'flex' : 'hidden'} primary-outline-btn border-success hover:bg-green-600 hover:border-green-600 text-success `}>Completed</button>} 
+                        {offerStatus === 'accepted' && <button onClick={()=>setCompleteOpen(!completeOpen)} className={`primary-btn bg-success hover:bg-green-600 ${CaseComplete === false ?  'flex items-center justify-center' : 'hidden'} gap-2`}>Ongoing</button>} 
+                        {/* {offerStatus === 'accepted' && <button onClick={()=>handleComplete(true)} className={`${completeOpen === true && CaseComplete === false ? 'absolute right-10 top-0' : 'hidden'} primary-outline-btn border-success hover:bg-green-600 hover:border-green-600 text-success `}>Completed</button>}  */}
+                        {/* {offerStatus === 'accepted' && <button className={`${CaseComplete === true ? 'flex' : 'hidden'} primary-outline-btn border-success hover:bg-green-600 hover:border-green-600 text-success `}>Completed</button>}  */}
 
                     </div>
                     {offerStatus === 'rejected' && <button className='primary-btn bg-gray-400 text-gray-600 hover:bg-gray-400 cursor-not-allowed'>Rejected</button>}
