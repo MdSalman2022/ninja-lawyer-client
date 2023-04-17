@@ -26,13 +26,25 @@ const LawyersRequests = () => {
 
 
     useEffect(() => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyers/all`)
+        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/rejected`)
             .then((res) => res.json())
             .then((data) => {
-                setApproveList(data.filter(lawyer => lawyer.verified === true));
+                setRejectList(data);
+                setHeightFull(true)
+            });
+    }, [rejected])
+
+    useEffect(() => {
+        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/verified`)
+            .then((res) => res.json())
+            .then((data) => {
+                setApproveList(data);
                 setHeightFull(true)
             });
     }, [approved])
+
+
+
 
     const handleApprove = (user) => {
         fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/verify/${user.UID}`, {
@@ -50,13 +62,24 @@ const LawyersRequests = () => {
                 setLawyerList(lawyerList.filter(lawyer => lawyer._id !== user._id))
             })
     }
-
     const handleReject = (user) => {
-        toast.error(`${user.name} Lawyer Rejected`)
-        setRejectList([...rejectList, user])
-        setLawyerList(lawyerList.filter(lawyer => lawyer._id !== user._id))
-        setApproveList(approveList.filter(lawyer => lawyer._id !== user._id))
+        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/reject/${user.UID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify()
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                toast.error(`${user.name} Lawyer Rejected`)
+                setRejectList([user, ...rejectList])
+                setLawyerList(lawyerList.filter(lawyer => lawyer._id !== user._id))
+                setApproveList(approveList.filter(lawyer => lawyer._id !== user._id))
+            })
     }
+
 
     console.log(heightFull)
 

@@ -52,7 +52,7 @@ function HeroSection() {
                         </div>
                     </div>
                 </Slider>
-                <ModalBox />
+                {/* <ModalBox /> */}
             </div>
         </div>
     )

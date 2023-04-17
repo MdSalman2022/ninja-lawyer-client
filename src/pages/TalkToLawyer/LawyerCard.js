@@ -93,14 +93,14 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
           isOnline ?
             <>
               <span className="absolute top-3 bg-transparent border border-success w-40 h-40 rounded-full"></span>
-              <span className="absolute top-5 right-28 rounded-full w-2 h-2 bg-success animate-ping"></span>
-              <span className="absolute top-5 right-28 rounded-full w-2 h-2 bg-success"></span>
+              <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-success animate-ping"></span>
+              <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-success"></span>
             </>
             :
             <>
               <span className="absolute top-3 bg-transparent border border-accent w-40 h-40 rounded-full"></span>
-              <span className="absolute top-5 right-28 rounded-full w-2 h-2 bg-accent animate-ping"></span>
-              <span className="absolute top-5 right-28 rounded-full w-2 h-2 bg-accent"></span>
+              <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-accent animate-ping"></span>
+              <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-accent"></span>
             </>
         }
 

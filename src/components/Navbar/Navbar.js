@@ -159,7 +159,7 @@ function Navbar() {
 
               {/* logo for navbar  */}
 
-              <div className="mt-3">
+              <div className="mt-3 mr-10">
                 <Link to="/">
                   <img
                     className={`w-20 md:w-40 ${!darkmode && "hidden"}`}

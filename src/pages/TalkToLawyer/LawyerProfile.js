@@ -55,8 +55,8 @@ const LawyerProfile = () => {
             <figure className='relative'>
               <img className='w-40 rounded-full h-40 object-cover border ' src={img ? img : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="} alt="" />
               <span className='absolute top-0 bg-transparent border border-success w-40 h-40 rounded-full'></span>
-              <span className='absolute top-5 right-5 rounded-full w-2 h-2 bg-success animate-ping'></span>
-              <span className='absolute top-5 right-5 rounded-full w-2 h-2 bg-success'></span>
+              <span className='absolute top-4 right-5 rounded-full w-3 h-3 bg-success animate-ping'></span>
+              <span className='absolute top-4 right-5 rounded-full w-3 h-3 bg-success'></span>
             </figure>
             <p className='flex items-center gap-1'>{name}<GoVerified className={`${verified ? 'text-blue-500' : 'text-gray-500'}`} /></p>
             <p className='flex items-center gap-1'>Rating: {rating} <FaStar className='text-yellow-400' /></p>

@@ -100,7 +100,7 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><ProfilePage /></PrivateRoute>,
       },
       {
-        path: "/dashboard/orders",
+        path: "/dashboard/cases",
         element: <PrivateRoute><OrdersPage /></PrivateRoute>,
       },
       {

@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider'
+import ModalBox from '../../../components/HeroSection/ModalBox'
 
 function CallLogsPage() {
+
+    const { user } = useContext(AuthContext)
+
     return (
         <div className=''>
-            <h1 className="text-3xl text-base-100 dark:text-primary">My Orders</h1>
+            <h1 className="text-3xl text-base-100 dark:text-primary">Call logs</h1>
             <div className="grid lg:grid-cols-3 xl:grid-cols-5 gap-10 py-10">
                 <div className="col-span-1 p-5 text-base-100 dark:text-primary border rounded-lg">
                     <p>Filters</p>
@@ -38,6 +43,9 @@ function CallLogsPage() {
                                     <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
                                         Time
                                     </th>
+                                    {user.displayName === 'lawyer' && <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
+                                        Action
+                                    </th>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,6 +60,9 @@ function CallLogsPage() {
                                     <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
                                         2 March 2023
                                     </td>
+                                    {user.displayName === 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                        <ModalBox offerStatus={"offer"}/>
+                                    </td>}
                                 </tr>
 
                             </tbody>

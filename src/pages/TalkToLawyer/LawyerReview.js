@@ -444,11 +444,15 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
                                                 />
                                                 <span>{userName.map(item => item.uid === r.UID && item.name)}</span>
                                             </span>
-                                            <span>{formatDate(r.timestamp)}</span>
+                                            <div className='flex flex-col items-end gap-2'>
+                                                <p className='flex items-center border rounded-lg font-bold py-2 px-3 gap-2'>{r.rating}<FaStar className='text-xl text-warning' /></p>
+                                                <span>{formatDate(r.timestamp)}</span>
+                                            </div>
+
                                         </div>
                                         <div className="flex flex-col gap-1">
                                             <span className="flex items-center text-warning">
-                                                {r.rating === 1 ? (
+                                                {/* {r.rating === 1 ? (
                                                     <FaStar />
                                                 ) : r.rating === 2 ? (
                                                     <>
@@ -478,7 +482,7 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
                                                             <FaStar />
                                                         </>
                                                     )
-                                                )}
+                                                )} */}
                                             </span>
                                             <span>{r.review}</span>
                                         </div>

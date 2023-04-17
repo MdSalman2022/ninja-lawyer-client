@@ -6,70 +6,88 @@ import { StateContext } from '../../contexts/StateProvider/StateProvider';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { RxCross1 } from 'react-icons/rx'
+import { MdOutlineUploadFile } from 'react-icons/md';
+import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
 
-function ModalBox() {
-    const [isOpen, setIsOpen] = useState(false);
+function ModalBox({offer, offerStatus,handleComplete, CaseComplete}) {
 
-    const [zipCode, setZipCode] = useState('');
-    const [stateInfo, setStateInfo] = useState(null);
-    const [cityInfo, setCityInfo] = useState([]);
+    const { user } = useContext(AuthContext);
+    const { userData } = useContext(StateContext);
+    const [isOpen, setIsOpen] = useState(false); 
 
 
     const { register, handleSubmit, formState: { errors } } = useForm();
+ 
 
-    const [specialties, setSpecialties] = useState([]);
-    const [languages, setLanguages] = useState([]);
+    const specialtiesList = [
+        "Divorce & Child Custody",
+        "Property & Real Estate",
+        "Cheque Bounce & Money Recovery",
+        "Employment Issues",
+        "Consumer Protection",
+        "Civil Matters",
+        "Cyber Crime",
+        "Company & Start-Ups",
+        "Other Legal Problem",
+        "Criminal Matter",
+        "MSME Recovery, MSME related matter.",
+    ];
+
+
+    const [paymentModal, setPaymentModal] = useState(false);
+
 
     const onSubmit = data => {
 
-        setIsOpen(false);
-        if (specialties.length === 0) {
-            setSpecialtiesError(0);
-            return;
-        }
-        if (languages.length === 0) {
-            setLanguageError(0);
-            return;
-        }
+        // setIsOpen(false);
+        setPaymentModal(true)
+        // if (specialties.length === 0) {
+        //     setSpecialtiesError(0);
+        //     return;
+        // }
+        // if (languages.length === 0) {
+        //     setLanguageError(0);
+        //     return;
+        // }
 
-        const { fname, email, city, contact, experience, rate, summary } = data;
+        // const { fname, email, city, contact, experience, rate, summary } = data;
 
-        const lawyer = {
-            fname,
-            email,
-            contact: ("+" + 91 + contact).toString(),
-            state: stateInfo,
-            city,
-            pincode: zipCode,
-            experience,
-            rate,
-            language: languages,
-            specialties: specialties,
-            summary,
-            rating: 0,
-            review: 0,
-            UID: `U${Math.floor(Math.random() * 100000)}`,
-        }
+        // const lawyer = {
+        //     fname,
+        //     email,
+        //     contact: ("+" + 91 + contact).toString(),
+        //     state: stateInfo,
+        //     city,
+        //     pincode: zipCode,
+        //     experience,
+        //     rate,
+        //     language: languages,
+        //     specialties: specialties,
+        //     summary,
+        //     rating: 0,
+        //     review: 0,
+        //     UID: `U${Math.floor(Math.random() * 100000)}`,
+        // }
 
-        console.log(lawyer)
+        // console.log(lawyer)
 
-        try {
-            fetch(`https://ninja-lawyer-server.vercel.app/api/users/add-lawyer`, {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(lawyer)
-            })
-                .then(res => res.json())
-                .then(data => {
-                    toast.success(`${lawyer.fname} lawyer is added successfully`)
-                    console.log('lawyer data: ', data)
-                })
-        }
-        catch (error) {
-            console.log(errors);
-        }
+        // try {
+        //     fetch(`https://ninja-lawyer-server.vercel.app/api/users/add-lawyer`, {
+        //         method: 'POST',
+        //         headers: {
+        //             'content-type': 'application/json'
+        //         },
+        //         body: JSON.stringify(lawyer)
+        //     })
+        //         .then(res => res.json())
+        //         .then(data => {
+        //             toast.success(`${lawyer.fname} lawyer is added successfully`)
+        //             console.log('lawyer data: ', data)
+        //         })
+        // }
+        // catch (error) {
+        //     console.log(errors);
+        // }
     }
 
 
@@ -125,26 +143,6 @@ function ModalBox() {
     } */
 
 
-    const handlePlace = (state, city) => {
-        setStateInfo(state);
-        setCityInfo(city);
-    }
-
-
-    useEffect(() => {
-        if (zipCode.length > 5) {
-            fetch(`http://api.zippopotam.us/in/${zipCode}`)
-                .then(response => response.json())
-                .then(data => handlePlace((data.places[0].state), (data.places)))
-                .catch(error => console.error(error));
-        }
-    }, [zipCode]);
-
-    const handleZipCodeChange = event => {
-        setZipCode(event.target.value);
-    };
-
-
 
     // useEffect(() => {
     //     fetch("https://datahub.io/core/language-codes/r/language-codes-3b2-iso-639-2.json")
@@ -157,296 +155,221 @@ function ModalBox() {
 
     // console.log(languages) 
 
-    const languageSuggestions = ["English", "Hindi", "Telegu", "Assamese", "Kannada", "Marathi", "Odia", "Bengali", "Tamil", "Malayalam"];
-    const specialtiesSuggestions = ["Divorce & Child Custody", "Property & Real Estate", "Cheque Bounce & Money Recovery", "Employment Issues", "Consumer Protection", "Civil Matters", "Cyber Crime", "Company & Start-Ups", "Other Legal Problem", "Criminal Matter", "MSME Recovery, MSME related matter."];
-
-    const [languageError, setLanguageError] = useState('')
-    const [specialtiesError, setSpecialtiesError] = useState('')
+    const [completeOpen, setCompleteOpen] = useState(false);
 
 
-    const [languageInputValue, setLanguageInputValue] = useState('')
-    const [specialtiesInputValue, setSpecialtiesInputValue] = useState('')
-
-    const handleSpecialtyInputValue = (event) => {
-        const { value } = event.target;
-        setSpecialtiesInputValue(value);
-    }
-
-    const handleSpecialties = (event) => {
-        const { value } = event.target;
-
-        console.log(value)
-
-        if (event.key === 'Enter' && value.trim() !== '') {
-            event.preventDefault()
-            if (specialties.includes(value)) {
-                setSpecialtiesInputValue('')
-                setSpecialtiesError(`${value} specialty already added`)
-                return;
-            }
-            else
-                setSpecialtiesError('')
-
-            if (!specialtiesSuggestions.includes(value)) {
-                setSpecialtiesError(`"${value}" specialty not available`)
-                return;
-            }
-            else
-                setSpecialtiesError('')
-
-            setSpecialties([...specialties, value]);
-            setSpecialtiesInputValue('');
+    function splitTextIntoLines(text, wordsPerLine) {
+        const words = text.split(" ");
+        const lines = [];
+        let line = "";
+      
+        for (let i = 0; i < words.length; i++) {
+          if (i % wordsPerLine === 0 && line !== "") {
+            lines.push(line);
+            line = "";
+          }
+          line += words[i] + " ";
         }
-        else if (event.key === 'Enter' && value.trim() === '') {
-            event.preventDefault()
-
+      
+        if (line !== "") {
+          lines.push(line);
         }
-    }
+      
+        return lines;
+      }
 
-    const handleRemoveSpecialty = (specialty) => {
-        const newSpecialties = specialties.filter((special) => special !== specialty);
-        setSpecialties(newSpecialties);
-    }
-
-    const handleLanguageInputValue = (event) => {
-        const { value } = event.target;
-        setLanguageInputValue(value);
-    }
-
-    const handleLanguages = (event) => {
-        const { value } = event.target;
-        console.log(value)
-
-        if (event.key === 'Enter' && value.trim() !== '') {
-            event.preventDefault()
-            if (languages.includes(value)) {
-                setLanguageInputValue('')
-                setLanguageError(`${value} language already added`)
-                return;
-            }
-            else
-                setLanguageError('')
-
-            if (!languageSuggestions.includes(value)) {
-                setLanguageError(`"${value}" language not available`)
-                return;
-            }
-            else
-                setLanguageError('')
-
-            setLanguages([...languages, value]);
-            setLanguageInputValue('');
-        }
-        else if (event.key === 'Enter' && value.trim() === '') {
-            event.preventDefault()
-
-        }
-    }
-
-    const handleRemoveLanguage = (language) => {
-        const newLanguages = languages.filter((lang) => lang !== language);
-        setLanguages(newLanguages);
-    }
-
-
-
-
-    console.log(languages)
-    console.log(specialties)
-
-
+    
+    
     return (
         <>
-            <button className='primary-btn' onClick={() => setIsOpen(true)}>Add Lawyer</button>
+            {user.displayName === 'lawyer' && <button className='primary-btn' onClick={() => setIsOpen(true)}>Send Offer</button>}
+            {
+                user.displayName !== 'lawyer' &&
+                <>
+                    {offerStatus === 'offer' && <button className='primary-btn' onClick={() => setIsOpen(true)}>View Offer</button>}
+                    <div className="relative">
+                        {offerStatus === 'accepted' && <button onClick={()=>setCompleteOpen(!completeOpen)} className={`primary-btn bg-success hover:bg-green-600 ${CaseComplete === false ?  'flex items-center justify-center' : 'hidden'} gap-2 px-2`}>Approved <FaCaretRight/></button>} 
+                        {offerStatus === 'accepted' && <button onClick={()=>handleComplete(true)} className={`${completeOpen === true && CaseComplete === false ? 'absolute right-10 top-0' : 'hidden'} primary-outline-btn border-success hover:bg-green-600 hover:border-green-600 text-success `}>Completed</button>} 
+                        {offerStatus === 'accepted' && <button className={`${CaseComplete === true ? 'flex' : 'hidden'} primary-outline-btn border-success hover:bg-green-600 hover:border-green-600 text-success `}>Completed</button>} 
+
+                    </div>
+                    {offerStatus === 'rejected' && <button className='primary-btn bg-gray-400 text-gray-600 hover:bg-gray-400 cursor-not-allowed'>Rejected</button>}
+                </>
+            }
 
             {isOpen ? (
-                <div className="fixed z-10 inset-0 overflow-y-auto">
+                <div className="fixed z-10 inset-0 overflow-auto">
                     <div className="flex items-center justify-center min-h-screen">
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
 
-                        <div className="bg-primary dark:bg-base-100 rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+                        <div className="bg-primary dark:bg-base-100 rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-2xl sm:w-full">
                             <div className="bg-primary dark:bg-base-100 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                <p className="text-3xl pb-5 font-thin text-start">Add Lawyer</p>
-                                <div className="">
-                                    <form
-                                        className="grid grid-cols-2 gap-5"
-                                        onSubmit={handleSubmit(onSubmit)}
-                                    >
-                                        <label className="col-span-2 flex flex-col items-start justify-start ">
-                                            <span className="text-start font-medium text-base-100 dark:text-primary w-32">
-                                                Full Name:
-                                            </span>
-                                            <input
-                                                type="text"
-                                                className="input-box w-full"
-                                                name="fname"
-                                                placeholder='Rajesh Kumar'
-                                                {...register("fname", { required: true, maxLength: 80 })} />
-                                            {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
-                                        </label>
-                                        <label className="col-span-1 flex flex-col items-start justify-start ">
-                                            <span className="text-start font-medium text-base-100 dark:text-primary w-14">
-                                                Email
-                                            </span>
-                                            <input
-                                                type="email"
-                                                className="input-box w-full"
-                                                name="email"
-                                                placeholder='example@mail.com'
-                                                {...register("email", { required: true, maxLength: 80 })}
-                                            />
-                                        </label>
-                                        <label className="col-span-1 flex flex-col items-start ">
+                                {/* <p className="text-3xl pb-5 text-start">Offer from lawyer1</p> */}
+                                <div className="sm:max-w-2xl sm:w-full">
+                                    {user.displayName !== 'lawyer' && paymentModal === false && 
 
-                                            <span className="text-start font-medium text-base-100 dark:text-primary w-40">
-                                                Contact number
-                                            </span>
-                                            <div className='flex items-end'>
-                                                <span className=' rounded-l-md h-[90%] border-y border-l px-1 bg-primary flex items-center'>+91</span>
-                                                <input
-                                                    type="text"
-                                                    className="input-box w-full rounded-l-none border-l-none"
-                                                    name="contact"
-                                                    placeholder='1234567890'
-                                                    {...register("contact", { required: true, maxLength: 80 })}
-                                                />
-
+                                        <form
+                                            className="grid grid-cols-2 gap-5 "
+                                            onSubmit={handleSubmit(onSubmit)}
+                                        >
+                                            <div className=' col-span-2 flex flex-col flex-wrap gap-5'>
+                                                <div className='flex flex-col'>
+                                                    <span className="text-3xl">{offer.case_name} Case</span>
+                                                    <span className="text-accent">{offer.name}</span>
+                                               </div>
+                                                {/* <ul>
+                                                    <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam, aliquid? Magni doloribus </li>
+                                                    <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam, aliquid? Magni doloribus </li>
+                                                    <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam, aliquid? Magni doloribus </li>
+                                                    <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam, aliquid? Magni doloribus </li>
+                                                </ul> */}
+                                                <div className='w-fit'>
+                                                    <div className='whitespace-pre-wrap'>
+                                                        {splitTextIntoLines(offer.description, 10)}
+                                                    </div>
+                                                </div>
+                                                <p className="text-2xl text-accent font-bold">₹{offer.amount}</p>
                                             </div>
 
-                                        </label>
-                                        {/* <label className="col-span-2 grid grid-cols-2 pt-1">
-                                <span className="text-start font-medium text-base-100 dark:text-primary w-32">
-                                    Pick a file
-                                </span>
-                                    <input type="file" className="file-input bg-accent w-full "
-                                    {...register("image", {
-                                        required: "Image is required"
-                                    })}
-                                    />                                
-                                    {errors.image && <p className='text-accent'>Image is required</p>}
-                            </label> */}
+                                            <button onClick={() => setIsOpen(false)} className="primary-outline-btn">
+                                                Reject Offer
+                                            </button>
+                                            <button type="submit" className="primary-btn">
+                                                Accept Offer
+                                            </button>
+                                       
 
-                                        <div className="col-span-2 grid grid-cols-3 gap-5">
-                                            <label className="col-span-1 flex flex-col items-start">
+                                        </form>
+                                    }
+
+                                    {
+                                        user.displayName !== 'lawyer' && paymentModal === true &&
+                                         
+                                             <div className='flex justify-center items-center'>
+                                              <button onClick={()=>setIsOpen(false)} className="primary-btn">
+                                                 Pay
+                                             </button>
+                                             </div>
+                                    }
+                                    
+                                    {user.displayName === 'lawyer' &&
+
+                                        <form
+                                            className="grid grid-cols-2 gap-5"
+                                            onSubmit={handleSubmit(onSubmit)}
+                                        >
+
+                                            <label className="col-span-1 flex flex-col items-start justify-start ">
                                                 <span className="text-start font-medium text-base-100 dark:text-primary w-32">
-                                                    State
+                                                    Client Name
+                                                </span>
+                                                <input
+                                                    type="text"
+                                                    className="input-box w-full text-accent "
+                                                    name="client_name"
+                                                    defaultValue="user1 names"
+                                                    {...register("client_name", { required: true, maxLength: 400 })}
+                                                    readOnly
+                                                />
+                                                {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
+                                            </label>
+                                            <label className="col-span-1 flex flex-col items-start justify-start ">
+                                                <span className="text-start font-medium text-base-100 dark:text-primary w-32">
+                                                    Lawyer name
+                                                </span>
+                                                <input
+                                                    type="text"
+                                                    className="input-box w-full text-accent"
+                                                    name="lawyer_name"
+                                                    defaultValue={userData.name}
+                                                    {...register("lawyer_name", { required: true, maxLength: 400 })} readOnly />
+                                                {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
+                                            </label>
+                                            <label className="col-span-1 flex flex-col items-start justify-start ">
+                                                <span className="text-start font-medium text-base-100 dark:text-primary w-32">
+                                                    Case Specialties
+                                                </span>
+                                                <select className='input-box w-full' {...register("Specialties")}>
+                                                    {
+                                                        specialtiesList.map((specialty, index) => <option key={index} value={specialty}>{specialty}</option>)
+                                                    }
+                                                </select>
+                                            </label>
+
+                                            <label className="col-span-1 flex flex-col items-start justify-start ">
+                                                <span className="text-start font-medium text-base-100 dark:text-primary w-32">
+                                                    Case name
                                                 </span>
                                                 <input
                                                     type="text"
                                                     className="input-box w-full"
-                                                    name="state"
-                                                    placeholder='West Bengal, Maharashtra, etc.'
-                                                    value={stateInfo} readOnly
-                                                />
+                                                    name="fname"
+                                                    placeholder='Divorce case'
+                                                    {...register("fname", { required: true, maxLength: 400 })} />
+                                                {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
                                             </label>
-                                            <label className="col-span-1 flex flex-col items-start">
-                                                <span className="text-start font-medium text-base-100 dark:text-primary w-32">
-                                                    City
-                                                </span>
-                                                <select className="input-box w-full max-w-xs" {...register("city", { required: true })}>
-                                                    {cityInfo?.map(city => <option value={city['place name']}>{city['place name']}</option>)}
-                                                </select>
-                                            </label>
-                                            <label className="col-span-1 flex flex-col items-start">
-                                                <span className="text-start font-medium text-base-100 dark:text-primary w-32">
-                                                    Pincode
-                                                </span>
-                                                <input
-                                                    className='input-box w-full' name="pincode"
-                                                    type="text" value={zipCode} onChange={handleZipCodeChange}
-                                                    required
-                                                />
-                                            </label>
-                                        </div>
-                                        <label className="col-span-1 flex flex-col items-start">
-                                            <span className="text-start font-medium text-base-100 dark:text-primary w-32">
-                                                Experience
-                                            </span>
-                                            <input
-                                                type="number"
-                                                className="input-box w-full"
-                                                name="experience"
-                                                placeholder='In years'
-                                                {...register("experience", { required: true, maxLength: 80 })}
-
-                                            />
-                                        </label>
-                                        <label className="col-span-1 flex flex-col items-start">
-                                            <span className="text-start font-medium text-base-100 dark:text-primary w-32">
-                                                Rate per minute
-                                            </span>
-                                            <input
-                                                type="number"
-                                                className="input-box w-full"
-                                                name="rate"
-                                                placeholder='In Rs'
-                                                {...register("rate", { required: true, maxLength: 80 })}
-
-                                            />
-                                        </label>
-                                        <label className="col-span-1 flex flex-col items-start w-full">
-                                            <span className="text-start font-medium text-base-100 dark:text-primary w-32 flex">
-                                                Language
-                                            </span>
-                                            <div className=''>
-                                                <input onKeyDown={handleLanguages} onChange={handleLanguageInputValue} value={languageInputValue} list="languages" id="languageInput" className={`input-box w-56 ${languageError === 0 ? 'border border-red-500' : ''}`} />
-                                                <datalist id="languages" className='text-left w-full' >
-                                                    {
-                                                        languageSuggestions.map((language, index) => <option key={index} value={language} />)
-                                                    }
-                                                </datalist>
-                                                <div className='text-xs flex flex-wrap gap-1 mt-1'>
-                                                    {
-                                                        languages.map((language, index) => <div className='flex items-center justify-between'>
-                                                            <span key={index} className='px-1 rounded border  flex items-center gap-1'>{language} <RxCross1 onClick={() => handleRemoveLanguage(language)} className='cursor-pointer' /></span>
-                                                        </div>)
-                                                    }
+                                            <div className='col-span-2 flex items-center gap-5'>
+                                                <div className="flex flex-col items-start justify-start ">
+                                                    <span className='text-start font-medium text-base-100 dark:text-primary w-32'>
+                                                        <p>Upload Document</p>
+                                                    </span>
+                                                    <div className='input-box h-10 relative group'>
+                                                        <MdOutlineUploadFile className='group-hover:text-accent absolute left-[45%] text-2xl' />
+                                                        <input type="file" className="h-full w-full opacity-0" />
+                                                    </div>
                                                 </div>
+                                                <label className="flex flex-col items-start justify-start ">
+                                                    <span className="text-start font-medium text-base-100 dark:text-primary w-32">
+                                                        Case duration
+                                                    </span>
+                                                    <input
+                                                        type="number"
+                                                        className="input-box w-full"
+                                                        name="fname"
+                                                        placeholder='Number of days it will take '
+                                                        {...register("fname", { required: true, maxLength: 400 })} />
+                                                    {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
+                                                </label>
+                                                <label className="flex flex-col items-start justify-start ">
+                                                    <span className="text-start font-medium text-base-100 dark:text-primary w-32">
+                                                        Offer Price
+                                                    </span>
+                                                    <div className='relative flex w-full'>
+                                                        <span className='absolute left-2 top-3'>₹</span>
+                                                        <input
+                                                            type="number"
+                                                            className="input-box w-full pl-5"
+                                                            name="budget"
+                                                            placeholder='15000'
+                                                            {...register("budget", { required: true, maxLength: 80 })} />
+                                                        {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.budget}</p>}
+                                                    </div>
+                                                </label>
                                             </div>
-                                            <span className='text-xs text-error'>{languageError === 0 ? 'Please add atleast one language' : languageError}</span>
-                                        </label>
-                                        <label className="col-span-1 flex flex-col items-start">
-                                            <span className="text-start font-medium text-base-100 dark:text-primary w-32">
-                                                Specialties
-                                            </span>
-                                            <div className=''>
-                                                <input onKeyDown={handleSpecialties} onChange={handleSpecialtyInputValue} value={specialtiesInputValue} list="specialties" id="specialtyInput" className={`input-box w-56 ${specialtiesError === 0 ? 'border border-red-500' : ''}`} />
-                                                <datalist id="specialties" className='text-left w-full' >
-                                                    {
-                                                        specialtiesSuggestions.map((specialty, index) => <option key={index} value={specialty} />)
-                                                    }
-                                                </datalist>
-                                                <div className='text-xs flex flex-wrap gap-1 mt-1'>
-                                                    {
-                                                        specialties.map((specialty, index) => <div className='flex items-start justify-start'>
-                                                            <span key={index} className='px-1 rounded border  flex items-start justify-start text-left gap-1'>{specialty} <RxCross1 onClick={() => handleRemoveSpecialty(specialty)} className='cursor-pointer' /></span>
-                                                        </div>)
-                                                    }
-                                                </div>
-                                            </div>
-                                            <span className='text-xs text-error text-left'>{specialtiesError === 0 ? 'Please add atleast one specialty' : specialtiesError}</span>
-                                        </label>
-                                        <label className="col-span-2 flex flex-col items-start">
-                                            <span className="text-start font-medium text-base-100 dark:text-primary w-60">
-                                                Professional Summary
-                                            </span>
-                                            <textarea
-                                                type="text"
-                                                className="input-box w-full h-28"
-                                                name="summary"
-                                                placeholder='Write your professional summary'
-                                                {...register("summary", { required: true, maxLength: 400 })}
 
-                                            />
-                                        </label>
-                                        <button onClick={() => setIsOpen(false)} className="primary-outline-btn">
-                                            Cancel
-                                        </button>
-                                        <button type="submit" className="primary-btn">
-                                            Confirm
-                                        </button>
+                                            <label className="col-span-2 flex flex-col items-start justify-start ">
+                                                <span className="text-start font-medium text-base-100 dark:text-primary w-32">
+                                                    Case Description
+                                                </span>
+                                                <textarea
+                                                    type="text"
+                                                    className="input-box w-full h-40"
+                                                    name="fname"
+                                                    placeholder=' I am offering my legal services to assist individuals'
+                                                    {...register("fname", { required: true, maxLength: 400 })} />
+                                                {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
+                                            </label>
 
-                                    </form>
+                                            <button onClick={() => setIsOpen(false)} className="primary-outline-btn">
+                                                Cancel
+                                            </button>
+                                            <button type="submit" className="primary-btn">
+                                                Send Offer
+                                            </button>
+
+                                        </form>
+                                    }
+
                                 </div>
                             </div>
                         </div>
