@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { FaExternalLinkAlt, FaSearch } from 'react-icons/fa';
 import { Player } from '@lottiefiles/react-lottie-player';
 import ModalBox from '../../../components/HeroSection/ModalBox';
@@ -6,12 +6,39 @@ import { FiFilter } from 'react-icons/fi';
 import {allOffers} from './offers'
 import ModalReview from './ModalReview';
 import { Link } from 'react-router-dom';
+import { StateContext } from '../../../contexts/StateProvider/StateProvider';
+import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 
 function OrdersPage() {
 
+    const {user} = useContext(AuthContext)
+    const {userData} = useContext(StateContext)
  
     const [caseType, setCaseType] = useState('All Cases')
+    
+    const [allOrders, setAllOrders] = useState([])
 
+    useEffect(()=>{
+        fetch(`https://ninja-lawyer-server.vercel.app/api/orders/${user.displayName === 'lawyer' ? '' : 'user/'}get/${user.uid}`)
+        .then(res=>res.json())
+        .then(data=>{ 
+            console.log(data)
+            if(user.displayName === 'lawyer'){
+                setAllOrders(data.orders)
+            }else{
+                setAllOrders(data)
+            }
+        })
+    }, [])
+
+    // useEffect(()=>{
+    //     fetch(`https://ninja-lawyer-server.vercel.app/api/orders/get/${user.UID}`)
+    //     .then(res=>res.json())
+    //     .then(data=>{ 
+    //         console.log(data.orders)
+    //         setAllOrders(data.orders)
+    //     })
+    // }, [])
     
     const tabRef = useRef(null);
     
@@ -74,7 +101,7 @@ function OrdersPage() {
       };
 
     console.log(caseType)
-    console.log(allOffers)
+    // console.log(allOffers)
     
 
     const [CaseComplete, setCaseComplete] = useState(false)
@@ -87,6 +114,13 @@ function OrdersPage() {
     }
 
     console.log(modalOpen)
+
+
+    function formatDate(dateString) {
+        const options = { month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
+        const date = new Date(dateString);
+        return date.toLocaleString("en-US", options);
+      }
 
 
     return (
@@ -164,33 +198,33 @@ function OrdersPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                allOffers.map((offer, index) => (
+                            {allOrders.length > 0 &&
+                                allOrders?.map((order, index) => (
                                     <tr key={index} className="bg-primary dark:bg-base-100 border-b">
-                                        <ModalReview lawyer={offer.UID} setModalOpen={setModalOpen} modalOpen={modalOpen}/>
+                                        <ModalReview lawyer={order.UID} setModalOpen={setModalOpen} modalOpen={modalOpen}/>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-primary">{index+1}</td>
-                                        <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            {offer.name}
-                                        </td>
+                                        {user.displayName === 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                            {order.client_name}
+                                        </td>}
+                                        {user.displayName !== 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                            {order.lawyer_name}
+                                        </td>}
                                         {/* <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            {offer.contact}
+                                            {order.contact}
                                         </td> */}
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            {offer.time}
+                                        {formatDate(order.timestamp)}
                                         </td>
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            ₹{offer.amount}
+                                            ₹{order.budget}
                                         </td>
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            <ModalBox offerStatus={offer.status} handleComplete={handleComplete} CaseComplete={CaseComplete} offer={offer} />
-                                        </td>
-                                        {offer.status === 'accepted' &&
+                                            <ModalBox offerStatus={order.status} handleComplete={handleComplete} CaseComplete={CaseComplete} offer={order} />
+                                        </td> 
                                             <td className="text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            <Link to='/dashboard/cases/case-details' target="_blank"><button className='hover:bg-gray-200 p-2 rounded-full'><FaExternalLinkAlt /></button></Link>
-                                        </td>
-                                        }
+                                            <Link to={`/dashboard/cases/case-details/${order._id}`}><button className='hover:bg-gray-200 p-2 rounded-full'><FaExternalLinkAlt /></button></Link>
+                                        </td> 
                                     </tr>
-                                    
                                 ))
                             }
                            

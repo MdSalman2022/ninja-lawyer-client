@@ -1,10 +1,47 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider'
 import ModalBox from '../../../components/HeroSection/ModalBox'
 
 function CallLogsPage() {
 
     const { user } = useContext(AuthContext)
+
+
+    const [allOffers, setAllOffers] = useState([])
+    const [callUID, setCallUID] = useState('')
+
+
+    useEffect(()=>{
+        fetch(`https://ninja-lawyer-server.vercel.app/api/offers/${user.displayName === 'lawyer' ? '' : 'user/'}get/${user.uid}`)
+        .then(res=>res.json())
+        .then(data=>{
+            setCallUID(data._id)
+            console.log(data.offers)
+            setAllOffers(data.offers)
+            if(user.displayName === 'lawyer'){
+                setAllOffers(data.offers)
+            }else{
+                setAllOffers(data)
+            }
+        })
+    }, [])
+
+    // useEffect(()=>{
+    //     fetch(`https://ninja-lawyer-server.vercel.app/api/offers/user/get/${user.uid}`)
+    //     .then(res=>res.json())
+    //     .then(data=>{
+    //         setCallUID(data._id)
+    //         console.log(data)
+    //         setAllOffers(data)
+    //     })
+    // }, [])
+
+
+    function formatDate(dateString) {
+        const options = { month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
+        const date = new Date(dateString);
+        return date.toLocaleString("en-US", options);
+      }
 
     return (
         <div className=''>
@@ -35,11 +72,14 @@ function CallLogsPage() {
                                         #
                                     </th>
                                     <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
-                                        Name
+                                        Call UID
                                     </th>
                                     <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
-                                        Number
+                                        Name
                                     </th>
+                                    {/* <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
+                                        Number
+                                    </th> */}
                                     <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
                                         Time
                                     </th>
@@ -49,21 +89,31 @@ function CallLogsPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="bg-primary dark:bg-base-100 border-b">
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-primary">1</td>
-                                    <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                        Mark
-                                    </td>
-                                    <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                        +917987654321
-                                    </td>
-                                    <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                        2 March 2023
-                                    </td>
-                                    {user.displayName === 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                        <ModalBox offerStatus={"offer"}/>
-                                    </td>}
-                                </tr>
+                                {allOffers.length > 0 &&
+                                    allOffers.map((offer, index) => 
+                                    (
+                                        <tr className="bg-primary dark:bg-base-100 border-b" key={offer?._id}>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-primary">{index}</td>
+                                            <td className='text-gray-900'>#{offer?._id}</td>
+                                            { user.displayName !== 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                                {offer?.lawyer_name}
+                                            </td>}
+                                           {user.displayName === 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                                {offer?.name}
+                                            </td>}
+                                            {/* <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                                +917987654321
+                                            </td> */}
+                                            <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                                {formatDate(offer?.timestamp)}
+                                            </td>
+                                            {user.displayName === 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                                <ModalBox offerStatus={offer.status} client={offer.name} client_uid={offer.UID} offer={offer}/>
+                                            </td>}
+                                        </tr>
+                                    ))
+                                }
+                               
 
                             </tbody>
                         </table>

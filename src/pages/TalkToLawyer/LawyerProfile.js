@@ -7,10 +7,13 @@ import { GoVerified } from 'react-icons/go'
 import LawyerReview from './LawyerReview'
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider'
 import { set } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
+import { StateContext } from '../../contexts/StateProvider/StateProvider'
 
 const LawyerProfile = () => {
 
   const { user } = useContext(AuthContext)
+  const { userData } = useContext(StateContext)
 
   const lawyer = useLoaderData()
 
@@ -20,12 +23,33 @@ const LawyerProfile = () => {
 
   const date = new Date()
 
-  const handleServicePurchase = (UID) => {
-    const existingUIDs = localStorage.getItem('lawyerUIDs')
-    const newUIDs = existingUIDs ? JSON.parse(existingUIDs).concat(UID) : [UID]
-    localStorage.setItem('lawyerUIDs', JSON.stringify(newUIDs))
-    setServiceTaken(true)
+  const handleServicePurchase = async (UID) => {
+    // const existingUIDs = localStorage.getItem('lawyerUIDs')
+    // const newUIDs = existingUIDs ? JSON.parse(existingUIDs).concat(UID) : [UID]
+    // localStorage.setItem('lawyerUIDs', JSON.stringify(newUIDs))
+    // setServiceTaken(true)
 
+      const url = `https://ninja-lawyer-server.vercel.app/api/offers/add/${UID}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          UID: userData.UID,
+          name: userData.name,
+          lawyer_name: name,
+        })
+      });
+      const data = await response.json();
+      console.log(data);
+      if(data.acknowledged) {
+        toast.success('Service Taken')
+      }else{
+        toast.error('Something went wrong')
+      }
+      
+ 
   }
 
 

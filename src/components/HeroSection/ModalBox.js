@@ -9,16 +9,14 @@ import { RxCross1 } from 'react-icons/rx'
 import { MdOutlineUploadFile } from 'react-icons/md';
 import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
 
-function ModalBox({offer, offerStatus,handleComplete, CaseComplete}) {
+function ModalBox({offer, offerStatus,handleComplete, CaseComplete, client,client_uid}) {
 
     const { user } = useContext(AuthContext);
     const { userData } = useContext(StateContext);
-    const [isOpen, setIsOpen] = useState(false); 
-
+    const [isOpen, setIsOpen] = useState(false);  
 
     const { register, handleSubmit, formState: { errors } } = useForm();
- 
-
+  
     const specialtiesList = [
         "Divorce & Child Custody",
         "Property & Real Estate",
@@ -37,123 +35,64 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete}) {
     const [paymentModal, setPaymentModal] = useState(false);
 
 
-    const onSubmit = data => {
-
-        // setIsOpen(false);
+    const onSubmit = (data) => {
+        console.log(data) 
         setPaymentModal(true)
-        // if (specialties.length === 0) {
-        //     setSpecialtiesError(0);
-        //     return;
-        // }
-        // if (languages.length === 0) {
-        //     setLanguageError(0);
-        //     return;
-        // }
+        setIsOpen(false); 
 
-        // const { fname, email, city, contact, experience, rate, summary } = data;
+        const { UID, lawyer_name, budget, case_name,description, duration, specialty, client_name } = data;
 
-        // const lawyer = {
-        //     fname,
-        //     email,
-        //     contact: ("+" + 91 + contact).toString(),
-        //     state: stateInfo,
-        //     city,
-        //     pincode: zipCode,
-        //     experience,
-        //     rate,
-        //     language: languages,
-        //     specialties: specialties,
-        //     summary,
-        //     rating: 0,
-        //     review: 0,
-        //     UID: `U${Math.floor(Math.random() * 100000)}`,
-        // }
+        const order_info = {
+            UID: client_uid,
+            lawyer_name,
+            client_name:client,
+            budget,
+            case_name,
+            description,
+            duration,
+            specialty, 
+        }
 
-        // console.log(lawyer)
-
-        // try {
-        //     fetch(`https://ninja-lawyer-server.vercel.app/api/users/add-lawyer`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'content-type': 'application/json'
-        //         },
-        //         body: JSON.stringify(lawyer)
-        //     })
-        //         .then(res => res.json())
-        //         .then(data => {
-        //             toast.success(`${lawyer.fname} lawyer is added successfully`)
-        //             console.log('lawyer data: ', data)
-        //         })
-        // }
-        // catch (error) {
-        //     console.log(errors);
-        // }
+        console.log(order_info)
+        console.log(offer._id)
+        console.log(user.uid)
+        try {
+            fetch(`https://ninja-lawyer-server.vercel.app/api/orders/add/${userData.UID}`, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(order_info)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    if(data.acknowledged === true){
+                        fetch(`https://ninja-lawyer-server.vercel.app/api/offers/status/change?offerid=${offer._id}&lawyerid=${user.uid}&offerstatus=pending`, {
+                            method: 'PUT',
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            body: JSON.stringify({})
+                        })
+                            .then(res => res.json())
+                            .then(offer => {
+                                console.log(offer)
+                                toast.success(`${order_info.case_name} offer sent`)
+                                console.log('lawyer data: ', data)
+                            })
+                    }else{
+                        toast.error('Something went wrong')
+                    }
+                })
+        }
+        catch (error) {
+            console.log(errors);
+        }
     }
 
 
-    /* const imageHostKey = process.env.REACT_APP_IMGBB_KEY;
-
-
-    const onSubmit = data => {
-        const { fname, email, state, city, contact, experience, rate, language, specialties, summary } = data;
-
-        const image = data.image[0]
-        const formData = new FormData()
-        formData.append('image', image)
-        const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`
-        fetch(url, {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => res.json())
-            .then(imgUpload => {
-                if (imgUpload.success) {
-                    console.log(imgUpload.data.url)
-                    const lawyer = {
-                        fname,
-                        email,
-                        contact,
-                        image: imgUpload.data.url,
-                        state,
-                        city,
-                        experience,
-                        rate,
-                        language,
-                        specialties,
-                        summary,
-                        rating: 0,
-                        review: 0,
-                        date: new Date().toDateString(),
-                    }
-                    fetch(`${process.env.REACT_APP_SERVER_LINK}/add`, {
-                        method: 'POST',
-                        headers: {
-                            'content-type': 'application/json'
-                        },
-                        body: JSON.stringify(lawyer)
-                    })
-                        .then(res => res.json())
-                        .then(result => {
-                            toast.success(`${lawyer.fname} is added successfully`) 
-                        }
-                        )
-                }
-            })
-
-    } */
-
-
-
-    // useEffect(() => {
-    //     fetch("https://datahub.io/core/language-codes/r/language-codes-3b2-iso-639-2.json")
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             setLanguages(data);
-    //         })
-    //         .catch((error) => console.error(error));
-    // }, []);
-
-    // console.log(languages) 
+    
 
     const [completeOpen, setCompleteOpen] = useState(false);
 
@@ -179,17 +118,24 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete}) {
       }
 
     
-    
+    console.log(offerStatus)
     return (
         <>
-            {user.displayName === 'lawyer' && <button className='primary-btn' onClick={() => setIsOpen(true)}>Send Offer</button>}
+            {user.displayName === 'lawyer' &&
+            
+            <>
+                {offerStatus === 'offer' && <button className='primary-outline-btn' onClick={() => setIsOpen(true)}>Send Offer</button>}
+                {offerStatus === 'pending' && <button className='primary-outline-btn border-gray-500 text-gray-500 hover:bg-transparent hover:text-gray-500'>Pending</button>}
+                {offerStatus === 'paid' && <button className='primary-btn bg-success hover:bg-green-500'>Ongoing</button>}
+            </>
+            } 
             {
                 user.displayName !== 'lawyer' &&
                 <>
-                    {offerStatus === 'offer' && <button className='primary-btn' onClick={() => setIsOpen(true)}>View Offer</button>}
+                    {offerStatus === 'pending' && <button className='primary-outline-btn border-gray-500 text-gray-500 hover:bg-transparent hover:text-gray-500' onClick={() => setIsOpen(true)}>Pending</button>}
                     <div className="relative">
-                        {offerStatus === 'accepted' && <button onClick={()=>setCompleteOpen(!completeOpen)} className={`primary-btn bg-success hover:bg-green-600 ${CaseComplete === false ?  'flex items-center justify-center' : 'hidden'} gap-2`}>Ongoing</button>} 
-                        {/* {offerStatus === 'accepted' && <button onClick={()=>handleComplete(true)} className={`${completeOpen === true && CaseComplete === false ? 'absolute right-10 top-0' : 'hidden'} primary-outline-btn border-success hover:bg-green-600 hover:border-green-600 text-success `}>Completed</button>}  */}
+                        {offerStatus === 'paid' && <button onClick={()=>setCompleteOpen(!completeOpen)} className={`primary-btn bg-success hover:bg-green-600 ${CaseComplete === false ?  'flex items-center justify-center' : 'hidden'} gap-2`}>Ongoing</button>} 
+                        {offerStatus === 'completed' && <button className={`${completeOpen === true && CaseComplete === false ? 'absolute right-10 top-0' : 'hidden'} primary-outline-btn border-success hover:bg-green-600 hover:border-green-600 text-success `}>Completed</button>} 
                         {/* {offerStatus === 'accepted' && <button className={`${CaseComplete === true ? 'flex' : 'hidden'} primary-outline-btn border-success hover:bg-green-600 hover:border-green-600 text-success `}>Completed</button>}  */}
 
                     </div>
@@ -206,6 +152,8 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete}) {
                             <div className="bg-primary dark:bg-base-100 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 {/* <p className="text-3xl pb-5 text-start">Offer from lawyer1</p> */}
                                 <div className="sm:max-w-2xl sm:w-full">
+
+                                    {/* for client to accept or reject offer from lawyer */}
                                     {user.displayName !== 'lawyer' && paymentModal === false && 
 
                                         <form
@@ -252,6 +200,7 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete}) {
                                              </div>
                                     }
                                     
+                                    {/* for lawyer to send offer to client */}
                                     {user.displayName === 'lawyer' &&
 
                                         <form
@@ -267,11 +216,11 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete}) {
                                                     type="text"
                                                     className="input-box w-full text-accent "
                                                     name="client_name"
-                                                    defaultValue="user1 names"
+                                                    defaultValue={client}
                                                     {...register("client_name", { required: true, maxLength: 400 })}
                                                     readOnly
                                                 />
-                                                {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
+                                                {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.client_name}</p>}
                                             </label>
                                             <label className="col-span-1 flex flex-col items-start justify-start ">
                                                 <span className="text-start font-medium text-base-100 dark:text-primary w-32">
@@ -283,13 +232,13 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete}) {
                                                     name="lawyer_name"
                                                     defaultValue={userData.name}
                                                     {...register("lawyer_name", { required: true, maxLength: 400 })} readOnly />
-                                                {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
+                                                {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.lawyer_name}</p>}
                                             </label>
                                             <label className="col-span-1 flex flex-col items-start justify-start ">
                                                 <span className="text-start font-medium text-base-100 dark:text-primary w-32">
                                                     Case Specialties
                                                 </span>
-                                                <select className='input-box w-full' {...register("Specialties")}>
+                                                <select className='input-box w-full' {...register("Specialty")}>
                                                     {
                                                         specialtiesList.map((specialty, index) => <option key={index} value={specialty}>{specialty}</option>)
                                                     }
@@ -303,10 +252,10 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete}) {
                                                 <input
                                                     type="text"
                                                     className="input-box w-full"
-                                                    name="fname"
+                                                    name="case_name"
                                                     placeholder='Divorce case'
-                                                    {...register("fname", { required: true, maxLength: 400 })} />
-                                                {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
+                                                    {...register("case_name", { required: true, maxLength: 400 })} />
+                                                {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.case_name}</p>}
                                             </label>
                                             <div className='col-span-2 flex items-center gap-5'>
                                                 <div className="flex flex-col items-start justify-start ">
@@ -325,10 +274,10 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete}) {
                                                     <input
                                                         type="number"
                                                         className="input-box w-full"
-                                                        name="fname"
+                                                        name="duration"
                                                         placeholder='Number of days it will take '
-                                                        {...register("fname", { required: true, maxLength: 400 })} />
-                                                    {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
+                                                        {...register("duration", { required: true, maxLength: 400 })} />
+                                                    {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.duration}</p>}
                                                 </label>
                                                 <label className="flex flex-col items-start justify-start ">
                                                     <span className="text-start font-medium text-base-100 dark:text-primary w-32">
@@ -354,10 +303,10 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete}) {
                                                 <textarea
                                                     type="text"
                                                     className="input-box w-full h-40"
-                                                    name="fname"
+                                                    name="description"
                                                     placeholder=' I am offering my legal services to assist individuals'
-                                                    {...register("fname", { required: true, maxLength: 400 })} />
-                                                {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.fname}</p>}
+                                                    {...register("description", { required: true, maxLength: 400 })} />
+                                                {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.description}</p>}
                                             </label>
 
                                             <button onClick={() => setIsOpen(false)} className="primary-outline-btn">
