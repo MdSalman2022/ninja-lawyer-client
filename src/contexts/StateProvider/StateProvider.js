@@ -82,34 +82,7 @@ const StateProvider = ({ children }) => {
       getProfile(user.uid);
     }
   }, [user, heightFull]);
-
-  // useEffect(() => {
-  //   fetch(`https://api.postalpincode.in/pincode/110001`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //     });
-  // }, []);
-
-  // const [cityDetails, setCityDetails] = useState([]);
-
-  // useEffect(() => {
-  //   fetch(`api.zippopotam.us/IN/110001`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data)
-  //     });
-  // }, []);
-
-  // const [cityDetails, setCityDetails] = useState([]);
-
-  // useEffect(() => {
-  //   fetch(`api.zippopotam.us/IN/110001`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data)
-  //     });
-  // }, []);
+  
 
   useEffect(() => {
     const savedAvailable = localStorage.getItem("available");

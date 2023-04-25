@@ -113,7 +113,7 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><LawyersRequests /></PrivateRoute>
       },
       {
-        path: "/dashboard/cases/case-details/:id",
+        path: "/dashboard/cases/:id/case-details",
         loader: ({ params }) => fetch(`https://ninja-lawyer-server.vercel.app/api/orders/get/unique/${params.id}`),
         element: <PrivateRoute><CaseDetailsPage /></PrivateRoute>,
       }

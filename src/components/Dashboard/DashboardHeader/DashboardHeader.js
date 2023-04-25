@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { FiHelpCircle } from 'react-icons/fi'
-import { Link } from 'react-router-dom';
-import { FaAngleLeft } from 'react-icons/fa';
+import { Link, useLocation } from 'react-router-dom';
+import { FaAngleLeft, FaChevronLeft } from 'react-icons/fa';
 import { StateContext } from '../../../contexts/StateProvider/StateProvider';
 import { TbMessages } from 'react-icons/tb';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
@@ -27,10 +27,21 @@ function DashboardHeader() {
     }
 
     console.log("available " + available)
+
+    const location = useLocation();
+
+
+    console.log(location.pathname)
+
+    const pathSegments = location.pathname.split('/');
+    const lastSegment = pathSegments[pathSegments.length - 1];
+
+    console.log(lastSegment)
+    
     return (
         <div className='py-3'>
-            <div className="flex items-center justify-end">
-
+            <div className={`flex items-center ${lastSegment === 'case-details' ? 'justify-between' : 'justify-end'}`}>
+            {lastSegment === 'case-details' && <Link to="/dashboard/cases"><button className="col-span-5 flex justify-start items-center gap-3 w-fit text-black"><FaChevronLeft/> Back to Cases</button></Link>}
                 <div className=' hidden md:flex items-center text-2xl gap-3'>
                     {user.displayName === 'lawyer' &&
                         <div className="input-box flex items-center gap-2  border-none shadow-none dark:bg-base-100">

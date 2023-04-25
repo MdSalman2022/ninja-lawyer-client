@@ -7,8 +7,7 @@ import {allOffers} from './offers'
 import ModalReview from './ModalReview';
 import { Link } from 'react-router-dom';
 import { StateContext } from '../../../contexts/StateProvider/StateProvider';
-import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
-
+import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider'; 
 function OrdersPage() {
 
     const {user} = useContext(AuthContext)
@@ -24,12 +23,14 @@ function OrdersPage() {
         .then(data=>{ 
             console.log(data)
             if(user.displayName === 'lawyer'){
-                setAllOrders(data.orders)
+                setAllOrders(data.orders.reverse())
             }else{
-                setAllOrders(data)
+                setAllOrders(data.reverse())
             }
         })
     }, [])
+
+    console.log(allOrders)
 
     // useEffect(()=>{
     //     fetch(`https://ninja-lawyer-server.vercel.app/api/orders/get/${user.UID}`)
@@ -191,10 +192,7 @@ function OrdersPage() {
                                 </th>
                                 <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
                                     Status
-                                </th>
-                                <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
-                                    Case Page
-                                </th>
+                                </th>  
                             </tr>
                         </thead>
                         <tbody>
@@ -202,28 +200,30 @@ function OrdersPage() {
                                 allOrders?.map((order, index) => (
                                     <tr key={index} className="bg-primary dark:bg-base-100 border-b">
                                         <ModalReview lawyer={order.UID} setModalOpen={setModalOpen} modalOpen={modalOpen}/>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-primary">{index+1}</td>
-                                        {user.displayName === 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            {order.client_name}
-                                        </td>}
-                                        {user.displayName !== 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            {order.lawyer_name}
-                                        </td>}
+                                        <td className=" px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-primary">{index+1}</td>
+                                        {user.displayName === 'lawyer' && 
+                                        <td className="select-text cursor-pointer text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                            <Link to={`/dashboard/cases/${order._id}/case-details`}>{order.client_name}</Link>
+                                        </td>
+                                        }
+                                        {user.displayName !== 'lawyer' && 
+                                        <td className="select-text cursor-pointer text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                            <Link to={`/dashboard/cases/${order._id}/case-details`}>{order.lawyer_name}</Link>
+                                        </td>
+                                        }
                                         {/* <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
                                             {order.contact}
                                         </td> */}
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                        {formatDate(order.timestamp)}
+                                        <Link to={`/dashboard/cases/${order._id}/case-details`}>{formatDate(order.timestamp)}</Link>
                                         </td>
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            ₹{order.budget}
+                                            <Link to={`/dashboard/cases/${order._id}/case-details`}>₹{order.budget}</Link>
                                         </td>
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            <ModalBox offerStatus={order.status} handleComplete={handleComplete} CaseComplete={CaseComplete} offer={order} />
+                                            <Link to={`/dashboard/cases/${order._id}/case-details`}><ModalBox offerStatus={order.status} handleComplete={handleComplete} CaseComplete={CaseComplete} offer={order} /></Link>
                                         </td> 
-                                            <td className="text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            <Link to={`/dashboard/cases/case-details/${order._id}`}><button className='hover:bg-gray-200 p-2 rounded-full'><FaExternalLinkAlt /></button></Link>
-                                        </td> 
+                                         
                                     </tr>
                                 ))
                             }

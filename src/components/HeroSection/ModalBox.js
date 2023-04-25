@@ -9,14 +9,14 @@ import { RxCross1 } from 'react-icons/rx'
 import { MdOutlineUploadFile } from 'react-icons/md';
 import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
 
-function ModalBox({offer, offerStatus,handleComplete, CaseComplete, client,client_uid}) {
+function ModalBox({ offer, offerStatus, handleComplete, CaseComplete, client, client_uid, paymentModal, setPaymentModal, reviewModalOpen }) {
 
     const { user } = useContext(AuthContext);
     const { userData } = useContext(StateContext);
-    const [isOpen, setIsOpen] = useState(false);  
+    const [isOpen, setIsOpen] = useState(false);
 
     const { register, handleSubmit, formState: { errors } } = useForm();
-  
+
     const specialtiesList = [
         "Divorce & Child Custody",
         "Property & Real Estate",
@@ -32,25 +32,24 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete, client,clien
     ];
 
 
-    const [paymentModal, setPaymentModal] = useState(false);
 
 
     const onSubmit = (data) => {
-        console.log(data) 
-        setPaymentModal(true)
-        setIsOpen(false); 
+        console.log(data)
+        // setPaymentModal(true)
+        setIsOpen(false);
 
-        const { UID, lawyer_name, budget, case_name,description, duration, specialty, client_name } = data;
+        const { UID, lawyer_name, budget, case_name, description, duration, specialty, client_name } = data;
 
         const order_info = {
             UID: client_uid,
             lawyer_name,
-            client_name:client,
+            client_name: client,
             budget,
             case_name,
             description,
             duration,
-            specialty, 
+            specialty,
         }
 
         console.log(order_info)
@@ -67,7 +66,7 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete, client,clien
                 .then(res => res.json())
                 .then(data => {
                     console.log(data)
-                    if(data.acknowledged === true){
+                    if (data.acknowledged === true) {
                         fetch(`https://ninja-lawyer-server.vercel.app/api/offers/status/change?offerid=${offer._id}&lawyerid=${user.uid}&offerstatus=pending`, {
                             method: 'PUT',
                             headers: {
@@ -81,7 +80,7 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete, client,clien
                                 toast.success(`${order_info.case_name} offer sent`)
                                 console.log('lawyer data: ', data)
                             })
-                    }else{
+                    } else {
                         toast.error('Something went wrong')
                     }
                 })
@@ -92,7 +91,7 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete, client,clien
     }
 
 
-    
+
 
     const [completeOpen, setCompleteOpen] = useState(false);
 
@@ -101,41 +100,41 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete, client,clien
         const words = text.split(" ");
         const lines = [];
         let line = "";
-      
-        for (let i = 0; i < words.length; i++) {
-          if (i % wordsPerLine === 0 && line !== "") {
-            lines.push(line);
-            line = "";
-          }
-          line += words[i] + " ";
-        }
-      
-        if (line !== "") {
-          lines.push(line);
-        }
-      
-        return lines;
-      }
 
-    
+        for (let i = 0; i < words.length; i++) {
+            if (i % wordsPerLine === 0 && line !== "") {
+                lines.push(line);
+                line = "";
+            }
+            line += words[i] + " ";
+        }
+
+        if (line !== "") {
+            lines.push(line);
+        }
+
+        return lines;
+    }
+
+
     console.log(offerStatus)
     return (
         <>
             {user.displayName === 'lawyer' &&
-            
-            <>
-                {offerStatus === 'offer' && <button className='primary-outline-btn' onClick={() => setIsOpen(true)}>Send Offer</button>}
-                {offerStatus === 'pending' && <button className='primary-outline-btn border-gray-500 text-gray-500 hover:bg-transparent hover:text-gray-500'>Pending</button>}
-                {offerStatus === 'paid' && <button className='primary-btn bg-success hover:bg-green-500'>Ongoing</button>}
-            </>
-            } 
+                <>
+                    {offerStatus === 'offer' && <button className='font-bold primary-outline-btn' onClick={() => setIsOpen(true)}>Send Offer</button>}
+                    {offerStatus === 'pending' && <button className='font-bold primary-outline-btn border-gray-500 text-gray-500 hover:bg-transparent hover:text-gray-500'>Sent</button>}
+                    {offerStatus === 'accepted' && <button className='font-bold text-green-500'>Ongoing</button>}
+                    {offerStatus === 'completed' && <button className='font-bold text-blue-500'>Complete</button>}
+                </>
+            }
             {
                 user.displayName !== 'lawyer' &&
                 <>
-                    {offerStatus === 'pending' && <button className='primary-outline-btn border-gray-500 text-gray-500 hover:bg-transparent hover:text-gray-500' onClick={() => setIsOpen(true)}>Pending</button>}
+                    {offerStatus === 'pending' && <button className='primary-outline-btn border-gray-500 text-gray-500 hover:bg-transparent hover:text-gray-500'>Pending</button>}
                     <div className="relative">
-                        {offerStatus === 'paid' && <button onClick={()=>setCompleteOpen(!completeOpen)} className={`primary-btn bg-success hover:bg-green-600 ${CaseComplete === false ?  'flex items-center justify-center' : 'hidden'} gap-2`}>Ongoing</button>} 
-                        {offerStatus === 'completed' && <button className={`${completeOpen === true && CaseComplete === false ? 'absolute right-10 top-0' : 'hidden'} primary-outline-btn border-success hover:bg-green-600 hover:border-green-600 text-success `}>Completed</button>} 
+                        {offerStatus === 'accepted' && <button onClick={() => setCompleteOpen(!completeOpen)} className={`font-bold  text-green-500 ${CaseComplete === false ? 'flex items-center justify-center' : 'hidden'} gap-2`}>Ongoing</button>}
+                        {offerStatus === 'completed' && <button className={`font-bold  text-blue-500`}>Completed</button>}
                         {/* {offerStatus === 'accepted' && <button className={`${CaseComplete === true ? 'flex' : 'hidden'} primary-outline-btn border-success hover:bg-green-600 hover:border-green-600 text-success `}>Completed</button>}  */}
 
                     </div>
@@ -154,7 +153,7 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete, client,clien
                                 <div className="sm:max-w-2xl sm:w-full">
 
                                     {/* for client to accept or reject offer from lawyer */}
-                                    {user.displayName !== 'lawyer' && paymentModal === false && 
+                                    {user.displayName !== 'lawyer' && paymentModal === false &&
 
                                         <form
                                             className="grid grid-cols-2 gap-5 "
@@ -164,7 +163,7 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete, client,clien
                                                 <div className='flex flex-col'>
                                                     <span className="text-3xl">{offer.case_name} Case</span>
                                                     <span className="text-accent">{offer.name}</span>
-                                               </div>
+                                                </div>
                                                 {/* <ul>
                                                     <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam, aliquid? Magni doloribus </li>
                                                     <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam, aliquid? Magni doloribus </li>
@@ -185,21 +184,21 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete, client,clien
                                             <button type="submit" className="primary-btn">
                                                 Accept Offer
                                             </button>
-                                       
+
 
                                         </form>
                                     }
 
                                     {
                                         user.displayName !== 'lawyer' && paymentModal === true &&
-                                         
-                                             <div className='flex justify-center items-center'>
-                                              <button onClick={()=>setIsOpen(false)} className="primary-btn">
-                                                 Pay
-                                             </button>
-                                             </div>
+
+                                        <div className='flex justify-center items-center'>
+                                            <button onClick={() => setIsOpen(false)} className="primary-btn">
+                                                Pay
+                                            </button>
+                                        </div>
                                     }
-                                    
+
                                     {/* for lawyer to send offer to client */}
                                     {user.displayName === 'lawyer' &&
 
@@ -275,7 +274,7 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete, client,clien
                                                         type="number"
                                                         className="input-box w-full"
                                                         name="duration"
-                                                        placeholder='Number of days it will take '
+                                                        placeholder='No. of days '
                                                         {...register("duration", { required: true, maxLength: 400 })} />
                                                     {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.duration}</p>}
                                                 </label>
@@ -305,7 +304,7 @@ function ModalBox({offer, offerStatus,handleComplete, CaseComplete, client,clien
                                                     className="input-box w-full h-40"
                                                     name="description"
                                                     placeholder=' I am offering my legal services to assist individuals'
-                                                    {...register("description", { required: true, maxLength: 400 })} />
+                                                    {...register("description", { required: true, maxLength: 10000 })} />
                                                 {errors.name && <p className='text-accent underline decoration-red-5'>{errors.name.description}</p>}
                                             </label>
 

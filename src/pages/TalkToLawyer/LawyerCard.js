@@ -114,9 +114,9 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
               className="text-2xl uppercase flex gap-2"
             >
               <span className="text-accent font-bold">
-                {lawyer?.name.split(" ")[0]}
+                {lawyer?.name?.split(" ")[0]}
               </span>{" "}
-              {lawyer?.name.split(" ")[1]}
+              {lawyer?.name?.split(" ")[1]}
             </Link>
             <p className="flex justify-end text-md">
               {/* <IoLocationSharp className="text-lg" /> */}

@@ -1,27 +1,67 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FaChevronUp } from 'react-icons/fa'
 import { GrAttachment } from 'react-icons/gr'
 import { Link, useLoaderData } from 'react-router-dom';
 import ModalReview from './ModalReview';
+import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
+import { toast } from 'react-hot-toast';
 
 function CaseDetailsPage() {
 
-
+    const {user} = useContext(AuthContext)
     const data = useLoaderData()
 
     console.log(data)
  
     const [modalOpen, setModalOpen] = useState(false)
+    
+    const [paymentModal, setPaymentModal] = useState(false);
+
+    const [reviewModalOpen, setReviewModalOpen] = useState(false);
+ 
+    const handleOrderStatus = (status) => {
+        console.log(status)
+        setPaymentModal(false)
+        setModalOpen(false)
+
+        fetch(`https://ninja-lawyer-server.vercel.app/api/orders/status/change?lawyerid=${data.lawyerUID}&orderid=${data._id}&offerstatus=rejected&payment=false`, {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({}),
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                toast.error("Offer Rejected"); 
+            });
+    }
+
 
     return (
-    
-    <div className='py-5 text-black space-y-5'>
+        <div className='py-5 text-black space-y-5 '> 
         <div className="flex items-center gap-5">
-            <Link to="/dashboard/cases"><button className="primary-outline-btn col-span-5 flex justify-start w-fit">Back to Cases</button></Link>
             <div className="flex">
-            <ModalReview lawyer={data.lawyerUID} setModalOpen={setModalOpen} modalOpen={modalOpen}/>
-                <button onClick={()=>setModalOpen(true)} className="primary-outline-btn col-span-5 flex justify-start w-fit rounded-r-none border-r-none">Accept</button>
-                <button className="primary-outline-btn col-span-5 flex justify-start w-fit rounded-l-none border-l-none ">Reject</button>
+            <ModalReview orderInfo={data} lawyerUID={data.lawyerUID} setModalOpen={setModalOpen} modalOpen={modalOpen} setPaymentModal={setPaymentModal} paymentModal={paymentModal} reviewModalOpen={reviewModalOpen} setReviewModalOpen={setReviewModalOpen}/>
+                {data.status === 'pending' && user.displayName !== 'lawyer' && 
+                <button onClick={()=>{
+                    setModalOpen(true)
+                    setPaymentModal(true)
+                    data.status = 'accepted'
+                    }} 
+                className="primary-outline-btn col-span-5 flex justify-start w-fit rounded-r-none border-r-none">Accept</button>}
+                {
+                data.status === 'pending' && user.displayName !== 'lawyer' && 
+                <button
+                onClick={()=>handleOrderStatus("rejected")}
+                className="primary-outline-btn col-span-5 flex justify-start w-fit rounded-l-none border-l-none ">Reject</button>
+            }
+                {data.status === 'accepted' && user.displayName !== 'lawyer' &&  
+                <button onClick={()=>{
+                    setModalOpen(true)
+                    setReviewModalOpen(true)}} className="primary-outline-btn col-span-5 flex justify-start w-fit">Completed</button>}
+                {data.status === 'completed' && <p>Your Order is completed</p>}
             </div>
         </div>
         <div className="grid grid-cols-5 gap-5 container mx-auto">
