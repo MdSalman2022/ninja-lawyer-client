@@ -3,6 +3,7 @@ import { toast } from 'react-hot-toast';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 import { useForm } from 'react-hook-form';
 import { FaStar } from 'react-icons/fa';
+import RazorPay from '../../../components/Dashboard/CaseDetailsPage/RazorPay';
 
 const ModalReview = ({orderInfo,lawyerUID, setModalOpen, modalOpen, paymentModal, setPaymentModal, reviewModalOpen,setReviewModalOpen}) => {
 
@@ -95,7 +96,7 @@ console.log(lawyerUID)
                 <div className='flex items-center justify-center min-h-screen'>
                     <div className="fixed inset-0 bg-gray-500 bg-opacity-10 transition-opacity" aria-hidden="true"></div>
                     <div className='bg-primary dark:bg-base-100 rounded-lg overflow-hidden shadow transform transition-all sm:max-w-2xl sm:w-full'>
-                                {paymentModal === true && 
+                                {/* {paymentModal === true && 
                                     <div className='flex justify-center items-center'>
                                         <button onClick={()=>{
                                             setPaymentModal(false)
@@ -104,8 +105,9 @@ console.log(lawyerUID)
                                             }} className="primary-btn">
                                             Pay
                                         </button>
+                                        <RazorPay setPaymentModal={setPaymentModal} setModalOpen={setModalOpen}  handleOrderStatus={handleOrderStatus}/>
                                     </div>
-                                }    
+                                }     */}
                         {reviewModalOpen && paymentModal === false &&
                             <div className=" my-5">
                             <div className="mb-3 pl-5">

@@ -50,6 +50,7 @@ function ModalBox({ offer, offerStatus, handleComplete, CaseComplete, client, cl
             description,
             duration,
             specialty,
+            offerId: offer._id,
         }
 
         console.log(order_info)
@@ -118,6 +119,7 @@ function ModalBox({ offer, offerStatus, handleComplete, CaseComplete, client, cl
 
 
     console.log(offerStatus)
+    console.log(offerStatus)
     return (
         <>
             {user.displayName === 'lawyer' &&
@@ -126,19 +128,21 @@ function ModalBox({ offer, offerStatus, handleComplete, CaseComplete, client, cl
                     {offerStatus === 'pending' && <button className='font-bold primary-outline-btn border-gray-500 text-gray-500 hover:bg-transparent hover:text-gray-500'>Sent</button>}
                     {offerStatus === 'accepted' && <button className='font-bold text-green-500'>Ongoing</button>}
                     {offerStatus === 'completed' && <button className='font-bold text-blue-500'>Complete</button>}
+                    {offerStatus === 'rejected' && <button className='font-bold text-accent'>Rejected</button>}
                 </>
             }
             {
                 user.displayName !== 'lawyer' &&
                 <>
-                    {offerStatus === 'pending' && <button className='primary-outline-btn border-gray-500 text-gray-500 hover:bg-transparent hover:text-gray-500'>Pending</button>}
+                    {offerStatus === 'pending' && <button className='text-yellow-500'>In progress</button>}
+                    {offerStatus === 'offer' && <button className='text-blue-500'>Pending</button>}
                     <div className="relative">
                         {offerStatus === 'accepted' && <button onClick={() => setCompleteOpen(!completeOpen)} className={`font-bold  text-green-500 ${CaseComplete === false ? 'flex items-center justify-center' : 'hidden'} gap-2`}>Ongoing</button>}
                         {offerStatus === 'completed' && <button className={`font-bold  text-blue-500`}>Completed</button>}
                         {/* {offerStatus === 'accepted' && <button className={`${CaseComplete === true ? 'flex' : 'hidden'} primary-outline-btn border-success hover:bg-green-600 hover:border-green-600 text-success `}>Completed</button>}  */}
+                        {offerStatus === 'rejected' && <button className='font-bold text-accent'>Rejected</button>}
 
                     </div>
-                    {offerStatus === 'rejected' && <button className='primary-btn bg-gray-400 text-gray-600 hover:bg-gray-400 cursor-not-allowed'>Rejected</button>}
                 </>
             }
 

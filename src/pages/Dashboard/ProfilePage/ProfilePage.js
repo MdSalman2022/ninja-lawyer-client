@@ -407,7 +407,7 @@ function ProfilePage() {
                   type="text"
                   className="input-box w-full text-gray-400 border-gray-400 pl-10"
                   name="contact"
-                  defaultValue={userData?.contact.substring(3, 14)}
+                  defaultValue={userData?.contact?.substring(3, 14)}
                   {...register("contact", { required: userData.contact ? false : true, maxLength: 80 })}
                   readOnly
                 />

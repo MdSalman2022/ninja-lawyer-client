@@ -1,4 +1,5 @@
 import React from 'react'
+import ProfilePage from '../ProfilePage/ProfilePage';
 
 function DashboardPage() {
     return (
@@ -6,12 +7,18 @@ function DashboardPage() {
             <h1 className="text-3xl font-bold">Dashboard</h1>
             <hr />
 
-            <div className=" box p-3 border border-base-100 dark:border-primary rounded-xl h-36 w-60 flex flex-col justify-between">
-                <div>
-                    <p>Available balance</p>
-                    <h2 className="text-3xl">$0</h2>
+            <div className="grid grid-cols-5">
+                <div className=" box p-3 border border-base-100 dark:border-primary rounded-xl h-36 w-60 flex flex-col justify-between">
+                    <div>
+                        <p>Available balance</p>
+                        <h2 className="text-3xl">$0</h2>
+                    </div>
+                    <div className="flex justify-center items-center"><button className='primary-outline-btn'>Recharge</button></div>
                 </div>
-                <div className="flex justify-center items-center"><button className='primary-outline-btn'>Recharge</button></div>
+                
+                <div className="col-span-4">
+                    <ProfilePage/>
+                </div>
             </div>
 
         </div>

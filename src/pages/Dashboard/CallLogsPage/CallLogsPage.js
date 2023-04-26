@@ -180,7 +180,7 @@ function CallLogsPage() {
                                                 {formatDate(offer?.timestamp)}
                                             </td>
                                             {user.displayName !== 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                                <p>{offer.status}</p>
+                                                <ModalBox offerStatus={offer.status} client={offer.name} client_uid={offer.UID} offer={offer}/>
                                             </td>}
                                             {user.displayName === 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
                                                 <ModalBox offerStatus={offer.status} client={offer.name} client_uid={offer.UID} offer={offer}/>

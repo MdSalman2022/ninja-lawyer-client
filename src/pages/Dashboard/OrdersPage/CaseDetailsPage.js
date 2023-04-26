@@ -5,6 +5,7 @@ import { Link, useLoaderData } from 'react-router-dom';
 import ModalReview from './ModalReview';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 import { toast } from 'react-hot-toast';
+import RazorPay from '../../../components/Dashboard/CaseDetailsPage/RazorPay';
 
 function CaseDetailsPage() {
 
@@ -24,7 +25,7 @@ function CaseDetailsPage() {
         setPaymentModal(false)
         setModalOpen(false)
 
-        fetch(`https://ninja-lawyer-server.vercel.app/api/orders/status/change?lawyerid=${data.lawyerUID}&orderid=${data._id}&offerstatus=rejected&payment=false`, {
+        fetch(`https://ninja-lawyer-server.vercel.app/api/orders/status/change?lawyerid=${data.lawyerUID}&orderid=${data._id}&offerstatus=${status}&payment=${status==="accepted" ? true : false}`, {
             method: "PUT",
             headers: {
                 "content-type": "application/json",
@@ -33,8 +34,16 @@ function CaseDetailsPage() {
         })
             .then(res => res.json())
             .then(data => {
+                
                 console.log(data);
-                toast.error("Offer Rejected"); 
+                if(status === "accepted"){
+                    toast.success("Offer Accepted");
+                    data.status = 'accepted'
+                }
+                else{
+                    toast.error("Offer Rejected"); 
+                    data.status = 'rejected'
+                }
             });
     }
 
@@ -44,19 +53,27 @@ function CaseDetailsPage() {
         <div className="flex items-center gap-5">
             <div className="flex">
             <ModalReview orderInfo={data} lawyerUID={data.lawyerUID} setModalOpen={setModalOpen} modalOpen={modalOpen} setPaymentModal={setPaymentModal} paymentModal={paymentModal} reviewModalOpen={reviewModalOpen} setReviewModalOpen={setReviewModalOpen}/>
-                {data.status === 'pending' && user.displayName !== 'lawyer' && 
-                <button onClick={()=>{
-                    setModalOpen(true)
-                    setPaymentModal(true)
-                    data.status = 'accepted'
-                    }} 
-                className="primary-outline-btn col-span-5 flex justify-start w-fit rounded-r-none border-r-none">Accept</button>}
+            {data.status === "pending" &&
+                <RazorPay orderInfo={data} handleOrderStatus={handleOrderStatus}/>}
+                {/* {data.status === 'pending' && user.displayName !== 'lawyer' && 
+                <Link to="/dashboard/case/payment">
+                <button 
+                // onClick={()=>{
+                //     setModalOpen(true)
+                //     setPaymentModal(true)
+                //     data.status = 'accepted'
+                //     }} 
+                className="primary-outline-btn col-span-5 flex justify-start w-fit rounded-r-none border-r-none">Accept</button>
+                </Link>}
                 {
                 data.status === 'pending' && user.displayName !== 'lawyer' && 
                 <button
-                onClick={()=>handleOrderStatus("rejected")}
+                onClick={()=>{
+                    data.status = 'rejected'
+                    handleOrderStatus("rejected")
+                }}
                 className="primary-outline-btn col-span-5 flex justify-start w-fit rounded-l-none border-l-none ">Reject</button>
-            }
+            } */}
                 {data.status === 'accepted' && user.displayName !== 'lawyer' &&  
                 <button onClick={()=>{
                     setModalOpen(true)
@@ -64,15 +81,18 @@ function CaseDetailsPage() {
                 {data.status === 'completed' && <p>Your Order is completed</p>}
             </div>
         </div>
-        <div className="grid grid-cols-5 gap-5 container mx-auto">
-            <div className="col-span-3 flex flex-col gap-3 drop-shadow-lg p-5 bg-white">
+        <div className="grid grid-cols-5 gap-5">
+            <div className="col-span-3 flex flex-col gap-3 drop-shadow-lg p-5 bg-white  ">
                 <div>
-                <h1 className="text-3xl font-semibold">{data.case_name}</h1>
-                <p className='font-semibold text-accent'>{data.lawyer_name}</p>
+                    <h1 className="text-3xl font-semibold">{data.case_name}</h1>
+                    <p className='font-semibold text-accent'>{data.lawyer_name}</p>
                 </div>
 
                 <p className="font-bold">Offer description</p>
-                <p>{data.description}</p>
+                
+                <div className='flex flex-wrap'>
+                    <p className='break-all'>{data.description}</p>
+                </div>
             </div>
             <div className="col-span-2 flex flex-col gap-5 justify-start">
                 <div className="bg-white drop-shadow-xl p-5">
@@ -85,7 +105,7 @@ function CaseDetailsPage() {
                         <p>Offer price</p>
                         <p className='font-semibold'>₹{data.budget}</p>
                         <p>Order number</p>
-                        <p className='font-semibold'># {data._id}</p>
+                        <p className='font-semibold flex items-center'># {data._id}</p>
                     </div>
                 </div>
                 <div className="bg-white drop-shadow-xl p-5">

@@ -24,6 +24,7 @@ import AdminRoute from "./AdminRoute";
 import LawyersRequests from "../pages/Dashboard/LawyersRequests/LawyersRequests"; 
 import CaseDetailsPage from "../pages/Dashboard/OrdersPage/CaseDetailsPage";
 import DashboardPage from "../pages/Dashboard/DashboardPage/DashboardPage";
+import RazorPay from "../components/Dashboard/CaseDetailsPage/RazorPay";
 
 export const router = createBrowserRouter([
   {
@@ -111,6 +112,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/lawyer-requests",
         element: <PrivateRoute><LawyersRequests /></PrivateRoute>
+      },
+      {
+        path: "/dashboard/case/payment",
+        element: <PrivateRoute><RazorPay /></PrivateRoute>
       },
       {
         path: "/dashboard/cases/:id/case-details",
