@@ -15,6 +15,8 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
   useEffect(() => {
     if (checkOnline(online, lawyer.UID)) {
       setOnline(true);
+    } else {
+      setOnline(false);
     }
   }, [online]);
 
@@ -89,21 +91,19 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
         />
         {/* blur effect */}
         <div className="absolute bg-primary w-40 h-40 rounded-full bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-[5%] dark:bg-opacity-[10%] dark:brightness-50"></div>
-        {
-          isOnline ?
-            <>
-              <span className="absolute top-3 bg-transparent border border-success w-40 h-40 rounded-full"></span>
-              <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-success animate-ping"></span>
-              <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-success"></span>
-            </>
-            :
-            <>
-              <span className="absolute top-3 bg-transparent border border-accent w-40 h-40 rounded-full"></span>
-              <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-accent animate-ping"></span>
-              <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-accent"></span>
-            </>
-        }
-
+        {isOnline ? (
+          <>
+            <span className="absolute top-3 bg-transparent border border-success w-40 h-40 rounded-full"></span>
+            <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-success animate-ping"></span>
+            <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-success"></span>
+          </>
+        ) : (
+          <>
+            <span className="absolute top-3 bg-transparent border border-accent w-40 h-40 rounded-full"></span>
+            <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-accent animate-ping"></span>
+            <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-accent"></span>
+          </>
+        )}
       </figure>
       <div className="content px-3 w-full h-full  rounded-b-xl ">
         <div className="flex flex-col gap-5 ">

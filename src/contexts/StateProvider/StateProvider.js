@@ -17,29 +17,31 @@ const StateProvider = ({ children }) => {
   useEffect(() => {
     const db = getDatabase(app);
     function writeUserData(uid) {
-      console.log("pp----pp", available);
-      if (available) {
-        set(ref(db, "lawyers/" + uid), {
-          isOnline: true,
-          uid: uid,
-        });
-        const userRef = ref(db, "lawyers/" + uid);
-        onDisconnect(userRef)
-          .update({
-            isOnline: false,
-          })
-          .then(() => {
-            console.log("OnDisconnect event set up successfully");
-          })
-          .catch((error) => {
-            console.error("Error setting up onDisconnect event:", error);
+      // console.log("pp----pp", available);
+      if (user?.displayName === "lawyer") {
+        if (available) {
+          set(ref(db, "lawyers/" + uid), {
+            isOnline: true,
+            uid: uid,
           });
-      } else if (!available) {
-        //If the user turns off availibility
-        update(ref(db, "lawyers/" + uid), {
-          isOnline: false,
-          uid: uid,
-        });
+          const userRef = ref(db, "lawyers/" + uid);
+          onDisconnect(userRef)
+            .update({
+              isOnline: false,
+            })
+            .then(() => {
+              console.log("OnDisconnect event set up successfully");
+            })
+            .catch((error) => {
+              console.error("Error setting up onDisconnect event:", error);
+            });
+        } else if (!available && user) {
+          //If the user turns off availibility
+          set(ref(db, "lawyers/" + uid), {
+            isOnline: false,
+            uid: uid,
+          });
+        }
       }
     }
 
@@ -83,7 +85,6 @@ const StateProvider = ({ children }) => {
       getProfile(user.uid);
     }
   }, [user, heightFull]);
-  
 
   useEffect(() => {
     const savedAvailable = localStorage.getItem("available");
