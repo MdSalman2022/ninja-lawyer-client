@@ -68,7 +68,8 @@ const StateProvider = ({ children }) => {
     const getProfile = (id) => {
       console.log("yes");
       fetch(
-        `https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === "lawyer" ? "get-lawyer" : "get"
+        `https://ninja-lawyer-server.vercel.app/api/users/${
+          user.displayName === "lawyer" ? "get-lawyer" : "get"
         }/${id}`
       )
         .then((res) => res.json())
