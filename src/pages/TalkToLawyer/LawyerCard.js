@@ -12,11 +12,11 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
   // start of  online/offline
   const [isOnline, setOnline] = useState(false);
 
-  // useEffect(() => {
-  //   if (checkOnline(online, lawyer.UID)) {
-  //     setOnline(true);
-  //   }
-  // }, [online]);
+  useEffect(() => {
+    if (checkOnline(online, lawyer.UID)) {
+      setOnline(true);
+    }
+  }, [online]);
 
   // end of  online/offline
 
@@ -69,7 +69,7 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
         <p className="flex items-center text-xl gap-2 text-end font-semibold">
           <FaStar className="text-warning" /> 5.0
         </p>
-        {/* {isOnline ? <p>Online</p> : <p>NOT Online</p>} */}
+        {isOnline ? <p>Online</p> : <p>NOT Online</p>}
       </span>
       <span className="absolute top-0 right-0  dark:bg-base-100 p-2 rounded-bl-xl flex flex-col">
         <span className="text-2xl p-0 m-0 text-end font-semibold relative">
@@ -82,39 +82,30 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
           className="rounded-full h-40 w-40 object-cover border"
           src={
             lawyer?.img
-              ? lawyer?.img
+              ? lawyer.img
               : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
           }
           alt=""
         />
         {/* blur effect */}
         <div className="absolute bg-primary w-40 h-40 rounded-full bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-[5%] dark:bg-opacity-[10%] dark:brightness-50"></div>
-        {isOnline ? (
-          <>
-            <span className="absolute top-3 bg-transparent border border-success w-40 h-40 rounded-full"></span>
-            <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-success animate-ping"></span>
-            <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-success"></span>
-          </>
-        ) : (
-          <>
-            <span className="absolute top-3 bg-transparent border border-accent w-40 h-40 rounded-full"></span>
-            <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-accent animate-ping"></span>
-            <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-accent"></span>
-          </>
-        )}
+
+        <span className="absolute top-3 bg-transparent border border-success w-40 h-40 rounded-full"></span>
+        <span className="absolute top-5 right-28 rounded-full w-2 h-2 bg-success animate-ping"></span>
+        <span className="absolute top-5 right-28 rounded-full w-2 h-2 bg-success"></span>
       </figure>
       <div className="content px-3 w-full h-full  rounded-b-xl ">
         <div className="flex flex-col gap-5 ">
           {/* <p className='flex items-center gap-3 text-xl font-bold'><div>{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span> </div><span className={`${lawyer.available ? 'bg-success' : 'bg-accent'} w-2 h-2 rounded-full`}></span> </p> */}
           <div className="flex flex-col items-end w-64">
             <Link
-              to={`/profile/${lawyer?.UID}`}
+              to={`/profile/${lawyer.UID}`}
               className="text-2xl uppercase flex gap-2"
             >
               <span className="text-accent font-bold">
-                {lawyer?.name?.split(" ")[0]}
+                {lawyer?.name.split(" ")[0]}
               </span>{" "}
-              {lawyer?.name?.split(" ")[1]}
+              {lawyer?.name.split(" ")[1]}
             </Link>
             <p className="flex justify-end text-md">
               {/* <IoLocationSharp className="text-lg" /> */}
@@ -124,13 +115,13 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
               {lawyer?.languages?.map((item, index) => (
                 <span className="text-xs rounded-md" key={index}>
                   {item.trim()}
-                  {index !== lawyer?.languages.length - 1 && ", "}
+                  {index !== lawyer.languages.length - 1 && ", "}
                 </span>
               ))}
             </div>
             <p className="flex items-center justify-end gap-2 text-xs">
               <BiTime className="text-sm" />{" "}
-              {lawyer?.year ? date?.getFullYear() - lawyer?.year : "0 "}
+              {lawyer?.year ? date.getFullYear() - lawyer.year : "0 "}
               years
             </p>
           </div>
@@ -157,7 +148,7 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
                     ?.map((item, index) => (
                       <span className="text-xs " key={index}>
                         {item}
-                        {index !== specialties?.length - 1 && ", "}
+                        {index !== specialties.length - 1 && ", "}
                       </span>
                     ))}
               </div>
@@ -211,7 +202,7 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
 };
 
 const checkOnline = (array, uid) => {
-  for (let i = 0; i < array?.length; i++) {
+  for (let i = 0; i < array.length; i++) {
     if (array[i] === uid) {
       return true;
     }
