@@ -23,7 +23,6 @@ const StateProvider = ({ children }) => {
           isOnline: true,
           uid: uid,
         });
-
         const userRef = ref(db, "lawyers/" + uid);
         onDisconnect(userRef)
           .update({
@@ -35,10 +34,11 @@ const StateProvider = ({ children }) => {
           .catch((error) => {
             console.error("Error setting up onDisconnect event:", error);
           });
-      } else if (!available && user && uid) {
+      } else if (!available) {
         //If the user turns off availibility
         update(ref(db, "lawyers/" + uid), {
           isOnline: false,
+          uid: uid,
         });
       }
     }
@@ -68,7 +68,8 @@ const StateProvider = ({ children }) => {
     const getProfile = (id) => {
       console.log("yes");
       fetch(
-        `https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === "lawyer" ? "get-lawyer" : "get"
+        `https://ninja-lawyer-server.vercel.app/api/users/${
+          user.displayName === "lawyer" ? "get-lawyer" : "get"
         }/${id}`
       )
         .then((res) => res.json())
