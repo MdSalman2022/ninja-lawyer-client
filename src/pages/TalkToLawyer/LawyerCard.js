@@ -65,6 +65,11 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
   // console.log("selected specialty " + selectedSpecialties)
 
   const date = new Date();
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   return (
     <div className="bg-primary dark:bg-base-100 shadow flex flex-col h-full w-80 items-start justify-start rounded-xl gap-0 text-base-100 dark:text-primary dark:border border-gray-800 relative  ">
       <span className="absolute top-0 left-0  dark:bg-base-100 p-2 rounded-bl-xl">
@@ -109,7 +114,7 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
         <div className="flex flex-col gap-5 ">
           {/* <p className='flex items-center gap-3 text-xl font-bold'><div>{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span> </div><span className={`${lawyer.available ? 'bg-success' : 'bg-accent'} w-2 h-2 rounded-full`}></span> </p> */}
           <div className="flex flex-col items-end w-64">
-            <Link
+            <Link onClick={scrollToTop}
               to={`/profile/${lawyer?.UID}`}
               className="text-2xl uppercase flex gap-2"
             >

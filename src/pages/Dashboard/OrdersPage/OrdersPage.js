@@ -221,7 +221,7 @@ function OrdersPage() {
                                             <Link to={`/dashboard/cases/${order._id}/case-details`}>₹{order.budget}</Link>
                                         </td>
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            <Link to={`/dashboard/cases/${order._id}/case-details`}><ModalBox offerStatus={order.status} handleComplete={handleComplete} CaseComplete={CaseComplete} offer={order} /></Link>
+                                            <Link to={`/dashboard/cases/${order._id}/case-details`}><ModalBox  handleComplete={handleComplete} CaseComplete={CaseComplete} offer={order} /></Link>
                                         </td> 
                                          
                                     </tr>

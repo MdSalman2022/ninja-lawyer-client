@@ -30,17 +30,7 @@ function CallLogsPage() {
         })
     }, [])
 
-    console.log(allOffers)
-
-    // useEffect(()=>{
-    //     fetch(`https://ninja-lawyer-server.vercel.app/api/offers/user/get/${user.uid}`)
-    //     .then(res=>res.json())
-    //     .then(data=>{
-    //         setCallUID(data._id)
-    //         console.log(data)
-    //         setAllOffers(data)
-    //     })
-    // }, [])
+    console.log(allOffers) 
 
     const tabRef = useRef(null);
     
@@ -179,11 +169,13 @@ function CallLogsPage() {
                                             <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
                                                 {formatDate(offer?.timestamp)}
                                             </td>
-                                            {user.displayName !== 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                                <ModalBox offerStatus={offer.status} client={offer.name} client_uid={offer.UID} offer={offer}/>
-                                            </td>}
+                                            {
+                                            user.displayName !== 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                                <ModalBox client={offer.name} client_uid={offer.UID} offer={offer}/>
+                                            </td>
+                                            }
                                             {user.displayName === 'lawyer' && <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                                <ModalBox offerStatus={offer.status} client={offer.name} client_uid={offer.UID} offer={offer}/>
+                                                <ModalBox client={offer.name} client_uid={offer.UID} offer={offer}/>
                                             </td>}
                                         </tr>
                                     ))

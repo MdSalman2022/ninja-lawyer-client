@@ -23,12 +23,11 @@ import { Link } from "react-router-dom";
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
-  const { heightFull, setHeightFull, userData, setUserData } = useContext(StateContext);
+  const { heightFull, setHeightFull, userData, setUserData, cityName, setCityName, setStateName, statesName } = useContext(StateContext);
   const [states, setStates] = useState([])
-  const [statesName, setStateName] = useState(userData.state ? userData.state : '')
+  
   const [stateId, setStateId] = useState('');
   const [cities, setCities] = useState([]);
-  const [cityName, setCityName] = useState(userData.city ? userData.city : '');
 
 
   // useEffect(() => {
@@ -65,11 +64,13 @@ function ProfilePage() {
     setStateId(iso)
     const name = states.find(state => state.iso2 === iso).name
     setStateName(name)
+    userData.state = name
   }
 
   const handleCity = (data) => {
     console.log(data)
     setCityName(data)
+    userData.city = data
   }
 
   console.log(userData)
@@ -147,8 +148,8 @@ function ProfilePage() {
       const updateResult = putDataToServer(user.uid, update, user);
       console.log(updateResult, "----");
       toast.success('Profile Updated Successfully')
-      setHeightFull(!heightFull)
       setUserData(update_data)
+      setHeightFull(!heightFull)
     }
   }
 

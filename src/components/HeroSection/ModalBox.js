@@ -9,7 +9,7 @@ import { RxCross1 } from 'react-icons/rx'
 import { MdOutlineUploadFile } from 'react-icons/md';
 import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
 
-function ModalBox({ offer, offerStatus, handleComplete, CaseComplete, client, client_uid, paymentModal, setPaymentModal, reviewModalOpen }) {
+function ModalBox({ offer, handleComplete, CaseComplete, client, client_uid, paymentModal, setPaymentModal, reviewModalOpen }) {
 
     const { user } = useContext(AuthContext);
     const { userData } = useContext(StateContext);
@@ -31,6 +31,7 @@ function ModalBox({ offer, offerStatus, handleComplete, CaseComplete, client, cl
         "MSME Recovery, MSME related matter.",
     ];
 
+    const [offerStatus, setOfferStatus] = useState(offer.status);
 
 
 
@@ -66,7 +67,8 @@ function ModalBox({ offer, offerStatus, handleComplete, CaseComplete, client, cl
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
+                    console.log(data)                    
+                    setOfferStatus('pending')
                     if (data.acknowledged === true) {
                         fetch(`https://ninja-lawyer-server.vercel.app/api/offers/status/change?offerid=${offer._id}&lawyerid=${user.uid}&offerstatus=pending`, {
                             method: 'PUT',
@@ -125,7 +127,7 @@ function ModalBox({ offer, offerStatus, handleComplete, CaseComplete, client, cl
             {user.displayName === 'lawyer' &&
                 <>
                     {offerStatus === 'offer' && <button className='font-bold primary-outline-btn' onClick={() => setIsOpen(true)}>Send Offer</button>}
-                    {offerStatus === 'pending' && <button className='font-bold primary-outline-btn border-gray-500 text-gray-500 hover:bg-transparent hover:text-gray-500'>Sent</button>}
+                    {offerStatus === 'pending' && <button className='font-bold primary-outline-btn border-gray-500 text-gray-500 hover:bg-transparent hover:text-gray-500'>Offer Sent</button>}
                     {offerStatus === 'accepted' && <button className='font-bold text-green-500'>Ongoing</button>}
                     {offerStatus === 'completed' && <button className='font-bold text-blue-500'>Complete</button>}
                     {offerStatus === 'rejected' && <button className='font-bold text-accent'>Rejected</button>}
