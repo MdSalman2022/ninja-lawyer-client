@@ -14,6 +14,7 @@ import { TbMessages } from 'react-icons/tb'
 import { FaChevronRight } from 'react-icons/fa';
 import { FiHelpCircle } from 'react-icons/fi';
 import { IoPersonAdd } from 'react-icons/io5'
+import Footer from '../components/Footer/Footer';
 
 function DashboardLayout() {
 
@@ -53,7 +54,7 @@ function DashboardLayout() {
                         <div className='flex flex-col gap-5'>
                             <Link onClick={() => setActiveTab('dashboard')} to="/dashboard" className={`transaction-colors duration-200 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'dashboard' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><BsGrid1X2 /></p> <span className={`transition-colors duration-200 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Dashboard</span></Link>
                             {user.displayName === 'admin' && <Link onClick={() => setActiveTab('lawyer-requests')} to="/dashboard/lawyer-requests" className={`transaction-colors duration-200 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'lawyer-requests' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><IoPersonAdd /></p> <span className={`transition-colors duration-200 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Lawyer Request</span></Link>}
-                            <Link onClick={() => setActiveTab('profile')} to="/dashboard/profile" className={`transaction-colors duration-200 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'profile' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><ImProfile /></p> <span className={`transition-colors duration-200 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Profile</span> </Link>
+                            {/* <Link onClick={() => setActiveTab('profile')} to="/dashboard/profile" className={`transaction-colors duration-200 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'profile' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><ImProfile /></p> <span className={`transition-colors duration-200 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Profile</span> </Link> */}
                             {user.displayName !== 'admin' && <Link onClick={() => setActiveTab('cases')} to="/dashboard/cases" className={`transaction-colors duration-200 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'cases' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><BsListCheck /></p> <span className={`transition-colors duration-200 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>My <br />Cases</span> </Link>}
                             {user.displayName !== 'admin' && <Link onClick={() => setActiveTab('call-logs')} to="/dashboard/call-logs" className={`transaction-colors duration-200 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-8' : 'pr-4'} ${activeTab === 'call-logs' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><BiHistory /></p> <span className={`transition-colors duration-200 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Call logs</span> </Link>}
                             {user.displayName !== 'admin' && <Link onClick={() => setActiveTab('transactions')} to="/dashboard/transactions" className={`transaction-colors duration-200 flex items-center gap-5 hover:border-r-4 border-accent group ${isOpen ? 'pr-6' : 'pr-4'} ${activeTab === 'transactions' ? ' border-r-4 text-accent' : ''}`}><p className='shadow-lg p-3 rounded-xl text-2xl group-hover:text-accent'><BsCreditCard2Back /></p> <span className={`transition-colors duration-200 font-semibold group-hover:text-accent ${isOpen ? '' : 'hidden'}`}>Transaction</span> </Link>}
@@ -70,6 +71,7 @@ function DashboardLayout() {
                     <Outlet />
                 </div>
             </div>
+            <Footer/>
         </div>
     )
 

@@ -7,10 +7,13 @@ import { GoVerified } from 'react-icons/go'
 import LawyerReview from './LawyerReview'
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider'
 import { set } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
+import { StateContext } from '../../contexts/StateProvider/StateProvider'
 
 const LawyerProfile = () => {
 
   const { user } = useContext(AuthContext)
+  const { userData } = useContext(StateContext)
 
   const lawyer = useLoaderData()
 
@@ -19,28 +22,55 @@ const LawyerProfile = () => {
   const { fname, experience, state, city, pincode, languages, specialties, img, available, rating, reviews, rate, summary, year, name, gender, verified, UID } = lawyer
 
   const date = new Date()
-
-  const handleServicePurchase = (UID) => {
-    const existingUIDs = localStorage.getItem('lawyerUIDs')
-    const newUIDs = existingUIDs ? JSON.parse(existingUIDs).concat(UID) : [UID]
-    localStorage.setItem('lawyerUIDs', JSON.stringify(newUIDs))
-    setServiceTaken(true)
-
-  }
-
-
+  
   const [services, setServices] = useState([])
 
   const [serviceTaken, setServiceTaken] = useState(false)
 
+  const handleServicePurchase = async (UID) => {
+    // const existingUIDs = localStorage.getItem('lawyerUIDs')
+    // const newUIDs = existingUIDs ? JSON.parse(existingUIDs).concat(UID) : [UID]
+    // localStorage.setItem('lawyerUIDs', JSON.stringify(newUIDs))
+    // setServiceTaken(true)
 
-  useEffect(() => {
-    const lawyerUIDs = JSON.parse(localStorage.getItem('lawyerUIDs')) || []
-    setServices(lawyerUIDs)
+      const url = `https://ninja-lawyer-server.vercel.app/api/offers/add/${UID}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          UID: userData.UID,
+          name: userData.name,
+          lawyer_name: name,
+        })
+      });
+      const data = await response.json();
+      console.log(data);
+      if(data.acknowledged) {
+        setServiceTaken(true)
+        toast.success('Service Taken')
+        setTimeout(() => {
+          setServiceTaken(false);
+          console.log("Service Taken set to false after 1 minute");
+        }, 30000);         
+      }else{
+        toast.error('Something went wrong')
+      }
+      
+ 
+  }
 
-    let service = lawyerUIDs.includes(UID)
-    setServiceTaken(service)
-  }, [])
+
+
+
+  // useEffect(() => {
+  //   const lawyerUIDs = JSON.parse(localStorage.getItem('lawyerUIDs')) || []
+  //   setServices(lawyerUIDs)
+
+  //   let service = lawyerUIDs.includes(UID)
+  //   setServiceTaken(service)
+  // }, [])
 
   console.log(services)
   console.log(serviceTaken)
@@ -62,7 +92,9 @@ const LawyerProfile = () => {
             <p className='flex items-center gap-1'>Rating: {rating} <FaStar className='text-yellow-400' /></p>
             <button className='primary-btn w-52'>Chat</button>
             <p className="text-2xl font-bold">Services</p>
-            <button onClick={() => handleServicePurchase(UID)} className={`${serviceTaken ? 'primary-btn' : 'primary-outline-btn'}`}>{serviceTaken ? "Service Taken" : "Take service"}</button>
+            {!serviceTaken && <button onClick={() => handleServicePurchase(UID)} className={`primary-outline-btn`}>Take service</button>}
+            {serviceTaken && <button className={`primary-btn`}>Service Taken</button>}
+            
           </div>
           <div className="col-span-3 flex flex-col gap-5 bg-primary dark:bg-base-100 dark:border dark:border-gray-600 p-10 rounded-xl">
             <p className="font-bold">Professional Summary</p>

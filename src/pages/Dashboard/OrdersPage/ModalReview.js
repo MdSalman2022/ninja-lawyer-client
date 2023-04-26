@@ -3,8 +3,9 @@ import { toast } from 'react-hot-toast';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 import { useForm } from 'react-hook-form';
 import { FaStar } from 'react-icons/fa';
+import RazorPay from '../../../components/Dashboard/CaseDetailsPage/RazorPay';
 
-const ModalReview = ({lawyer, setModalOpen, modalOpen}) => {
+const ModalReview = ({orderInfo,lawyerUID, setModalOpen, modalOpen, paymentModal, setPaymentModal, reviewModalOpen,setReviewModalOpen}) => {
 
     const {user} = useContext(AuthContext) 
     
@@ -35,7 +36,7 @@ const ModalReview = ({lawyer, setModalOpen, modalOpen}) => {
         };
         console.log(review);
 
-        fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/add/${lawyer}`, {
+        fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/add/${lawyerUID}`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",
@@ -46,12 +47,48 @@ const ModalReview = ({lawyer, setModalOpen, modalOpen}) => {
             .then(data => {
                 setModalOpen(false)
                 console.log("review:", data);
-                toast.success("Review Posted"); 
+                fetch(`https://ninja-lawyer-server.vercel.app/api/orders/status/change?lawyerid=${lawyerUID}&orderid=${orderInfo._id}&offerstatus=completed&payment=true`, {
+                    method: "PUT",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify({}),
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        // toast.success("Order Status Changed"); 
+                        toast.success("Review Posted"); 
+                        setReviewModalOpen(true)
+                        
+                    });
             });
     };
 
 console.log(modalOpen)
+console.log(lawyerUID)
+    
+       
+    const handleOrderStatus = (status) => {
+        console.log(status)
+        setPaymentModal(false)
+        setModalOpen(false)
 
+        fetch(`https://ninja-lawyer-server.vercel.app/api/orders/status/change?lawyerid=${lawyerUID}&orderid=${orderInfo._id}&offerstatus=accepted&payment=true`, {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({}),
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                toast.success("Payment successful"); 
+            });
+    }
+          
+    
 
     if (modalOpen === true) {
         return (
@@ -59,9 +96,23 @@ console.log(modalOpen)
                 <div className='flex items-center justify-center min-h-screen'>
                     <div className="fixed inset-0 bg-gray-500 bg-opacity-10 transition-opacity" aria-hidden="true"></div>
                     <div className='bg-primary dark:bg-base-100 rounded-lg overflow-hidden shadow transform transition-all sm:max-w-2xl sm:w-full'>
-                        <div className=" my-5">
+                                {/* {paymentModal === true && 
+                                    <div className='flex justify-center items-center'>
+                                        <button onClick={()=>{
+                                            setPaymentModal(false)
+                                            setModalOpen(false)
+                                            handleOrderStatus("accepted")
+                                            }} className="primary-btn">
+                                            Pay
+                                        </button>
+                                        <RazorPay setPaymentModal={setPaymentModal} setModalOpen={setModalOpen}  handleOrderStatus={handleOrderStatus}/>
+                                    </div>
+                                }     */}
+                        {reviewModalOpen && paymentModal === false &&
+                            <div className=" my-5">
                             <div className="mb-3 pl-5">
                                 <div className="flex items-center gap-5 ">
+                                    
                                     <div className="flex gap-2">
                                         {[...Array(5)].map((_, i) => {
                                             const ratingValue = i + 1;
@@ -150,7 +201,7 @@ console.log(modalOpen)
                                     </button>
                                 </div>
                             </form>
-                        </div>
+                        </div>}
                     </div>
 
                 </div>

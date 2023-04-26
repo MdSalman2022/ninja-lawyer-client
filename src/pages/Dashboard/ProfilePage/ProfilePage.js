@@ -389,10 +389,11 @@ function ProfilePage() {
               </span>
               <input
                 type="text"
-                className="input-box w-full"
+                className="input-box w-full text-gray-400 border-gray-400"
                 name="email"
                 defaultValue={userData.email}
                 {...register("email", { required: userData.email ? false : true, maxLength: 80 })}
+                readOnly
               />
             </label>
 
@@ -400,14 +401,17 @@ function ProfilePage() {
               <span className=" font-medium text-base-100 dark:text-primary w-32">
                 Phone number
               </span>
-              <input
-                type="text"
-                className="input-box w-full"
-                name="contact"
-                defaultValue={userData?.contact}
-                {...register("contact", { required: userData.contact ? false : true, maxLength: 80 })}
-                readOnly
-              />
+              <div className="relative">
+                <span className="absolute top-3 left-0 border-r px-1">+91</span>
+                <input
+                  type="text"
+                  className="input-box w-full text-gray-400 border-gray-400 pl-10"
+                  name="contact"
+                  defaultValue={userData?.contact?.substring(3, 14)}
+                  {...register("contact", { required: userData.contact ? false : true, maxLength: 80 })}
+                  readOnly
+                />
+              </div>
             </label>
 
             <label className="col-span-2 grid grid-cols-2">
