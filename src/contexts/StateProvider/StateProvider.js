@@ -38,7 +38,6 @@ const StateProvider = ({ children }) => {
         //If the user turns off availibility
         update(ref(db, "lawyers/" + uid), {
           isOnline: false,
-          uid: uid,
         });
       }
     }
@@ -83,7 +82,6 @@ const StateProvider = ({ children }) => {
       getProfile(user.uid);
     }
   }, [user, heightFull]);
-  
 
   useEffect(() => {
     const savedAvailable = localStorage.getItem("available");
