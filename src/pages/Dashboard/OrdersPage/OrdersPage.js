@@ -1,16 +1,45 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { FaSearch } from 'react-icons/fa';
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { FaExternalLinkAlt, FaSearch } from 'react-icons/fa';
 import { Player } from '@lottiefiles/react-lottie-player';
 import ModalBox from '../../../components/HeroSection/ModalBox';
 import { FiFilter } from 'react-icons/fi';
 import {allOffers} from './offers'
 import ModalReview from './ModalReview';
-
+import { Link } from 'react-router-dom';
+import { StateContext } from '../../../contexts/StateProvider/StateProvider';
+import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider'; 
 function OrdersPage() {
 
+    const {user} = useContext(AuthContext)
+    const {userData} = useContext(StateContext)
  
     const [caseType, setCaseType] = useState('All Cases')
+    
+    const [allOrders, setAllOrders] = useState([])
 
+    useEffect(()=>{
+        fetch(`https://ninja-lawyer-server.vercel.app/api/orders/${user.displayName === 'lawyer' ? '' : 'user/'}get/${user.uid}`)
+        .then(res=>res.json())
+        .then(data=>{ 
+            console.log(data)
+            if(user.displayName === 'lawyer'){
+                setAllOrders(data.orders.reverse())
+            }else{
+                setAllOrders(data.reverse())
+            }
+        })
+    }, [])
+
+    console.log(allOrders)
+
+    // useEffect(()=>{
+    //     fetch(`https://ninja-lawyer-server.vercel.app/api/orders/get/${user.UID}`)
+    //     .then(res=>res.json())
+    //     .then(data=>{ 
+    //         console.log(data.orders)
+    //         setAllOrders(data.orders)
+    //     })
+    // }, [])
     
     const tabRef = useRef(null);
     
@@ -73,7 +102,7 @@ function OrdersPage() {
       };
 
     console.log(caseType)
-    console.log(allOffers)
+    // console.log(allOffers)
     
 
     const [CaseComplete, setCaseComplete] = useState(false)
@@ -86,6 +115,13 @@ function OrdersPage() {
     }
 
     console.log(modalOpen)
+
+
+    function formatDate(dateString) {
+        const options = { month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
+        const date = new Date(dateString);
+        return date.toLocaleString("en-US", options);
+      }
 
 
     return (
@@ -145,9 +181,9 @@ function OrdersPage() {
                                 <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
                                     Name
                                 </th>
-                                <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
+                                {/* <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
                                     Contact
-                                </th>
+                                </th> */}
                                 <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
                                     Time
                                 </th>
@@ -156,33 +192,39 @@ function OrdersPage() {
                                 </th>
                                 <th scope="col" className="text-sm font-medium text-gray-900 dark:text-primary px-6 py-4 text-left">
                                     Status
-                                </th>
+                                </th>  
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                allOffers.map((offer, index) => (
+                            {allOrders.length > 0 &&
+                                allOrders?.map((order, index) => (
                                     <tr key={index} className="bg-primary dark:bg-base-100 border-b">
-                                        <ModalReview lawyer={offer.UID} setModalOpen={setModalOpen} modalOpen={modalOpen}/>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-primary">{index+1}</td>
+                                        <ModalReview lawyer={order.UID} setModalOpen={setModalOpen} modalOpen={modalOpen}/>
+                                        <td className=" px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-primary">{index+1}</td>
+                                        {user.displayName === 'lawyer' && 
+                                        <td className="select-text cursor-pointer text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                            <Link to={`/dashboard/cases/${order._id}/case-details`}>{order.client_name}</Link>
+                                        </td>
+                                        }
+                                        {user.displayName !== 'lawyer' && 
+                                        <td className="select-text cursor-pointer text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                            <Link to={`/dashboard/cases/${order._id}/case-details`}>{order.lawyer_name}</Link>
+                                        </td>
+                                        }
+                                        {/* <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
+                                            {order.contact}
+                                        </td> */}
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            {offer.name}
+                                        <Link to={`/dashboard/cases/${order._id}/case-details`}>{formatDate(order.timestamp)}</Link>
                                         </td>
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            {offer.contact}
+                                            <Link to={`/dashboard/cases/${order._id}/case-details`}>₹{order.budget}</Link>
                                         </td>
                                         <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            {offer.time}
-                                        </td>
-                                        <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            ₹{offer.amount}
-                                        </td>
-                                        <td className="text-sm text-gray-900 dark:text-primary font-light px-6 py-4 whitespace-nowrap">
-                                            <ModalBox offerStatus={offer.status} handleComplete={handleComplete} CaseComplete={CaseComplete} offer={offer} />
-                                        </td>
-                                        
+                                            <Link to={`/dashboard/cases/${order._id}/case-details`}><ModalBox offerStatus={order.status} handleComplete={handleComplete} CaseComplete={CaseComplete} offer={order} /></Link>
+                                        </td> 
+                                         
                                     </tr>
-                                    
                                 ))
                             }
                            

@@ -121,7 +121,7 @@ export default function LawyerRegister() {
                 onSubmit={handleSubmit(handleSignUp)}
               >
                 <label htmlFor="">
-                  First Name
+                  <p className="text-base-100 dark:text-primary">First Name</p>
                   <input
                     type="text"
                     name="fname"
@@ -130,7 +130,7 @@ export default function LawyerRegister() {
                   />
                 </label>
                 <label htmlFor="">
-                  Last Name
+                  <p className="text-base-100 dark:text-primary">Last Name</p>
                   <input
                     type="text"
                     name="lname"
@@ -139,7 +139,7 @@ export default function LawyerRegister() {
                   />
                 </label>
                 <label className="col-span-1" htmlFor="">
-                  Email
+                  <p className="text-base-100 dark:text-primary">Email</p>
                   <input
                     type="email"
                     name="email"
@@ -147,17 +147,18 @@ export default function LawyerRegister() {
                     {...register("email", { required: true, maxLength: 80 })}
                   />
                 </label>
-                <label className="col-span-1" htmlFor="">
-                  Contact
+                <label className="col-span-1 relative" htmlFor="">
+                  <p className="text-base-100 dark:text-primary">Contact</p>
+                  <span className="absolute top-9 left-1 text-black px-1 border-r text-sm">+91</span>
                   <input
-                    type="text"
+                    type="number"
                     name="contact"
-                    className="input-box w-full "
+                    className="input-box w-full pl-10"
                     {...register("contact", { required: true, maxLength: 80 })}
                   />
                 </label>
                 <label htmlFor="">
-                  Password
+                  <p className="text-base-100 dark:text-primary">Password</p>
                   <input
                     type="password"
                     name="fname"
@@ -166,7 +167,7 @@ export default function LawyerRegister() {
                   />
                 </label>
                 <label htmlFor="">
-                  Confirm password
+                <p className="text-base-100 dark:text-primary">Confirm password</p>                  
                   <input
                     type="password"
                     name="confirm_password"
@@ -265,7 +266,7 @@ export default function LawyerRegister() {
                 >
                   Register
                 </button>
-                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                <p className="col-span-2 text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account?{" "}
                   <Link
                     to="/login"
