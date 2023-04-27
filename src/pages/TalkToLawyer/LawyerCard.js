@@ -15,6 +15,8 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
   useEffect(() => {
     if (checkOnline(online, lawyer.UID)) {
       setOnline(true);
+    } else {
+      setOnline(false);
     }
   }, [online]);
 
@@ -63,6 +65,11 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
   // console.log("selected specialty " + selectedSpecialties)
 
   const date = new Date();
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   return (
     <div className="bg-primary dark:bg-base-100 shadow flex flex-col h-full w-80 items-start justify-start rounded-xl gap-0 text-base-100 dark:text-primary dark:border border-gray-800 relative  ">
       <span className="absolute top-0 left-0  dark:bg-base-100 p-2 rounded-bl-xl">
@@ -89,17 +96,27 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
         />
         {/* blur effect */}
         <div className="absolute bg-primary w-40 h-40 rounded-full bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-[5%] dark:bg-opacity-[10%] dark:brightness-50"></div>
-
-        <span className="absolute top-3 bg-transparent border border-success w-40 h-40 rounded-full"></span>
-        <span className="absolute top-5 right-28 rounded-full w-2 h-2 bg-success animate-ping"></span>
-        <span className="absolute top-5 right-28 rounded-full w-2 h-2 bg-success"></span>
+        {isOnline ? (
+          <>
+            <span className="absolute top-3 bg-transparent border border-success w-40 h-40 rounded-full"></span>
+            <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-success animate-ping"></span>
+            <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-success"></span>
+          </>
+        ) : (
+          <>
+            <span className="absolute top-3 bg-transparent border border-accent w-40 h-40 rounded-full"></span>
+            <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-accent animate-ping"></span>
+            <span className="absolute top-5 right-28 rounded-full w-3 h-3 bg-accent"></span>
+          </>
+        )}
       </figure>
       <div className="content px-3 w-full h-full  rounded-b-xl ">
         <div className="flex flex-col gap-5 ">
           {/* <p className='flex items-center gap-3 text-xl font-bold'><div>{lawyer.name.substring(0, 3)} <span className="blur-sm">{lawyer.name.substring(3)}</span> </div><span className={`${lawyer.available ? 'bg-success' : 'bg-accent'} w-2 h-2 rounded-full`}></span> </p> */}
           <div className="flex flex-col items-end w-64">
             <Link
-              to={`/profile/${lawyer.UID}`}
+              onClick={scrollToTop}
+              to={`/profile/${lawyer?.UID}`}
               className="text-2xl uppercase flex gap-2"
             >
               <span className="text-accent font-bold">

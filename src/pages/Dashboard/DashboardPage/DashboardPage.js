@@ -7,7 +7,7 @@ function DashboardPage() {
             <h1 className="text-3xl font-bold">Dashboard</h1>
             <hr />
 
-            <div className="grid grid-cols-5">
+            <div className="grid grid-cols-5 gap-10">
                 <div className=" box p-3 border border-base-100 dark:border-primary rounded-xl h-36 w-60 flex flex-col justify-between">
                     <div>
                         <p>Available balance</p>

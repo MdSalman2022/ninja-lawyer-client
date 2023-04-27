@@ -321,7 +321,7 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
                 </div>
                 <div className="col-span-3">
                     {/* review start selection */}
-                    {serviceTaken &&
+                    {/* {serviceTaken &&
                         <div className="flex flex-col justify-between gap-5 lg:flex-row">
 
                             <span
@@ -331,12 +331,12 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
                                 <AiOutlineEdit /> Write a review
                             </span>
                         </div>
-                    }
+                    } */}
 
                     <div className="reviews py-5">
                         {/* write review */}
 
-                        {writeReview && (
+                        {/* {writeReview && (
                             <div className=" my-5">
                                 <div className="mb-3">
                                     <div className="flex items-center gap-5">
@@ -430,7 +430,7 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
                                 </form>
                             </div>
                         )
-                        }
+                        } */}
                         <div className="flex flex-col gap-5">
                             {allReviews?.length > 0 ?
                                 allReviews?.map(r => (

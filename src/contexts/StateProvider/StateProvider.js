@@ -17,28 +17,31 @@ const StateProvider = ({ children }) => {
   useEffect(() => {
     const db = getDatabase(app);
     function writeUserData(uid) {
-      console.log("pp----pp", available);
-      if (available) {
-        set(ref(db, "lawyers/" + uid), {
-          isOnline: true,
-          uid: uid,
-        });
-        const userRef = ref(db, "lawyers/" + uid);
-        onDisconnect(userRef)
-          .update({
-            isOnline: false,
-          })
-          .then(() => {
-            console.log("OnDisconnect event set up successfully");
-          })
-          .catch((error) => {
-            console.error("Error setting up onDisconnect event:", error);
+      // console.log("pp----pp", available);
+      if (user?.displayName === "lawyer") {
+        if (available) {
+          set(ref(db, "lawyers/" + uid), {
+            isOnline: true,
+            uid: uid,
           });
-      } else if (!available) {
-        //If the user turns off availibility
-        update(ref(db, "lawyers/" + uid), {
-          isOnline: false,
-        });
+          const userRef = ref(db, "lawyers/" + uid);
+          onDisconnect(userRef)
+            .update({
+              isOnline: false,
+            })
+            .then(() => {
+              console.log("OnDisconnect event set up successfully");
+            })
+            .catch((error) => {
+              console.error("Error setting up onDisconnect event:", error);
+            });
+        } else if (!available && user) {
+          //If the user turns off availibility
+          set(ref(db, "lawyers/" + uid), {
+            isOnline: false,
+            uid: uid,
+          });
+        }
       }
     }
 
@@ -62,7 +65,13 @@ const StateProvider = ({ children }) => {
     setDarkMode(!darkmode);
   };
 
-  const [userData, setUserData] = useState({});
+  let [userData, setUserData] = useState({});
+
+  const [statesName, setStateName] = useState(
+    userData.state ? userData.state : ""
+  );
+  const [cityName, setCityName] = useState(userData.city ? userData.city : "");
+
   useEffect(() => {
     const getProfile = (id) => {
       console.log("yes");
@@ -81,7 +90,7 @@ const StateProvider = ({ children }) => {
     if (user?.uid) {
       getProfile(user.uid);
     }
-  }, [user, heightFull]);
+  }, [user]);
 
   useEffect(() => {
     const savedAvailable = localStorage.getItem("available");
@@ -116,6 +125,10 @@ const StateProvider = ({ children }) => {
     available,
     setAvailable,
     toggleAvailable,
+    setStateName,
+    statesName,
+    setCityName,
+    cityName,
   };
 
   return (

@@ -23,13 +23,13 @@ import { app } from "../../assets/firebase.config";
 
 function TalkToLawyerList() {
   const { user } = useContext(AuthContext);
-  const { userData } = useContext(StateContext);
+  const { userData, cityName, heightFull } = useContext(StateContext);
 
   const [specialtiesArray, setSpecialtiesArray] = useState(["nothing"]);
   const [problemSeeMore, setProblemSeeMore] = useState(false);
   const [languageSeeMore, setLanguageSeeMore] = useState(false);
   const [lawyerList, setLawyerList] = useState([]);
-  const [cityName, setCityName] = useState("");
+  const [selectedCity, SetSelectedCity] = useState("");
 
   // For online/offline
   const [onlineLawyers, setOnlineLawyers] = useState(null);
@@ -43,10 +43,11 @@ function TalkToLawyerList() {
       const data = snapshot.val();
       lawyerArr = Object.values(data);
       lawyerArr = checkOnline(lawyerArr);
+      console.log(lawyerArr);
       setOnlineLawyers(lawyerArr);
       //   lawyerArr.push(data);
     });
-    console.log(lawyerArr, "-0-");
+    // console.log(lawyerArr, "-0-");
   }, [user]);
 
   //
@@ -186,9 +187,9 @@ function TalkToLawyerList() {
   const [filteredLawyers, setFilteredLawyers] = useState([]);
 
   const allLawyersByCity = () => {
-    if (cityName) {
+    if (selectedCity) {
       fetch(
-        `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?city=${cityName}`
+        `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?city=${selectedCity}`
       )
         .then((res) => res.json())
         .then((data) => setSearchLawyerByLocation(data));
@@ -198,18 +199,18 @@ function TalkToLawyerList() {
   // console.log("search lawyer by location", searchLawyerByLocation);
 
   let fetchParams = handleArrayOfSpecialties();
-  // console.log("fetch params", fetchParams);
   useEffect(() => {
-    cityName &&
+    selectedCity &&
       fetch(
-        `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?city=${cityName}`
+        `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?city=${selectedCity}`
       )
         .then((res) => res.json())
         .then((data) => {
           setSearchLawyerByLocation(data);
-          // console.log(data);
         });
-  }, [cityName]);
+  }, [selectedCity]);
+
+
 
   //   Get checkbox of specialties
 
@@ -250,7 +251,7 @@ function TalkToLawyerList() {
           setSearchLawyerByLocation(filteredLawyers);
         });
     }
-  }, [specialtiesArray, pageSize]);
+  }, [specialtiesArray, pageSize, userData]);
 
   function handleArrayOfSpecialties() {
     let string = specialtiesArray[0];
@@ -280,13 +281,13 @@ function TalkToLawyerList() {
     if (event.target.value === "") {
       setShowResults(false);
       setQuery("");
-      setCityName("");
+      SetSelectedCity("");
     } else {
       setQuery(event.target.value);
       // console.log(event.target.value);
       setActiveIndex(-1);
       setShowResults(true);
-      setLawyerList(lawyerList.filter((lawyer) => lawyer.city !== cityName));
+      setLawyerList(lawyerList.filter((lawyer) => lawyer.city !== selectedCity));
     }
   };
 
@@ -315,13 +316,13 @@ function TalkToLawyerList() {
           setActiveIndex(-1);
           setQuery(query);
           // console.log(city);
-          setCityName(city);
+          SetSelectedCity(city);
           setShowResults(false);
         } else {
           value =
             value.substring(0, 1).toUpperCase() +
             value.substring(1).replace(/\s+/g, "_");
-          setCityName(value.split(",")[0]);
+          SetSelectedCity(value.split(",")[0]);
           setShowResults(false);
           setActiveIndex(-1);
           let city = value.split(",")[0].replace("_", " ");
@@ -342,13 +343,13 @@ function TalkToLawyerList() {
 
   const handleSearchResult = (data, index) => {
     setQuery(`${data.city}, ${data.state}`);
-    setCityName(data.city);
+    SetSelectedCity(data.city);
     setActiveIndex(index);
     setLawyerList(lawyerList.filter((lawyer) => lawyer.city !== data.city));
     setShowResults(false);
   };
 
-  // console.log(cityName);
+  // console.log(selectedCity);
 
   const sortedList = lawyerList.sort((a, b) => {
     if (a.city === userData.city && b.city !== userData.city) {
@@ -693,12 +694,12 @@ function TalkToLawyerList() {
               </div>
               <div className="col-span-4 flex flex-col gap-5">
                 <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-stretch">
-                  {cityName &&
+                  {selectedCity &&
                     fetchParams === "nothing" &&
                     (searchLawyerByLocation?.length === 0 ? (
                       <div className="col-span-4 flex flex-col gap-10">
                         <h1 className="text-3xl">
-                          No lawyers found in {cityName}
+                          No lawyers found in {selectedCity}
                         </h1>
                         <Player
                           className="w-[200px]"
@@ -719,7 +720,7 @@ function TalkToLawyerList() {
                       ))
                     ))}
                 </div>
-                {cityName && fetchParams === "nothing" && (
+                {selectedCity && fetchParams === "nothing" && (
                   <h1 className="text-3xl text-accent font-semibold">
                     Lawyers from other cities:{" "}
                   </h1>
@@ -732,7 +733,7 @@ function TalkToLawyerList() {
                         lawyer={lawyer}
                         key={index}
                         online={onlineLawyers}
-                        cityName={cityName}
+                        selectedCity={selectedCity}
                       />
                     ))}
                 </div>
@@ -753,7 +754,7 @@ function TalkToLawyerList() {
 const checkOnline = (array) => {
   let onlineArray = [];
   for (let i = 0; i < array.length; i++) {
-    console.log(array[i].isOnline);
+    // console.log(array[i].isOnline);
     if (array[i].isOnline) {
       onlineArray.push(array[i].uid);
     }

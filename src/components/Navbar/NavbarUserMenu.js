@@ -44,8 +44,8 @@ export default function NavbarUserMenu() {
               <img className='w-8 rounded-full cursor-pointer' src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png" alt="" />
             </button>
       </div>
-      <div className="absolute top-8 right-0  hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
-        <div className="bg-primary dark:bg-base-100 dark:border p-1 lg:p-5 shadow rounded-lg text-base-100 dark:text-primary">
+      <div className="absolute top-8 right-0  hidden group-hover:flex group-hover:flex-col z-50 rounded-xl h-full w-max bg-primary dark:bg-base-100">
+        <div className="bg-primary dark:bg-base-100 dark:border p-1 lg:p-5 shadow-2xl rounded-xl text-base-100 dark:text-primary">
           <div className="flex flex-col items-end gap-6">
             <div className="flex justify-between gap-8">
               <div className="flex flex-col justify-between items-start">
