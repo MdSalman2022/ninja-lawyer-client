@@ -10,10 +10,6 @@ function AskLawyerPage() {
     // console.log(cityDetails)
 
 
-
-
-
-
     return (
         <div className='bg-primary dark:bg-base-100 py-5'>
             <div className='flex flex-col space-y-3'>
