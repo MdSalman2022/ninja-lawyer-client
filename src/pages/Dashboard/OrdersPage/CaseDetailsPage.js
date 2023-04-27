@@ -54,7 +54,7 @@ function CaseDetailsPage() {
             <div className="flex">
             <ModalReview orderInfo={data} lawyerUID={data.lawyerUID} setModalOpen={setModalOpen} modalOpen={modalOpen} setPaymentModal={setPaymentModal} paymentModal={paymentModal} reviewModalOpen={reviewModalOpen} setReviewModalOpen={setReviewModalOpen}/>
             {data.status === "pending" &&
-                <RazorPay orderInfo={data} handleOrderStatus={handleOrderStatus}/>}
+                <RazorPay orderInfo={data} handleOrderStatus={handleOrderStatus} orderStatus={data.status}/>}
                 {/* {data.status === 'pending' && user.displayName !== 'lawyer' && 
                 <Link to="/dashboard/case/payment">
                 <button 
