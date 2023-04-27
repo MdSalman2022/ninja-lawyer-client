@@ -60,6 +60,10 @@ const LawyerProfile = () => {
   useEffect(() => {
     const db = getDatabase(app);
     const lawyerRef = ref(db, "/lawyers/" + UID);
+    onValue(lawyerRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log(data);
+    });
   }, [user]);
 
   const handleServicePurchase = async (UID) => {
