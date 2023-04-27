@@ -64,6 +64,8 @@ const LawyerProfile = () => {
       const data = snapshot.val();
       if (data.isOnline) {
         setIsOnline(true);
+      } else {
+        setIsOnline(false);
       }
       console.log(data);
     });
