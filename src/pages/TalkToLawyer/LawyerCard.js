@@ -76,7 +76,7 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
         <p className="flex items-center text-xl gap-2 text-end font-semibold">
           <FaStar className="text-warning" /> 5.0
         </p>
-        {isOnline ? <p>Online</p> : <p>NOT Online</p>}
+        {/* {isOnline ? <p>Online</p> : <p>NOT Online</p>} */}
       </span>
       <span className="absolute top-0 right-0  dark:bg-base-100 p-2 rounded-bl-xl flex flex-col">
         <span className="text-2xl p-0 m-0 text-end font-semibold relative">
