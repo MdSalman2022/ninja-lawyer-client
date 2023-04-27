@@ -6,7 +6,7 @@ import LawyerUpdateModal from "./LawyerUpdateModal";
 import { GoVerified } from "react-icons/go";
 import LawyerReview from "./LawyerReview";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
-import { set } from "react-hook-form";
+// import { set } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { StateContext } from "../../contexts/StateProvider/StateProvider";
 
@@ -62,6 +62,9 @@ const LawyerProfile = () => {
     const lawyerRef = ref(db, "/lawyers/" + UID);
     onValue(lawyerRef, (snapshot) => {
       const data = snapshot.val();
+      if (data.isOnline) {
+        setIsOnline(true);
+      }
       console.log(data);
     });
   }, [user]);
@@ -116,6 +119,7 @@ const LawyerProfile = () => {
           <div className="col-span-1 h-full flex flex-col items-center gap-5 bg-primary dark:bg-base-100 dark:border dark:border-gray-600 p-10 rounded-xl relative">
             {/* <span className='absolute top-5 right-5 text-xl'><BiEdit /></span> */}
             {/* <LawyerUpdateModal lawyer={lawyer} /> */}
+            {isOnline ? <h3>Online</h3> : <h3>Not Online</h3>}
             <figure className="relative">
               <img
                 className="w-40 rounded-full h-40 object-cover border "
