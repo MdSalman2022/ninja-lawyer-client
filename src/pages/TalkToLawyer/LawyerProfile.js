@@ -57,7 +57,10 @@ const LawyerProfile = () => {
 
   // Begining of lawyer get online or offline
   const [isOnline, setIsOnline] = useState(false);
-  useEffect(() => {}, [user]);
+  useEffect(() => {
+    const db = getDatabase(app);
+    const lawyerRef = ref(db, "/lawyers/" + UID);
+  }, [user]);
 
   const handleServicePurchase = async (UID) => {
     // const existingUIDs = localStorage.getItem('lawyerUIDs')
