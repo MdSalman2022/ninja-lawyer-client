@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../../assets/firebase.config";
@@ -22,6 +22,10 @@ export default function LawyerRegister() {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
+  const [countryCode, setCountryCode] = useState("+91");
+
+
+  
   useEffect(() => {
     if (user) {
       console.log("already logged");
@@ -74,7 +78,7 @@ export default function LawyerRegister() {
             First_Name: fname,
             Last_Name: lname,
             name: fname + " " + lname,
-            contact,
+            contact: countryCode + contact,
             gender,
             state,
             city,
@@ -96,10 +100,23 @@ export default function LawyerRegister() {
         });
     }
   };
+
+
+
+
+  const handleCountryCodeChange = (event) => {
+    setCountryCode(event.target.value);
+  }
+  console.log(countryCode) 
+
+
+
+
+
   return (
     <div>
-      <section className="bg-primary dark:bg-base-100 pb-7">
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <section className="bg-primary dark:bg-base-100 py-7">
+        <div className="flex flex-col items-center justify-start px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-lg xl:p-0 dark:bg-base-100 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <div className="grid grid-cols-2 gap-5 pb-0">
@@ -125,7 +142,7 @@ export default function LawyerRegister() {
                   <input
                     type="text"
                     name="fname"
-                    className="input-box w-full"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full"
                     {...register("fname", { required: true, maxLength: 80 })}
                   />
                 </label>
@@ -134,35 +151,47 @@ export default function LawyerRegister() {
                   <input
                     type="text"
                     name="lname"
-                    className="input-box w-full"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full"
                     {...register("lname", { required: true, maxLength: 80 })}
                   />
                 </label>
-                <label className="col-span-1" htmlFor="">
+                <label className="col-span-2" htmlFor="">
                   <p className="text-base-100 dark:text-primary">Email</p>
                   <input
                     type="email"
                     name="email"
-                    className="input-box w-full "
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full "
                     {...register("email", { required: true, maxLength: 80 })}
                   />
                 </label>
-                <label className="col-span-1 relative" htmlFor="">
+                <label className="col-span-2 relative" htmlFor="">
                   <p className="text-base-100 dark:text-primary">Contact</p>
                   <span className="absolute top-9 left-1 text-black px-1 border-r text-sm">+91</span>
-                  <input
+                  <div className="relative">
+                    <select
+                      className="absolute h-full w-fit left-0 px-1 py-2 border rounded-l-lg bg-gray-50 border-gray-300 text-sm text-black"
+                      name="countryCode"
+                      id="countryCode"
+                      value={countryCode}
+                      onChange={handleCountryCodeChange}>
+                      <option value="+91">+91</option>
+                      <option value="+880">+880</option>
+                    </select>
+                    <input
                     type="number"
                     name="contact"
-                    className="input-box w-full pl-10"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full pl-20"
                     {...register("contact", { required: true, maxLength: 80 })}
                   />
+                  </div>
+                  
                 </label>
                 <label htmlFor="">
                   <p className="text-base-100 dark:text-primary">Password</p>
                   <input
                     type="password"
                     name="fname"
-                    className="input-box w-full"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full"
                     {...register("password", { required: true, maxLength: 80 })}
                   />
                 </label>
@@ -171,7 +200,7 @@ export default function LawyerRegister() {
                   <input
                     type="password"
                     name="confirm_password"
-                    className="input-box w-full"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full"
                     {...register("confirm_password", {
                       required: true,
                       maxLength: 80,
@@ -183,7 +212,7 @@ export default function LawyerRegister() {
                     Gender
                   </span>
                   <select
-                    className="input-box w-full "
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full "
                     {...register("gender", { required: true })}
                   >
                     <option value="male">Male</option>
@@ -195,7 +224,7 @@ export default function LawyerRegister() {
                   <input
                     type="text"
                     name="state"
-                    className="input-box w-full"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full"
                     {...register("state", { required: true, maxLength: 80 })}
                   />
                 </label>
@@ -204,7 +233,7 @@ export default function LawyerRegister() {
                   <input
                     type="text"
                     name="city"
-                    className="input-box w-full"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full"
                     {...register("city", { required: true, maxLength: 80 })}
                   />
                 </label>
@@ -213,7 +242,7 @@ export default function LawyerRegister() {
                   <input
                     type="text"
                     name="bar"
-                    className="input-box w-full"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full"
                     {...register("bar", { required: true, maxLength: 80 })}
                   />
                 </label>
@@ -222,7 +251,7 @@ export default function LawyerRegister() {
                   <input
                     type="text"
                     name="id"
-                    className="input-box w-full"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full"
                     {...register("id", { required: true, maxLength: 80 })}
                   />
                 </label>
@@ -231,7 +260,7 @@ export default function LawyerRegister() {
                   <input
                     type="text"
                     name="year"
-                    className="input-box w-full"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full"
                     {...register("year", { required: true, maxLength: 80 })}
                   />
                 </label>

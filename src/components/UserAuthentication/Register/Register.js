@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
@@ -16,6 +16,9 @@ export default function Register() {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
+  
+  const [countryCode, setCountryCode] = useState("+91");
+
   useEffect(() => {
     if (user) {
       console.log("already logged");
@@ -32,8 +35,8 @@ export default function Register() {
     const email = form.email.value;
     const password = form.password.value;
     const confirmPassword = form.confirm_password.value;
-    const contact = form.contact.value;
-    const name = form.name.value;
+    const contact = countryCode + form.contact.value; // concatenate countryCode with phoneNumber
+    const name = form.fname.value + " " + form.lname.value;
     console.log(email);
     if (password === confirmPassword) {
       createUserWithEmailAndPassword(auth, email, password)
@@ -65,11 +68,18 @@ export default function Register() {
         });
     }
   }
+
+  const handleCountryCodeChange = (event) => {
+    setCountryCode(event.target.value);
+  }
+  console.log(countryCode) 
+
+
   return (
     <div>
-      <section className="bg-primary dark:bg-base-100 pb-7">
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-base-100 dark:border-gray-700">
+      <section className="bg-primary dark:bg-base-100 py-7">
+        <div className="flex flex-col items-center justify-start px-6 py-8 mx-auto md:h-screen lg:py-0">
+          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-lg xl:p-0 dark:bg-base-100 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <div className="grid grid-cols-2 gap-5 pb-0">
                 <div className="transition-all duration-300 border rounded-lg p-2 text-center bg-accent text-primary cursor-pointer">
@@ -103,21 +113,37 @@ export default function Register() {
                   />
                 </div>
                 {/* name */}
-                <div>
+                <div className="grid grid-cols-2 gap-5">
                   <label
                     htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Your name
-                  </label>
+                    First name
+                  
                   <input
                     type="name"
-                    name="name"
+                    name="fname"
                     id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="John Doe"
+                    placeholder="John"
+                    required=""
+                  /> 
+                  </label>
+                  <label
+                    htmlFor="name"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Last name
+                  
+                  <input
+                    type="name"
+                    name="lname"
+                    id="name"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Doe"
                     required=""
                   />
+                  </label>
                 </div>
                 {/* Phone */}
                 <div>
@@ -127,14 +153,25 @@ export default function Register() {
                   >
                     Your phone
                     <span className="absolute top-8 left-1 text-black px-1 border-r text-sm">+91</span>
-                  <input
-                    type="number"
-                    name="contact"
-                    id="contact"
-                    className="pl-10 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="8787678768"
-                    required=""
-                  />
+                  <div className="relative">
+                    <select
+                      className="absolute h-full w-fit left-0 p-2 border rounded-l-lg bg-gray-50 border-gray-300"
+                      name="countryCode"
+                      id="countryCode"
+                      value={countryCode}
+                      onChange={handleCountryCodeChange}>
+                      <option value="+91">+91</option>
+                      <option value="+880">+880</option>
+                    </select>
+                    <input
+                      type="number"
+                      name="contact"
+                      id="contact"
+                      className="pl-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="8787678768"
+                      required=""
+                    />
+                  </div>
                   </label>
                 </div>
                 <div>

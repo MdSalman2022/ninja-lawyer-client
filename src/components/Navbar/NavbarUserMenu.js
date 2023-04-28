@@ -9,9 +9,13 @@ import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import { MdOutlineLogout } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
 import { StateContext } from "../../contexts/StateProvider/StateProvider";
+import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
 
 export default function NavbarUserMenu() {
+
+
+  const {user} = useContext(AuthContext)
   const {userData}  = useContext(StateContext)
   const [selected, setSelected] = useState("");
   const navigate = useNavigate();
@@ -37,17 +41,18 @@ export default function NavbarUserMenu() {
   return (
     <div className="relative lg:ml-3 group">
 
-      <div className="flex items-center gap-2 border p-1 bg-accent text-white rounded-full">
-        <p className="select-none text-sm">{userData?.name?.split(" ")[0]}</p>
+      <div className="flex items-center gap-2 border p-1 pl-2 bg-accent text-white rounded-full">
+        {userData.name && <p className="select-none text-sm">{userData?.name?.split(" ")[0]}</p>}
+        {(!userData.name && user.phoneNumber )&& <p className="select-none text-sm">{user?.phoneNumber}</p>}
         
             <button className="">
-              <img className='w-8 rounded-full cursor-pointer' src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png" alt="" />
+              <img className='w-6 rounded-full cursor-pointer' src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png" alt="" />
             </button>
       </div>
-      <div className="absolute top-10 right-0  hidden group-hover:flex group-hover:flex-col z-50 rounded-xl h-full w-max bg-primary dark:bg-base-100">
+      <div className="absolute top-8 right-0  hidden group-hover:flex group-hover:flex-col z-50 rounded-xl h-full w-max bg-primary dark:bg-base-100">
         <div className="bg-primary dark:bg-base-100 dark:border p-1 lg:p-5 shadow-2xl rounded-xl text-base-100 dark:text-primary">
           <div className="flex flex-col items-end gap-6">
-            <div className= "flex justify-between gap-8">
+            <div className= "flex justify-between gap-6">
               <div className="flex flex-col justify-between items-start">
                 <span className="flex items-center text-xs gap-3"><BiWalletAlt/> Wallet Balance</span>
                 <p className="text-xl font-bold">Rs. 0</p>

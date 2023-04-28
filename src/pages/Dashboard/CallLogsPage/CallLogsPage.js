@@ -23,9 +23,9 @@ function CallLogsPage() {
             console.log(data.offers)
             // setAllOffers(data.offers)
             if(user.displayName === 'lawyer'){
-                setAllOffers(data.offers.reverse())
+                setAllOffers(data.offers.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)))
             }else{
-                setAllOffers(data.reverse())
+                setAllOffers(data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)))
             }
         })
     }, [])

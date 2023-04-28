@@ -19,7 +19,9 @@ export default function Login() {
 
   const [otp, setOtp] = useState("");
   const [otpDisplay, setOTPDisplay] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");  
+  const [countryCode, setCountryCode] = useState("+91");
+
 
   // For navigation
   const navigate = useNavigate();
@@ -107,7 +109,7 @@ export default function Login() {
   function mobileLogin(e) {
     e.preventDefault();
     const form = e.target;
-    const number = form.phoneNumber.value;
+    const number = countryCode + form.phoneNumber.value; // concatenate countryCode with phoneNumber
     setPhoneNumber(number);
     setOTPDisplay(true);
     reVerify();
@@ -155,6 +157,13 @@ export default function Login() {
     }
   }
 
+  const handleCountryCodeChange = (event) => {
+    setCountryCode(event.target.value);
+  }
+console.log(countryCode)
+console.log(phoneNumber)
+
+
   return (
     <div className="h-full py-24 bg-primary dark:bg-base-100 flex flex-col justify-center">
       <section className="pb-7 pt-3">
@@ -168,18 +177,29 @@ export default function Login() {
                 <div>
                   <label
                     htmlFor="phone"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white relative"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Your Phone
-                  <span className="absolute top-[31px] left-0 px-2 border-r">+91</span>
-                  <input
-                    type="text"
-                    name="phone"
-                    id="phoneNumber"
-                    className="pl-8 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="0123456789"
-                    required=""
-                  />
+                  {/* <span className="absolute top-[31px] left-0 px-2 border-r">+91</span> */}
+                  <div className=" relative">
+                  <select
+                    className="absolute h-full w-fit left-0 p-2 border rounded-l-lg bg-gray-50 border-gray-300"
+                    name="countryCode"
+                    id="countryCode"
+                    value={countryCode}
+                    onChange={handleCountryCodeChange}>
+                    <option value="+91">+91</option>
+                    <option value="+880">+880</option>
+                  </select>
+                    <input
+                      type="text"
+                      name="phone"
+                      id="phoneNumber"
+                      className="pl-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  outline-none block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "
+                      placeholder="0123456789"
+                      required=""
+                    />
+                  </div>
                   </label>
                   {!otpDisplay && (
                     <button

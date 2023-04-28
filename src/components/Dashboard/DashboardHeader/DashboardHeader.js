@@ -75,18 +75,13 @@ function DashboardHeader() {
                     </div>
 
                     <div className="relative lg:ml-3 group">
-                        <button className="flex items-center gap-2 border p-1 bg-accent text-white rounded-full"><p className="select-none text-sm">{userData?.name?.split(" ")[0]}</p><img className='w-8 rounded-full cursor-pointer' src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png" alt="" /></button>
-                        {/* <div className="absolute top-8 right-0  hidden group-hover:flex group-hover:flex-col z-50 rounded-lg h-full w-max bg-primary dark:bg-base-100">
-                            <div className="bg-primary dark:bg-base-100 dark:border p-1 lg:p-5 shadow rounded-lg">
-                                <div className="flex flex-col items-end gap-4">
-                                    <Link to="#" className="text-base-100 dark:text-primary hover:text-accent dark:hover:text-accent text-sm">FAQ</Link>
-                                    <Link to="#" className="text-base-100 dark:text-primary hover:text-accent dark:hover:text-accent text-sm">About Us</Link>
-                                    <Link to="#" className="text-base-100 dark:text-primary hover:text-accent dark:hover:text-accent text-sm">Contact Us</Link>
-                                    <button className="primary-outline-btn text-sm" onClick={handleLogOut}>Logout</button>
-                                </div>
-                            </div>
-                        </div> */}
-                        <div className="absolute top-10 right-0  hidden group-hover:flex group-hover:flex-col z-50 rounded-xl h-full w-max bg-primary dark:bg-base-100">
+                        <button className="flex items-center gap-2 border pl-3 pr-1 py-1 bg-accent text-white rounded-full">
+                        {userData.name && <p className="select-none text-sm">{userData?.name?.split(" ")[0]}</p>}
+                        {(!userData.name && user.phoneNumber )&& <p className="select-none text-sm">{user?.phoneNumber}</p>}
+                                            
+                            <img className='w-6 rounded-full cursor-pointer' src="https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png" alt="" />
+                            </button>
+                        <div className="absolute top-8 right-0  hidden group-hover:flex group-hover:flex-col z-50 rounded-xl h-full w-max bg-primary dark:bg-base-100">
                             <div className="bg-primary dark:bg-base-100 dark:border p-1 lg:p-5 shadow-2xl rounded-xl text-base-100 dark:text-primary">
                                 <div className="flex flex-col items-end gap-6">
                                     <div className="flex justify-between gap-8">

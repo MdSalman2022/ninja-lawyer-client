@@ -23,9 +23,9 @@ function OrdersPage() {
         .then(data=>{ 
             console.log(data)
             if(user.displayName === 'lawyer'){
-                setAllOrders(data.orders.reverse())
+                setAllOrders(data.orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)))
             }else{
-                setAllOrders(data.reverse())
+                setAllOrders(data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)))
             }
         })
     }, [])

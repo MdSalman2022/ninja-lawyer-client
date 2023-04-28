@@ -136,8 +136,8 @@ function ModalBox({ offer, handleComplete, CaseComplete, client, client_uid, pay
             {
                 user.displayName !== 'lawyer' &&
                 <>
-                    {offerStatus === 'pending' && <button className='text-black'>In progress</button>}
-                    {offerStatus === 'offer' && <button className='text-black'>Pending</button>}
+                    {offerStatus === 'pending' && <button className='text-black'>Offer recieved</button>}
+                    {offerStatus === 'offer' && <button className='text-black'>No Offer</button>}
                     <div className="relative">
                         {offerStatus === 'accepted' && <button onClick={() => setCompleteOpen(!completeOpen)} className={`font-bold  text-black ${CaseComplete === false ? 'flex items-center justify-center' : 'hidden'} gap-2`}>Ongoing</button>}
                         {offerStatus === 'completed' && <button className={`font-bold  text-black`}>Completed</button>}
