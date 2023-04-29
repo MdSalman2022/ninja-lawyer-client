@@ -12,6 +12,7 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
   // start of  online/offline
   const [isOnline, setOnline] = useState(false);
 
+
   useEffect(() => {
     if (checkOnline(online, lawyer?.UID)) {
       setOnline(true);
@@ -20,6 +21,7 @@ const LawyerCard = ({ lawyer, specialtiesArray, online }) => {
     }
   }, [online]);
 
+  console.log(isOnline)
   // end of  online/offline
 
   let specialties = lawyer?.specialties;

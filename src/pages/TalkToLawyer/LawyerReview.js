@@ -336,7 +336,7 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
                     <div className="reviews py-5">
                         {/* write review */}
 
-                        {/* {writeReview && (
+                        {writeReview && (
                             <div className=" my-5">
                                 <div className="mb-3">
                                     <div className="flex items-center gap-5">
@@ -430,7 +430,7 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
                                 </form>
                             </div>
                         )
-                        } */}
+                        }
                         <div className="flex flex-col gap-5">
                             {allReviews?.length > 0 ?
                                 allReviews?.map(r => (

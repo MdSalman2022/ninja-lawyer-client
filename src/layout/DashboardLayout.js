@@ -41,7 +41,7 @@ function DashboardLayout() {
         <div className='bg-primary dark:bg-base-100'>
             <DashboardMobileHeader />
 
-            <div className={`transition-all duration-300 relative bg-primary dark:bg-base-100 ${!heightFull ? 'h-screen' : user.displayName === 'lawyer' ? 'h-full' : 'h-screen'}  h-full overflow-y-scroll select-none md:grid ${isOpen ? 'grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8' : 'grid-cols-4 lg:grid-cols-8 xl:grid-cols-12'}`}>
+            <div className={`transition-all duration-300 relative bg-primary dark:bg-base-100 ${!heightFull ? 'h-screen' : user.displayName === 'lawyer' ? 'h-full' : 'h-screen'}  h-full overflow-y-auto select-none md:grid ${isOpen ? 'grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8' : 'grid-cols-4 lg:grid-cols-8 xl:grid-cols-12'}`}>
                 <aside className={` md:relative col-span-1 h-full hidden md:flex flex-col items-stretch py-10 gap-y-10  transition-all duration-300 ${isOpen ? 'w-52 ' : 'w-24'}  border-r`}>
                     <span onClick={handleSidebar} className='transition-all duration-200 absolute -right-3 bg-primary dark:bg-base-100 rounded-full border text-xl cursor-pointer'><FaChevronRight className={`transition-all duration-500 text-accent p-1 ${isOpen ? 'rotate-180' : 'rotate-0'}`} /></span>
                     <div>

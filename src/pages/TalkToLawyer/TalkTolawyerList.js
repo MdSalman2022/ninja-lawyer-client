@@ -33,6 +33,7 @@ function TalkToLawyerList() {
 
   // For online/offline
   const [onlineLawyers, setOnlineLawyers] = useState(null);
+
   useEffect(() => {
     let lawyerArr;
     const db = getDatabase(app);
@@ -165,6 +166,8 @@ function TalkToLawyerList() {
 
   // api call for lawyers
   const [pageSize, setPageSize] = useState(80);
+
+  const [available, setAvailable] = useState(false);
 
   const allLawyers = () => {
     fetch(
@@ -478,11 +481,10 @@ function TalkToLawyerList() {
                               onClick={() =>
                                 handleSearchResult(item.item, index)
                               }
-                              className={` hover:bg-accent hover:text-white py-2 px-2 ${
-                                index === activeIndex
-                                  ? "bg-accent text-white"
-                                  : ""
-                              }`}
+                              className={` hover:bg-accent hover:text-white py-2 px-2 ${index === activeIndex
+                                ? "bg-accent text-white"
+                                : ""
+                                }`}
                               key={item.id}
                             >
                               {item.item.city}, {item.item.state}
@@ -507,18 +509,16 @@ function TalkToLawyerList() {
                     >
                       Problem Type{" "}
                       <FaChevronDown
-                        className={`transition-all duration-300 ${
-                          activeTab === "problem-type" &&
+                        className={`transition-all duration-300 ${activeTab === "problem-type" &&
                           "text-accent rotate-180"
-                        }`}
+                          }`}
                       />{" "}
                     </button>
                     <div
-                      className={`transition-all duration-300 p-1 grid grid-cols-2 gap-3 items-start z-50 w-max bg-primary shadow-lg rounded-lg ${
-                        problemIsOpen === true
-                          ? "flex absolute top-14"
-                          : "hidden "
-                      }`}
+                      className={`transition-all duration-300 p-1 grid grid-cols-2 gap-3 items-start z-50 w-max bg-primary shadow-lg rounded-lg ${problemIsOpen === true
+                        ? "flex absolute top-14"
+                        : "hidden "
+                        }`}
                     >
                       <div className="col-span-2 flex flex-col items-start">
                         {specialtiesSuggestions
@@ -541,9 +541,8 @@ function TalkToLawyerList() {
                           })}
                         <label
                           onClick={() => setProblemSeeMore(!problemSeeMore)}
-                          className={`${
-                            problemSeeMore ? "hidden" : "flex"
-                          } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
+                          className={`${problemSeeMore ? "hidden" : "flex"
+                            } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
                         >
                           <FaChevronDown />
                           Show more
@@ -552,9 +551,8 @@ function TalkToLawyerList() {
                           return (
                             <label
                               key={index}
-                              className={`${
-                                problemSeeMore ? "flex" : "hidden"
-                              } gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}
+                              className={`${problemSeeMore ? "flex" : "hidden"
+                                } gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}
                             >
                               <input
                                 type="checkbox"
@@ -568,9 +566,8 @@ function TalkToLawyerList() {
                         })}
                         <label
                           onClick={() => setProblemSeeMore(!problemSeeMore)}
-                          className={`${
-                            problemSeeMore ? "flex" : "hidden"
-                          } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
+                          className={`${problemSeeMore ? "flex" : "hidden"
+                            } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
                         >
                           <FaChevronUp />
                           Show less
@@ -594,17 +591,15 @@ function TalkToLawyerList() {
                     >
                       Language{" "}
                       <FaChevronDown
-                        className={`transition-all duration-300 ${
-                          activeTab === "language" && "text-accent rotate-180"
-                        }`}
+                        className={`transition-all duration-300 ${activeTab === "language" && "text-accent rotate-180"
+                          }`}
                       />{" "}
                     </button>
                     <div
-                      className={`transition-all duration-300 p-1 grid grid-cols-2 gap-3 items-start z-50 w-max bg-primary shadow-lg rounded-lg ${
-                        languageIsOpen === true
-                          ? "flex absolute top-14"
-                          : "hidden "
-                      }`}
+                      className={`transition-all duration-300 p-1 grid grid-cols-2 gap-3 items-start z-50 w-max bg-primary shadow-lg rounded-lg ${languageIsOpen === true
+                        ? "flex absolute top-14"
+                        : "hidden "
+                        }`}
                     >
                       <div className="col-span-2 flex flex-col items-start">
                         {languageSuggestions
@@ -625,9 +620,8 @@ function TalkToLawyerList() {
                           })}
                         <label
                           onClick={() => setLanguageSeeMore(!languageSeeMore)}
-                          className={`${
-                            languageSeeMore ? "hidden" : "flex"
-                          } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
+                          className={`${languageSeeMore ? "hidden" : "flex"
+                            } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
                         >
                           <FaChevronDown />
                           Show more
@@ -636,9 +630,8 @@ function TalkToLawyerList() {
                           return (
                             <label
                               key={index}
-                              className={`${
-                                languageSeeMore ? "flex" : "hidden"
-                              } gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}
+                              className={`${languageSeeMore ? "flex" : "hidden"
+                                } gap-x-5 items-center justify-between p-1 text-base-100 dark:text-primary`}
                             >
                               <input
                                 type="checkbox"
@@ -650,9 +643,8 @@ function TalkToLawyerList() {
                         })}
                         <label
                           onClick={() => setLanguageSeeMore(!languageSeeMore)}
-                          className={`${
-                            languageSeeMore ? "flex" : "hidden"
-                          } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
+                          className={`${languageSeeMore ? "flex" : "hidden"
+                            } gap-x-5 items-center p-1 text-base-100 dark:text-primary cursor-pointer hover:text-accent`}
                         >
                           <FaChevronUp />
                           Show less
@@ -662,9 +654,8 @@ function TalkToLawyerList() {
                                             <button className="primary-btn">Apply</button> */}
                     </div>
                     <div
-                      className={`${
-                        reset === false ? "flex" : "hidden"
-                      } items-center cursor-pointer`}
+                      className={`${reset === false ? "flex" : "hidden"
+                        } items-center cursor-pointer`}
                     >
                       <p
                         onClick={handleReset}

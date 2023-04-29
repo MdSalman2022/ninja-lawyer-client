@@ -1,31 +1,57 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { MdSimCardDownload } from 'react-icons/md'
 import { FaSearch } from 'react-icons/fa';
 import CalenderComp from './CalenderComp';
-
+import { useEffect } from 'react';
+import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider'; 
 function TransactionPage() {
+
+    const {user} = useContext(AuthContext)
 
 
     const [value, onChange] = useState(new Date());
 
     console.log(value)
 
+    const [transactions, setTransactions] = useState([])
+
+    useEffect(()=>{
+        fetch(`https://ninja-lawyer-server.vercel.app/api/payments/get?usertype=${user?.displayName === 'lawyer' ? 'lawyer' : 'user'}&uid=${user?.uid}`)
+        .then(res => res.json())
+        .then(data =>setTransactions(data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))))
+    },[])
+
+
+    function formatDate(dateString) {
+        const options = { month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
+        const date = new Date(dateString);
+        return date.toLocaleString("en-US", options);
+      }
+
     return (
         <div className=''>
             <h1 className="text-3xl text-base-100 dark:text-primary">My Orders</h1>
             <div className="grid lg:grid-cols-3 xl:grid-cols-4 gap-10 py-10">
-                <div className="col-span-1  text-base-100 dark:text-primary rounded-lg">
+                {/* <div className="col-span-4  text-base-100 dark:text-primary rounded-lg">
                     <div className="flex flex-col ">
 
                         <CalenderComp onChange={onChange} value={value} />
                     </div>
-                </div>
-                <div className='lg:col-span-2 xl:col-span-3 '>
-                    <div className='space-y-3 overflow-x-auto'>
-                        <label htmlFor="" className='flex items-center relative border w-full rounded-lg'>
-                            <input type="text" className='input-box w-full rounded-r-none py-3 mt-0' placeholder='Search Here...' />
-                            <div className="primary-btn rounded-l-none m-0 py-4 cursor-pointer"><FaSearch /></div>
-                        </label>
+                </div> */} 
+                    <div className='col-span-4 space-y-3 overflow-x-auto'>
+                        <div className="flex justify-between">
+                            <label htmlFor="" className='flex items-center relative w-full rounded-lg'>
+                                <input type="text" className='input-box w-fit rounded-r-none py-3 mt-0' placeholder='Search Here...' />
+                                <div className="primary-btn rounded-l-none m-0 py-4 cursor-pointer"><FaSearch /></div>
+                            </label>
+                            <select className="input-box dark:border-gray-700 dark:bg-base-100">
+                                <option selected>Recent offers</option>
+                                <option>Price(Low to High)</option>
+                                <option>Price(High to Low)</option>
+                                <option>User Rating</option>
+                                <option>Experience</option>
+                            </select>
+                        </div>
                         <table className="min-w-full border">
                             <thead className="bg-primary dark:bg-base-100 border-b">
                                 <tr>
@@ -36,10 +62,10 @@ function TransactionPage() {
                                         Payment Id
                                     </th>
                                     <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
-                                        Payment Date
+                                        RazorPay OrderId
                                     </th>
                                     <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
-                                        Service Name
+                                        Transaction With
                                     </th>
                                     <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
                                         Amount
@@ -47,38 +73,39 @@ function TransactionPage() {
                                     <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
                                         Payment method
                                     </th>
-                                    <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
+                                    {/* <th scope="col" className="text-sm font-medium text-base-100 dark:text-primary px-6 py-4 text-left">
                                         Invoice
-                                    </th>
+                                    </th> */}
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="bg-primary dark:bg-base-100">
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-base-100 dark:text-primary">1</td>
+                               {transactions.map((item,index)=> <tr className="bg-primary dark:bg-base-100">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-base-100 dark:text-primary">{index+1}</td>
                                     <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
-                                        P01
+                                        {item._id}
                                     </td>
                                     <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
-                                        5 March 2023
+                                        RazorPay orderId
                                     </td>
                                     <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
-                                        Civil Matters
+                                        {user.displayName === 'lawyer' ? item.UserID : item.LawyerID}
                                     </td>
                                     <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
-                                        1799
+                                        ₹{item.amount}
                                     </td>
                                     <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap">
-                                        Visa Card
+                                        {formatDate(item.timestamp)}
                                     </td>
-                                    <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap cursor-pointer">
+                                    
+                                    {/* <td className="text-sm text-base-100 dark:text-primary px-6 py-4 whitespace-nowrap cursor-pointer">
                                         <MdSimCardDownload className='text-xl' />
-                                    </td>
+                                    </td> */}
                                 </tr>
+                                 )}
 
                             </tbody>
                         </table>
-                    </div>
-                </div>
+                    </div> 
             </div>
         </div>
     )

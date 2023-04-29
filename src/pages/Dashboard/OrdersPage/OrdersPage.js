@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { FaExternalLinkAlt, FaSearch } from 'react-icons/fa';
 import { Player } from '@lottiefiles/react-lottie-player';
 import ModalBox from '../../../components/HeroSection/ModalBox';
-import { FiFilter } from 'react-icons/fi';
-import {allOffers} from './offers'
+import { FiFilter } from 'react-icons/fi'; 
 import ModalReview from './ModalReview';
 import { Link } from 'react-router-dom';
 import { StateContext } from '../../../contexts/StateProvider/StateProvider';
