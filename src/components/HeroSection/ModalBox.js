@@ -8,6 +8,8 @@ import { toast } from "react-hot-toast";
 import { RxCross1 } from "react-icons/rx";
 import { MdOutlineUploadFile } from "react-icons/md";
 import { FaCaretDown, FaCaretRight } from "react-icons/fa";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { app } from "../../assets/firebase.config";
 
 function ModalBox({
   offer,
@@ -23,9 +25,34 @@ function ModalBox({
   const { userData } = useContext(StateContext);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [fileURL, setFileURL] = useState("");
+  const [uploadDone, setUploadDone] = useState(false);
 
   const handleFileInputChange = (e) => {
     setSelectedFile(e.target.files[0]);
+  };
+
+  var documentName = "";
+
+  const fileUpload = async () => {
+    const storage = getStorage(app);
+    const storageRef = ref(storage, selectedFile.name);
+    await uploadBytes(storageRef, selectedFile).then((snapshot) => {
+      console.log("Uploaded a blob or file!", snapshot);
+      documentName = selectedFile.name;
+      toast.success("Image Uploaded Successfully");
+    });
+    await getDownloadURL(storageRef)
+      .then((url) => {
+        setFileURL(url);
+        console.log("url:", url);
+        console.log("name", documentName);
+        setSelectedFile(false);
+        setUploadDone(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const {
@@ -76,6 +103,8 @@ function ModalBox({
       duration,
       specialty,
       offerId: offer._id,
+      document: fileURL,
+      document_name: documentName,
     };
 
     console.log(order_info);
@@ -286,7 +315,7 @@ function ModalBox({
                           name="client_name"
                           defaultValue={client}
                           {...register("client_name", {
-                            required: true,
+                            required: false,
                             maxLength: 400,
                           })}
                           readOnly
@@ -361,13 +390,32 @@ function ModalBox({
                           </span>
                           <div className="input-box h-10 relative group">
                             <MdOutlineUploadFile className="group-hover:text-accent absolute left-[45%] text-2xl" />
+                            {/* setUploadDone */}
                             <input
                               type="file"
                               className="h-full w-full opacity-0"
+                              disabled={uploadDone}
                               onChange={handleFileInputChange}
                             />
                           </div>
-                          {selectedFile ? <p>{selectedFile.name}</p> : <></>}
+                          <div>
+                            {selectedFile ? <p>{selectedFile.name}.</p> : <></>}
+                            {selectedFile ? (
+                              <p>Click below button to finalize upload.</p>
+                            ) : (
+                              <></>
+                            )}
+                            {selectedFile ? (
+                              <button
+                                className="btn btn-primary"
+                                onClick={fileUpload}
+                              >
+                                Upload
+                              </button>
+                            ) : (
+                              <></>
+                            )}
+                          </div>
                         </div>
                         <label className="flex flex-col items-start justify-start ">
                           <span className="text-start font-medium text-base-100 dark:text-primary w-32">
