@@ -33,13 +33,14 @@ function ModalBox({
   };
 
   var documentName = "";
+  const [docName, setDocName] = useState("");
 
   const fileUpload = async () => {
     const storage = getStorage(app);
     const storageRef = ref(storage, selectedFile.name);
     await uploadBytes(storageRef, selectedFile).then((snapshot) => {
       console.log("Uploaded a blob or file!", snapshot);
-      documentName = selectedFile.name;
+      setDocName(selectedFile.name);
       toast.success("Image Uploaded Successfully");
     });
     await getDownloadURL(storageRef)
@@ -104,7 +105,7 @@ function ModalBox({
       specialty,
       offerId: offer._id,
       document: fileURL,
-      document_name: documentName,
+      document_name: docName,
     };
 
     console.log(order_info);
