@@ -39,7 +39,7 @@ const ModalReview = ({ orderInfo, lawyerUID, setModalOpen, modalOpen, paymentMod
         console.log(review);
         setModalOpen(false)
 
-        fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/add/${lawyerUID}`, {
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/reviews/add/${lawyerUID}`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",
@@ -49,7 +49,7 @@ const ModalReview = ({ orderInfo, lawyerUID, setModalOpen, modalOpen, paymentMod
             .then(res => res.json())
             .then(data => {
                 console.log("review:", data);
-                fetch(`https://ninja-lawyer-server.vercel.app/api/orders/status/change?lawyerid=${lawyerUID}&orderid=${orderInfo._id}&offerstatus=completed&payment=true`, {
+                fetch(`${process.env.REACT_APP_SERVER_URL}/api/orders/status/change?lawyerid=${lawyerUID}&orderid=${orderInfo._id}&offerstatus=completed&payment=true`, {
                     method: "PUT",
                     headers: {
                         "content-type": "application/json",
@@ -77,7 +77,7 @@ const ModalReview = ({ orderInfo, lawyerUID, setModalOpen, modalOpen, paymentMod
         setPaymentModal(false)
         setModalOpen(false)
 
-        fetch(`https://ninja-lawyer-server.vercel.app/api/orders/status/change?lawyerid=${lawyerUID}&orderid=${orderInfo._id}&offerstatus=accepted&payment=true`, {
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/orders/status/change?lawyerid=${lawyerUID}&orderid=${orderInfo._id}&offerstatus=accepted&payment=true`, {
             method: "PUT",
             headers: {
                 "content-type": "application/json",

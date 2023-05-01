@@ -30,7 +30,7 @@ function CaseDetailsPage() {
 
 
     useEffect(() => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/get/all/${data.lawyerUID}`)
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/reviews/get/all/${data.lawyerUID}`)
             .then(res => res.json())
             .then(review => {
                 setReviewInfo(review.reviews.find(item => item?.orderId === data?._id));
@@ -44,7 +44,7 @@ function CaseDetailsPage() {
         setPaymentModal(false)
         setModalOpen(false)
 
-        fetch(`https://ninja-lawyer-server.vercel.app/api/orders/status/change?lawyerid=${data.lawyerUID}&orderid=${data._id}&offerstatus=${status}&payment=${status === "accepted" ? true : false}`, {
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/orders/status/change?lawyerid=${data.lawyerUID}&orderid=${data._id}&offerstatus=${status}&payment=${status === "accepted" ? true : false}`, {
             method: "PUT",
             headers: {
                 "content-type": "application/json",
@@ -70,7 +70,7 @@ function CaseDetailsPage() {
 
     const [userName, setUserName] = useState([]);
     useEffect(() => {
-        const url = `https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === "lawyer" ? "get" : "get-lawyer"}/${user.displayName === 'lawyer' ? data.UID : data.lawyerUID}`
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/users/${user.displayName === "lawyer" ? "get" : "get-lawyer"}/${user.displayName === 'lawyer' ? data.UID : data.lawyerUID}`
 
         console.log(url)
         fetch(url)

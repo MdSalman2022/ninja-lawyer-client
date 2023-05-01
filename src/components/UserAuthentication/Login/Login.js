@@ -141,7 +141,7 @@ export default function Login() {
         toast.success("Logged in successfully");
 
 
-        const url = `https://ninja-lawyer-server.vercel.app/api/users/logs/post?UID=${user.uid}&action=login`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/users/logs/post?UID=${user.uid}&action=login`;
         const response = await fetch(url, {
           method: 'POST',
           headers: {

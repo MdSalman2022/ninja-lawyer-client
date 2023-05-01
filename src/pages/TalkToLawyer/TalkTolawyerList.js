@@ -153,7 +153,7 @@ function TalkToLawyerList() {
   // delete lawyer
   const handleDelete = (id) => {
     fetch(
-      `https://ninja-lawyer-server.vercel.app/api/users/lawyer/delete/${id}`,
+      `${process.env.REACT_APP_SERVER_URL}/api/users/lawyer/delete/${id}`,
       {
         method: "DELETE",
       }
@@ -176,7 +176,7 @@ function TalkToLawyerList() {
 
   const allLawyers = () => {
     fetch(
-      `https://ninja-lawyer-server.vercel.app/api/users/get-lawyers?page=1&limit=${pageSize}`
+      `${process.env.REACT_APP_SERVER_URL}/api/users/get-lawyers?page=1&limit=${pageSize}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -197,7 +197,7 @@ function TalkToLawyerList() {
   const allLawyersByCity = () => {
     if (selectedCity) {
       fetch(
-        `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?city=${selectedCity}`
+        `${process.env.REACT_APP_SERVER_URL}/api/users/lawyer/search?city=${selectedCity}`
       )
         .then((res) => res.json())
         .then((data) => setSearchLawyerByLocation(data));
@@ -210,7 +210,7 @@ function TalkToLawyerList() {
   useEffect(() => {
     selectedCity &&
       fetch(
-        `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search?city=${selectedCity}`
+        `${process.env.REACT_APP_SERVER_URL}/api/users/lawyer/search?city=${selectedCity}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -245,7 +245,7 @@ function TalkToLawyerList() {
       allLawyersByCity();
     } else {
       fetch(
-        `https://ninja-lawyer-server.vercel.app/api/users/lawyer/search-specialties/${fetchParams}`
+        `${process.env.REACT_APP_SERVER_URL}/api/users/lawyer/search-specialties/${fetchParams}`
       )
         .then((res) => res.json())
         .then((data) => {

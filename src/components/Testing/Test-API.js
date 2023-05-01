@@ -9,7 +9,7 @@ export default function TestAPI() {
   useEffect(() => {
     const getLawyers = async () => {
       fetch(
-        "https://ninja-lawyer-server.vercel.app/api/users/lawyer/unverified"
+        `${process.env.REACT_APP_SERVER_URL}/api/users/lawyer/unverified`
       )
         .then((res) => res.json())
         .then((data) => {

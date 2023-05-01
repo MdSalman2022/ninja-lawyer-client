@@ -81,7 +81,7 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
     const [formattedRating, setFormattedRating] = useState(0);
 
     useEffect(() => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/get/all/${lawyer.UID}`)
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/reviews/get/all/${lawyer.UID}`)
             .then(res => res.json())
             .then(data => {
                 setReviewLength(data.reviews?.length);
@@ -112,7 +112,7 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
     // Getting reviews of lawyer from server
     useEffect(() => {
         if (reviewByRating === 0) {
-            fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/get?id=${lawyer.UID}&page=1&limit=${limit}`)
+            fetch(`${process.env.REACT_APP_SERVER_URL}/api/reviews/get?id=${lawyer.UID}&page=1&limit=${limit}`)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);
@@ -130,7 +130,7 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
     // if you select on a specific rating it will fetch this api
     useEffect(() => {
         if (reviewByRating > 0) {
-            fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/search?id=${lawyer.UID}&page=1&limit=${limit}&ratings=${reviewByRating}`)
+            fetch(`${process.env.REACT_APP_SERVER_URL}/api/reviews/search?id=${lawyer.UID}&page=1&limit=${limit}&ratings=${reviewByRating}`)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);
@@ -150,7 +150,7 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
 
 
     useEffect(() => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/users/get?ids=${userIds}`)
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/reviews/users/get?ids=${userIds}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -191,7 +191,7 @@ const LawyerReview = ({ lawyer, serviceTaken }) => {
         };
         console.log(review);
 
-        fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/add/${lawyer.UID}`, {
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/reviews/add/${lawyer.UID}`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",

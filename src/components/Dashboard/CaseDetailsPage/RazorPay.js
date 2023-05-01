@@ -48,7 +48,7 @@ const RazorPay = ({ setPaymentModal, setModalOpen, handleOrderStatus, orderInfo 
     }
 
     // const data = await fetch('http://localhost:5000/api/payments/add', { method: 'POST' }).then((t) => t.json())
-    const data = await fetch('https://ninja-lawyer-server.vercel.app/api/payments/add', {
+    const data = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/payments/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

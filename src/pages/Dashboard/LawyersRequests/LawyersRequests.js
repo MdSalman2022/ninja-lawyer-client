@@ -16,7 +16,7 @@ const LawyersRequests = () => {
     const [approveList, setApproveList] = useState([]);
 
     useEffect(() => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/unverified`)
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/lawyer/unverified`)
             .then((res) => res.json())
             .then((data) => {
                 setLawyerList(data);
@@ -26,7 +26,7 @@ const LawyersRequests = () => {
 
 
     useEffect(() => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/rejected`)
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/lawyer/rejected`)
             .then((res) => res.json())
             .then((data) => {
                 setRejectList(data);
@@ -35,7 +35,7 @@ const LawyersRequests = () => {
     }, [rejected])
 
     useEffect(() => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/verified`)
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/lawyer/verified`)
             .then((res) => res.json())
             .then((data) => {
                 setApproveList(data);
@@ -47,7 +47,7 @@ const LawyersRequests = () => {
 
 
     const handleApprove = (user) => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/verify/${user.UID}`, {
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/lawyer/verify/${user.UID}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -63,7 +63,7 @@ const LawyersRequests = () => {
             })
     }
     const handleReject = (user) => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/reject/${user.UID}`, {
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/lawyer/reject/${user.UID}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

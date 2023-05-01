@@ -1,6 +1,6 @@
 const sendToServer = (user, data) => {
   // try post api
-  fetch("https://ninja-lawyer-server.vercel.app/api/users/add", {
+  fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/add`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -22,7 +22,7 @@ const sendToServer = (user, data) => {
 
 const sendToServerLawyer = (user, data) => {
   // try post api
-  fetch("https://ninja-lawyer-server.vercel.app/api/users/add-lawyer", {
+  fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/add-lawyer`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -44,7 +44,7 @@ const sendToServerLawyer = (user, data) => {
 const sendUserLogs = async (user, action) => {
 
   try {
-    const response = await fetch(`https://ninja-lawyer-server.vercel.app/api/users/logs/post?UID=${user.uid}&action=${action}`, {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/logs/post?UID=${user.uid}&action=${action}`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

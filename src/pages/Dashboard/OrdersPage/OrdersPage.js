@@ -17,7 +17,7 @@ function OrdersPage() {
     const [allOrders, setAllOrders] = useState([])
 
     useEffect(() => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/orders/${user.displayName === 'lawyer' ? '' : 'user/'}get/${user.uid}`)
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/orders/${user.displayName === 'lawyer' ? '' : 'user/'}get/${user.uid}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data)
@@ -32,7 +32,7 @@ function OrdersPage() {
     console.log(allOrders)
 
     // useEffect(()=>{
-    //     fetch(`https://ninja-lawyer-server.vercel.app/api/orders/get/${user.UID}`)
+    //     fetch(`${process.env.REACT_APP_SERVER_URL}/api/orders/get/${user.UID}`)
     //     .then(res=>res.json())
     //     .then(data=>{ 
     //         console.log(data.orders)

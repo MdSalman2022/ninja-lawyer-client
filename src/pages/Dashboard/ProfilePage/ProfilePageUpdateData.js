@@ -27,7 +27,7 @@ const putDataToServer = (id, data, user) => {
   console.log(user)
   console.log(data)
   let message = false;
-  fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/update/${id}`, {
+  fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/lawyer/update/${id}`, {
     method: "PUT",
     headers: {
       "content-type": "application/json",
@@ -53,7 +53,7 @@ const putUserDataToServer = (id, data, user) => {
   console.log(data)
   console.log("++++", data);
   let message = false;
-  fetch(`https://ninja-lawyer-server.vercel.app/api/users/update/${id}`, {
+  fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/update/${id}`, {
     method: "PUT",
     headers: {
       "content-type": "application/json",

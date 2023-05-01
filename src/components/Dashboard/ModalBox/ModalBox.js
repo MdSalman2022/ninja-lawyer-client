@@ -113,7 +113,7 @@ function ModalBox({
         console.log(user.uid);
         try {
             fetch(
-                `https://ninja-lawyer-server.vercel.app/api/orders/add/${userData.UID}`,
+                `${process.env.REACT_APP_SERVER_URL}/api/orders/add/${userData.UID}`,
                 {
                     method: "POST",
                     headers: {
@@ -128,7 +128,7 @@ function ModalBox({
                     setOfferStatus("pending");
                     if (data.acknowledged === true) {
                         fetch(
-                            `https://ninja-lawyer-server.vercel.app/api/offers/status/change?offerid=${offer._id}&lawyerid=${user.uid}&offerstatus=pending`,
+                            `${process.env.REACT_APP_SERVER_URL}/api/offers/status/change?offerid=${offer._id}&lawyerid=${user.uid}&offerstatus=pending`,
                             {
                                 method: "PUT",
                                 headers: {

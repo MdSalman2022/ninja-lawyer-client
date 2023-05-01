@@ -72,12 +72,13 @@ const StateProvider = ({ children }) => {
   );
   const [cityName, setCityName] = useState(userData.city ? userData.city : "");
 
+  console.log(process.env.REACT_APP_SERVER_URL)
+
   useEffect(() => {
     const getProfile = (id) => {
       console.log("yes");
       fetch(
-        `https://ninja-lawyer-server.vercel.app/api/users/${
-          user.displayName === "lawyer" ? "get-lawyer" : "get"
+        `${process.env.REACT_APP_SERVER_URL}/api/users/${user.displayName === "lawyer" ? "get-lawyer" : "get"
         }/${id}`
       )
         .then((res) => res.json())

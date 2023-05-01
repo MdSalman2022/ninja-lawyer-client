@@ -17,7 +17,7 @@ function TransactionPage() {
     const [transactions, setTransactions] = useState([])
 
     useEffect(() => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/payments/get?usertype=${user?.displayName === 'lawyer' ? 'lawyer' : 'user'}&uid=${user?.uid}`)
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/payments/get?usertype=${user?.displayName === 'lawyer' ? 'lawyer' : 'user'}&uid=${user?.uid}`)
             .then(res => res.json())
             .then(data => setTransactions(data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))))
     }, [])

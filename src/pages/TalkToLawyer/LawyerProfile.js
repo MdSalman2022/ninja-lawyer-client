@@ -77,7 +77,7 @@ const LawyerProfile = () => {
     // localStorage.setItem('lawyerUIDs', JSON.stringify(newUIDs))
     // setServiceTaken(true)
 
-    const url = `https://ninja-lawyer-server.vercel.app/api/offers/add/${UID}`;
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/offers/add/${UID}`;
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -141,11 +141,11 @@ const LawyerProfile = () => {
               ) : (
                 <>
                   <span className="absolute top-0 bg-transparent border border-accent w-40 h-40 rounded-full"></span>
-                <span className="absolute top-4 right-5 rounded-full w-3 h-3 bg-accent animate-ping"></span>
-                <span className="absolute top-4 right-5 rounded-full w-3 h-3 bg-accent"></span>
+                  <span className="absolute top-4 right-5 rounded-full w-3 h-3 bg-accent animate-ping"></span>
+                  <span className="absolute top-4 right-5 rounded-full w-3 h-3 bg-accent"></span>
                 </>
               )}
-              
+
             </figure>
             <p className="flex items-center gap-1">
               {name}

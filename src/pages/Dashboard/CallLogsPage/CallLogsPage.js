@@ -15,7 +15,7 @@ function CallLogsPage() {
 
 
     useEffect(() => {
-        fetch(`https://ninja-lawyer-server.vercel.app/api/offers/${user.displayName === 'lawyer' ? '' : 'user/'}get/${user.uid}`)
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/offers/${user.displayName === 'lawyer' ? '' : 'user/'}get/${user.uid}`)
             .then(res => res.json())
             .then(data => {
                 setCallUID(data._id)

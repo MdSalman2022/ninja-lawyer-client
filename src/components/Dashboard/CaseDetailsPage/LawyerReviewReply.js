@@ -51,7 +51,7 @@ const LawyerReviewReply = ({ userName, reviewInfo, orderInfo }) => {
     };
     console.log(review);
 
-    fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/reply/add`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/reviews/reply/add`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

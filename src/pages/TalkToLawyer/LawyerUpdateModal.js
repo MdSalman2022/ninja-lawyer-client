@@ -50,7 +50,7 @@ const LawyerUpdateModal = ({ lawyer }) => {
         console.log(lawyerUpdated)
 
         try {
-            fetch(`https://ninja-lawyer-server.vercel.app/api/users/lawyer/update/${lawyer.UID}`, {
+            fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/lawyer/update/${lawyer.UID}`, {
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json'

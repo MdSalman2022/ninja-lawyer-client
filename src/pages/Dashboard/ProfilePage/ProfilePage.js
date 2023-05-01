@@ -34,7 +34,7 @@ function ProfilePage() {
   // useEffect(() => {
   //   const getProfile = (id) => {
   //     console.log("yes");
-  //     fetch(`https://ninja-lawyer-server.vercel.app/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
+  //     fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/${user.displayName === 'lawyer' ? 'get-lawyer' : 'get'}/${id}`)
   //       .then((res) => res.json())
   //       .then((data) => { 
   //         setUserData(data);

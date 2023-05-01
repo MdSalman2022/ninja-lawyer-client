@@ -6,9 +6,9 @@ import Home from "../pages/Home/Home";
 import PropertyPage from "../pages/PropertyPage/PropertyPage";
 import TalkToLawyer from "../pages/TalkToLawyer/TalkToLawyer";
 import LoginPage from "../pages/UserAuthentication/Login/Login";
-import RegisterPage from "../pages/UserAuthentication/Register/RegisterPage"; 
+import RegisterPage from "../pages/UserAuthentication/Register/RegisterPage";
 import DemoPage from "../pages/DemoPage";
-import DashboardLayout from "../layout/DashboardLayout"; 
+import DashboardLayout from "../layout/DashboardLayout";
 import ProfilePage from "../pages/Dashboard/ProfilePage/ProfilePage";
 import OrdersPage from "../pages/Dashboard/OrdersPage/OrdersPage";
 import AdminLogin from "../pages/AdminLogin/AdminLogin";
@@ -21,7 +21,7 @@ import LawyerRegister from "../components/UserAuthentication/LawyerRegister/Lawy
 import { AuthContext } from "../contexts/AuthProvider/AuthProvider";
 import TestAPI from "../components/Testing/Test-API";
 import AdminRoute from "./AdminRoute";
-import LawyersRequests from "../pages/Dashboard/LawyersRequests/LawyersRequests"; 
+import LawyersRequests from "../pages/Dashboard/LawyersRequests/LawyersRequests";
 import CaseDetailsPage from "../pages/Dashboard/OrdersPage/CaseDetailsPage";
 import DashboardPage from "../pages/Dashboard/DashboardPage/DashboardPage";
 import RazorPay from "../components/Dashboard/CaseDetailsPage/RazorPay";
@@ -59,7 +59,7 @@ export const router = createBrowserRouter([
       {
         path: "/property-sale-and-purchase",
         element: <PropertyPage></PropertyPage>,
-      }, 
+      },
       {
         path: "/demo",
         element: <PrivateRoute><DemoPage></DemoPage></PrivateRoute>,
@@ -70,7 +70,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/profile/:id",
-        loader: ({ params }) => fetch(`https://ninja-lawyer-server.vercel.app/api/users/get-lawyer/${params.id}`),
+        loader: ({ params }) => fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/get-lawyer/${params.id}`),
         element: <LawyerProfile />
       },
       {
@@ -81,7 +81,7 @@ export const router = createBrowserRouter([
         path: "/admin-page",
         element: <PrivateRoute><TestAPI /></PrivateRoute>,
       },
-      
+
     ],
   },
   {
@@ -119,7 +119,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/cases/:id/case-details",
-        loader: ({ params }) => fetch(`https://ninja-lawyer-server.vercel.app/api/orders/get/unique/${params.id}`),
+        loader: ({ params }) => fetch(`${process.env.REACT_APP_SERVER_URL}/api/orders/get/unique/${params.id}`),
         element: <PrivateRoute><CaseDetailsPage /></PrivateRoute>,
       }
     ],
