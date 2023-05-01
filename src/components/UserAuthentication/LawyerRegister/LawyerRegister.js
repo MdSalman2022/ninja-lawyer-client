@@ -25,7 +25,7 @@ export default function LawyerRegister() {
   const [countryCode, setCountryCode] = useState("+91");
 
 
-  
+
   useEffect(() => {
     if (user) {
       console.log("already logged");
@@ -107,7 +107,7 @@ export default function LawyerRegister() {
   const handleCountryCodeChange = (event) => {
     setCountryCode(event.target.value);
   }
-  console.log(countryCode) 
+  console.log(countryCode)
 
 
 
@@ -178,13 +178,14 @@ export default function LawyerRegister() {
                       <option value="+880">+880</option>
                     </select>
                     <input
-                    type="number"
-                    name="contact"
-                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full pl-20"
-                    {...register("contact", { required: true, maxLength: 80 })}
-                  />
+                      type="number"
+                      name="contact"
+                      className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full pl-20 appearance-none"
+                      {...register("contact", { required: true, maxLength: 12 })}
+                    />
+                    <p>{ }</p>
                   </div>
-                  
+
                 </label>
                 <label htmlFor="">
                   <p className="text-base-100 dark:text-primary">Password</p>
@@ -196,7 +197,7 @@ export default function LawyerRegister() {
                   />
                 </label>
                 <label htmlFor="">
-                <p className="text-base-100 dark:text-primary">Confirm password</p>                  
+                  <p className="text-base-100 dark:text-primary">Confirm password</p>
                   <input
                     type="password"
                     name="confirm_password"

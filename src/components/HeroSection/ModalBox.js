@@ -38,7 +38,7 @@ function ModalBox({ offer, handleComplete, CaseComplete, client, client_uid, pay
     const onSubmit = (data) => {
         console.log(data)
         // setPaymentModal(true)
-        setIsOpen(false);
+        // setIsOpen(false);
 
         const { UID, lawyer_name, budget, case_name, description, duration, specialty, client_name } = data;
 
@@ -67,7 +67,7 @@ function ModalBox({ offer, handleComplete, CaseComplete, client, client_uid, pay
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)                    
+                    console.log(data)
                     setOfferStatus('pending')
                     if (data.acknowledged === true) {
                         fetch(`https://ninja-lawyer-server.vercel.app/api/offers/status/change?offerid=${offer._id}&lawyerid=${user.uid}&offerstatus=pending`, {

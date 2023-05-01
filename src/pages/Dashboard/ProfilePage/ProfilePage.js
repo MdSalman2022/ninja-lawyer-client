@@ -20,13 +20,13 @@ import { TiContacts } from 'react-icons/ti'
 import { GiSkills } from 'react-icons/gi'
 import { GrLanguage } from 'react-icons/gr'
 import { Link } from "react-router-dom";
-import {IoIosCall} from 'react-icons/io'
+import { IoIosCall } from 'react-icons/io'
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
   const { heightFull, setHeightFull, userData, setUserData, cityName, setCityName, setStateName, statesName } = useContext(StateContext);
   const [states, setStates] = useState([])
-  
+
   const [stateId, setStateId] = useState('');
   const [cities, setCities] = useState([]);
 
@@ -293,7 +293,12 @@ function ProfilePage() {
     month: "long",
     year: "numeric"
   });
-  
+
+
+  useEffect(() => {
+    setHeightFull(false)
+  }, [])
+
 
   return (
     <div
@@ -301,121 +306,121 @@ function ProfilePage() {
     >
       <div className="flex flex-col items-start gap-5">
         <div className="grid grid-cols-5 gap-10">
-          <div className="cols-span-1 flex flex-col gap-5 bg-white items-center rounded-lg h-full  w-fit p-10" style={{boxShadow: 'rgba(0, 0, 0, 0.1) 0px 7px 29px 0px'}}>
-            <ProfileImage props={user?.uid} /> 
-             <p>Profile Completeness: <span className="text-green-500">50%</span></p>
+          <div className="cols-span-1 flex flex-col gap-5 bg-white items-center rounded-lg h-full  w-fit p-10" style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 7px 29px 0px' }}>
+            <ProfileImage props={user?.uid} />
+            <p>Profile Completeness: <span className="text-green-500">50%</span></p>
           </div>
-          <div className="col-span-4 flex flex-col gap-10 bg-white  p-10 rounded-lg relative" style={{boxShadow: 'rgba(0, 0, 0, 0.1) 0px 7px 29px 0px'}}>
+          <div className="col-span-4 flex flex-col gap-10 bg-white  p-10 rounded-lg relative" style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 7px 29px 0px' }}>
             <div className="absolute right-5 top-5 space-x-5">
               {user.displayName === 'lawyer' && <Link to={`/profile/${userData.UID}`} className="primary-outline-btn">Public View</Link>}
-              <button onClick={() => setHeightFull(!heightFull)} className="primary-btn" style={{boxShadow: 'rgba(255, 0, 0, 0.2) 0px 7px 29px 0px'}}>Edit Profile</button>
+              <button onClick={() => setHeightFull(!heightFull)} className="primary-btn" style={{ boxShadow: 'rgba(255, 0, 0, 0.2) 0px 7px 29px 0px' }}>Edit Profile</button>
             </div>
             <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-5"> 
+              <div className="flex items-center gap-5">
                 <div className="p-2 bg-gray-200 rounded-full">
-                <RxAvatar className="text-2xl" />
+                  <RxAvatar className="text-2xl" />
                 </div>
                 {userData.name}
               </div>
               <div className="flex items-center gap-5">
                 <div className="p-2 bg-gray-200 rounded-full">
-                <MdLocationPin className="text-2xl" />
+                  <MdLocationPin className="text-2xl" />
                 </div>
                 {userData.city}, {userData.state}, India
               </div>
               <div className="flex items-center gap-5">
                 <div className="p-2 bg-gray-200 rounded-full">
-                  <FiMail className="text-2xl"/>
+                  <FiMail className="text-2xl" />
                 </div>
                 {userData.email}
-              </div> 
+              </div>
               <div className="flex items-center gap-5">
                 <div className="p-2 bg-gray-200 rounded-full">
-                  <IoIosCall className="text-2xl"/>
+                  <IoIosCall className="text-2xl" />
                 </div>
                 {userData.contact ? userData.contact : user.phoneNumber}
-              </div> 
+              </div>
             </div>
- 
+
           </div>
           {user.displayName === 'lawyer' &&
-          <div className="col-span-3 flex flex-col gap-10 bg-white  p-10 rounded-lg relative" style={{boxShadow: 'rgba(0, 0, 0, 0.1) 0px 7px 29px 0px'}}>
-            
-           
+            <div className="col-span-3 flex flex-col gap-10 bg-white  p-10 rounded-lg relative" style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 7px 29px 0px' }}>
 
 
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-1">
-                <span className="font-semibold">UID:</span> {user.uid}
-              </div> 
-              <div className="flex items-center gap-3">
-                <span className="font-semibold">Experience:</span> 3 years
-              </div> 
-              <div className="flex items-center gap-3"> 
-              <span className="font-semibold">
-                Practice Areas:
-              </span>
-                <div className="flex">
-                {userData.specialties ?
-                    userData?.specialties?.slice(0, 3)?.map((item, index) => (
-                      <span key={index}>
-                        {item}
-                        {index !== userData.specialties.length - 1 && ", "}
-                      </span>
-                    ))
-                    :
-                    "No Specialties"
-                  }
 
+
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-1">
+                  <span className="font-semibold">UID:</span> {user.uid}
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="font-semibold">Experience:</span> 3 years
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="font-semibold">
+                    Practice Areas:
+                  </span>
+                  <div className="flex">
+                    {userData.specialties ?
+                      userData?.specialties?.slice(0, 3)?.map((item, index) => (
+                        <span key={index}>
+                          {item}
+                          {index !== userData.specialties.length - 1 && ", "}
+                        </span>
+                      ))
+                      :
+                      "No Specialties"
+                    }
+
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="font-semibold">
+                    Languages:
+                  </span>
+                  <div className="flex">
+                    {userData.languages ?
+                      userData?.languages?.slice(0, 3)?.map((item, index) => (
+                        <span key={index}>
+                          {item}
+                          {index !== userData.languages.length - 1 && ", "}
+                        </span>
+                      ))
+                      :
+                      "No Specialties"
+                    }
+                  </div>
+                </div>
+                <div className="flex gap-1">
+                  <span className="font-semibold">Summary:</span> {userData.summary}
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <span className="font-semibold">
-                  Languages: 
-                </span>
-                <div className="flex">
-                {userData.languages ?
-                    userData?.languages?.slice(0, 3)?.map((item, index) => (
-                      <span key={index}>
-                        {item}
-                        {index !== userData.languages.length - 1 && ", "}
-                      </span>
-                    ))
-                    :
-                    "No Specialties"
-                  }
-                </div>
-              </div>
-              <div className="flex gap-1">
-                <span className="font-semibold">Summary:</span> {userData.summary}
-              </div>
-            </div>
-          </div>}
+            </div>}
 
           {user.displayName === 'lawyer' &&
-          <div className="col-span-2 flex flex-col gap-10 bg-white  p-10 rounded-lg relative" style={{boxShadow: 'rgba(0, 0, 0, 0.1) 0px 7px 29px 0px'}}>
-            
+            <div className="col-span-2 flex flex-col gap-10 bg-white  p-10 rounded-lg relative" style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 7px 29px 0px' }}>
 
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-1">
-                <span className="font-semibold">Status:</span> {userData.verified === true ? <span className="text-success "> Verified</span> : <span className="text-accent"> Not Verified</span>}
-              </div> 
-              <div className="flex items-center gap-1">
-                <span className="font-semibold">Bar ID:</span> {userData.barID}
-              </div> 
-              <div className="flex items-center gap-1">
-                <span className="font-semibold">Bar Year:</span> {userData.barYear}
-              </div> 
-              <div className="flex items-center gap-1">
-                <span className="font-semibold">Rate:</span> ₹{userData.rate}<sub>/min</sub>
-              </div> 
-              <div className="flex items-center gap-1">
-                <span className="font-semibold">Joined On:</span> {formattedDate}
-              </div> 
-            </div>
-          </div>}
+
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-1">
+                  <span className="font-semibold">Status:</span> {userData.verified === true ? <span className="text-success "> Verified</span> : <span className="text-accent"> Not Verified</span>}
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="font-semibold">Bar ID:</span> {userData.barID}
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="font-semibold">Bar Year:</span> {userData.barYear}
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="font-semibold">Rate:</span> ₹{userData.rate}<sub>/min</sub>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="font-semibold">Joined On:</span> {formattedDate}
+                </div>
+              </div>
+            </div>}
         </div>
-        
+
 
       </div>
 
@@ -469,44 +474,44 @@ function ProfilePage() {
               <span className=" font-medium text-base-100 dark:text-primary w-32">
                 Phone number
               </span>
-               {(userData?.contact?.slice(0,4) === '+880' || user.phoneNumber?.slice(0,4) === '+880') &&
-              <div className="relative">
-               <span className="absolute h-[90%] w-fit left-0 top-1 p-2 border rounded-l-lg bg-gray-50 text-gray-700 border-gray-400">{user?.phoneNumber ? user?.phoneNumber.slice(0,4) : userData?.contact?.slice(0,4)}</span>
-                <input
-                  type="text"
-                  className="input-box w-full text-gray-400 border-gray-400 pl-16 text-[15px]"
-                  name="contact"
-                  defaultValue={user?.phoneNumber ? user?.phoneNumber?.slice(4) : userData?.contact?.slice(4)}
-                  {...register("contact", { required: userData.contact ? false : true, maxLength: 80 })}
-                  readOnly
-                />
-              </div>
-}
-               {(userData?.contact?.slice(0,3) === '+91' || user.phoneNumber?.slice(0,3) === '+91') &&
-              <div className="relative">
-               <span className="absolute h-[90%] w-fit left-0 top-1 p-2 border rounded-l-lg bg-gray-50 text-gray-700 border-gray-400">{user?.phoneNumber ? user?.phoneNumber.slice(0,3) : userData?.contact?.slice(0,3)}</span>
-                <input
-                  type="text"
-                  className="input-box w-full text-gray-400 border-gray-400 pl-12 text-[15px]"
-                  name="contact"
-                  defaultValue={user?.phoneNumber ? user?.phoneNumber?.slice(3) : userData?.contact?.slice(3)}
-                  {...register("contact", { required: userData.contact ? false : true, maxLength: 80 })}
-                  readOnly
-                />
-              </div>
-}
-               {(userData?.contact?.slice(0,4) !== '+880' && user.phoneNumber?.slice(0,4) !== '+880' && userData?.contact?.slice(0,3) !== '+91' && user.phoneNumber?.slice(0,3) !== '+91') &&
-              <div className="relative">
-                <input
-                  type="text"
-                  className="input-box w-full text-gray-400 border-gray-400 pl-3 text-[15px]"
-                  name="contact"
-                  defaultValue={user?.phoneNumber ? user?.phoneNumber : userData?.contact}
-                  {...register("contact", { required: userData.contact ? false : true, maxLength: 80 })}
-                  readOnly
-                />
-              </div>
-}
+              {(userData?.contact?.slice(0, 4) === '+880' || user.phoneNumber?.slice(0, 4) === '+880') &&
+                <div className="relative">
+                  <span className="absolute h-[90%] w-fit left-0 top-1 p-2 border rounded-l-lg bg-gray-50 text-gray-700 border-gray-400">{user?.phoneNumber ? user?.phoneNumber.slice(0, 4) : userData?.contact?.slice(0, 4)}</span>
+                  <input
+                    type="text"
+                    className="input-box w-full text-gray-400 border-gray-400 pl-16 text-[15px]"
+                    name="contact"
+                    defaultValue={user?.phoneNumber ? user?.phoneNumber?.slice(4) : userData?.contact?.slice(4)}
+                    {...register("contact", { required: userData.contact ? false : true, maxLength: 80 })}
+                    readOnly
+                  />
+                </div>
+              }
+              {(userData?.contact?.slice(0, 3) === '+91' || user.phoneNumber?.slice(0, 3) === '+91') &&
+                <div className="relative">
+                  <span className="absolute h-[90%] w-fit left-0 top-1 p-2 border rounded-l-lg bg-gray-50 text-gray-700 border-gray-400">{user?.phoneNumber ? user?.phoneNumber.slice(0, 3) : userData?.contact?.slice(0, 3)}</span>
+                  <input
+                    type="text"
+                    className="input-box w-full text-gray-400 border-gray-400 pl-12 text-[15px]"
+                    name="contact"
+                    defaultValue={user?.phoneNumber ? user?.phoneNumber?.slice(3) : userData?.contact?.slice(3)}
+                    {...register("contact", { required: userData.contact ? false : true, maxLength: 80 })}
+                    readOnly
+                  />
+                </div>
+              }
+              {(userData?.contact?.slice(0, 4) !== '+880' && user.phoneNumber?.slice(0, 4) !== '+880' && userData?.contact?.slice(0, 3) !== '+91' && user.phoneNumber?.slice(0, 3) !== '+91') &&
+                <div className="relative">
+                  <input
+                    type="text"
+                    className="input-box w-full text-gray-400 border-gray-400 pl-3 text-[15px]"
+                    name="contact"
+                    defaultValue={user?.phoneNumber ? user?.phoneNumber : userData?.contact}
+                    {...register("contact", { required: userData.contact ? false : true, maxLength: 80 })}
+                    readOnly
+                  />
+                </div>
+              }
             </label>
 
             <label className="col-span-2 grid grid-cols-2">

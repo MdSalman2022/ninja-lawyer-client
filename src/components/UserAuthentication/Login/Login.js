@@ -185,7 +185,7 @@ export default function Login() {
                     {/* <span className="absolute top-[31px] left-0 px-2 border-r">+91</span> */}
                     <div className=" relative">
                       <select
-                        className="absolute h-full w-fit left-0 p-2 border rounded-l-lg bg-gray-50 border-gray-300"
+                        className="absolute h-full w-fit left-0 py-2 px-1 border rounded-l-lg bg-gray-50 border-gray-300"
                         name="countryCode"
                         id="countryCode"
                         value={countryCode}

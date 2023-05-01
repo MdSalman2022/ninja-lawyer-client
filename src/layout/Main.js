@@ -1,32 +1,33 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
 import Footer from '../components/Footer/Footer';
-import Navbar from '../components/Navbar/Navbar'; 
+import Navbar from '../components/Navbar/Navbar';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthProvider/AuthProvider';
 import AdminLogin from '../pages/AdminLogin/AdminLogin';
 
 const Main = () => {
 
-    const {isAdmin} = useContext(AuthContext)
+    const { isAdmin } = useContext(AuthContext)
 
-    if (isAdmin) { 
+    if (isAdmin) {
         return (
             <div>
                 <Navbar></Navbar>
                 <Outlet></Outlet>
                 <Footer></Footer>
+                <ScrollRestoration />
             </div>
         );
     }
     else {
         return (
             <div>
-                <AdminLogin/>
+                <AdminLogin />
             </div>
         );
     }
-    
+
 };
 
 export default Main;

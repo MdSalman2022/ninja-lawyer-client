@@ -9,10 +9,9 @@ const AuthProvider = ({ children }) => {
   // states for auth
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
-
   const [isAdmin, setIsAdmin] = useState(false);
 
-  console.log(isAdmin);
+  console.log(user)
 
   useEffect(() => {
     const admin = localStorage.getItem("isAdmin");

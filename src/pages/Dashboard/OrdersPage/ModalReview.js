@@ -29,6 +29,7 @@ const ModalReview = ({ orderInfo, lawyerUID, setModalOpen, modalOpen, paymentMod
 
     const handleReview = reviewData => {
 
+
         const review = {
             UID: user.uid,
             rating: rating,
@@ -36,6 +37,7 @@ const ModalReview = ({ orderInfo, lawyerUID, setModalOpen, modalOpen, paymentMod
             orderId: orderInfo._id,
         };
         console.log(review);
+        setModalOpen(false)
 
         fetch(`https://ninja-lawyer-server.vercel.app/api/reviews/add/${lawyerUID}`, {
             method: "POST",
@@ -46,7 +48,6 @@ const ModalReview = ({ orderInfo, lawyerUID, setModalOpen, modalOpen, paymentMod
         })
             .then(res => res.json())
             .then(data => {
-                setModalOpen(false)
                 console.log("review:", data);
                 fetch(`https://ninja-lawyer-server.vercel.app/api/orders/status/change?lawyerid=${lawyerUID}&orderid=${orderInfo._id}&offerstatus=completed&payment=true`, {
                     method: "PUT",

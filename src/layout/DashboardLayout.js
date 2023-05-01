@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, ScrollRestoration, useLocation, useNavigate } from 'react-router-dom';
 import DashboardMobileHeader from '../components/Dashboard/DashboardMobileHeader/DashboardMobileHeader';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthProvider/AuthProvider';
@@ -71,7 +71,9 @@ function DashboardLayout() {
                     <Outlet />
                 </div>
             </div>
-            <Footer/>
+            <Footer />
+
+            <ScrollRestoration />
         </div>
     )
 

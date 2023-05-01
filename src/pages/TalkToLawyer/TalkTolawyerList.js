@@ -51,6 +51,11 @@ function TalkToLawyerList() {
     // console.log(lawyerArr, "-0-");
   }, [user]);
 
+
+  console.log(onlineLawyers, "onlineLawyers");
+
+
+
   //
   const languageSuggestions = [
     "English",
@@ -212,6 +217,8 @@ function TalkToLawyerList() {
           setSearchLawyerByLocation(data);
         });
   }, [selectedCity]);
+
+  console.log(available)
 
 
 
@@ -443,6 +450,8 @@ function TalkToLawyerList() {
     }
   }, [specialtiesArray]);
 
+
+
   return (
     <div className="bg-primary dark:bg-base-100">
       <div className="container mx-auto py-10">
@@ -672,6 +681,7 @@ function TalkToLawyerList() {
                     <input
                       type="checkbox"
                       className="toggle toggle-sm toggle-success"
+                      onClick={() => setAvailable(!available)}
                     />
                   </div>
                   <select className="input-box dark:border-gray-700 dark:bg-base-100">
@@ -702,6 +712,8 @@ function TalkToLawyerList() {
                     ) : (
                       searchLawyerByLocation?.map((lawyer, index) => (
                         <LawyerCard
+                          available={available}
+                          onlineLawyers={onlineLawyers}
                           tab
                           fetchParams={fetchParams}
                           lawyer={lawyer}
@@ -720,6 +732,8 @@ function TalkToLawyerList() {
                   {sortedList?.length > 0 &&
                     sortedList?.map((lawyer, index) => (
                       <LawyerCard
+                        available={available}
+                        onlineLawyers={onlineLawyers}
                         specialtiesArray={specialtiesArray}
                         lawyer={lawyer}
                         key={index}
@@ -727,11 +741,18 @@ function TalkToLawyerList() {
                         selectedCity={selectedCity}
                       />
                     ))}
+                  {
+                    onlineLawyers?.length === 0 && <div className="col-span-4 flex flex-col gap-10">
+                      <h1 className="text-5xl text-center py-20 h-screen font-semibold">
+                        No lawyers Online
+                      </h1>
+                    </div>
+                  }
                 </div>
                 <div className="flex justify-center">
-                  <button onClick={handleLoadMore} className="primary-btn">
+                  {!available && <button onClick={handleLoadMore} className="primary-btn">
                     Load More
-                  </button>
+                  </button>}
                 </div>
               </div>
             </div>

@@ -16,7 +16,7 @@ export default function Register() {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  
+
   const [countryCode, setCountryCode] = useState("+91");
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export default function Register() {
   const handleCountryCodeChange = (event) => {
     setCountryCode(event.target.value);
   }
-  console.log(countryCode) 
+  console.log(countryCode)
 
 
   return (
@@ -107,7 +107,7 @@ export default function Register() {
                     type="email"
                     name="email"
                     id="email"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full "
                     placeholder="name@company.com"
                     required=""
                   />
@@ -119,30 +119,30 @@ export default function Register() {
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     First name
-                  
-                  <input
-                    type="name"
-                    name="fname"
-                    id="name"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="John"
-                    required=""
-                  /> 
+
+                    <input
+                      type="name"
+                      name="fname"
+                      id="name"
+                      className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full "
+                      placeholder="John"
+                      required=""
+                    />
                   </label>
                   <label
                     htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Last name
-                  
-                  <input
-                    type="name"
-                    name="lname"
-                    id="name"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Doe"
-                    required=""
-                  />
+
+                    <input
+                      type="name"
+                      name="lname"
+                      id="name"
+                      className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full "
+                      placeholder="Doe"
+                      required=""
+                    />
                   </label>
                 </div>
                 {/* Phone */}
@@ -153,25 +153,31 @@ export default function Register() {
                   >
                     Your phone
                     <span className="absolute top-8 left-1 text-black px-1 border-r text-sm">+91</span>
-                  <div className="relative">
-                    <select
-                      className="absolute h-full w-fit left-0 p-2 border rounded-l-lg bg-gray-50 border-gray-300"
-                      name="countryCode"
-                      id="countryCode"
-                      value={countryCode}
-                      onChange={handleCountryCodeChange}>
-                      <option value="+91">+91</option>
-                      <option value="+880">+880</option>
-                    </select>
-                    <input
-                      type="number"
-                      name="contact"
-                      id="contact"
-                      className="pl-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="8787678768"
-                      required=""
-                    />
-                  </div>
+                    <div className="relative">
+                      <select
+                        className="absolute h-full w-fit left-0 py-2 px-1 border rounded-l-lg bg-gray-50 border-gray-300"
+                        name="countryCode"
+                        id="countryCode"
+                        value={countryCode}
+                        onChange={handleCountryCodeChange}>
+                        <option value="+91">+91</option>
+                        <option value="+880">+880</option>
+                      </select>
+                      <input
+                        pattern="[0-9]*"
+                        onInput={(e) => {
+                          e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                        }}
+                        type="text"
+                        pattern="[0-9]*"
+                        name="contact"
+                        id="contact"
+                        className="pl-20 input-box bg-gray-50 border border-gray-300 text-gray-900 w-full "
+                        placeholder="8787678768"
+                        required=""
+                      />
+
+                    </div>
                   </label>
                 </div>
                 <div>
@@ -186,7 +192,7 @@ export default function Register() {
                     name="password"
                     id="password"
                     placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full "
                     required=""
                   />
                 </div>
@@ -202,7 +208,7 @@ export default function Register() {
                     name="confirm_password"
                     id="confirm_password"
                     placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="input-box bg-gray-50 border border-gray-300 text-gray-900 w-full "
                     required=""
                   />
                 </div>
