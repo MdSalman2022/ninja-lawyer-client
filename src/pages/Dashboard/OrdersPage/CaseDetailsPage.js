@@ -58,6 +58,7 @@ function CaseDetailsPage() {
                 if (status === "accepted") {
                     toast.success("Offer Accepted");
                     data.status = 'accepted'
+                    window.location.reload()
                 }
                 else {
                     toast.error("Offer Rejected");

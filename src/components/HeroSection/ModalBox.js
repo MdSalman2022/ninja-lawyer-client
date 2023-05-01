@@ -38,7 +38,7 @@ function ModalBox({ offer, handleComplete, CaseComplete, client, client_uid, pay
     const onSubmit = (data) => {
         console.log(data)
         // setPaymentModal(true)
-        // setIsOpen(false);
+        setIsOpen(false);
 
         const { UID, lawyer_name, budget, case_name, description, duration, specialty, client_name } = data;
 

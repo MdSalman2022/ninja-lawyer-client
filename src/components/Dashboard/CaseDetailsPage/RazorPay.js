@@ -82,12 +82,10 @@ const RazorPay = ({ setPaymentModal, setModalOpen, handleOrderStatus, orderInfo 
         setOrderId(response.razorpay_order_id)
         setSignature(response.razorpay_signature)
 
-        handleOrderStatus("accepted")
 
-        //Reload the page
-        // window.location.reload()
-        if (orderInfo.status) {
-          window.location.reload()
+        if (response.razorpay_order_id) {
+
+          handleOrderStatus("accepted")
         }
       },
       prefill: {
