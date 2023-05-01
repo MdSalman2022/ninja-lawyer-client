@@ -84,7 +84,6 @@ const RazorPay = ({ setPaymentModal, setModalOpen, handleOrderStatus, orderInfo 
 
 
         if (response.razorpay_order_id) {
-
           handleOrderStatus("accepted")
         }
       },
