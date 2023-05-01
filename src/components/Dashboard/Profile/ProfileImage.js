@@ -63,7 +63,6 @@ export default function ProfileImage(props) {
     setImage(null);
   }
 
-  const [fullScreen, setFullScreen] = useState(false);
 
   return (
     <div>
@@ -75,8 +74,8 @@ export default function ProfileImage(props) {
               imgLink
                 ? imgLink
                 : image
-                ? image.name
-                : "https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png"
+                  ? image.name
+                  : "https://i.ibb.co/vHZytWt/Profile-avatar-placeholder-large.png"
             }
             alt=""
           />
@@ -92,9 +91,8 @@ export default function ProfileImage(props) {
           </div>
         </figure>
         <div
-          className={`${
-            image?.name ? "flex flex-col" : "hidden"
-          } items-center `}
+          className={`${image?.name ? "flex flex-col" : "hidden"
+            } items-center `}
         >
           <p className="">{image?.name}</p>
           <button onClick={handleImageChange} className="primary-btn ">

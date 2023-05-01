@@ -63,6 +63,7 @@ function Navbar() {
                       Home
                     </NavLink>
                   </li>
+
                   {/* 
                   Find Lawyer Dropdown commented for now
                   <li>

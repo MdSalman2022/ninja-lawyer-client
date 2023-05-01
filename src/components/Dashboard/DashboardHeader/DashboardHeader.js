@@ -37,16 +37,16 @@ function DashboardHeader() {
     console.log(location.pathname)
 
     const pathSegments = location.pathname.split('/');
-    const lastSegment = pathSegments[pathSegments.length - 1];
+    const lastSegment = pathSegments[pathSegments.length - 1]; //for making back button in case details page
 
     console.log(lastSegment)
 
     return (
         <div className='py-3'>
-            <div className={`flex items-center justify-between`}>
+            <div className={`flex items-center md:justify-between`}>
                 {lastSegment === 'case-details' && <Link to="/dashboard/cases"><button className="col-span-5 flex justify-start items-center gap-3 w-fit text-black"><FaChevronLeft /> Back to Cases</button></Link>}
                 {lastSegment !== 'case-details' && <div></div>}
-                <div className='flex gap-5 text-black text-lg'>
+                <div className='flex gap-5 text-center text-black md:text-lg'>
                     <Link className='hover:text-accent' to='/'>Home</Link>
                     {user.displayName !== 'lawyer' && <Link className='hover:text-accent' to='/talk-to-lawyer'>Talk to Lawyer</Link>}
                     {user.displayName !== 'lawyer' && <Link className='hover:text-accent' to='/ask-a-lawyer'>Ask Lawyer</Link>}

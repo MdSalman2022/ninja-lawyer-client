@@ -70,11 +70,11 @@ function DashboardMobileHeader() {
                             </Link>
                         </li>
                         <li>
-                            <Link onClick={() => setActiveTab('orders')} to="/dashboard/orders" className={`transaction-colors duration-300 hover:border-r-4 border-primary  ${activeTab === 'orders' ? 'border-primary border-r-4 text-accent dark:text-accent' : 'text-base-100 dark:text-primary'}`}>
+                            <Link onClick={() => setActiveTab('cases')} to="/dashboard/cases" className={`transaction-colors duration-300 hover:border-r-4 border-primary  ${activeTab === 'orders' ? 'border-primary border-r-4 text-accent dark:text-accent' : 'text-base-100 dark:text-primary'}`}>
                                 <div className='flex items-center justify-start gap-3'>
                                     <BsListCheck className=' text-2xl ' />
                                     <span className={`transition-colors duration-300 font-semibold`}>
-                                        My Orders
+                                        My Cases
                                     </span></
                                 div>
                             </Link>

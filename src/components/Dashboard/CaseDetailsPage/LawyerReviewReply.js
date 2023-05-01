@@ -22,6 +22,7 @@ const LawyerReviewReply = ({ userName, reviewInfo, orderInfo }) => {
   } = useForm();
 
 
+  //Rating function for giving rating to lawyer (unused)
   const handleRating = newRating => {
     if (newRating === rating) {
       // if the user clicks the same star, clear the rating

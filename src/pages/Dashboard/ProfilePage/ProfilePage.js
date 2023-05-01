@@ -305,7 +305,7 @@ function ProfilePage() {
       className={`flex flex-col gap-5 text-base-100 dark:text-primary pb-10`}
     >
       <div className="flex flex-col items-start gap-5">
-        <div className="grid grid-cols-5 gap-10">
+        <div className="grid md:grid-cols-5 gap-10">
           <div className="cols-span-1 flex flex-col gap-5 bg-white items-center rounded-lg h-full  w-fit p-10" style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 7px 29px 0px' }}>
             <ProfileImage props={user?.uid} />
             <p>Profile Completeness: <span className="text-green-500">50%</span></p>
@@ -343,11 +343,10 @@ function ProfilePage() {
             </div>
 
           </div>
+
+          {/* if user is a lawyer  */}
           {user.displayName === 'lawyer' &&
             <div className="col-span-3 flex flex-col gap-10 bg-white  p-10 rounded-lg relative" style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 7px 29px 0px' }}>
-
-
-
 
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-1">
